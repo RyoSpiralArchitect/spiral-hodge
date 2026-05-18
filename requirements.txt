@@ -1,0 +1,10 @@
+numpy
+scipy
+scikit-learn
+matplotlib
+torch
+transformers
+
+# Optional accelerators / reducers:
+# finufft
+# umap-learn

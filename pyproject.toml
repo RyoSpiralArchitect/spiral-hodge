@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spiral-hodge"
+version = "0.1.0"
+description = "Fourier, graph, Hodge, and signed circulation probes for transformer hidden-state trajectories."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [
+  { name = "RyoSpiralArchitect" }
+]
+dependencies = [
+  "numpy",
+  "scipy",
+  "scikit-learn",
+  "matplotlib",
+  "torch",
+  "transformers",
+]
+
+[project.optional-dependencies]
+finufft = ["finufft"]
+umap = ["umap-learn"]
+dev = ["pytest"]
+
+[project.scripts]
+spiral-hodge = "spiral_hodge:main"
+
+[tool.setuptools]
+py-modules = ["spiral_hodge"]

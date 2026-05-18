@@ -1,0 +1,319 @@
+# Spiral Hodge
+
+Fourier, graph, Hodge, and signed-circulation probes for transformer hidden-state trajectories.
+
+Spiral Hodge is an experimental analysis script for asking a geometric question:
+
+> If a language model's hidden states are projected into a low-dimensional semantic plane, does the token path behave like a field with gradients, curls, harmonics, and handedness?
+
+The project is intentionally small and research-prototype shaped. It loads hidden states from a Hugging Face causal language model, reduces them into a 2D semantic coordinate system, treats token-to-token motion as a vector field, and exports layer-wise metrics and plots.
+
+## What It Does
+
+For an input text and a causal LM, `spiral_hodge.py` runs this pipeline:
+
+1. Extract hidden states shaped `[layers, tokens, dim]`.
+2. Reduce all layer-token hidden states into 2D coordinates with PCA or UMAP.
+3. Build a token trajectory vector field from midpoint samples and token-to-token displacements.
+4. Compute a nonuniform vector Fourier spectrum.
+5. Project Fourier coefficients into Helmholtz-like gradient, curl, and harmonic components.
+6. Build a graph Fourier spectrum over sampled trajectory points.
+7. Build a Delaunay complex over token coordinates and run a discrete Hodge decomposition over edge flows.
+8. Compute signed circulation and signed curl metrics, so reversed token order can be distinguished from the original direction.
+9. Export CSV metrics and diagnostic plots across every layer and optional null models.
+
+## Why Signed Curl Matters
+
+The first version of this experiment measured curl energy ratios. Those ratios are useful, but they are unsigned: reversing a trajectory can preserve the same amount of curl energy.
+
+That means:
+
+```text
+real token order    -> curl ratio = 0.6725
+reversed token order -> curl ratio = 0.6725
+```
+
+The signed metrics add orientation. They measure whether the projected motion has a preferred clockwise/counterclockwise handedness in the semantic plane.
+
+For the included GPT-2 example, the final layer behaves like this:
+
+```text
+real layer 12
+trajectory_signed_circulation_alignment = -0.2652
+spectral_signed_curl_alignment          = -0.3743
+spectral_signed_vorticity_ratio         = -0.6479
+
+reversed layer 12
+trajectory_signed_circulation_alignment = +0.2652
+spectral_signed_curl_alignment          = +0.3743
+spectral_signed_vorticity_ratio         = +0.6479
+```
+
+That sign flip is the point: the unsigned energy says "there is curl-like structure"; the signed metrics say "the structure has a direction."
+
+## Repository Layout
+
+```text
+.
+├── spiral_hodge.py                  # CLI and analysis implementation
+├── tests/test_spiral_hodge.py        # path resolution and signed-orientation tests
+├── examples/izumi-gpt2/              # sample CSV and plots from a GPT-2 run
+├── requirements.txt
+├── pyproject.toml
+└── LICENSE
+```
+
+## Installation
+
+Create and activate a virtual environment if you want to keep dependencies local:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -U pip
+pip install -e .
+```
+
+Or install directly from `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+
+Optional dependencies:
+
+```bash
+pip install finufft      # optional faster native Fourier backend
+pip install umap-learn   # optional UMAP reducer
+```
+
+The default Fourier backend is `direct`, which avoids native FINUFFT crashes and is safer for small to medium token sequences.
+
+## Quick Start Without a Model
+
+Run the synthetic smoke example:
+
+```bash
+python3 spiral_hodge.py \
+  --synthetic \
+  --all-layers \
+  --null-models all \
+  --fourier-backend direct \
+  --fourier-modes 16 \
+  --output-dir spiral_out_synthetic \
+  --csv-output layer_metrics.csv \
+  --save-plots
+```
+
+This creates:
+
+```text
+spiral_out_synthetic/layer_metrics.csv
+spiral_out_synthetic/null_model_curl_spectral.png
+spiral_out_synthetic/null_model_signed_spectral_curl.png
+...
+```
+
+## Running With a Local Hugging Face Model
+
+If your model is available as a local Hugging Face directory:
+
+```bash
+python3 spiral_hodge.py \
+  --model-path ./model/gpt2 \
+  --text "The serpent coils not around the tree, but around cognition." \
+  --all-layers \
+  --null-models all \
+  --fourier-backend direct \
+  --fourier-modes 32 \
+  --output-dir spiral_out \
+  --csv-output layer_metrics.csv \
+  --save-plots
+```
+
+`--model-path` implies local-only loading. You can also use:
+
+```bash
+python3 spiral_hodge.py --model ./model/gpt2 ...
+```
+
+For long text files, GPT-2 is normally limited to 1024 tokens, so use `--max-length 1024`:
+
+```bash
+python3 spiral_hodge.py \
+  --model-path ./model/gpt2 \
+  --text-file ./data/my_text.txt \
+  --max-length 1024 \
+  --all-layers \
+  --null-models all \
+  --fourier-backend direct \
+  --fourier-modes 32 \
+  --output-dir spiral_out_long \
+  --csv-output layer_metrics.csv \
+  --save-plots
+```
+
+## Offline Mode
+
+Spiral Hodge supports offline/local model loading. Use a local model path:
+
+```bash
+python3 spiral_hodge.py --model-path ./model/gpt2 --local-files-only --text "..."
+```
+
+The script also respects Hugging Face offline environment variables:
+
+```bash
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+```
+
+If a local model cannot be found, the CLI reports a short actionable error instead of a long Transformers traceback.
+
+## Null Models
+
+`--null-models` controls comparison baselines:
+
+```text
+real
+shuffle_tokens
+reverse_tokens
+random_hidden
+all
+```
+
+The controls are intentionally simple:
+
+- `real`: unchanged hidden states.
+- `shuffle_tokens`: same hidden vectors, but token order is randomly permuted.
+- `reverse_tokens`: same path traversed backwards.
+- `random_hidden`: Gaussian hidden states with matched per-dimension mean and standard deviation.
+
+The `reverse_tokens` baseline is especially important for signed metrics. Unsigned curl energy should often stay similar, while signed circulation should flip.
+
+## Main CSV Metrics
+
+The generated `layer_metrics.csv` contains one row per variant and layer.
+
+Important column groups:
+
+- `spectral_*`: Fourier-domain Helmholtz energy totals and ratios.
+- `hodge_*`: discrete Hodge energy totals and ratios over triangulated edge flows.
+- `graph_*`: graph Fourier low/high frequency summaries.
+- `trajectory_signed_*`: signed circulation of the raw token trajectory.
+- `spectral_signed_*`: signed circulation and vorticity of the Fourier curl component.
+- `hodge_signed_*`: signed face-circulation metrics from the discrete Hodge curl component.
+
+The most immediately useful signed columns are:
+
+```text
+trajectory_signed_circulation_alignment
+spectral_signed_curl_alignment
+spectral_signed_vorticity_ratio
+hodge_signed_curl_alignment
+```
+
+These values are normalized to a rough `[-1, 1]` orientation scale:
+
+- near `0`: weak or mixed orientation
+- positive: one handedness
+- negative: opposite handedness
+- sign flip under `reverse_tokens`: expected and useful
+
+## Example: GPT-2 Layer-12 Signed Curl
+
+The `examples/izumi-gpt2/` folder contains a reference output from a local GPT-2 run over 1024 tokens.
+
+### Curl Energy Ratio
+
+![Curl comparison for real GPT-2 run](examples/izumi-gpt2/curl_comparison_real.png)
+
+The real run has a final-layer spectral curl-energy spike:
+
+```text
+spectral curl peak: layer=12, ratio=0.6725
+hodge curl peak:    layer=10, ratio=0.5427
+```
+
+This suggests that the final-layer spectral field has a strong curl-like component, while the local Delaunay Hodge view peaks earlier.
+
+### Signed Orientation
+
+![Signed circulation comparison for real GPT-2 run](examples/izumi-gpt2/signed_circulation_comparison_real.png)
+
+The signed metrics show that the final-layer curl spike is not merely large; it is oriented:
+
+```text
+real layer 12
+trajectory_signed_circulation_alignment = -0.2652
+spectral_signed_curl_alignment          = -0.3743
+spectral_signed_vorticity_ratio         = -0.6479
+hodge_signed_curl_alignment             = +0.0484
+```
+
+### Null Model Comparison
+
+![Spectral curl null comparison](examples/izumi-gpt2/null_model_curl_spectral.png)
+
+![Signed spectral curl null comparison](examples/izumi-gpt2/null_model_signed_spectral_curl.png)
+
+![Signed spectral vorticity null comparison](examples/izumi-gpt2/null_model_signed_spectral_vorticity.png)
+
+In this run, `reverse_tokens` mirrors the real signed orientation, while `shuffle_tokens` and `random_hidden` do not reproduce the final-layer signed vorticity spike with the same strength.
+
+## CLI Reference
+
+Common options:
+
+```text
+--model MODEL                 Hugging Face model name or local directory
+--model-path PATH             local Hugging Face model directory
+--text TEXT                   inline text
+--text-file PATH              read text from a file
+--max-length N                tokenizer truncation length
+--all-layers                  run every layer
+--layer N                     single-layer mode
+--null-models LIST            real, shuffle_tokens, reverse_tokens, random_hidden, all
+--reducer pca|umap            semantic coordinate reducer
+--fourier-backend direct|finufft
+--fourier-modes N
+--graph-eigs N
+--k-neighbors N
+--local-files-only            disable Hugging Face downloads/lookups
+--save-plots                  write PNG diagnostics
+--quiet                       reduce progress logs
+```
+
+## Development
+
+Run tests:
+
+```bash
+python3 -m unittest discover
+```
+
+Run a quick syntax check:
+
+```bash
+python3 -m py_compile spiral_hodge.py
+```
+
+The tests include explicit reversal checks for signed orientation. A reversed trajectory should invert the signed circulation and signed spectral curl metrics.
+
+## Caveats
+
+This is a research probe, not a settled interpretation framework.
+
+Important limitations:
+
+- PCA and UMAP projections can introduce artifacts.
+- Curl in a reduced semantic plane is not the same as curl in the full hidden-state space.
+- Delaunay triangulations can be sensitive to degenerate or clustered projected points.
+- Energy ratios near `0.5` require null-model comparison before interpretation.
+- Signed orientation is meaningful primarily in comparative settings: real vs reverse, real vs shuffle, layer vs layer, or model vs model.
+
+The safest reading is not "the model literally thinks in spirals." The safer claim is:
+
+> Under this projection and decomposition, some layers produce vector-field structure with measurable curl energy and signed handedness that can be compared against simple controls.
+
+That is already interesting enough.
