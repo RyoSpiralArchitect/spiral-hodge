@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 
 import spiral_hodge as hodge
+import spiral_hodge_report as report
 
 
 class TestHFModelRefResolution(unittest.TestCase):
@@ -106,6 +107,75 @@ class TestSignedOrientationMetrics(unittest.TestCase):
             -rev_metric["signed_vorticity_ratio"],
             places=10,
         )
+
+
+class TestReportGeneration(unittest.TestCase):
+    def _sample_rows(self):
+        return [
+            {
+                "variant": "real",
+                "layer": 0,
+                "layers": 2,
+                "tokens": 8,
+                "dim": 4,
+                "spectral_curl_ratio": 0.4,
+                "hodge_curl_ratio": 0.2,
+                "graph_high_freq_ratio": 0.1,
+                "trajectory_signed_circulation_alignment": -0.2,
+                "spectral_signed_curl_alignment": -0.3,
+                "hodge_signed_curl_alignment": 0.01,
+                "spectral_signed_vorticity_ratio": -0.4,
+            },
+            {
+                "variant": "reverse_tokens",
+                "layer": 0,
+                "layers": 2,
+                "tokens": 8,
+                "dim": 4,
+                "spectral_curl_ratio": 0.4,
+                "hodge_curl_ratio": 0.2,
+                "graph_high_freq_ratio": 0.1,
+                "trajectory_signed_circulation_alignment": 0.2,
+                "spectral_signed_curl_alignment": 0.3,
+                "hodge_signed_curl_alignment": -0.01,
+                "spectral_signed_vorticity_ratio": 0.4,
+            },
+        ]
+
+    def test_reverse_diagnostics_detect_signed_cancellation(self) -> None:
+        diagnostics = report.build_reverse_diagnostics(self._sample_rows())
+
+        by_metric = {item["metric"]: item for item in diagnostics}
+        self.assertEqual(
+            by_metric["spectral_signed_vorticity_ratio"]["maxAbsRealPlusReverse"],
+            0.0,
+        )
+
+    def test_build_report_html_embeds_payload_and_controls(self) -> None:
+        html = report.build_report_html(
+            self._sample_rows(),
+            title="Test Spiral Hodge Report",
+            csv_path=Path("layer_metrics.csv"),
+        )
+
+        self.assertIn("Test Spiral Hodge Report", html)
+        self.assertIn("variantButtons", html)
+        self.assertIn("spectral_signed_vorticity_ratio", html)
+
+    def test_write_report_from_csv(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            csv_path = Path(td) / "layer_metrics.csv"
+            csv_path.write_text(
+                "variant,layer,layers,tokens,dim,spectral_curl_ratio,spectral_signed_vorticity_ratio\n"
+                "real,0,1,8,4,0.5,-0.7\n",
+                encoding="utf-8",
+            )
+            output = Path(td) / "report.html"
+
+            report.write_report(metrics_path=csv_path, output_path=output, title="Temp Report")
+
+            self.assertTrue(output.exists())
+            self.assertIn("Temp Report", output.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

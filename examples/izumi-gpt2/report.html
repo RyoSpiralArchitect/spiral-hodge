@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Izumi / GPT-2 Spiral Hodge Report</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --ink: #17202a;
+      --muted: #5f6b7a;
+      --panel: #ffffff;
+      --line: #d9dee7;
+      --blue: #2563eb;
+      --red: #dc2626;
+      --green: #059669;
+      --amber: #d97706;
+      --violet: #7c3aed;
+      --cyan: #0891b2;
+      --shadow: 0 1px 2px rgba(15, 23, 42, 0.08), 0 8px 24px rgba(15, 23, 42, 0.07);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+    }
+    .wrap {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+    }
+    .topbar {
+      padding: 28px 0 22px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+    }
+    h1 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      line-height: 1.05;
+      margin: 0 0 8px;
+      letter-spacing: 0;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    button, select {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 8px;
+      min-height: 36px;
+      padding: 7px 10px;
+      font: inherit;
+    }
+    button {
+      cursor: pointer;
+    }
+    button.active {
+      border-color: var(--blue);
+      background: #eef4ff;
+      color: #123a8c;
+      font-weight: 650;
+    }
+    main {
+      padding: 22px 0 40px;
+    }
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+    .stats {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-bottom: 16px;
+    }
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      min-height: 96px;
+    }
+    .stat .label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .stat .value {
+      font-size: 1.45rem;
+      font-weight: 760;
+      line-height: 1.15;
+    }
+    .stat .note {
+      color: var(--muted);
+      margin-top: 6px;
+      font-size: 0.9rem;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+    .two {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .chart {
+      width: 100%;
+      min-height: 310px;
+    }
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .axis text {
+      fill: var(--muted);
+      font-size: 11px;
+    }
+    .axis line, .axis path, .grid-line {
+      stroke: var(--line);
+      stroke-width: 1;
+      vector-effect: non-scaling-stroke;
+    }
+    .zero-line {
+      stroke: #101828;
+      stroke-width: 1;
+      opacity: 0.55;
+      vector-effect: non-scaling-stroke;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .readout {
+      color: var(--muted);
+      min-height: 22px;
+      margin-top: 8px;
+      font-size: 0.93rem;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.92rem;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 8px 8px;
+      text-align: right;
+      white-space: nowrap;
+    }
+    th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) {
+      text-align: left;
+    }
+    th {
+      color: var(--muted);
+      font-weight: 650;
+      background: #fbfcff;
+      position: sticky;
+      top: 0;
+    }
+    .table-scroll {
+      overflow: auto;
+      max-height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .section {
+      margin-top: 16px;
+    }
+    .caption {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: -6px;
+      margin-bottom: 12px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-right: 6px;
+      margin-top: 6px;
+    }
+    @media (max-width: 860px) {
+      .topbar, .two, .stats {
+        grid-template-columns: 1fr;
+      }
+      .toolbar {
+        justify-content: flex-start;
+      }
+      .wrap {
+        width: min(100vw - 20px, 1180px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div>
+        <h1>Izumi / GPT-2 Spiral Hodge Report</h1>
+        <div class="meta" id="reportMeta"></div>
+      </div>
+      <div class="toolbar">
+        <div id="variantButtons"></div>
+        <select id="nullMetricSelect" aria-label="Null model metric"></select>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="grid stats" id="stats"></section>
+    <section class="grid two">
+      <div class="panel">
+        <h2>Selected Variant: Curl Energy</h2>
+        <div class="caption">Unsigned ratios by layer. These can remain unchanged under token reversal.</div>
+        <div class="chart" id="energyChart"></div>
+        <div class="legend" id="energyLegend"></div>
+        <div class="readout" id="energyReadout"></div>
+      </div>
+      <div class="panel">
+        <h2>Selected Variant: Signed Orientation</h2>
+        <div class="caption">Signed handedness metrics. Reversing the token path should flip the sign.</div>
+        <div class="chart" id="signedChart"></div>
+        <div class="legend" id="signedLegend"></div>
+        <div class="readout" id="signedReadout"></div>
+      </div>
+    </section>
+    <section class="panel section">
+      <h2>Real vs Null Models</h2>
+      <div class="caption">Choose a metric in the top-right menu to compare all variants.</div>
+      <div class="chart" id="nullChart"></div>
+      <div class="legend" id="nullLegend"></div>
+      <div class="readout" id="nullReadout"></div>
+    </section>
+    <section class="grid two section">
+      <div class="panel">
+        <h2>Peak Summary</h2>
+        <div class="table-scroll">
+          <table id="peakTable"></table>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Reverse-Direction Check</h2>
+        <div class="caption">Small values mean real + reverse nearly cancels, as expected for signed metrics.</div>
+        <div id="reverseBadges"></div>
+      </div>
+    </section>
+    <section class="panel section">
+      <h2>Layer Table</h2>
+      <div class="caption">Rows for the selected variant with the most useful energy and orientation metrics.</div>
+      <div class="table-scroll">
+        <table id="layerTable"></table>
+      </div>
+    </section>
+  </main>
+  <script id="payload" type="application/json">{"title":"Izumi / GPT-2 Spiral Hodge Report","csvPath":"/Users/ryospiralarchitect/spiral-hodge/examples/izumi-gpt2/layer_metrics.csv","generatedAt":"2026-05-18T13:17:14-07:00","meta":{"variants":["real","shuffle_tokens","reverse_tokens","random_hidden"],"layers":[0,1,2,3,4,5,6,7,8,9,10,11,12],"tokens":1024,"dim":768,"layerCount":13,"rowCount":52},"rows":[{"variant":"real","layer":0,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":0.08869604687987592,"trajectory_abs_circulation":3.6980982447522477,"trajectory_signed_circulation_ratio":0.010983945091066913,"trajectory_signed_circulation_alignment":0.02398423216736852,"spectral_total":0.005778954783175855,"spectral_grad_ratio":0.5193826494897261,"spectral_curl_ratio":0.4806171378148132,"spectral_harmonic_ratio":2.126954606187704e-07,"spectral_grad":0.0030014888465672014,"spectral_curl":0.002777464707451204,"spectral_harmonic":1.2291574495026348e-09,"spectral_signed_curl_circulation":-4.3560847977167665,"spectral_abs_curl_circulation":75.84084358756616,"spectral_signed_curl_circulation_ratio":-0.03363699829157039,"spectral_signed_curl_alignment":-0.05743718808569439,"spectral_signed_vorticity_mean":-0.11157993777305962,"spectral_abs_vorticity_mean":0.9457304470206646,"spectral_signed_vorticity_ratio":-0.11798281225329056,"spectral_vorticity_rms":1.2329906962924684,"hodge_total":2.3668959976638413,"hodge_grad_ratio":0.535440923220486,"hodge_curl_ratio":0.4636906160176374,"hodge_harmonic_ratio":0.0008684607626438449,"hodge_grad":1.2673329781560003,"hodge_curl":1.097507463206427,"hodge_harmonic":0.0020555563032298037,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.09982522658151916,"hodge_abs_curl_circulation":43.337041062509726,"hodge_signed_curl_circulation_ratio":-0.001690544119004141,"hodge_signed_curl_alignment":-0.002303461983884188,"graph_total_power":0.07958431833781754,"graph_low_freq_power":0.0013695953481499931,"graph_high_freq_power":0.00925453591448987,"graph_low_freq_ratio":0.01720936205467475,"graph_high_freq_ratio":0.11628592300315303,"graph_first_nonzero_eigenvalue":0.0002981127149765431,"graph_eigs_used":32},{"variant":"real","layer":1,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":-0.10333664443354665,"trajectory_abs_circulation":15.455719569800372,"trajectory_signed_circulation_ratio":-0.005556644479089501,"trajectory_signed_circulation_alignment":-0.006685980809037244,"spectral_total":0.004962189436428252,"spectral_grad_ratio":0.5341545847951229,"spectral_curl_ratio":0.46579918663934533,"spectral_harmonic_ratio":4.622856553205077e-05,"spectral_grad":0.0026505762380900776,"spectral_curl":0.002311383803438631,"spectral_harmonic":2.293948995443735e-07,"spectral_signed_curl_circulation":-8.18997533860568,"spectral_abs_curl_circulation":82.95190452208521,"spectral_signed_curl_circulation_ratio":-0.06797482911020278,"spectral_signed_curl_alignment":-0.09873161304482372,"spectral_signed_vorticity_mean":-0.14237335717255042,"spectral_abs_vorticity_mean":0.7996817225666883,"spectral_signed_vorticity_ratio":-0.17803752812504403,"spectral_vorticity_rms":1.089232727163622,"hodge_total":1.8259710401385463,"hodge_grad_ratio":0.5095103746541118,"hodge_curl_ratio":0.49046905134710367,"hodge_harmonic_ratio":2.0573996918828014e-05,"hodge_grad":0.9303511887685489,"hodge_curl":0.8955822838440369,"hodge_harmonic":3.7567522553679636e-05,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.03981961302437331,"hodge_abs_curl_circulation":37.03689390187315,"hodge_signed_curl_circulation_ratio":-0.0007476480259232161,"hodge_signed_curl_alignment":-0.0010751337066729407,"graph_total_power":0.07269059893519178,"graph_low_freq_power":0.0013451209256214597,"graph_high_freq_power":0.017971592675649913,"graph_low_freq_ratio":0.018504744015394883,"graph_high_freq_ratio":0.24723407069011377,"graph_first_nonzero_eigenvalue":0.0001489563027028837,"graph_eigs_used":32},{"variant":"real","layer":2,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":-0.09216669689145622,"trajectory_abs_circulation":15.679007300857752,"trajectory_signed_circulation_ratio":-0.004911278346321718,"trajectory_signed_circulation_alignment":-0.005878350275812044,"spectral_total":0.005653664062151479,"spectral_grad_ratio":0.4296416560918914,"spectral_curl_ratio":0.5703223234259786,"spectral_harmonic_ratio":3.602048212993231e-05,"spectral_grad":0.0024290495906499716,"spectral_curl":0.003224410823796188,"spectral_harmonic":2.0364770531936786e-07,"spectral_signed_curl_circulation":-0.41118743163446303,"spectral_abs_curl_circulation":108.57868402275338,"spectral_signed_curl_circulation_ratio":-0.002659791946764069,"spectral_signed_curl_alignment":-0.0037869995877671163,"spectral_signed_vorticity_mean":-0.06158931885330904,"spectral_abs_vorticity_mean":1.0949604973464913,"spectral_signed_vorticity_ratio":-0.056247982463809014,"spectral_vorticity_rms":1.4688526917961902,"hodge_total":2.1765903198280068,"hodge_grad_ratio":0.4968488146223215,"hodge_curl_ratio":0.5031151359609309,"hodge_harmonic_ratio":3.604941892774278e-05,"hodge_grad":1.0814363203249648,"hodge_curl":1.0950755346915138,"hodge_harmonic":7.846481627354947e-05,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.05119118630269376,"hodge_abs_curl_circulation":39.92791239043616,"hodge_signed_curl_circulation_ratio":0.0009285733537109356,"hodge_signed_curl_alignment":0.0012820902280619975,"graph_total_power":0.0695077222216724,"graph_low_freq_power":0.0011641516097184352,"graph_high_freq_power":0.022480852550709005,"graph_low_freq_ratio":0.016748521926898283,"graph_high_freq_ratio":0.32342956771067244,"graph_first_nonzero_eigenvalue":0.0001665684188604501,"graph_eigs_used":32},{"variant":"real","layer":3,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":-0.15767755274576198,"trajectory_abs_circulation":14.799699283276066,"trajectory_signed_circulation_ratio":-0.008786356037752022,"trajectory_signed_circulation_alignment":-0.01065410517657886,"spectral_total":0.006548322055887815,"spectral_grad_ratio":0.49117741072844673,"spectral_curl_ratio":0.5088030973563136,"spectral_harmonic_ratio":1.9491915239628497e-05,"spectral_grad":0.003216387872026956,"spectral_curl":0.0033318065445223834,"spectral_harmonic":1.276393384751551e-07,"spectral_signed_curl_circulation":-1.0735351020446813,"spectral_abs_curl_circulation":94.84800590266104,"spectral_signed_curl_circulation_ratio":-0.007639322736015318,"spectral_signed_curl_alignment":-0.011318478357324772,"spectral_signed_vorticity_mean":-0.06827392584438884,"spectral_abs_vorticity_mean":0.9080864838560934,"spectral_signed_vorticity_ratio":-0.07518438723421014,"spectral_vorticity_rms":1.2351878233648808,"hodge_total":2.3187141388786134,"hodge_grad_ratio":0.4853717620248985,"hodge_curl_ratio":0.5117282191397265,"hodge_harmonic_ratio":0.0029000188422579455,"hodge_grad":1.1254383672195578,"hodge_curl":1.1865514569824573,"hodge_harmonic":0.0067243146925578855,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.05056158778182329,"hodge_abs_curl_circulation":41.35747237450944,"hodge_signed_curl_circulation_ratio":-0.0008601825151683586,"hodge_signed_curl_alignment":-0.0012225502401105822,"graph_total_power":0.1145738401177962,"graph_low_freq_power":0.0016469121142058986,"graph_high_freq_power":0.028703695780249748,"graph_low_freq_ratio":0.014374242082770966,"graph_high_freq_ratio":0.2505257373824493,"graph_first_nonzero_eigenvalue":0.0001640283794643592,"graph_eigs_used":32},{"variant":"real","layer":4,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":-0.207127915118886,"trajectory_abs_circulation":13.351917200476413,"trajectory_signed_circulation_ratio":-0.01229774999265861,"trajectory_signed_circulation_alignment":-0.015512971808385349,"spectral_total":0.005787473285207919,"spectral_grad_ratio":0.49394265251894837,"spectral_curl_ratio":0.5060377330279354,"spectral_harmonic_ratio":1.9614453116343744e-05,"spectral_grad":0.002858679905878152,"spectral_curl":0.0029286798612063536,"spectral_harmonic":1.1351812341480264e-07,"spectral_signed_curl_circulation":-6.642449255133672,"spectral_abs_curl_circulation":93.54267386947231,"spectral_signed_curl_circulation_ratio":-0.04910143251797527,"spectral_signed_curl_alignment":-0.07100982878041759,"spectral_signed_vorticity_mean":-0.030374035679673363,"spectral_abs_vorticity_mean":0.8449838729581268,"spectral_signed_vorticity_ratio":-0.03594629039882108,"spectral_vorticity_rms":1.1076609171488592,"hodge_total":2.3330329543647026,"hodge_grad_ratio":0.4919754953368751,"hodge_curl_ratio":0.5036541812638431,"hodge_harmonic_ratio":0.004370323396747158,"hodge_grad":1.1477950433608277,"hodge_curl":1.1750418024921192,"hodge_harmonic":0.010196108505842206,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.11391475838820109,"hodge_abs_curl_circulation":41.83139388122593,"hodge_signed_curl_circulation_ratio":0.001958048052065908,"hodge_signed_curl_alignment":0.0027231882043339327,"graph_total_power":0.09218627787196992,"graph_low_freq_power":0.0012574127238784735,"graph_high_freq_power":0.029205591010037533,"graph_low_freq_ratio":0.013639912066140607,"graph_high_freq_ratio":0.31681061090891227,"graph_first_nonzero_eigenvalue":0.0001517110030978626,"graph_eigs_used":32},{"variant":"real","layer":5,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":-0.2938786553974149,"trajectory_abs_circulation":11.631832638811037,"trajectory_signed_circulation_ratio":-0.019641874255014704,"trajectory_signed_circulation_alignment":-0.02526503471317604,"spectral_total":0.005961215454235643,"spectral_grad_ratio":0.4883767862747187,"spectral_curl_ratio":0.5116048431137109,"spectral_harmonic_ratio":1.8370611570503863e-05,"spectral_grad":0.0029113192458307905,"spectral_curl":0.003049786697231255,"spectral_harmonic":1.0951117359784774e-07,"spectral_signed_curl_circulation":-12.136691671911873,"spectral_abs_curl_circulation":90.74723928463271,"spectral_signed_curl_circulation_ratio":-0.0903296215736674,"spectral_signed_curl_alignment":-0.13374171784823785,"spectral_signed_vorticity_mean":0.02209123561025705,"spectral_abs_vorticity_mean":0.8151554786117834,"spectral_signed_vorticity_ratio":0.027100640540229957,"spectral_vorticity_rms":1.065984806621548,"hodge_total":2.229962708742396,"hodge_grad_ratio":0.48806973849244273,"hodge_curl_ratio":0.5090656403757405,"hodge_harmonic_ratio":0.0028646211286515685,"hodge_grad":1.0883773161038004,"hodge_curl":1.1351973943399687,"hodge_harmonic":0.006387998291568551,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.11215540819332281,"hodge_abs_curl_circulation":42.49557377967781,"hodge_signed_curl_circulation_ratio":0.0019790938591207545,"hodge_signed_curl_alignment":0.0026392256467650675,"graph_total_power":0.10261661270466838,"graph_low_freq_power":0.002391509130817465,"graph_high_freq_power":0.015089829561176122,"graph_low_freq_ratio":0.023305282329872376,"graph_high_freq_ratio":0.1470505521811054,"graph_first_nonzero_eigenvalue":0.00022304302385548676,"graph_eigs_used":32},{"variant":"real","layer":6,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":-0.2806587089473319,"trajectory_abs_circulation":9.276175972683738,"trajectory_signed_circulation_ratio":-0.021344843359103513,"trajectory_signed_circulation_alignment":-0.030255862951911325,"spectral_total":0.0048843542395602575,"spectral_grad_ratio":0.5017863915889358,"spectral_curl_ratio":0.49819268599163335,"spectral_harmonic_ratio":2.0922419431003652e-05,"spectral_grad":0.002450902489111062,"spectral_curl":0.0024333495579411464,"spectral_harmonic":1.021925080496806e-07,"spectral_signed_curl_circulation":-13.091123917332219,"spectral_abs_curl_circulation":71.82356440824803,"spectral_signed_curl_circulation_ratio":-0.11781207012751513,"spectral_signed_curl_alignment":-0.18226781175773654,"spectral_signed_vorticity_mean":-0.015719108583202905,"spectral_abs_vorticity_mean":0.7646606878651723,"spectral_signed_vorticity_ratio":-0.020556972305047484,"spectral_vorticity_rms":1.016207387761282,"hodge_total":2.127643697091549,"hodge_grad_ratio":0.48406178439305786,"hodge_curl_ratio":0.5113803005207371,"hodge_harmonic_ratio":0.004557915086588273,"hodge_grad":1.0299110045667779,"hodge_curl":1.0880350732197284,"hodge_harmonic":0.00969761930585802,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.02255404499385899,"hodge_abs_curl_circulation":40.35444297298568,"hodge_signed_curl_circulation_ratio":-0.00041626389975765954,"hodge_signed_curl_alignment":-0.0005588986820845789,"graph_total_power":0.07994828039462731,"graph_low_freq_power":0.0013453804226283646,"graph_high_freq_power":0.018899978720221738,"graph_low_freq_ratio":0.016828134588855733,"graph_high_freq_ratio":0.2364025670962631,"graph_first_nonzero_eigenvalue":0.00012726371276884207,"graph_eigs_used":32},{"variant":"real","layer":7,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":-0.15050994307629628,"trajectory_abs_circulation":7.473652429059722,"trajectory_signed_circulation_ratio":-0.013452180117412008,"trajectory_signed_circulation_alignment":-0.020138739994259042,"spectral_total":0.004600276712100256,"spectral_grad_ratio":0.4955367044206362,"spectral_curl_ratio":0.5044434343148197,"spectral_harmonic_ratio":1.9861264544054833e-05,"spectral_grad":0.0022796059613371606,"spectral_curl":0.00232057938345034,"spectral_harmonic":9.136731275487795e-08,"spectral_signed_curl_circulation":-8.438899803462329,"spectral_abs_curl_circulation":67.18127711823627,"spectral_signed_curl_circulation_ratio":-0.08100638332670956,"spectral_signed_curl_alignment":-0.12561386394322654,"spectral_signed_vorticity_mean":-0.04570771540514166,"spectral_abs_vorticity_mean":0.7529429551429399,"spectral_signed_vorticity_ratio":-0.0607054161180968,"spectral_vorticity_rms":0.9843028663764569,"hodge_total":1.9533575738613136,"hodge_grad_ratio":0.48924922261743065,"hodge_curl_ratio":0.5097579827589582,"hodge_harmonic_ratio":0.0009927946208042545,"hodge_grad":0.955678674505518,"hodge_curl":0.9957396164584759,"hodge_harmonic":0.0019392828918367616,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.06119449541333605,"hodge_abs_curl_circulation":38.227383289859766,"hodge_signed_curl_circulation_ratio":0.0011773360531220913,"hodge_signed_curl_alignment":0.001600802622280677,"graph_total_power":0.10138590146876827,"graph_low_freq_power":0.008682161532108526,"graph_high_freq_power":0.015117469110778858,"graph_low_freq_ratio":0.0856348013513797,"graph_high_freq_ratio":0.14910819839616227,"graph_first_nonzero_eigenvalue":0.00026796132212482447,"graph_eigs_used":32},{"variant":"real","layer":8,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":0.09556718562471014,"trajectory_abs_circulation":5.9625999063797845,"trajectory_signed_circulation_ratio":0.010140897866329228,"trajectory_signed_circulation_alignment":0.01602777095985535,"spectral_total":0.004253960914967418,"spectral_grad_ratio":0.49705902610843367,"spectral_curl_ratio":0.5029226520468284,"spectral_harmonic_ratio":1.832184473795113e-05,"spectral_grad":0.0021144696694970462,"spectral_curl":0.0021394133050589665,"spectral_harmonic":7.794041140534557e-08,"spectral_signed_curl_circulation":-1.6436571887172928,"spectral_abs_curl_circulation":64.6527072567833,"spectral_signed_curl_circulation_ratio":-0.015685147292061843,"spectral_signed_curl_alignment":-0.025422867169183266,"spectral_signed_vorticity_mean":-0.024880108258746002,"spectral_abs_vorticity_mean":0.7689820890369635,"spectral_signed_vorticity_ratio":-0.03235460046917954,"spectral_vorticity_rms":1.0089308284029963,"hodge_total":1.8603462650200289,"hodge_grad_ratio":0.48156893521449423,"hodge_curl_ratio":0.5127764383813685,"hodge_harmonic_ratio":0.005654626411685157,"hodge_grad":0.8958849699759566,"hodge_curl":0.953941731933052,"hodge_harmonic":0.01051956312506209,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.29530578595986245,"hodge_abs_curl_circulation":37.16624098941658,"hodge_signed_curl_circulation_ratio":0.0058104115702700306,"hodge_signed_curl_alignment":0.007945538157704822,"graph_total_power":0.1390872102382218,"graph_low_freq_power":0.017972839527905286,"graph_high_freq_power":0.07123276636072463,"graph_low_freq_ratio":0.12921992969103546,"graph_high_freq_ratio":0.5121446194709105,"graph_first_nonzero_eigenvalue":0.0003008402484688295,"graph_eigs_used":32},{"variant":"real","layer":9,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":0.014509101807660112,"trajectory_abs_circulation":5.43620887827127,"trajectory_signed_circulation_ratio":0.0017006724692888613,"trajectory_signed_circulation_alignment":0.0026689743040694287,"spectral_total":0.0044610304825703235,"spectral_grad_ratio":0.5399052761675945,"spectral_curl_ratio":0.4600796683026198,"spectral_harmonic_ratio":1.5055529785777714e-05,"spectral_grad":0.002408533894684188,"spectral_curl":0.0020524294247088303,"spectral_harmonic":6.716317730559984e-08,"spectral_signed_curl_circulation":-0.05696369139900259,"spectral_abs_curl_circulation":51.07693885975442,"spectral_signed_curl_circulation_ratio":-0.0006583358467656673,"spectral_signed_curl_alignment":-0.0011152526496431558,"spectral_signed_vorticity_mean":-0.03891916621276061,"spectral_abs_vorticity_mean":0.6997761564789453,"spectral_signed_vorticity_ratio":-0.05561659375276472,"spectral_vorticity_rms":0.9183362447870328,"hodge_total":2.2123069953154255,"hodge_grad_ratio":0.5142240569432387,"hodge_curl_ratio":0.4837513723870692,"hodge_harmonic_ratio":0.0020245706761576475,"hodge_grad":1.1376214783350047,"hodge_curl":1.0702065451253506,"hodge_harmonic":0.004478971869374044,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.0030495499932388093,"hodge_abs_curl_circulation":39.16586462863272,"hodge_signed_curl_circulation_ratio":5.567827018533266e-05,"hodge_signed_curl_alignment":7.786244532463087e-05,"graph_total_power":0.24333222525969345,"graph_low_freq_power":0.04507254153537355,"graph_high_freq_power":0.013325899119180487,"graph_low_freq_ratio":0.185230466237139,"graph_high_freq_ratio":0.05476421836424904,"graph_first_nonzero_eigenvalue":0.0004151355275116833,"graph_eigs_used":32},{"variant":"real","layer":10,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":0.7393408675857923,"trajectory_abs_circulation":5.760259884107802,"trajectory_signed_circulation_ratio":0.08854672525371647,"trajectory_signed_circulation_alignment":0.12835199842729106,"spectral_total":0.006625656254745554,"spectral_grad_ratio":0.47008959625412894,"spectral_curl_ratio":0.5299008236282381,"spectral_harmonic_ratio":9.580117632992451e-06,"spectral_grad":0.0031146520737119817,"spectral_curl":0.003510940706467257,"spectral_harmonic":6.347456631623461e-08,"spectral_signed_curl_circulation":16.488891704505647,"spectral_abs_curl_circulation":70.49904614984914,"spectral_signed_curl_circulation_ratio":0.1505044645947184,"spectral_signed_curl_alignment":0.23388815317384168,"spectral_signed_vorticity_mean":-0.03517478599533624,"spectral_abs_vorticity_mean":0.9862852356501226,"spectral_signed_vorticity_ratio":-0.03566390809059443,"spectral_vorticity_rms":1.2958616537611376,"hodge_total":3.0378792333279696,"hodge_grad_ratio":0.45627142969040135,"hodge_curl_ratio":0.5427290455337882,"hodge_harmonic_ratio":0.000999524775766359,"hodge_grad":1.386097501017333,"hodge_curl":1.6487452967510052,"hodge_harmonic":0.0030364355594974172,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.2907160421165104,"hodge_abs_curl_circulation":44.990383577864804,"hodge_signed_curl_circulation_ratio":0.004519398293612574,"hodge_signed_curl_alignment":0.006461737353569536,"graph_total_power":0.610646349170046,"graph_low_freq_power":0.33543266717938613,"graph_high_freq_power":0.012242614057910342,"graph_low_freq_ratio":0.5493075781674387,"graph_high_freq_ratio":0.02004861582248018,"graph_first_nonzero_eigenvalue":1.176085004277068e-06,"graph_eigs_used":32},{"variant":"real","layer":11,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":0.4285344760027224,"trajectory_abs_circulation":9.027940975854332,"trajectory_signed_circulation_ratio":0.03326223601332957,"trajectory_signed_circulation_alignment":0.047467576178096285,"spectral_total":0.02281479297881369,"spectral_grad_ratio":0.46618994914057815,"spectral_curl_ratio":0.5338052368456503,"spectral_harmonic_ratio":4.8140137715598185e-06,"spectral_grad":0.010636027178445974,"spectral_curl":0.012178655969640122,"spectral_harmonic":1.0983072759529535e-07,"spectral_signed_curl_circulation":11.580950575906922,"spectral_abs_curl_circulation":139.55132754178302,"spectral_signed_curl_circulation_ratio":0.05741840427431839,"spectral_signed_curl_alignment":0.08298703265606322,"spectral_signed_vorticity_mean":-0.08083438384000209,"spectral_abs_vorticity_mean":1.8908011216918388,"spectral_signed_vorticity_ratio":-0.042751394058658916,"spectral_vorticity_rms":2.566678489320807,"hodge_total":9.48915512614156,"hodge_grad_ratio":0.4726602066205482,"hodge_curl_ratio":0.5266966012393249,"hodge_harmonic_ratio":0.0006431921393079751,"hodge_grad":4.485146022576504,"hodge_curl":4.9979057535714775,"hodge_harmonic":0.006103349985808228,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.12365249404452183,"hodge_abs_curl_circulation":83.84315852202894,"hodge_signed_curl_circulation_ratio":0.0010773578774384202,"hodge_signed_curl_alignment":0.0014748072022123713,"graph_total_power":0.7643234490267792,"graph_low_freq_power":0.09756663385493572,"graph_high_freq_power":0.28493366208052623,"graph_low_freq_ratio":0.12765097548579507,"graph_high_freq_ratio":0.3727919932894054,"graph_first_nonzero_eigenvalue":0.0008692543082760988,"graph_eigs_used":32},{"variant":"real","layer":12,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399988,"trajectory_signed_circulation":-0.11971016912339301,"trajectory_abs_circulation":0.45143465213122963,"trajectory_signed_circulation_ratio":-0.0038126190555420924,"trajectory_signed_circulation_alignment":-0.26517718247422867,"spectral_total":0.035448262973071396,"spectral_grad_ratio":0.3274754379463875,"spectral_curl_ratio":0.6725245517486496,"spectral_harmonic_ratio":1.0304962811719464e-08,"spectral_grad":0.011608435441545268,"spectral_curl":0.02383982716623309,"spectral_harmonic":3.652930316775528e-10,"spectral_signed_curl_circulation":-36.164901871826494,"spectral_abs_curl_circulation":96.61051217601022,"spectral_signed_curl_circulation_ratio":-0.17334811905609374,"spectral_signed_curl_alignment":-0.3743371301659113,"spectral_signed_vorticity_mean":-2.827915943177334,"spectral_abs_vorticity_mean":4.364966791965548,"spectral_signed_vorticity_ratio":-0.6478665423944545,"spectral_vorticity_rms":5.769810295041159,"hodge_total":23.340431366673737,"hodge_grad_ratio":0.6106500096393477,"hodge_curl_ratio":0.38920491851519623,"hodge_harmonic_ratio":0.00014507184566275137,"hodge_grad":14.252834639045851,"hodge_curl":9.084210688175782,"hodge_harmonic":0.0033860394569281333,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":1.3621683599725478,"hodge_abs_curl_circulation":28.116022402397128,"hodge_signed_curl_circulation_ratio":0.008794293177656476,"hodge_signed_curl_alignment":0.048448117606294534,"graph_total_power":2.097986941855097,"graph_low_freq_power":1.8161589634990942,"graph_high_freq_power":0.008652760665089472,"graph_low_freq_ratio":0.8656674296996325,"graph_high_freq_ratio":0.004124315786941202,"graph_first_nonzero_eigenvalue":1.160415617370368e-09,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":0,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":-0.8017940025291974,"trajectory_abs_circulation":8.30675882281293,"trajectory_signed_circulation_ratio":-0.058099106558849145,"trajectory_signed_circulation_alignment":-0.09652308675764404,"spectral_total":0.03376055316651325,"spectral_grad_ratio":0.5135332731993619,"spectral_curl_ratio":0.48646663034073345,"spectral_harmonic_ratio":9.645990446063476e-08,"spectral_grad":0.017337167372620633,"spectral_curl":0.01642338253735288,"spectral_harmonic":3.2565397329800487e-09,"spectral_signed_curl_circulation":-44.28547706419434,"spectral_abs_curl_circulation":149.3120007692625,"spectral_signed_curl_circulation_ratio":-0.1857333650951766,"spectral_signed_curl_alignment":-0.2965969033703484,"spectral_signed_vorticity_mean":-0.018746209227301795,"spectral_abs_vorticity_mean":2.324152940982123,"spectral_signed_vorticity_ratio":-0.008065824282364208,"spectral_vorticity_rms":3.130216343195323,"hodge_total":12.068938102613414,"hodge_grad_ratio":0.5209712639438644,"hodge_curl_ratio":0.4716995790438485,"hodge_harmonic_ratio":0.007329157011634158,"hodge_grad":6.287569937778774,"hodge_curl":5.692913022509011,"hodge_harmonic":0.08845514231774776,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.8788550821012328,"hodge_abs_curl_circulation":89.51993368309098,"hodge_signed_curl_circulation_ratio":-0.006792446144864691,"hodge_signed_curl_alignment":-0.009817423292698838,"graph_total_power":0.9582582292064095,"graph_low_freq_power":0.1660686831432523,"graph_high_freq_power":0.07107072851571859,"graph_low_freq_ratio":0.17330264231676218,"graph_high_freq_ratio":0.0741665725892868,"graph_first_nonzero_eigenvalue":5.2806074799089844e-05,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":1,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":-1.6062470631012422,"trajectory_abs_circulation":18.294934213098976,"trajectory_signed_circulation_ratio":-0.025395990089710576,"trajectory_signed_circulation_alignment":-0.08779736753309485,"spectral_total":0.1958940060872698,"spectral_grad_ratio":0.51012473257005,"spectral_curl_ratio":0.48987473048356145,"spectral_harmonic_ratio":5.369463884333373e-07,"spectral_grad":0.09993037746734426,"spectral_curl":0.09596352343534645,"spectral_harmonic":1.0518457908429772e-07,"spectral_signed_curl_circulation":-86.95320138754606,"spectral_abs_curl_circulation":307.52925973941115,"spectral_signed_curl_circulation_ratio":-0.16956906614015396,"spectral_signed_curl_alignment":-0.28274773418707205,"spectral_signed_vorticity_mean":0.1815460160058994,"spectral_abs_vorticity_mean":5.944366737554474,"spectral_signed_vorticity_ratio":0.030540850526424256,"spectral_vorticity_rms":8.131790347773952,"hodge_total":66.0283491230955,"hodge_grad_ratio":0.5213088308682063,"hodge_curl_ratio":0.4781855855884167,"hodge_harmonic_ratio":0.0005055835443136858,"hodge_grad":34.42116148551867,"hodge_curl":31.57380479086384,"hodge_harmonic":0.03338284677483607,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.8509834275585318,"hodge_abs_curl_circulation":193.29395218090485,"hodge_signed_curl_circulation_ratio":0.002718654157015057,"hodge_signed_curl_alignment":0.004402535195524855,"graph_total_power":4.300305620513416,"graph_low_freq_power":0.2258942306276196,"graph_high_freq_power":0.09804856130654284,"graph_low_freq_ratio":0.052529808474554414,"graph_high_freq_ratio":0.022800370475723718,"graph_first_nonzero_eigenvalue":0.0005843710233189229,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":2,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":-0.9026563760935524,"trajectory_abs_circulation":17.37030635455106,"trajectory_signed_circulation_ratio":-0.01533210979547855,"trajectory_signed_circulation_alignment":-0.05196548395112527,"spectral_total":0.18563767683501892,"spectral_grad_ratio":0.525607441854968,"spectral_curl_ratio":0.4743921370463456,"spectral_harmonic_ratio":4.210986862499919e-07,"spectral_grad":0.09757254443315355,"spectral_curl":0.08806505423008351,"spectral_harmonic":7.817178183372702e-08,"spectral_signed_curl_circulation":-26.2855935272817,"spectral_abs_curl_circulation":288.5394042132346,"spectral_signed_curl_circulation_ratio":-0.05409410067103954,"spectral_signed_curl_alignment":-0.09109880017585496,"spectral_signed_vorticity_mean":0.08415449237101481,"spectral_abs_vorticity_mean":5.91482150662218,"spectral_signed_vorticity_ratio":0.014227731517645328,"spectral_vorticity_rms":7.986799834087893,"hodge_total":63.84663106420696,"hodge_grad_ratio":0.5207457627290909,"hodge_curl_ratio":0.4787948561341228,"hodge_harmonic_ratio":0.0004593811681315709,"hodge_grad":33.24786259121332,"hodge_curl":30.56943853503539,"hodge_harmonic":0.029329939959540835,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.7176191971247707,"hodge_abs_curl_circulation":188.38057688091476,"hodge_signed_curl_circulation_ratio":0.002447465035101647,"hodge_signed_curl_alignment":0.0038094118247573657,"graph_total_power":3.2574437391535724,"graph_low_freq_power":0.14471689727441558,"graph_high_freq_power":0.30361178642528486,"graph_low_freq_ratio":0.04442652240926175,"graph_high_freq_ratio":0.0932055349954184,"graph_first_nonzero_eigenvalue":0.0006139045695701637,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":3,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":-0.5799006836337184,"trajectory_abs_circulation":15.973219050765906,"trajectory_signed_circulation_ratio":-0.01099336092011867,"trajectory_signed_circulation_alignment":-0.03630455963764627,"spectral_total":0.17249536967253343,"spectral_grad_ratio":0.5287744839165818,"spectral_curl_ratio":0.47122511744969686,"spectral_harmonic_ratio":3.986337212179527e-07,"spectral_grad":0.09121115007659386,"spectral_curl":0.08128415083346845,"spectral_harmonic":6.876247110542838e-08,"spectral_signed_curl_circulation":-20.860058912640472,"spectral_abs_curl_circulation":292.61119259123404,"spectral_signed_curl_circulation_ratio":-0.04520050616848702,"spectral_signed_curl_alignment":-0.0712893403971089,"spectral_signed_vorticity_mean":0.1043811191455988,"spectral_abs_vorticity_mean":4.410583360505204,"spectral_signed_vorticity_ratio":0.023666057438180378,"spectral_vorticity_rms":6.000200786688112,"hodge_total":56.51666919790925,"hodge_grad_ratio":0.5380089686964828,"hodge_curl_ratio":0.4606040448167232,"hodge_harmonic_ratio":0.001386986489602157,"hodge_grad":30.406474909327436,"hodge_curl":26.031806432125713,"hodge_harmonic":0.07838785661481451,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.9320531743154503,"hodge_abs_curl_circulation":174.91023044560325,"hodge_signed_curl_circulation_ratio":-0.0033732025291491395,"hodge_signed_curl_alignment":-0.005328751622709211,"graph_total_power":5.141350953941481,"graph_low_freq_power":0.2082947689458205,"graph_high_freq_power":2.448560793659753,"graph_low_freq_ratio":0.04051362585667038,"graph_high_freq_ratio":0.4762485221481776,"graph_first_nonzero_eigenvalue":0.0005938835096420637,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":4,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":-0.7249908977948246,"trajectory_abs_circulation":14.744009899449761,"trajectory_signed_circulation_ratio":-0.015779178255682293,"trajectory_signed_circulation_alignment":-0.04917189439908616,"spectral_total":0.16249857102281695,"spectral_grad_ratio":0.4685080017316237,"spectral_curl_ratio":0.5314916649023441,"spectral_harmonic_ratio":3.3336603213906235e-07,"spectral_grad":0.0761318807941443,"spectral_curl":0.0863666360571688,"spectral_harmonic":5.41715038501441e-08,"spectral_signed_curl_circulation":-15.8450514737312,"spectral_abs_curl_circulation":290.15009031385046,"spectral_signed_curl_circulation_ratio":-0.035160443738673414,"spectral_signed_curl_alignment":-0.05460984505154513,"spectral_signed_vorticity_mean":-0.32110760409257494,"spectral_abs_vorticity_mean":5.075460291694677,"spectral_signed_vorticity_ratio":-0.06326669614931779,"spectral_vorticity_rms":7.298991964599196,"hodge_total":53.17147046699012,"hodge_grad_ratio":0.5516587326079866,"hodge_curl_ratio":0.44795654120819617,"hodge_harmonic_ratio":0.00038472620007492907,"hodge_grad":29.33250600872276,"hodge_curl":23.818508001346647,"hodge_harmonic":0.020456457785161423,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.7905240389139065,"hodge_abs_curl_circulation":172.45113186466796,"hodge_signed_curl_circulation_ratio":-0.0029475572995328473,"hodge_signed_curl_alignment":-0.004584046682478576,"graph_total_power":2.7630913117326465,"graph_low_freq_power":0.16532978163042325,"graph_high_freq_power":0.806651007742337,"graph_low_freq_ratio":0.05983507708500238,"graph_high_freq_ratio":0.29193787563846807,"graph_first_nonzero_eigenvalue":9.853942235166953e-06,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":5,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":-0.5868287517435626,"trajectory_abs_circulation":12.903954701952603,"trajectory_signed_circulation_ratio":-0.014451498001411597,"trajectory_signed_circulation_alignment":-0.04547665931086729,"spectral_total":0.14622621025764052,"spectral_grad_ratio":0.4941907359112004,"spectral_curl_ratio":0.5058089327538294,"spectral_harmonic_ratio":3.3133497023112397e-07,"spectral_grad":0.07226363845672928,"spectral_curl":0.07396252335105422,"spectral_harmonic":4.8449857022725395e-08,"spectral_signed_curl_circulation":5.250960323021565,"spectral_abs_curl_circulation":268.4257123380784,"spectral_signed_curl_circulation_ratio":0.012490443263988682,"spectral_signed_curl_alignment":0.019562061612071104,"spectral_signed_vorticity_mean":0.05402353101937648,"spectral_abs_vorticity_mean":5.074767329151947,"spectral_signed_vorticity_ratio":0.010645518802219539,"spectral_vorticity_rms":7.011830050002943,"hodge_total":40.806475531237226,"hodge_grad_ratio":0.510722423074446,"hodge_curl_ratio":0.4875752387095003,"hodge_harmonic_ratio":0.0017023382145929537,"hodge_grad":20.84078206044157,"hodge_curl":19.896227048036373,"hodge_harmonic":0.06946642269967743,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.7432408790470391,"hodge_abs_curl_circulation":158.74154371568682,"hodge_signed_curl_circulation_ratio":-0.0030337688652118198,"hodge_signed_curl_alignment":-0.004682081713771265,"graph_total_power":3.141814212230194,"graph_low_freq_power":0.38081936836932184,"graph_high_freq_power":0.7271230429200273,"graph_low_freq_ratio":0.12121002154961925,"graph_high_freq_ratio":0.23143413130208113,"graph_first_nonzero_eigenvalue":1.1624269061884801e-06,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":6,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":-0.49319372180602766,"trajectory_abs_circulation":11.03532128287619,"trajectory_signed_circulation_ratio":-0.014241714908457138,"trajectory_signed_circulation_alignment":-0.04469228481560658,"spectral_total":0.11423503515362184,"spectral_grad_ratio":0.5087267118929218,"spectral_curl_ratio":0.4912729227738514,"spectral_harmonic_ratio":3.6533322681021735e-07,"spectral_grad":0.05811441381667437,"spectral_curl":0.056120579603093454,"spectral_harmonic":4.173385400745128e-08,"spectral_signed_curl_circulation":-16.964603620901343,"spectral_abs_curl_circulation":220.36620612143787,"spectral_signed_curl_circulation_ratio":-0.045052000856787025,"spectral_signed_curl_alignment":-0.07698368964773396,"spectral_signed_vorticity_mean":-0.2906692069126228,"spectral_abs_vorticity_mean":4.686909093971551,"spectral_signed_vorticity_ratio":-0.06201724869946606,"spectral_vorticity_rms":6.493012448688056,"hodge_total":35.406833043247396,"hodge_grad_ratio":0.5321592066623995,"hodge_curl_ratio":0.46726625836739094,"hodge_harmonic_ratio":0.0005745349697165363,"hodge_grad":18.842072182722564,"hodge_curl":16.544418396757113,"hodge_harmonic":0.0203424637502606,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.12682639881238122,"hodge_abs_curl_circulation":145.5042138499255,"hodge_signed_curl_circulation_ratio":-0.00055464321183597,"hodge_signed_curl_alignment":-0.0008716338548324878,"graph_total_power":2.414602314916731,"graph_low_freq_power":0.34624807288430565,"graph_high_freq_power":0.06463138221250293,"graph_low_freq_ratio":0.14339755691663297,"graph_high_freq_ratio":0.026766884887514816,"graph_first_nonzero_eigenvalue":0.0007421401801148047,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":7,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":-0.5178726514733806,"trajectory_abs_circulation":8.91384065965262,"trajectory_signed_circulation_ratio":-0.018254650442239097,"trajectory_signed_circulation_alignment":-0.05809758904682536,"spectral_total":0.0965828442617429,"spectral_grad_ratio":0.502868871475017,"spectral_curl_ratio":0.4971307747323369,"spectral_harmonic_ratio":3.537926461119963e-07,"spectral_grad":0.048568505897749976,"spectral_curl":0.04801430419369289,"spectral_harmonic":3.417030004038486e-08,"spectral_signed_curl_circulation":-29.660365014663267,"spectral_abs_curl_circulation":214.1085470238572,"spectral_signed_curl_circulation_ratio":-0.08818121811938351,"spectral_signed_curl_alignment":-0.13852957029014978,"spectral_signed_vorticity_mean":-0.10111632843163658,"spectral_abs_vorticity_mean":3.8280126603712894,"spectral_signed_vorticity_ratio":-0.02641483647074172,"spectral_vorticity_rms":5.465302837593107,"hodge_total":29.00439595419622,"hodge_grad_ratio":0.5015335036392435,"hodge_curl_ratio":0.4982255455097666,"hodge_harmonic_ratio":0.0002409508516187635,"hodge_grad":14.54667632384793,"hodge_curl":14.45073099646068,"hodge_harmonic":0.0069886339058513975,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.3249449902931536,"hodge_abs_curl_circulation":138.04153807984858,"hodge_signed_curl_circulation_ratio":-0.0014996350902157522,"hodge_signed_curl_alignment":-0.002353965297787343,"graph_total_power":2.338927456722754,"graph_low_freq_power":0.3410689848089569,"graph_high_freq_power":0.6922512779240413,"graph_low_freq_ratio":0.1458228145676883,"graph_high_freq_ratio":0.2959695376332904,"graph_first_nonzero_eigenvalue":0.0006956281028792551,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":8,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":-0.3691778226132109,"trajectory_abs_circulation":7.656650032922793,"trajectory_signed_circulation_ratio":-0.016387032300637188,"trajectory_signed_circulation_alignment":-0.04821662489806703,"spectral_total":0.07505145078303838,"spectral_grad_ratio":0.5077897717769834,"spectral_curl_ratio":0.492209916994367,"spectral_harmonic_ratio":3.1122864966615333e-07,"spectral_grad":0.03811035906465056,"spectral_curl":0.03694106836022614,"spectral_harmonic":2.33581616826908e-08,"spectral_signed_curl_circulation":-17.94221255321121,"spectral_abs_curl_circulation":207.7680971793447,"spectral_signed_curl_circulation_ratio":-0.05568223157335063,"spectral_signed_curl_alignment":-0.08635691810626515,"spectral_signed_vorticity_mean":0.06802286102568973,"spectral_abs_vorticity_mean":3.385106792886319,"spectral_signed_vorticity_ratio":0.020094745952664576,"spectral_vorticity_rms":4.734270956118233,"hodge_total":26.474883209831802,"hodge_grad_ratio":0.5068707256335008,"hodge_curl_ratio":0.4910257809837986,"hodge_harmonic_ratio":0.0021034933842557758,"hodge_grad":13.419343263629631,"hodge_curl":12.999850204562518,"hodge_harmonic":0.055689741680825515,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.009975201393797928,"hodge_abs_curl_circulation":127.65005250210537,"hodge_signed_curl_circulation_ratio":5.1459013230067205e-05,"hodge_signed_curl_alignment":7.814490631434252e-05,"graph_total_power":1.6451607664626953,"graph_low_freq_power":0.20114632465806864,"graph_high_freq_power":0.32481039825385566,"graph_low_freq_ratio":0.12226545195978555,"graph_high_freq_ratio":0.19743383435543463,"graph_first_nonzero_eigenvalue":0.0005254121556540791,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":9,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":-0.22622852706265695,"trajectory_abs_circulation":6.726933428986463,"trajectory_signed_circulation_ratio":-0.013010891604170613,"trajectory_signed_circulation_alignment":-0.033630261017276404,"spectral_total":0.04854915139662752,"spectral_grad_ratio":0.45757441311654806,"spectral_curl_ratio":0.5424252539497241,"spectral_harmonic_ratio":3.3293372789786374e-07,"spectral_grad":0.02221484945761828,"spectral_curl":0.026334285775359283,"spectral_harmonic":1.616364996075698e-08,"spectral_signed_curl_circulation":-28.59458869729118,"spectral_abs_curl_circulation":155.76434736150964,"spectral_signed_curl_circulation_ratio":-0.09911926401246092,"spectral_signed_curl_alignment":-0.1835759542003967,"spectral_signed_vorticity_mean":-0.10155371511182375,"spectral_abs_vorticity_mean":3.2102958736713205,"spectral_signed_vorticity_ratio":-0.031633755612589715,"spectral_vorticity_rms":4.366287107251462,"hodge_total":19.678320519057937,"hodge_grad_ratio":0.5156434830088019,"hodge_curl_ratio":0.4835555262054346,"hodge_harmonic_ratio":0.0008009907869517117,"hodge_grad":10.14699773221061,"hodge_curl":9.515560633432262,"hodge_harmonic":0.015762153438448234,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.3423052496271265,"hodge_abs_curl_circulation":114.27008689613328,"hodge_signed_curl_circulation_ratio":-0.0020520282951854768,"hodge_signed_curl_alignment":-0.0029955805488996227,"graph_total_power":1.4807526724622133,"graph_low_freq_power":0.07039490648101283,"graph_high_freq_power":0.12420722833786951,"graph_low_freq_ratio":0.04753994896660179,"graph_high_freq_ratio":0.08388114412877354,"graph_first_nonzero_eigenvalue":0.0008918670879508348,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":10,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":0.011256997117791837,"trajectory_abs_circulation":7.191005835377096,"trajectory_signed_circulation_ratio":0.0008012171830340548,"trajectory_signed_circulation_alignment":0.001565427337356836,"spectral_total":0.04304237992670139,"spectral_grad_ratio":0.43697957191252906,"spectral_curl_ratio":0.5630201194221639,"spectral_harmonic_ratio":3.08665306964351e-07,"spectral_grad":0.018808640754466407,"spectral_curl":0.024233725886545564,"spectral_harmonic":1.3285689412551506e-08,"spectral_signed_curl_circulation":-18.749125067454138,"spectral_abs_curl_circulation":162.37768502817698,"spectral_signed_curl_circulation_ratio":-0.06819750389403748,"spectral_signed_curl_alignment":-0.11546614341866403,"spectral_signed_vorticity_mean":0.15260728004029253,"spectral_abs_vorticity_mean":3.368005688793579,"spectral_signed_vorticity_ratio":0.045310873597412635,"spectral_vorticity_rms":4.540417241813495,"hodge_total":15.914674139563232,"hodge_grad_ratio":0.47552178635282216,"hodge_curl_ratio":0.5146362859297191,"hodge_harmonic_ratio":0.009841927718624846,"hodge_grad":7.567774276068171,"hodge_curl":8.19026879096657,"hodge_harmonic":0.1566310725470494,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.17780947233749522,"hodge_abs_curl_circulation":106.32199392836387,"hodge_signed_curl_circulation_ratio":0.001196019060253413,"hodge_signed_curl_alignment":0.0016723677366067568,"graph_total_power":0.9138896439878945,"graph_low_freq_power":0.12646774246846113,"graph_high_freq_power":0.15218863880366335,"graph_low_freq_ratio":0.13838404155298245,"graph_high_freq_ratio":0.16652846413661654,"graph_first_nonzero_eigenvalue":0.00017304744057639518,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":11,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":0.41369530552031647,"trajectory_abs_circulation":10.082693701090133,"trajectory_signed_circulation_ratio":0.027529638234762902,"trajectory_signed_circulation_alignment":0.04103023634205888,"spectral_total":0.03983567843077038,"spectral_grad_ratio":0.4839517054157797,"spectral_curl_ratio":0.5160471717021698,"spectral_harmonic_ratio":1.1228820503950144e-06,"spectral_grad":0.019278544512965914,"spectral_curl":0.020557089187036186,"spectral_harmonic":4.4730768275219895e-08,"spectral_signed_curl_circulation":-6.362615916390766,"spectral_abs_curl_circulation":160.59083724324344,"spectral_signed_curl_circulation_ratio":-0.025178799321688646,"spectral_signed_curl_alignment":-0.03962004324539046,"spectral_signed_vorticity_mean":-0.0211641569422512,"spectral_abs_vorticity_mean":2.418252244805662,"spectral_signed_vorticity_ratio":-0.008751840089350156,"spectral_vorticity_rms":3.3611555753634446,"hodge_total":17.448555032829898,"hodge_grad_ratio":0.48150886595278575,"hodge_curl_ratio":0.5184590249871217,"hodge_harmonic_ratio":3.210906072093038e-05,"hodge_grad":8.401633946372696,"hodge_curl":9.046360829755123,"hodge_harmonic":0.0005602567130416306,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.5520690782769244,"hodge_abs_curl_circulation":110.52188073661303,"hodge_signed_curl_circulation_ratio":0.0037793097959877334,"hodge_signed_curl_alignment":0.004995111145390039,"graph_total_power":1.1244697651686815,"graph_low_freq_power":0.023456884209730355,"graph_high_freq_power":0.08103163889316078,"graph_low_freq_ratio":0.020860395660537476,"graph_high_freq_ratio":0.07206208775298217,"graph_first_nonzero_eigenvalue":0.0013689156278833073,"graph_eigs_used":32},{"variant":"shuffle_tokens","layer":12,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.1319605270729705,"pca_var_1":0.06863496425399994,"trajectory_signed_circulation":0.12216560606720465,"trajectory_abs_circulation":0.5186621122670987,"trajectory_signed_circulation_ratio":0.0038885941972368744,"trajectory_signed_circulation_alignment":0.23553986917072567,"spectral_total":0.04430929666034125,"spectral_grad_ratio":0.4817234031614601,"spectral_curl_ratio":0.5182765950056194,"spectral_harmonic_ratio":1.8329203883349479e-09,"spectral_grad":0.021344825178910308,"spectral_curl":0.022964471400215528,"spectral_harmonic":8.12154132415211e-11,"spectral_signed_curl_circulation":-3.0952537276252463,"spectral_abs_curl_circulation":96.4720583759971,"spectral_signed_curl_circulation_ratio":-0.018603398680377473,"spectral_signed_curl_alignment":-0.032084458233093596,"spectral_signed_vorticity_mean":-0.1635063479436353,"spectral_abs_vorticity_mean":2.614796651993522,"spectral_signed_vorticity_ratio":-0.06253119064496966,"spectral_vorticity_rms":3.80852715246174,"hodge_total":0.6535551291929785,"hodge_grad_ratio":0.5472691368211803,"hodge_curl_ratio":0.45183445274569195,"hodge_harmonic_ratio":0.0008964104278443944,"hodge_grad":0.35767055141849635,"hodge_curl":0.2952987241380495,"hodge_harmonic":0.0005858536329797763,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.3882184974698179,"hodge_abs_curl_circulation":11.415279546405227,"hodge_signed_curl_circulation_ratio":0.010311773380489959,"hodge_signed_curl_alignment":0.03400867196389171,"graph_total_power":0.12418085189141241,"graph_low_freq_power":0.009848051858530965,"graph_high_freq_power":0.019832654218336146,"graph_low_freq_ratio":0.07930410935771649,"graph_high_freq_ratio":0.15970782867296188,"graph_first_nonzero_eigenvalue":1.1221677334062306e-09,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":0,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":-0.08869604687985186,"trajectory_abs_circulation":3.6980982447521877,"trajectory_signed_circulation_ratio":-0.010983945091064103,"trajectory_signed_circulation_alignment":-0.023984232167362403,"spectral_total":0.0057789547831758,"spectral_grad_ratio":0.5193826494897272,"spectral_curl_ratio":0.48061713781481225,"spectral_harmonic_ratio":2.1269546061883104e-07,"spectral_grad":0.003001488846567179,"spectral_curl":0.0027774647074511718,"spectral_harmonic":1.2291574495029736e-09,"spectral_signed_curl_circulation":4.356084797716093,"spectral_abs_curl_circulation":75.8408435875659,"spectral_signed_curl_circulation_ratio":0.033636998291564434,"spectral_signed_curl_alignment":0.05743718808568571,"spectral_signed_vorticity_mean":0.11157993777307358,"spectral_abs_vorticity_mean":0.9457304470207046,"spectral_signed_vorticity_ratio":0.11798281225330032,"spectral_vorticity_rms":1.2329906962925263,"hodge_total":2.366895997663825,"hodge_grad_ratio":0.5354409232203201,"hodge_curl_ratio":0.46369061601765504,"hodge_harmonic_ratio":0.0008684607626439944,"hodge_grad":1.267332978155599,"hodge_curl":1.0975074632064612,"hodge_harmonic":0.0020555563032301433,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.0998252265816062,"hodge_abs_curl_circulation":43.33704106248009,"hodge_signed_curl_circulation_ratio":0.0016905441190056428,"hodge_signed_curl_alignment":0.0023034619838877713,"graph_total_power":0.07958431833781664,"graph_low_freq_power":0.0013695953481500554,"graph_high_freq_power":0.009254535914488824,"graph_low_freq_ratio":0.017209362054675728,"graph_high_freq_ratio":0.11628592300314121,"graph_first_nonzero_eigenvalue":0.0002981127149764351,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":1,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":0.10333664443354232,"trajectory_abs_circulation":15.455719569800406,"trajectory_signed_circulation_ratio":0.005556644479089336,"trajectory_signed_circulation_alignment":0.006685980809036949,"spectral_total":0.004962189436427964,"spectral_grad_ratio":0.5341545847951257,"spectral_curl_ratio":0.4657991866393423,"spectral_harmonic_ratio":4.6228565532053694e-05,"spectral_grad":0.0026505762380899375,"spectral_curl":0.0023113838034384817,"spectral_harmonic":2.293948995443747e-07,"spectral_signed_curl_circulation":8.189975338605812,"spectral_abs_curl_circulation":82.9519045220826,"spectral_signed_curl_circulation_ratio":0.06797482911020565,"spectral_signed_curl_alignment":0.09873161304482843,"spectral_signed_vorticity_mean":0.14237335717254138,"spectral_abs_vorticity_mean":0.7996817225666637,"spectral_signed_vorticity_ratio":0.1780375281250382,"spectral_vorticity_rms":1.0892327271635873,"hodge_total":1.825971040138357,"hodge_grad_ratio":0.5095103746516378,"hodge_curl_ratio":0.4904690513471034,"hodge_harmonic_ratio":2.0573996918818894e-05,"hodge_grad":0.9303511887639351,"hodge_curl":0.8955822838439437,"hodge_harmonic":3.756752255365909e-05,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.03981961302433934,"hodge_abs_curl_circulation":37.03689390187061,"hodge_signed_curl_circulation_ratio":0.0007476480259226244,"hodge_signed_curl_alignment":0.001075133706672097,"graph_total_power":0.07269059893520223,"graph_low_freq_power":0.0013451209256212782,"graph_high_freq_power":0.017971592675718864,"graph_low_freq_ratio":0.018504744015389724,"graph_high_freq_ratio":0.2472340706910268,"graph_first_nonzero_eigenvalue":0.0001489563027029278,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":2,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":0.0921666968914509,"trajectory_abs_circulation":15.67900730085779,"trajectory_signed_circulation_ratio":0.004911278346321489,"trajectory_signed_circulation_alignment":0.00587835027581169,"spectral_total":0.005653664062151136,"spectral_grad_ratio":0.42964165609189386,"spectral_curl_ratio":0.5703223234259761,"spectral_harmonic_ratio":3.6020482129934e-05,"spectral_grad":0.002429049590649838,"spectral_curl":0.003224410823795978,"spectral_harmonic":2.0364770531936508e-07,"spectral_signed_curl_circulation":0.41118743163335747,"spectral_abs_curl_circulation":108.57868402275048,"spectral_signed_curl_circulation_ratio":0.002659791946756978,"spectral_signed_curl_alignment":0.0037869995877570354,"spectral_signed_vorticity_mean":0.06158931885330489,"spectral_abs_vorticity_mean":1.0949604973464913,"spectral_signed_vorticity_ratio":0.056247982463805225,"spectral_vorticity_rms":1.46885269179618,"hodge_total":2.1765903198278007,"hodge_grad_ratio":0.4968488146702208,"hodge_curl_ratio":0.5031151359609122,"hodge_harmonic_ratio":3.604941892775805e-05,"hodge_grad":1.0814363204291195,"hodge_curl":1.0950755346913692,"hodge_harmonic":7.846481627357526e-05,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.05119118630264852,"hodge_abs_curl_circulation":39.9279123904346,"hodge_signed_curl_circulation_ratio":-0.0009285733537102056,"hodge_signed_curl_alignment":-0.0012820902280609146,"graph_total_power":0.06950772222166815,"graph_low_freq_power":0.0011641516097186113,"graph_high_freq_power":0.022480852550708853,"graph_low_freq_ratio":0.01674852192690184,"graph_high_freq_ratio":0.32342956771069004,"graph_first_nonzero_eigenvalue":0.00016656841886041068,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":3,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":0.157677552745757,"trajectory_abs_circulation":14.799699283276109,"trajectory_signed_circulation_ratio":0.008786356037751849,"trajectory_signed_circulation_alignment":0.010654105176578494,"spectral_total":0.006548322055887417,"spectral_grad_ratio":0.49117741072844334,"spectral_curl_ratio":0.508803097356317,"spectral_harmonic_ratio":1.9491915239630655e-05,"spectral_grad":0.0032163878720267384,"spectral_curl":0.003331806544522203,"spectral_harmonic":1.2763933847516148e-07,"spectral_signed_curl_circulation":1.073535102044406,"spectral_abs_curl_circulation":94.8480059026613,"spectral_signed_curl_circulation_ratio":0.007639322736013391,"spectral_signed_curl_alignment":0.011318478357321839,"spectral_signed_vorticity_mean":0.06827392584439408,"spectral_abs_vorticity_mean":0.9080864838560734,"spectral_signed_vorticity_ratio":0.07518438723421757,"spectral_vorticity_rms":1.2351878233648452,"hodge_total":2.3187141388786134,"hodge_grad_ratio":0.48537176202354454,"hodge_curl_ratio":0.5117282191396468,"hodge_harmonic_ratio":0.002900018842256656,"hodge_grad":1.1254383672164183,"hodge_curl":1.1865514569822726,"hodge_harmonic":0.006724314692554896,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.050561587780807715,"hodge_abs_curl_circulation":41.35747237454194,"hodge_signed_curl_circulation_ratio":0.000860182515151319,"hodge_signed_curl_alignment":0.0012225502400850655,"graph_total_power":0.11457384011778872,"graph_low_freq_power":0.0016469121142060595,"graph_high_freq_power":0.028703695780255684,"graph_low_freq_ratio":0.01437424208277331,"graph_high_freq_ratio":0.2505257373825175,"graph_first_nonzero_eigenvalue":0.0001640283794642235,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":4,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":0.20712791511887446,"trajectory_abs_circulation":13.351917200476453,"trajectory_signed_circulation_ratio":0.012297749992658077,"trajectory_signed_circulation_alignment":0.015512971808384436,"spectral_total":0.005787473285207672,"spectral_grad_ratio":0.49394265251895214,"spectral_curl_ratio":0.5060377330279314,"spectral_harmonic_ratio":1.9614453116345587e-05,"spectral_grad":0.0028586799058780516,"spectral_curl":0.0029286798612062053,"spectral_harmonic":1.1351812341480845e-07,"spectral_signed_curl_circulation":6.642449255133667,"spectral_abs_curl_circulation":93.54267386947461,"spectral_signed_curl_circulation_ratio":0.0491014325179751,"spectral_signed_curl_alignment":0.0710098287804158,"spectral_signed_vorticity_mean":0.03037403567967844,"spectral_abs_vorticity_mean":0.8449838729580873,"spectral_signed_vorticity_ratio":0.03594629039882877,"spectral_vorticity_rms":1.107660917148817,"hodge_total":2.333032954364579,"hodge_grad_ratio":0.4919754953393935,"hodge_curl_ratio":0.5036541812633998,"hodge_harmonic_ratio":0.004370323396745992,"hodge_grad":1.1477950433666424,"hodge_curl":1.1750418024910227,"hodge_harmonic":0.010196108505838944,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.11391475838864784,"hodge_abs_curl_circulation":41.83139388097602,"hodge_signed_curl_circulation_ratio":-0.0019580480520772652,"hodge_signed_curl_alignment":-0.002723188204360881,"graph_total_power":0.09218627787196731,"graph_low_freq_power":0.0012574127238782827,"graph_high_freq_power":0.029205591010028606,"graph_low_freq_ratio":0.013639912066138925,"graph_high_freq_ratio":0.3168106109088244,"graph_first_nonzero_eigenvalue":0.00015171100309768114,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":5,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":0.293878655397397,"trajectory_abs_circulation":11.63183263881108,"trajectory_signed_circulation_ratio":0.019641874255013778,"trajectory_signed_circulation_alignment":0.025265034713174407,"spectral_total":0.005961215454235372,"spectral_grad_ratio":0.4883767862747156,"spectral_curl_ratio":0.511604843113714,"spectral_harmonic_ratio":1.8370611570505367e-05,"spectral_grad":0.00291131924583064,"spectral_curl":0.0030497866972311353,"spectral_harmonic":1.0951117359785174e-07,"spectral_signed_curl_circulation":12.136691671910361,"spectral_abs_curl_circulation":90.74723928463246,"spectral_signed_curl_circulation_ratio":0.09032962157365752,"spectral_signed_curl_alignment":0.13374171784822156,"spectral_signed_vorticity_mean":-0.022091235610265065,"spectral_abs_vorticity_mean":0.8151554786117681,"spectral_signed_vorticity_ratio":-0.0271006405402403,"spectral_vorticity_rms":1.0659848066215172,"hodge_total":2.2299627087421934,"hodge_grad_ratio":0.4880697384873496,"hodge_curl_ratio":0.5090656403757372,"hodge_harmonic_ratio":0.002864621128650777,"hodge_grad":1.088377316092344,"hodge_curl":1.1351973943398583,"hodge_harmonic":0.006387998291566206,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.11215540819358905,"hodge_abs_curl_circulation":42.4955737796579,"hodge_signed_curl_circulation_ratio":-0.001979093859125581,"hodge_signed_curl_alignment":-0.002639225646772569,"graph_total_power":0.10261661270466277,"graph_low_freq_power":0.0023915091308173023,"graph_high_freq_power":0.015089829561172838,"graph_low_freq_ratio":0.023305282329872064,"graph_high_freq_ratio":0.14705055218108146,"graph_first_nonzero_eigenvalue":0.00022304302385567975,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":6,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":0.2806587089473091,"trajectory_abs_circulation":9.276175972683752,"trajectory_signed_circulation_ratio":0.0213448433591022,"trajectory_signed_circulation_alignment":0.03025586295190882,"spectral_total":0.004884354239559812,"spectral_grad_ratio":0.5017863915889222,"spectral_curl_ratio":0.49819268599164673,"spectral_harmonic_ratio":2.0922419431006156e-05,"spectral_grad":0.0024509024891107723,"spectral_curl":0.00243334955794099,"spectral_harmonic":1.021925080496835e-07,"spectral_signed_curl_circulation":13.091123917331002,"spectral_abs_curl_circulation":71.82356440824896,"spectral_signed_curl_circulation_ratio":0.11781207012750544,"spectral_signed_curl_alignment":0.18226781175771725,"spectral_signed_vorticity_mean":0.015719108583206142,"spectral_abs_vorticity_mean":0.764660687865143,"spectral_signed_vorticity_ratio":0.020556972305052504,"spectral_vorticity_rms":1.0162073877612323,"hodge_total":2.1276436970913806,"hodge_grad_ratio":0.48406178439200537,"hodge_curl_ratio":0.5113803005207465,"hodge_harmonic_ratio":0.004557915086586467,"hodge_grad":1.029911004564457,"hodge_curl":1.0880350732196622,"hodge_harmonic":0.009697619305853411,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.022554044993877448,"hodge_abs_curl_circulation":40.354442972983875,"hodge_signed_curl_circulation_ratio":0.00041626389975800974,"hodge_signed_curl_alignment":0.0005588986820850612,"graph_total_power":0.07994828039461122,"graph_low_freq_power":0.0013453804226280465,"graph_high_freq_power":0.018899978720214428,"graph_low_freq_ratio":0.016828134588855143,"graph_high_freq_ratio":0.23640256709621923,"graph_first_nonzero_eigenvalue":0.0001272637127687521,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":7,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":0.1505099430762854,"trajectory_abs_circulation":7.473652429059722,"trajectory_signed_circulation_ratio":0.013452180117411403,"trajectory_signed_circulation_alignment":0.02013873999425759,"spectral_total":0.004600276712099824,"spectral_grad_ratio":0.49553670442063635,"spectral_curl_ratio":0.5044434343148195,"spectral_harmonic_ratio":1.986126454405699e-05,"spectral_grad":0.002279605961336947,"spectral_curl":0.0023205793834501216,"spectral_harmonic":9.13673127548793e-08,"spectral_signed_curl_circulation":8.438899803461858,"spectral_abs_curl_circulation":67.18127711823342,"spectral_signed_curl_circulation_ratio":0.08100638332670833,"spectral_signed_curl_alignment":0.12561386394322485,"spectral_signed_vorticity_mean":0.045707715405135706,"spectral_abs_vorticity_mean":0.7529429551428991,"spectral_signed_vorticity_ratio":0.06070541611809218,"spectral_vorticity_rms":0.9843028663764114,"hodge_total":1.9533575738609867,"hodge_grad_ratio":0.4892492226370667,"hodge_curl_ratio":0.509757982758981,"hodge_harmonic_ratio":0.0009927946208030287,"hodge_grad":0.9556786745437144,"hodge_curl":0.9957396164583537,"hodge_harmonic":0.0019392828918340427,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.0611944954134227,"hodge_abs_curl_circulation":38.227383289856476,"hodge_signed_curl_circulation_ratio":-0.0011773360531238983,"hodge_signed_curl_alignment":-0.0016008026222830815,"graph_total_power":0.10138590146875676,"graph_low_freq_power":0.008682161532110225,"graph_high_freq_power":0.015117469110763265,"graph_low_freq_ratio":0.08563480135140618,"graph_high_freq_ratio":0.1491081983960254,"graph_first_nonzero_eigenvalue":0.0002679613221247477,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":8,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":-0.09556718562469807,"trajectory_abs_circulation":5.962599906379783,"trajectory_signed_circulation_ratio":-0.010140897866328264,"trajectory_signed_circulation_alignment":-0.01602777095985333,"spectral_total":0.004253960914966999,"spectral_grad_ratio":0.49705902610842745,"spectral_curl_ratio":0.5029226520468345,"spectral_harmonic_ratio":1.8321844737952934e-05,"spectral_grad":0.0021144696694968116,"spectral_curl":0.002139413305058782,"spectral_harmonic":7.794041140534556e-08,"spectral_signed_curl_circulation":1.6436571887171483,"spectral_abs_curl_circulation":64.65270725678162,"spectral_signed_curl_circulation_ratio":0.01568514729206087,"spectral_signed_curl_alignment":0.025422867169181688,"spectral_signed_vorticity_mean":0.024880108258754634,"spectral_abs_vorticity_mean":0.768982089036938,"spectral_signed_vorticity_ratio":0.032354600469191835,"spectral_vorticity_rms":1.0089308284029748,"hodge_total":1.8603462650198945,"hodge_grad_ratio":0.4815689352098986,"hodge_curl_ratio":0.5127764383813838,"hodge_harmonic_ratio":0.005654626411687082,"hodge_grad":0.8958849699673423,"hodge_curl":0.9539417319330115,"hodge_harmonic":0.010519563125064912,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.29530578595994045,"hodge_abs_curl_circulation":37.1662409894452,"hodge_signed_curl_circulation_ratio":-0.005810411570271276,"hodge_signed_curl_alignment":-0.007945538157700802,"graph_total_power":0.1390872102381284,"graph_low_freq_power":0.017972839527906813,"graph_high_freq_power":0.07123276636068618,"graph_low_freq_ratio":0.1292199296911332,"graph_high_freq_ratio":0.512144619470978,"graph_first_nonzero_eigenvalue":0.00030084024846914546,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":9,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":-0.014509101807653427,"trajectory_abs_circulation":5.436208878271263,"trajectory_signed_circulation_ratio":-0.0017006724692881343,"trajectory_signed_circulation_alignment":-0.002668974304068202,"spectral_total":0.0044610304825699,"spectral_grad_ratio":0.5399052761675837,"spectral_curl_ratio":0.46007966830263075,"spectral_harmonic_ratio":1.5055529785779122e-05,"spectral_grad":0.002408533894683911,"spectral_curl":0.0020524294247086846,"spectral_harmonic":6.716317730559974e-08,"spectral_signed_curl_circulation":0.05696369140068036,"spectral_abs_curl_circulation":51.076938859753774,"spectral_signed_curl_circulation_ratio":0.0006583358467850746,"spectral_signed_curl_alignment":0.0011152526496760178,"spectral_signed_vorticity_mean":0.03891916621275146,"spectral_abs_vorticity_mean":0.6997761564789182,"spectral_signed_vorticity_ratio":0.05561659375275379,"spectral_vorticity_rms":0.9183362447870019,"hodge_total":2.2123069953151853,"hodge_grad_ratio":0.5142240569361957,"hodge_curl_ratio":0.4837513723870723,"hodge_harmonic_ratio":0.002024570676159897,"hodge_grad":1.1376214783192997,"hodge_curl":1.0702065451252412,"hodge_harmonic":0.0044789718693785344,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.0030495499930328074,"hodge_abs_curl_circulation":39.16586462863006,"hodge_signed_curl_circulation_ratio":-5.56782701815704e-05,"hodge_signed_curl_alignment":-7.786244531937642e-05,"graph_total_power":0.2433322252596249,"graph_low_freq_power":0.04507254153541011,"graph_high_freq_power":0.013325899119177385,"graph_low_freq_ratio":0.18523046623734146,"graph_high_freq_ratio":0.054764218364251716,"graph_first_nonzero_eigenvalue":0.0004151355275122159,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":10,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":-0.7393408675857179,"trajectory_abs_circulation":5.760259884107809,"trajectory_signed_circulation_ratio":-0.08854672525370917,"trajectory_signed_circulation_alignment":-0.12835199842727799,"spectral_total":0.006625656254745123,"spectral_grad_ratio":0.4700895962541282,"spectral_curl_ratio":0.5299008236282389,"spectral_harmonic_ratio":9.580117632992946e-06,"spectral_grad":0.0031146520737117744,"spectral_curl":0.003510940706467033,"spectral_harmonic":6.347456631623376e-08,"spectral_signed_curl_circulation":-16.488891704505757,"spectral_abs_curl_circulation":70.49904614984699,"spectral_signed_curl_circulation_ratio":-0.1505044645947244,"spectral_signed_curl_alignment":-0.23388815317385034,"spectral_signed_vorticity_mean":0.03517478599535564,"spectral_abs_vorticity_mean":0.9862852356500862,"spectral_signed_vorticity_ratio":0.03566390809061541,"spectral_vorticity_rms":1.2958616537610812,"hodge_total":3.0378792333277502,"hodge_grad_ratio":0.4562714296903832,"hodge_curl_ratio":0.5427290455337558,"hodge_harmonic_ratio":0.0009995247757651033,"hodge_grad":1.3860975010171779,"hodge_curl":1.6487452967507876,"hodge_harmonic":0.0030364355594933836,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.2907160421164295,"hodge_abs_curl_circulation":44.9903835778299,"hodge_signed_curl_circulation_ratio":-0.004519398293611929,"hodge_signed_curl_alignment":-0.00646173735357275,"graph_total_power":0.6106463491700336,"graph_low_freq_power":0.33543266717905207,"graph_high_freq_power":0.012242614057917975,"graph_low_freq_ratio":0.5493075781669029,"graph_high_freq_ratio":0.02004861582249309,"graph_first_nonzero_eigenvalue":1.176085004710836e-06,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":11,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":-0.4285344760026327,"trajectory_abs_circulation":9.027940975854346,"trajectory_signed_circulation_ratio":-0.03326223601332269,"trajectory_signed_circulation_alignment":-0.04746757617808628,"spectral_total":0.022814792978813617,"spectral_grad_ratio":0.466189949140562,"spectral_curl_ratio":0.5338052368456665,"spectral_harmonic_ratio":4.814013771559733e-06,"spectral_grad":0.010636027178445572,"spectral_curl":0.012178655969640451,"spectral_harmonic":1.0983072759529305e-07,"spectral_signed_curl_circulation":-11.580950575904524,"spectral_abs_curl_circulation":139.5513275417896,"spectral_signed_curl_circulation_ratio":-0.05741840427430348,"spectral_signed_curl_alignment":-0.08298703265604213,"spectral_signed_vorticity_mean":0.08083438383999411,"spectral_abs_vorticity_mean":1.890801121691745,"spectral_signed_vorticity_ratio":0.042751394058656814,"spectral_vorticity_rms":2.5666784893206915,"hodge_total":9.489155126141249,"hodge_grad_ratio":0.47266020662153235,"hodge_curl_ratio":0.5266966012393116,"hodge_harmonic_ratio":0.0006431921393075043,"hodge_grad":4.485146022585695,"hodge_curl":4.997905753571187,"hodge_harmonic":0.006103349985803561,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.12365249404355083,"hodge_abs_curl_circulation":83.8431585220299,"hodge_signed_curl_circulation_ratio":-0.0010773578774300057,"hodge_signed_curl_alignment":-0.0014748072022007733,"graph_total_power":0.7643234490267676,"graph_low_freq_power":0.09756663385493153,"graph_high_freq_power":0.28493366208056636,"graph_low_freq_ratio":0.12765097548579152,"graph_high_freq_ratio":0.3727919932894635,"graph_first_nonzero_eigenvalue":0.0008692543082780906,"graph_eigs_used":32},{"variant":"reverse_tokens","layer":12,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.13196052707297048,"pca_var_1":0.06863496425399991,"trajectory_signed_circulation":0.11971016912338381,"trajectory_abs_circulation":0.4514346521311938,"trajectory_signed_circulation_ratio":0.0038126190555417953,"trajectory_signed_circulation_alignment":0.2651771824742293,"spectral_total":0.03544826297307525,"spectral_grad_ratio":0.3274754379463771,"spectral_curl_ratio":0.6725245517486601,"spectral_harmonic_ratio":1.0304962811718228e-08,"spectral_grad":0.011608435441546161,"spectral_curl":0.023839827166236054,"spectral_harmonic":3.6529303167754864e-10,"spectral_signed_curl_circulation":36.164901871819694,"spectral_abs_curl_circulation":96.61051217601432,"spectral_signed_curl_circulation_ratio":0.17334811905605166,"spectral_signed_curl_alignment":0.374337130165825,"spectral_signed_vorticity_mean":2.827915943176703,"spectral_abs_vorticity_mean":4.364966791965139,"spectral_signed_vorticity_ratio":0.6478665423943707,"spectral_vorticity_rms":5.769810295040907,"hodge_total":23.340431366674938,"hodge_grad_ratio":0.6106500096385848,"hodge_curl_ratio":0.38920491851520517,"hodge_harmonic_ratio":0.00014507184566272662,"hodge_grad":14.252834639028778,"hodge_curl":9.084210688176459,"hodge_harmonic":0.00338603945692773,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-1.3621683599725547,"hodge_abs_curl_circulation":28.11602240239725,"hodge_signed_curl_circulation_ratio":-0.008794293177655921,"hodge_signed_curl_alignment":-0.04844811760629457,"graph_total_power":2.098099167711209,"graph_low_freq_power":0.009712954111416613,"graph_high_freq_power":0.008816817847406754,"graph_low_freq_ratio":0.0046294065890185535,"graph_high_freq_ratio":0.004202288425205808,"graph_first_nonzero_eigenvalue":1.160415554163225e-09,"graph_eigs_used":32},{"variant":"random_hidden","layer":0,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":0.5028736211245217,"trajectory_abs_circulation":197.38872050137832,"trajectory_signed_circulation_ratio":0.0019117580672193362,"trajectory_signed_circulation_alignment":0.0025476309884738843,"spectral_total":0.7151489775938942,"spectral_grad_ratio":0.49784141480948235,"spectral_curl_ratio":0.5021575637141553,"spectral_harmonic_ratio":1.021476362123768e-06,"spectral_grad":0.3560307788048991,"spectral_curl":0.359117468281219,"spectral_harmonic":7.305077760091431e-07,"spectral_signed_curl_circulation":-36.31544671285806,"spectral_abs_curl_circulation":721.4903717510645,"spectral_signed_curl_circulation_ratio":-0.035677543976106944,"spectral_signed_curl_alignment":-0.05033393117183269,"spectral_signed_vorticity_mean":0.1483221631555674,"spectral_abs_vorticity_mean":9.805032841477088,"spectral_signed_vorticity_ratio":0.015127145982432352,"spectral_vorticity_rms":13.679239113665105,"hodge_total":210.17848841448497,"hodge_grad_ratio":0.5047531195495837,"hodge_curl_ratio":0.48976273989221114,"hodge_harmonic_ratio":0.005484140556929707,"hodge_grad":106.08824768942732,"hodge_curl":102.93759235228151,"hodge_harmonic":1.1526483725080576,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":1.138079624529417,"hodge_abs_curl_circulation":379.57322797701937,"hodge_signed_curl_circulation_ratio":0.0020576021137018305,"hodge_signed_curl_alignment":0.0029983137393407525,"graph_total_power":12.212791846557902,"graph_low_freq_power":0.6465280167373245,"graph_high_freq_power":1.674301255409193,"graph_low_freq_ratio":0.052938592981877794,"graph_high_freq_ratio":0.13709406304841626,"graph_first_nonzero_eigenvalue":0.0024222648826340352,"graph_eigs_used":32},{"variant":"random_hidden","layer":1,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-2.7824345753378075,"trajectory_abs_circulation":194.24358409340306,"trajectory_signed_circulation_ratio":-0.01081158607289728,"trajectory_signed_circulation_alignment":-0.01432446064215876,"spectral_total":0.6603322685956831,"spectral_grad_ratio":0.45003238452752364,"spectral_curl_ratio":0.549966822841971,"spectral_harmonic_ratio":7.926305053766793e-07,"spectral_grad":0.2971709054165845,"spectral_curl":0.3631608397795988,"spectral_harmonic":5.233994997735254e-07,"spectral_signed_curl_circulation":-50.74808173558415,"spectral_abs_curl_circulation":697.7889108810091,"spectral_signed_curl_circulation_ratio":-0.051798597108756936,"spectral_signed_curl_alignment":-0.07272698224956171,"spectral_signed_vorticity_mean":-1.0424779564117523,"spectral_abs_vorticity_mean":10.485452090679049,"spectral_signed_vorticity_ratio":-0.09942136470571966,"spectral_vorticity_rms":14.576107687671021,"hodge_total":203.45718431475993,"hodge_grad_ratio":0.4855758269056857,"hodge_curl_ratio":0.514352385217886,"hodge_harmonic_ratio":7.178788027717348e-05,"hodge_grad":98.79389051354205,"hodge_curl":104.64868804201183,"hodge_harmonic":0.014605759989118804,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.1307751355234954,"hodge_abs_curl_circulation":382.7463501751087,"hodge_signed_curl_circulation_ratio":-0.00023207989571870323,"hodge_signed_curl_alignment":-0.00034167572195963465,"graph_total_power":16.533450463392462,"graph_low_freq_power":0.46141400353073886,"graph_high_freq_power":3.0312138220192146,"graph_low_freq_ratio":0.02790790733926827,"graph_high_freq_ratio":0.1833382468306163,"graph_first_nonzero_eigenvalue":0.0003808443434379393,"graph_eigs_used":32},{"variant":"random_hidden","layer":2,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-6.375841766519965,"trajectory_abs_circulation":203.17434518446117,"trajectory_signed_circulation_ratio":-0.023559726555762925,"trajectory_signed_circulation_alignment":-0.03138113604220732,"spectral_total":0.7206342092041285,"spectral_grad_ratio":0.5023124760901079,"spectral_curl_ratio":0.49768660751160854,"spectral_harmonic_ratio":9.163982834565699e-07,"spectral_grad":0.3619835539805626,"spectral_curl":0.3586499948356135,"spectral_harmonic":6.60387952314746e-07,"spectral_signed_curl_circulation":-51.627978824729226,"spectral_abs_curl_circulation":738.0527789223795,"spectral_signed_curl_circulation_ratio":-0.050211603986663474,"spectral_signed_curl_alignment":-0.06995160820356305,"spectral_signed_vorticity_mean":-0.18869681192202378,"spectral_abs_vorticity_mean":9.014983138515055,"spectral_signed_vorticity_ratio":-0.020931465874389408,"spectral_vorticity_rms":12.149366532551623,"hodge_total":198.9853412562812,"hodge_grad_ratio":0.5430559565946017,"hodge_curl_ratio":0.4569275078619796,"hodge_harmonic_ratio":1.6535563832856177e-05,"hodge_grad":108.06017484423305,"hodge_curl":90.92187608129812,"hodge_harmonic":0.0032903348121459076,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":1.7028715520145434,"hodge_abs_curl_circulation":373.4630310146331,"hodge_signed_curl_circulation_ratio":0.003161086180176312,"hodge_signed_curl_alignment":0.004559679032722843,"graph_total_power":25.235866553632142,"graph_low_freq_power":1.2131306164200155,"graph_high_freq_power":4.4309316542944295,"graph_low_freq_ratio":0.048071684554276274,"graph_high_freq_ratio":0.17558072138627215,"graph_first_nonzero_eigenvalue":0.0025429477400116716,"graph_eigs_used":32},{"variant":"random_hidden","layer":3,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":8.811364352492442,"trajectory_abs_circulation":207.45587317701865,"trajectory_signed_circulation_ratio":0.03237044646527437,"trajectory_signed_circulation_alignment":0.04247343889355136,"spectral_total":0.7033735036350819,"spectral_grad_ratio":0.47718996470530917,"spectral_curl_ratio":0.5228076728246791,"spectral_harmonic_ratio":2.362470011750531e-06,"spectral_grad":0.3356427773742744,"spectral_curl":0.36772906456199816,"spectral_harmonic":1.661698809397784e-06,"spectral_signed_curl_circulation":53.606208339865205,"spectral_abs_curl_circulation":724.8026472481549,"spectral_signed_curl_circulation_ratio":0.05260234663943231,"spectral_signed_curl_alignment":0.07395973033954957,"spectral_signed_vorticity_mean":0.005059718106235772,"spectral_abs_vorticity_mean":9.447115159339521,"spectral_signed_vorticity_ratio":0.0005355834051873158,"spectral_vorticity_rms":12.810787826080134,"hodge_total":206.38955837458016,"hodge_grad_ratio":0.47273471482084095,"hodge_curl_ratio":0.5269808260047094,"hodge_harmonic_ratio":0.0002844591713461172,"hodge_grad":97.56750902020646,"hodge_curl":108.76333995098344,"hodge_harmonic":0.05870940274972415,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.8631706575152966,"hodge_abs_curl_circulation":387.3297289639165,"hodge_signed_curl_circulation_ratio":-0.0015296102849726297,"hodge_signed_curl_alignment":-0.0022285164111317396,"graph_total_power":19.557742320623454,"graph_low_freq_power":0.886802918167645,"graph_high_freq_power":6.483434384024852,"graph_low_freq_ratio":0.045342806118910756,"graph_high_freq_ratio":0.3315021886339167,"graph_first_nonzero_eigenvalue":0.002799738086585268,"graph_eigs_used":32},{"variant":"random_hidden","layer":4,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-0.2970817761004789,"trajectory_abs_circulation":198.94781811849876,"trajectory_signed_circulation_ratio":-0.0011272982568509172,"trajectory_signed_circulation_alignment":-0.0014932648113965689,"spectral_total":0.6403681511288708,"spectral_grad_ratio":0.5647332363541452,"spectral_curl_ratio":0.4352659736666572,"spectral_harmonic_ratio":7.899791975650919e-07,"spectral_grad":0.36163717844512755,"spectral_curl":0.27873046680622504,"spectral_harmonic":5.058775181750268e-07,"spectral_signed_curl_circulation":-5.179794319684898,"spectral_abs_curl_circulation":609.1715328249711,"spectral_signed_curl_circulation_ratio":-0.005769361340701706,"spectral_signed_curl_alignment":-0.00850301440657302,"spectral_signed_vorticity_mean":-0.6731370495614625,"spectral_abs_vorticity_mean":8.759020166679669,"spectral_signed_vorticity_ratio":-0.07685072493863572,"spectral_vorticity_rms":11.535354822806077,"hodge_total":208.04660395452817,"hodge_grad_ratio":0.521861138953028,"hodge_curl_ratio":0.47795661520476934,"hodge_harmonic_ratio":0.00018224583356585289,"hodge_grad":108.57143769501961,"hodge_curl":99.43725063095346,"hodge_harmonic":0.03791562675823785,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-1.1167156437963817,"hodge_abs_curl_circulation":390.6421609838851,"hodge_signed_curl_circulation_ratio":-0.002048119549562285,"hodge_signed_curl_alignment":-0.0028586664608443242,"graph_total_power":16.28004304601864,"graph_low_freq_power":1.202947905998181,"graph_high_freq_power":4.4040080343079,"graph_low_freq_ratio":0.07389095364169614,"graph_high_freq_ratio":0.2705157487519617,"graph_first_nonzero_eigenvalue":0.0028167237926973315,"graph_eigs_used":32},{"variant":"random_hidden","layer":5,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-14.019485778678124,"trajectory_abs_circulation":191.15368523558024,"trajectory_signed_circulation_ratio":-0.0531187914667503,"trajectory_signed_circulation_alignment":-0.07334143603561884,"spectral_total":0.7683537396734664,"spectral_grad_ratio":0.47255697883557013,"spectral_curl_ratio":0.5274415135559622,"spectral_harmonic_ratio":1.5076084676530671e-06,"spectral_grad":0.36309092189710546,"spectral_curl":0.4052616593997569,"spectral_harmonic":1.1583766040846184e-06,"spectral_signed_curl_circulation":-189.32257343774103,"spectral_abs_curl_circulation":748.6275190644878,"spectral_signed_curl_circulation_ratio":-0.1805679740929371,"spectral_signed_curl_alignment":-0.25289288546903194,"spectral_signed_vorticity_mean":-0.5515413891729635,"spectral_abs_vorticity_mean":10.074445818272528,"spectral_signed_vorticity_ratio":-0.05474657357058839,"spectral_vorticity_rms":13.791839318750647,"hodge_total":206.72637312735765,"hodge_grad_ratio":0.48434449350495584,"hodge_curl_ratio":0.515594065927214,"hodge_harmonic_ratio":6.1440597481421e-05,"hodge_grad":100.12678048648655,"hodge_curl":106.58689125512069,"hodge_harmonic":0.012701391880112028,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.5982266485562615,"hodge_abs_curl_circulation":369.8080688507122,"hodge_signed_curl_circulation_ratio":0.001071091715486652,"hodge_signed_curl_alignment":0.0016176679173481195,"graph_total_power":21.20470409443466,"graph_low_freq_power":3.8596869765496984,"graph_high_freq_power":4.88334418895248,"graph_low_freq_ratio":0.18202031772575894,"graph_high_freq_ratio":0.2302953234907037,"graph_first_nonzero_eigenvalue":0.0026701591195203486,"graph_eigs_used":32},{"variant":"random_hidden","layer":6,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-0.030889927191074307,"trajectory_abs_circulation":194.64636437718895,"trajectory_signed_circulation_ratio":-0.00011832857689949991,"trajectory_signed_circulation_alignment":-0.00015869768382221255,"spectral_total":0.6954073177551847,"spectral_grad_ratio":0.4128967172106977,"spectral_curl_ratio":0.5871022259817537,"spectral_harmonic_ratio":1.0568075487384296e-06,"spectral_grad":0.2871313986254123,"spectral_curl":0.40827518421806963,"spectral_harmonic":7.34911702851623e-07,"spectral_signed_curl_circulation":0.16936614002649542,"spectral_abs_curl_circulation":779.0953213778782,"spectral_signed_curl_circulation_ratio":0.000152921591325361,"spectral_signed_curl_alignment":0.0002173882134562956,"spectral_signed_vorticity_mean":0.3910571692439214,"spectral_abs_vorticity_mean":11.169159028870931,"spectral_signed_vorticity_ratio":0.03501223039559968,"spectral_vorticity_rms":15.36328578838527,"hodge_total":198.65820998943926,"hodge_grad_ratio":0.4936177271056035,"hodge_curl_ratio":0.5054860042798913,"hodge_harmonic_ratio":0.0008962686150629038,"hodge_grad":98.0612140858547,"hodge_curl":100.41894478495725,"hodge_harmonic":0.17805111873811025,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":3.5846880625951614,"hodge_abs_curl_circulation":366.54960639545413,"hodge_signed_curl_circulation_ratio":0.006746637767102052,"hodge_signed_curl_alignment":0.009779544160055106,"graph_total_power":18.226135646290558,"graph_low_freq_power":0.6593562989775232,"graph_high_freq_power":5.645313399507694,"graph_low_freq_ratio":0.036176417852553266,"graph_high_freq_ratio":0.30973726461081436,"graph_first_nonzero_eigenvalue":0.002571588346476684,"graph_eigs_used":32},{"variant":"random_hidden","layer":7,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-2.7492117614669436,"trajectory_abs_circulation":196.15801904234286,"trajectory_signed_circulation_ratio":-0.010333394472976435,"trajectory_signed_circulation_alignment":-0.014015291217197173,"spectral_total":0.7282727924845163,"spectral_grad_ratio":0.44861270697703554,"spectral_curl_ratio":0.551386692580698,"spectral_harmonic_ratio":6.004422664472352e-07,"spectral_grad":0.3267124288542037,"spectral_curl":0.4015599263445464,"spectral_harmonic":4.3728576611125996e-07,"spectral_signed_curl_circulation":9.054259464828615,"spectral_abs_curl_circulation":801.8590435295209,"spectral_signed_curl_circulation_ratio":0.008167806627734989,"spectral_signed_curl_alignment":0.011291584896236537,"spectral_signed_vorticity_mean":-0.48511833784197866,"spectral_abs_vorticity_mean":9.890520195645061,"spectral_signed_vorticity_ratio":-0.049048819298259286,"spectral_vorticity_rms":13.407946216528263,"hodge_total":190.42609208315065,"hodge_grad_ratio":0.4620489197976248,"hodge_curl_ratio":0.5378038611084105,"hodge_harmonic_ratio":0.00014721909397944134,"hodge_grad":87.98617014830279,"hodge_curl":102.41188757810414,"hodge_harmonic":0.028034356746527104,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.013318982456752337,"hodge_abs_curl_circulation":373.80320235451484,"hodge_signed_curl_circulation_ratio":2.4264708919975993e-05,"hodge_signed_curl_alignment":3.563100148115002e-05,"graph_total_power":13.879708870338183,"graph_low_freq_power":1.3044298645731736,"graph_high_freq_power":1.842833389933197,"graph_low_freq_ratio":0.0939810681015668,"graph_high_freq_ratio":0.13277176107572752,"graph_first_nonzero_eigenvalue":0.0006736695828885823,"graph_eigs_used":32},{"variant":"random_hidden","layer":8,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-2.4949947160283217,"trajectory_abs_circulation":203.07652659717834,"trajectory_signed_circulation_ratio":-0.009279712198740861,"trajectory_signed_circulation_alignment":-0.012285982815617984,"spectral_total":0.7114911701941258,"spectral_grad_ratio":0.38634531475110484,"spectral_curl_ratio":0.6136535726054527,"spectral_harmonic_ratio":1.112643442548753e-06,"spectral_grad":0.27488128009128143,"spectral_curl":0.43660909846685947,"spectral_harmonic":7.916359849478328e-07,"spectral_signed_curl_circulation":27.057032255537727,"spectral_abs_curl_circulation":780.4057183167479,"spectral_signed_curl_circulation_ratio":0.023480920953398696,"spectral_signed_curl_alignment":0.034670468988741994,"spectral_signed_vorticity_mean":0.6316358316266645,"spectral_abs_vorticity_mean":12.341703196516283,"spectral_signed_vorticity_ratio":0.051178984097183404,"spectral_vorticity_rms":16.48924764126734,"hodge_total":208.38712317262014,"hodge_grad_ratio":0.46466417703475077,"hodge_curl_ratio":0.5352281279053853,"hodge_harmonic_ratio":0.00010769505076354307,"hodge_grad":96.83003109364478,"hodge_curl":111.53464981527041,"hodge_harmonic":0.02244226180854403,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-2.66792997894888,"hodge_abs_curl_circulation":389.73566148026293,"hodge_signed_curl_circulation_ratio":-0.004611591034233899,"hodge_signed_curl_alignment":-0.00684548590913072,"graph_total_power":17.794173333411933,"graph_low_freq_power":0.8882873351928973,"graph_high_freq_power":2.129341360379064,"graph_low_freq_ratio":0.049920123770232666,"graph_high_freq_ratio":0.11966509039118002,"graph_first_nonzero_eigenvalue":0.0026491816676654308,"graph_eigs_used":32},{"variant":"random_hidden","layer":9,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-9.788549575564739,"trajectory_abs_circulation":198.13506298872866,"trajectory_signed_circulation_ratio":-0.03735207595186739,"trajectory_signed_circulation_alignment":-0.049403419202595056,"spectral_total":0.6124766623238035,"spectral_grad_ratio":0.47625896064552875,"spectral_curl_ratio":0.5237388246820112,"spectral_harmonic_ratio":2.2146724600633185e-06,"spectral_grad":0.2916974986179771,"spectral_curl":0.3207778072706299,"spectral_harmonic":1.3564351964800282e-06,"spectral_signed_curl_circulation":-129.11089252401754,"spectral_abs_curl_circulation":726.9559085858439,"spectral_signed_curl_circulation_ratio":-0.13040259950704125,"spectral_signed_curl_alignment":-0.1776048464551014,"spectral_signed_vorticity_mean":-0.3917320953526866,"spectral_abs_vorticity_mean":9.326845842478777,"spectral_signed_vorticity_ratio":-0.042000489980069916,"spectral_vorticity_rms":12.643878179778941,"hodge_total":191.63193047326433,"hodge_grad_ratio":0.49683906106767356,"hodge_curl_ratio":0.5027667255614805,"hodge_harmonic_ratio":0.0003942133708751471,"hodge_grad":95.21022840692235,"hodge_curl":96.3461581970684,"hodge_harmonic":0.07554386927917735,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":-0.12157303161964039,"hodge_abs_curl_circulation":358.84929085681784,"hodge_signed_curl_circulation_ratio":-0.00023788272443943677,"hodge_signed_curl_alignment":-0.0003387857652703248,"graph_total_power":18.011236205981948,"graph_low_freq_power":0.9369677127709045,"graph_high_freq_power":3.250930190551526,"graph_low_freq_ratio":0.05202128838106714,"graph_high_freq_ratio":0.18049456202633204,"graph_first_nonzero_eigenvalue":0.0027696416462033506,"graph_eigs_used":32},{"variant":"random_hidden","layer":10,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-3.3833703436253373,"trajectory_abs_circulation":198.39782198980575,"trajectory_signed_circulation_ratio":-0.01294054289823078,"trajectory_signed_circulation_alignment":-0.01705346515245104,"spectral_total":0.7132936952583231,"spectral_grad_ratio":0.5169184355102513,"spectral_curl_ratio":0.48308091881956094,"spectral_harmonic_ratio":6.45670187864179e-07,"spectral_grad":0.3687146610122583,"spectral_curl":0.34457857369359063,"spectral_harmonic":4.605524742197759e-07,"spectral_signed_curl_circulation":7.113193353002538,"spectral_abs_curl_circulation":669.3313627602797,"spectral_signed_curl_circulation_ratio":0.007316406535052086,"spectral_signed_curl_alignment":0.01062731219357208,"spectral_signed_vorticity_mean":0.2728773398187864,"spectral_abs_vorticity_mean":10.001822618124086,"spectral_signed_vorticity_ratio":0.02728276137634268,"spectral_vorticity_rms":13.601737862741436,"hodge_total":216.20924570271262,"hodge_grad_ratio":0.49355167159020247,"hodge_curl_ratio":0.505925327533528,"hodge_harmonic_ratio":0.0005230008750335616,"hodge_grad":106.71043462983062,"hodge_curl":109.38573344792192,"hodge_harmonic":0.11307762469286502,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.1977597422511863,"hodge_abs_curl_circulation":388.49600885927185,"hodge_signed_curl_circulation_ratio":0.00034223005715487145,"hodge_signed_curl_alignment":0.0005090393150546432,"graph_total_power":13.5548577106174,"graph_low_freq_power":0.17446301695743166,"graph_high_freq_power":4.330331566839175,"graph_low_freq_ratio":0.012870885160290273,"graph_high_freq_ratio":0.31946713564150986,"graph_first_nonzero_eigenvalue":0.00018405151658693332,"graph_eigs_used":32},{"variant":"random_hidden","layer":11,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-11.830065022246021,"trajectory_abs_circulation":202.37134375691238,"trajectory_signed_circulation_ratio":-0.04438105001127965,"trajectory_signed_circulation_alignment":-0.05845721435963901,"spectral_total":0.7943857528113161,"spectral_grad_ratio":0.4814579153181759,"spectral_curl_ratio":0.5185419095214092,"spectral_harmonic_ratio":1.751604149001874e-07,"spectral_grad":0.382463308506996,"spectral_curl":0.411922305159382,"spectral_harmonic":1.3914493805322782e-07,"spectral_signed_curl_circulation":-153.05571504364616,"spectral_abs_curl_circulation":807.5603789562518,"spectral_signed_curl_circulation_ratio":-0.1408201268984948,"spectral_signed_curl_alignment":-0.1895285096099764,"spectral_signed_vorticity_mean":-0.7521353035248541,"spectral_abs_vorticity_mean":11.036998449510335,"spectral_signed_vorticity_ratio":-0.0681467254856979,"spectral_vorticity_rms":15.439136530440592,"hodge_total":197.02935829785417,"hodge_grad_ratio":0.4799233871540781,"hodge_curl_ratio":0.5141078897453639,"hodge_harmonic_ratio":0.005968723099925176,"hodge_grad":94.55899700310064,"hodge_curl":101.29434761239303,"hodge_harmonic":1.1760136822358365,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":0.3282758558326613,"hodge_abs_curl_circulation":375.3419617876227,"hodge_signed_curl_circulation_ratio":0.0005977959038906557,"hodge_signed_curl_alignment":0.0008746047318269398,"graph_total_power":17.850102718373137,"graph_low_freq_power":1.2542600516780555,"graph_high_freq_power":4.18920155776043,"graph_low_freq_ratio":0.07026626521241493,"graph_high_freq_ratio":0.23468781238152084,"graph_first_nonzero_eigenvalue":0.0015642646861817415,"graph_eigs_used":32},{"variant":"random_hidden","layer":12,"layers":13,"tokens":1024,"dim":768,"pca_var_0":0.24853560779642742,"pca_var_1":0.17186064301335452,"trajectory_signed_circulation":-13.408754249115155,"trajectory_abs_circulation":194.7453396092637,"trajectory_signed_circulation_ratio":-0.05159669822114001,"trajectory_signed_circulation_alignment":-0.06885276061557329,"spectral_total":0.6869936536009229,"spectral_grad_ratio":0.4665140751381588,"spectral_curl_ratio":0.5334857134358174,"spectral_harmonic_ratio":2.1142602389026967e-07,"spectral_grad":0.3204922089354192,"spectral_curl":0.36650129941716714,"spectral_harmonic":1.4524833661869238e-07,"spectral_signed_curl_circulation":-132.11023748782281,"spectral_abs_curl_circulation":700.0540515298222,"spectral_signed_curl_circulation_ratio":-0.1290922279544559,"spectral_signed_curl_alignment":-0.18871433884158434,"spectral_signed_vorticity_mean":-0.26603637935388813,"spectral_abs_vorticity_mean":10.711184132296731,"spectral_signed_vorticity_ratio":-0.02483725198521479,"spectral_vorticity_rms":14.673561867723784,"hodge_total":216.7335341175603,"hodge_grad_ratio":0.4992614382120465,"hodge_curl_ratio":0.49794329628054024,"hodge_harmonic_ratio":0.00279526550746036,"hodge_grad":108.20669595231281,"hodge_curl":107.92101039302891,"hodge_harmonic":0.6058277722287995,"hodge_reconstruction_error":0,"hodge_signed_curl_circulation":1.1881050733079928,"hodge_abs_curl_circulation":372.20955121107943,"hodge_signed_curl_circulation_ratio":0.0022064447880588323,"hodge_signed_curl_alignment":0.0031920327391980878,"graph_total_power":14.95147869305197,"graph_low_freq_power":1.9201873820852668,"graph_high_freq_power":5.0970353908538915,"graph_low_freq_ratio":0.1284279248565286,"graph_high_freq_ratio":0.3409051034679607,"graph_first_nonzero_eigenvalue":0.0023341172033450445,"graph_eigs_used":32}],"variantSummaries":[{"variant":"real","peaks":{"spectral_curl_ratio":{"variant":"real","layer":12,"metric":"spectral_curl_ratio","value":0.6725245517486496,"absValue":0.6725245517486496},"hodge_curl_ratio":{"variant":"real","layer":10,"metric":"hodge_curl_ratio","value":0.5427290455337882,"absValue":0.5427290455337882},"graph_high_freq_ratio":{"variant":"real","layer":8,"metric":"graph_high_freq_ratio","value":0.5121446194709105,"absValue":0.5121446194709105},"trajectory_signed_circulation_alignment":{"variant":"real","layer":12,"metric":"trajectory_signed_circulation_alignment","value":-0.26517718247422867,"absValue":0.26517718247422867},"spectral_signed_curl_alignment":{"variant":"real","layer":12,"metric":"spectral_signed_curl_alignment","value":-0.3743371301659113,"absValue":0.3743371301659113},"hodge_signed_curl_alignment":{"variant":"real","layer":12,"metric":"hodge_signed_curl_alignment","value":0.048448117606294534,"absValue":0.048448117606294534},"spectral_signed_vorticity_ratio":{"variant":"real","layer":12,"metric":"spectral_signed_vorticity_ratio","value":-0.6478665423944545,"absValue":0.6478665423944545}}},{"variant":"shuffle_tokens","peaks":{"spectral_curl_ratio":{"variant":"shuffle_tokens","layer":10,"metric":"spectral_curl_ratio","value":0.5630201194221639,"absValue":0.5630201194221639},"hodge_curl_ratio":{"variant":"shuffle_tokens","layer":11,"metric":"hodge_curl_ratio","value":0.5184590249871217,"absValue":0.5184590249871217},"graph_high_freq_ratio":{"variant":"shuffle_tokens","layer":3,"metric":"graph_high_freq_ratio","value":0.4762485221481776,"absValue":0.4762485221481776},"trajectory_signed_circulation_alignment":{"variant":"shuffle_tokens","layer":12,"metric":"trajectory_signed_circulation_alignment","value":0.23553986917072567,"absValue":0.23553986917072567},"spectral_signed_curl_alignment":{"variant":"shuffle_tokens","layer":0,"metric":"spectral_signed_curl_alignment","value":-0.2965969033703484,"absValue":0.2965969033703484},"hodge_signed_curl_alignment":{"variant":"shuffle_tokens","layer":12,"metric":"hodge_signed_curl_alignment","value":0.03400867196389171,"absValue":0.03400867196389171},"spectral_signed_vorticity_ratio":{"variant":"shuffle_tokens","layer":4,"metric":"spectral_signed_vorticity_ratio","value":-0.06326669614931779,"absValue":0.06326669614931779}}},{"variant":"reverse_tokens","peaks":{"spectral_curl_ratio":{"variant":"reverse_tokens","layer":12,"metric":"spectral_curl_ratio","value":0.6725245517486601,"absValue":0.6725245517486601},"hodge_curl_ratio":{"variant":"reverse_tokens","layer":10,"metric":"hodge_curl_ratio","value":0.5427290455337558,"absValue":0.5427290455337558},"graph_high_freq_ratio":{"variant":"reverse_tokens","layer":8,"metric":"graph_high_freq_ratio","value":0.512144619470978,"absValue":0.512144619470978},"trajectory_signed_circulation_alignment":{"variant":"reverse_tokens","layer":12,"metric":"trajectory_signed_circulation_alignment","value":0.2651771824742293,"absValue":0.2651771824742293},"spectral_signed_curl_alignment":{"variant":"reverse_tokens","layer":12,"metric":"spectral_signed_curl_alignment","value":0.374337130165825,"absValue":0.374337130165825},"hodge_signed_curl_alignment":{"variant":"reverse_tokens","layer":12,"metric":"hodge_signed_curl_alignment","value":-0.04844811760629457,"absValue":0.04844811760629457},"spectral_signed_vorticity_ratio":{"variant":"reverse_tokens","layer":12,"metric":"spectral_signed_vorticity_ratio","value":0.6478665423943707,"absValue":0.6478665423943707}}},{"variant":"random_hidden","peaks":{"spectral_curl_ratio":{"variant":"random_hidden","layer":8,"metric":"spectral_curl_ratio","value":0.6136535726054527,"absValue":0.6136535726054527},"hodge_curl_ratio":{"variant":"random_hidden","layer":7,"metric":"hodge_curl_ratio","value":0.5378038611084105,"absValue":0.5378038611084105},"graph_high_freq_ratio":{"variant":"random_hidden","layer":12,"metric":"graph_high_freq_ratio","value":0.3409051034679607,"absValue":0.3409051034679607},"trajectory_signed_circulation_alignment":{"variant":"random_hidden","layer":5,"metric":"trajectory_signed_circulation_alignment","value":-0.07334143603561884,"absValue":0.07334143603561884},"spectral_signed_curl_alignment":{"variant":"random_hidden","layer":5,"metric":"spectral_signed_curl_alignment","value":-0.25289288546903194,"absValue":0.25289288546903194},"hodge_signed_curl_alignment":{"variant":"random_hidden","layer":6,"metric":"hodge_signed_curl_alignment","value":0.009779544160055106,"absValue":0.009779544160055106},"spectral_signed_vorticity_ratio":{"variant":"random_hidden","layer":1,"metric":"spectral_signed_vorticity_ratio","value":-0.09942136470571966,"absValue":0.09942136470571966}}}],"reverseDiagnostics":[{"metric":"trajectory_signed_circulation_alignment","label":"Trajectory circulation","layersCompared":13,"maxAbsRealPlusReverse":1.3072876114961218e-14},{"metric":"spectral_signed_curl_alignment","label":"Spectral curl circulation","layersCompared":13,"maxAbsRealPlusReverse":8.631984016460592e-14},{"metric":"hodge_signed_curl_alignment","label":"Hodge face curl","layersCompared":13,"maxAbsRealPlusReverse":2.6948495518430704e-14},{"metric":"spectral_signed_vorticity_ratio","label":"Spectral vorticity","layersCompared":13,"maxAbsRealPlusReverse":8.382183835919932e-14}],"energyMetrics":[{"key":"spectral_curl_ratio","label":"Spectral curl"},{"key":"hodge_curl_ratio","label":"Hodge curl"},{"key":"graph_high_freq_ratio","label":"Graph high freq"}],"signedMetrics":[{"key":"trajectory_signed_circulation_alignment","label":"Trajectory circulation"},{"key":"spectral_signed_curl_alignment","label":"Spectral curl circulation"},{"key":"hodge_signed_curl_alignment","label":"Hodge face curl"},{"key":"spectral_signed_vorticity_ratio","label":"Spectral vorticity"}],"nullMetrics":[{"key":"spectral_curl_ratio","label":"Spectral curl ratio"},{"key":"hodge_curl_ratio","label":"Hodge curl ratio"},{"key":"trajectory_signed_circulation_alignment","label":"Trajectory signed circulation"},{"key":"spectral_signed_curl_alignment","label":"Spectral signed curl"},{"key":"spectral_signed_vorticity_ratio","label":"Spectral signed vorticity"},{"key":"hodge_signed_curl_alignment","label":"Hodge signed curl"},{"key":"graph_high_freq_ratio","label":"Graph high-frequency ratio"}]}</script>
+  <script>
+    const report = JSON.parse(document.getElementById("payload").textContent);
+    const rows = report.rows;
+    const variants = report.meta.variants;
+    const layers = report.meta.layers;
+    const colors = ["#2563eb", "#d97706", "#059669", "#dc2626", "#7c3aed", "#0891b2", "#4f46e5"];
+    let selectedVariant = variants.includes("real") ? "real" : variants[0];
+    let selectedNullMetric = "spectral_curl_ratio";
+
+    function numberValue(value) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function fmt(value, digits = 4) {
+      const n = numberValue(value);
+      if (n === null) return "NA";
+      const sign = n > 0 && Math.abs(n) < 1 ? "+" : "";
+      return sign + n.toFixed(digits);
+    }
+
+    function rowsFor(variant) {
+      return rows
+        .filter((row) => row.variant === variant)
+        .sort((a, b) => Number(a.layer) - Number(b.layer));
+    }
+
+    function metricLabel(metric) {
+      const all = [...report.energyMetrics, ...report.signedMetrics, ...report.nullMetrics];
+      const found = all.find((item) => item.key === metric);
+      return found ? found.label : metric;
+    }
+
+    function metricDomain(metric, series) {
+      const signed = metric.includes("signed") || metric.includes("vorticity");
+      if (signed) return [-1, 1];
+      const values = series.flatMap((line) => line.points.map((p) => p.y).filter((v) => Number.isFinite(v)));
+      const maxValue = Math.max(1, ...values);
+      return [0, Math.min(1, maxValue) === 1 ? 1 : maxValue * 1.08];
+    }
+
+    function makeSeries(variant, specs) {
+      const rr = rowsFor(variant);
+      return specs.map((spec, index) => ({
+        label: spec.label,
+        color: colors[index % colors.length],
+        metric: spec.key,
+        points: rr.map((row) => ({
+          x: Number(row.layer),
+          y: numberValue(row[spec.key]),
+          variant,
+          metric: spec.key
+        })).filter((point) => point.y !== null)
+      }));
+    }
+
+    function makeNullSeries(metric) {
+      return variants.map((variant, index) => ({
+        label: variant,
+        color: colors[index % colors.length],
+        metric,
+        points: rowsFor(variant).map((row) => ({
+          x: Number(row.layer),
+          y: numberValue(row[metric]),
+          variant,
+          metric
+        })).filter((point) => point.y !== null)
+      }));
+    }
+
+    function renderLegend(id, series) {
+      const el = document.getElementById(id);
+      el.replaceChildren();
+      for (const line of series) {
+        const item = document.createElement("span");
+        const swatch = document.createElement("i");
+        swatch.className = "swatch";
+        swatch.style.background = line.color;
+        item.appendChild(swatch);
+        item.append(document.createTextNode(line.label));
+        el.appendChild(item);
+      }
+    }
+
+    function renderChart(id, series, options = {}) {
+      const el = document.getElementById(id);
+      el.replaceChildren();
+      const width = 900;
+      const height = 320;
+      const margin = { top: 18, right: 24, bottom: 38, left: 54 };
+      const innerW = width - margin.left - margin.right;
+      const innerH = height - margin.top - margin.bottom;
+      const xMin = Math.min(...layers);
+      const xMax = Math.max(...layers);
+      const yDomain = options.yDomain || metricDomain(options.metric || "", series);
+      const yMin = yDomain[0];
+      const yMax = yDomain[1];
+      const sx = (x) => margin.left + ((x - xMin) / Math.max(xMax - xMin, 1)) * innerW;
+      const sy = (y) => margin.top + (1 - ((y - yMin) / Math.max(yMax - yMin, 1e-12))) * innerH;
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      svg.setAttribute("role", "img");
+      svg.setAttribute("aria-label", options.title || "metric chart");
+
+      function line(x1, y1, x2, y2, cls) {
+        const node = document.createElementNS(svg.namespaceURI, "line");
+        node.setAttribute("x1", x1);
+        node.setAttribute("y1", y1);
+        node.setAttribute("x2", x2);
+        node.setAttribute("y2", y2);
+        node.setAttribute("class", cls);
+        svg.appendChild(node);
+      }
+
+      const tickCount = 5;
+      for (let i = 0; i <= tickCount; i++) {
+        const y = yMin + (i / tickCount) * (yMax - yMin);
+        const py = sy(y);
+        line(margin.left, py, width - margin.right, py, "grid-line");
+        const text = document.createElementNS(svg.namespaceURI, "text");
+        text.setAttribute("x", margin.left - 10);
+        text.setAttribute("y", py + 4);
+        text.setAttribute("text-anchor", "end");
+        text.setAttribute("class", "axis");
+        text.textContent = y.toFixed(yMax <= 1 && yMin >= -1 ? 2 : 1);
+        svg.appendChild(text);
+      }
+      if (yMin < 0 && yMax > 0) {
+        line(margin.left, sy(0), width - margin.right, sy(0), "zero-line");
+      }
+      for (const layer of layers) {
+        const px = sx(layer);
+        line(px, height - margin.bottom, px, height - margin.bottom + 5, "axis");
+        const text = document.createElementNS(svg.namespaceURI, "text");
+        text.setAttribute("x", px);
+        text.setAttribute("y", height - 12);
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("class", "axis");
+        text.textContent = layer;
+        svg.appendChild(text);
+      }
+
+      for (const lineSpec of series) {
+        if (!lineSpec.points.length) continue;
+        const path = document.createElementNS(svg.namespaceURI, "path");
+        const d = lineSpec.points.map((point, index) => `${index === 0 ? "M" : "L"} ${sx(point.x).toFixed(2)} ${sy(point.y).toFixed(2)}`).join(" ");
+        path.setAttribute("d", d);
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke", lineSpec.color);
+        path.setAttribute("stroke-width", "2.4");
+        path.setAttribute("vector-effect", "non-scaling-stroke");
+        svg.appendChild(path);
+        for (const point of lineSpec.points) {
+          const circle = document.createElementNS(svg.namespaceURI, "circle");
+          circle.setAttribute("cx", sx(point.x));
+          circle.setAttribute("cy", sy(point.y));
+          circle.setAttribute("r", 4.5);
+          circle.setAttribute("fill", lineSpec.color);
+          circle.tabIndex = 0;
+          const title = document.createElementNS(svg.namespaceURI, "title");
+          title.textContent = `${point.variant} layer ${point.x} · ${lineSpec.label} = ${fmt(point.y)}`;
+          circle.appendChild(title);
+          circle.addEventListener("mouseenter", () => {
+            const readout = document.getElementById(options.readoutId);
+            if (readout) readout.textContent = title.textContent;
+          });
+          svg.appendChild(circle);
+        }
+      }
+      el.appendChild(svg);
+    }
+
+    function renderStats() {
+      const el = document.getElementById("stats");
+      el.replaceChildren();
+      const selectedRows = rowsFor(selectedVariant);
+      const spectralPeak = peak(selectedRows, "spectral_curl_ratio", false);
+      const signedPeak = peak(selectedRows, "spectral_signed_vorticity_ratio", true);
+      const statData = [
+        ["Rows", report.meta.rowCount, `${variants.length} variants · ${layers.length} layers`],
+        ["Token Window", report.meta.tokens, `${report.meta.dim} dimensions`],
+        ["Spectral Curl Peak", spectralPeak ? `L${spectralPeak.layer} · ${fmt(spectralPeak.value)}` : "NA", selectedVariant],
+        ["Signed Vorticity Peak", signedPeak ? `L${signedPeak.layer} · ${fmt(signedPeak.value)}` : "NA", selectedVariant]
+      ];
+      for (const [label, value, note] of statData) {
+        const node = document.createElement("div");
+        node.className = "stat";
+        node.innerHTML = `<div class="label"></div><div class="value"></div><div class="note"></div>`;
+        node.children[0].textContent = label;
+        node.children[1].textContent = value;
+        node.children[2].textContent = note;
+        el.appendChild(node);
+      }
+    }
+
+    function peak(rr, metric, absolute) {
+      let best = null;
+      for (const row of rr) {
+        const value = numberValue(row[metric]);
+        if (value === null) continue;
+        const score = absolute ? Math.abs(value) : value;
+        if (!best || score > best.score) best = { layer: Number(row.layer), value, score };
+      }
+      return best;
+    }
+
+    function renderVariantButtons() {
+      const el = document.getElementById("variantButtons");
+      el.replaceChildren();
+      for (const variant of variants) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = variant;
+        button.className = variant === selectedVariant ? "active" : "";
+        button.addEventListener("click", () => {
+          selectedVariant = variant;
+          renderAll();
+        });
+        el.appendChild(button);
+      }
+    }
+
+    function renderMetricSelect() {
+      const select = document.getElementById("nullMetricSelect");
+      if (select.children.length === 0) {
+        for (const item of report.nullMetrics) {
+          const option = document.createElement("option");
+          option.value = item.key;
+          option.textContent = item.label;
+          select.appendChild(option);
+        }
+        select.value = selectedNullMetric;
+        select.addEventListener("change", () => {
+          selectedNullMetric = select.value;
+          renderAll();
+        });
+      }
+    }
+
+    function renderTables() {
+      const peakTable = document.getElementById("peakTable");
+      peakTable.replaceChildren();
+      const peakHeader = peakTable.insertRow();
+      ["Variant", "Metric", "Layer", "Value"].forEach((text) => {
+        const th = document.createElement("th");
+        th.textContent = text;
+        peakHeader.appendChild(th);
+      });
+      for (const summary of report.variantSummaries) {
+        for (const item of [...report.energyMetrics, ...report.signedMetrics]) {
+          const peak = summary.peaks[item.key];
+          if (!peak) continue;
+          const row = peakTable.insertRow();
+          [summary.variant, item.label, peak.layer, fmt(peak.value)].forEach((value) => {
+            const cell = row.insertCell();
+            cell.textContent = value;
+          });
+        }
+      }
+
+      const layerTable = document.getElementById("layerTable");
+      layerTable.replaceChildren();
+      const columns = [
+        ["layer", "Layer"],
+        ["spectral_curl_ratio", "Spectral curl"],
+        ["hodge_curl_ratio", "Hodge curl"],
+        ["graph_high_freq_ratio", "Graph high"],
+        ["trajectory_signed_circulation_alignment", "Trajectory signed"],
+        ["spectral_signed_curl_alignment", "Spectral signed"],
+        ["spectral_signed_vorticity_ratio", "Vorticity signed"],
+        ["hodge_signed_curl_alignment", "Hodge signed"]
+      ];
+      const header = layerTable.insertRow();
+      columns.forEach(([, label]) => {
+        const th = document.createElement("th");
+        th.textContent = label;
+        header.appendChild(th);
+      });
+      for (const rowData of rowsFor(selectedVariant)) {
+        const row = layerTable.insertRow();
+        for (const [key] of columns) {
+          const cell = row.insertCell();
+          cell.textContent = key === "layer" ? rowData[key] : fmt(rowData[key]);
+        }
+      }
+    }
+
+    function renderReverseBadges() {
+      const el = document.getElementById("reverseBadges");
+      el.replaceChildren();
+      if (!report.reverseDiagnostics.length) {
+        el.textContent = "No real/reverse_tokens pair found.";
+        return;
+      }
+      for (const item of report.reverseDiagnostics) {
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent = `${item.label}: max |real + reverse| = ${item.maxAbsRealPlusReverse.toExponential(2)}`;
+        el.appendChild(badge);
+      }
+    }
+
+    function renderCharts() {
+      const energySeries = makeSeries(selectedVariant, report.energyMetrics);
+      renderChart("energyChart", energySeries, { yDomain: [0, 1], readoutId: "energyReadout", title: "curl energy" });
+      renderLegend("energyLegend", energySeries);
+
+      const signedSeries = makeSeries(selectedVariant, report.signedMetrics);
+      renderChart("signedChart", signedSeries, { yDomain: [-1, 1], readoutId: "signedReadout", title: "signed orientation" });
+      renderLegend("signedLegend", signedSeries);
+
+      const nullSeries = makeNullSeries(selectedNullMetric);
+      renderChart("nullChart", nullSeries, {
+        yDomain: metricDomain(selectedNullMetric, nullSeries),
+        metric: selectedNullMetric,
+        readoutId: "nullReadout",
+        title: metricLabel(selectedNullMetric)
+      });
+      renderLegend("nullLegend", nullSeries);
+    }
+
+    function renderMeta() {
+      const el = document.getElementById("reportMeta");
+      el.textContent = `${report.csvPath} · generated ${report.generatedAt}`;
+    }
+
+    function renderAll() {
+      renderMeta();
+      renderMetricSelect();
+      renderVariantButtons();
+      renderStats();
+      renderCharts();
+      renderTables();
+      renderReverseBadges();
+    }
+
+    renderAll();
+  </script>
+</body>
+</html>

@@ -28,6 +28,7 @@ dev = ["pytest"]
 
 [project.scripts]
 spiral-hodge = "spiral_hodge:main"
+spiral-hodge-report = "spiral_hodge_report:main"
 
 [tool.setuptools]
-py-modules = ["spiral_hodge"]
+py-modules = ["spiral_hodge", "spiral_hodge_report"]

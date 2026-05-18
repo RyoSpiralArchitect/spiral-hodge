@@ -56,6 +56,7 @@ That sign flip is the point: the unsigned energy says "there is curl-like struct
 ```text
 .
 ├── spiral_hodge.py                  # CLI and analysis implementation
+├── spiral_hodge_report.py           # static interactive HTML report generator
 ├── tests/test_spiral_hodge.py        # path resolution and signed-orientation tests
 ├── examples/izumi-gpt2/              # sample CSV and plots from a GPT-2 run
 ├── requirements.txt
@@ -112,6 +113,14 @@ spiral_out_synthetic/layer_metrics.csv
 spiral_out_synthetic/null_model_curl_spectral.png
 spiral_out_synthetic/null_model_signed_spectral_curl.png
 ...
+```
+
+Generate a static HTML report from the CSV:
+
+```bash
+python3 spiral_hodge_report.py \
+  --run-dir spiral_out_synthetic \
+  --output report.html
 ```
 
 ## Running With a Local Hugging Face Model
@@ -317,3 +326,28 @@ The safest reading is not "the model literally thinks in spirals." The safer cla
 > Under this projection and decomposition, some layers produce vector-field structure with measurable curl energy and signed handedness that can be compared against simple controls.
 
 That is already interesting enough.
+
+## Interactive HTML Report
+
+`spiral_hodge_report.py` turns an existing `layer_metrics.csv` into a standalone
+HTML dashboard. It does not rerun the model and it does not require a web server.
+
+```bash
+python3 spiral_hodge_report.py \
+  --run-dir examples/izumi-gpt2 \
+  --output report.html \
+  --title "Izumi / GPT-2 Spiral Hodge Report"
+```
+
+The report includes:
+
+- selected-variant curl energy charts
+- selected-variant signed orientation charts
+- real vs null-model comparison for any key metric
+- peak layer summaries
+- reverse-direction cancellation diagnostics
+- a sortable-by-eye layer table for the most useful metrics
+
+The committed example report is here:
+
+[examples/izumi-gpt2/report.html](examples/izumi-gpt2/report.html)
