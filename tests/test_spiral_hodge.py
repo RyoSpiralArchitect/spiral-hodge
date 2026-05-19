@@ -117,6 +117,55 @@ class TestSignedOrientationMetrics(unittest.TestCase):
             places=10,
         )
 
+    def test_trajectory_turning_flips_under_reversal(self) -> None:
+        theta = np.linspace(0.0, 1.75 * np.pi, 16)
+        coords = np.stack([np.cos(theta), np.sin(theta)], axis=1)[None, :, :]
+        field = hodge.token_trajectory_field(coords, layer=0)
+        rev_field = hodge.token_trajectory_field(coords[:, ::-1, :], layer=0)
+
+        metric = hodge.trajectory_turning_metrics(field.vectors)
+        rev_metric = hodge.trajectory_turning_metrics(rev_field.vectors)
+
+        self.assertGreater(metric["signed_angle"], 0.0)
+        self.assertAlmostEqual(metric["signed_angle"], -rev_metric["signed_angle"], places=10)
+        self.assertAlmostEqual(metric["alignment"], -rev_metric["alignment"], places=10)
+
+    def test_local_jacobian_vorticity_flips_under_reversal(self) -> None:
+        theta = np.linspace(0.0, 1.75 * np.pi, 18)
+        coords = np.stack([np.cos(theta), np.sin(theta)], axis=1)[None, :, :]
+        field = hodge.token_trajectory_field(coords, layer=0)
+        rev_field = hodge.token_trajectory_field(coords[:, ::-1, :], layer=0)
+
+        metric = hodge.local_jacobian_vorticity_metrics(field.points, field.vectors, k_neighbors=6)
+        rev_metric = hodge.local_jacobian_vorticity_metrics(rev_field.points, rev_field.vectors, k_neighbors=6)
+
+        self.assertAlmostEqual(
+            metric["signed_vorticity_mean"],
+            -rev_metric["signed_vorticity_mean"],
+            places=10,
+        )
+        self.assertAlmostEqual(metric["abs_vorticity_mean"], rev_metric["abs_vorticity_mean"], places=10)
+
+    def test_spectral_curl_bands_partition_curl_energy(self) -> None:
+        theta = np.linspace(0.0, 1.75 * np.pi, 16)
+        coords = np.stack([np.cos(theta), np.sin(theta)], axis=1)[None, :, :]
+        field = hodge.token_trajectory_field(coords, layer=0)
+
+        spec = hodge.vector_spectrum(field.points, field.vectors, modes=16, backend="direct")
+        hspec = hodge.helmholtz_project_spectrum(spec)
+        bands = hodge.spectral_curl_band_metrics(spec, hspec)
+
+        self.assertAlmostEqual(
+            bands["curl_low_ratio"] + bands["curl_mid_ratio"] + bands["curl_high_ratio"],
+            hspec.energy["curl_ratio"],
+            places=12,
+        )
+        self.assertAlmostEqual(
+            bands["curl_low_band_ratio"] + bands["curl_mid_band_ratio"] + bands["curl_high_band_ratio"],
+            1.0,
+            places=12,
+        )
+
 
 @unittest.skipUnless(_jax_available(), "JAX is not installed")
 class TestJaxFourierBackend(unittest.TestCase):
@@ -171,6 +220,9 @@ class TestReportGeneration(unittest.TestCase):
                 "hodge_curl_ratio": 0.2,
                 "graph_high_freq_ratio": 0.1,
                 "trajectory_signed_circulation_alignment": -0.2,
+                "turning_alignment": -0.25,
+                "local_signed_vorticity_ratio": -0.35,
+                "spectral_curl_high_ratio": 0.04,
                 "spectral_signed_curl_alignment": -0.3,
                 "hodge_signed_curl_alignment": 0.01,
                 "spectral_signed_vorticity_ratio": -0.4,
@@ -185,6 +237,9 @@ class TestReportGeneration(unittest.TestCase):
                 "hodge_curl_ratio": 0.2,
                 "graph_high_freq_ratio": 0.1,
                 "trajectory_signed_circulation_alignment": 0.2,
+                "turning_alignment": 0.25,
+                "local_signed_vorticity_ratio": 0.35,
+                "spectral_curl_high_ratio": 0.04,
                 "spectral_signed_curl_alignment": 0.3,
                 "hodge_signed_curl_alignment": -0.01,
                 "spectral_signed_vorticity_ratio": 0.4,
@@ -210,6 +265,8 @@ class TestReportGeneration(unittest.TestCase):
         self.assertIn("Test Spiral Hodge Report", html)
         self.assertIn("variantButtons", html)
         self.assertIn("spectral_signed_vorticity_ratio", html)
+        self.assertIn("spectral_curl_high_ratio", html)
+        self.assertIn("local_signed_vorticity_ratio", html)
 
     def test_write_report_from_csv(self) -> None:
         with tempfile.TemporaryDirectory() as td:

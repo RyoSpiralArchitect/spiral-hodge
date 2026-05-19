@@ -17,20 +17,34 @@ from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 ENERGY_METRICS = [
     ("spectral_curl_ratio", "Spectral curl"),
+    ("spectral_curl_low_ratio", "Spectral low curl"),
+    ("spectral_curl_high_ratio", "Spectral high curl"),
     ("hodge_curl_ratio", "Hodge curl"),
+    ("local_abs_vorticity_mean", "Local vorticity"),
+    ("turning_mean_abs_angle", "Path turning"),
     ("graph_high_freq_ratio", "Graph high freq"),
 ]
 
 SIGNED_METRICS = [
     ("trajectory_signed_circulation_alignment", "Trajectory circulation"),
+    ("turning_alignment", "Path turning"),
     ("spectral_signed_curl_alignment", "Spectral curl circulation"),
+    ("local_signed_vorticity_ratio", "Local Jacobian vorticity"),
     ("hodge_signed_curl_alignment", "Hodge face curl"),
     ("spectral_signed_vorticity_ratio", "Spectral vorticity"),
 ]
 
 DEFAULT_NULL_METRICS = [
     ("spectral_curl_ratio", "Spectral curl ratio"),
+    ("spectral_curl_low_ratio", "Spectral low curl ratio"),
+    ("spectral_curl_mid_ratio", "Spectral mid curl ratio"),
+    ("spectral_curl_high_ratio", "Spectral high curl ratio"),
+    ("spectral_curl_high_band_ratio", "High curl share"),
     ("hodge_curl_ratio", "Hodge curl ratio"),
+    ("local_abs_vorticity_mean", "Local abs vorticity"),
+    ("local_signed_vorticity_ratio", "Local signed vorticity"),
+    ("turning_mean_abs_angle", "Trajectory mean abs turning"),
+    ("turning_alignment", "Trajectory turning alignment"),
     ("trajectory_signed_circulation_alignment", "Trajectory signed circulation"),
     ("spectral_signed_curl_alignment", "Spectral signed curl"),
     ("spectral_signed_vorticity_ratio", "Spectral signed vorticity"),
@@ -552,7 +566,7 @@ def build_report_html(
     }}
 
     function metricDomain(metric, series) {{
-      const signed = metric.includes("signed") || metric.includes("vorticity");
+      const signed = metric.includes("signed") || metric.includes("vorticity") || metric.includes("alignment");
       if (signed) return [-1, 1];
       const values = series.flatMap((line) => line.points.map((p) => p.y).filter((v) => Number.isFinite(v)));
       const maxValue = Math.max(1, ...values);
@@ -783,7 +797,10 @@ def build_report_html(
       const columns = [
         ["layer", "Layer"],
         ["spectral_curl_ratio", "Spectral curl"],
+        ["spectral_curl_high_ratio", "High curl"],
         ["hodge_curl_ratio", "Hodge curl"],
+        ["local_signed_vorticity_ratio", "Local signed"],
+        ["turning_alignment", "Turning"],
         ["graph_high_freq_ratio", "Graph high"],
         ["trajectory_signed_circulation_alignment", "Trajectory signed"],
         ["spectral_signed_curl_alignment", "Spectral signed"],

@@ -20,7 +20,9 @@ For an input text and a causal LM, `spiral_hodge.py` runs this pipeline:
 6. Build a graph Fourier spectrum over sampled trajectory points.
 7. Build a Delaunay complex over token coordinates and run a discrete Hodge decomposition over edge flows.
 8. Compute signed circulation and signed curl metrics, so reversed token order can be distinguished from the original direction.
-9. Export CSV metrics and diagnostic plots across every layer and optional null models.
+9. Split spectral curl into low/mid/high frequency bands to separate coherent transport from high-frequency rotational clutter.
+10. Add Hodge-independent vortex proxies: intrinsic trajectory turning and local Jacobian vorticity.
+11. Export CSV metrics and diagnostic plots across every layer and optional null models.
 
 ## Why Signed Curl Matters
 
@@ -208,9 +210,12 @@ The generated `layer_metrics.csv` contains one row per variant and layer.
 Important column groups:
 
 - `spectral_*`: Fourier-domain Helmholtz energy totals and ratios.
+- `spectral_curl_low_*`, `spectral_curl_mid_*`, `spectral_curl_high_*`: Fourier curl split into radial frequency bands.
 - `hodge_*`: discrete Hodge energy totals and ratios over triangulated edge flows.
 - `graph_*`: graph Fourier low/high frequency summaries.
 - `trajectory_signed_*`: signed circulation of the raw token trajectory.
+- `turning_*`: intrinsic path-turning angles between consecutive token-step vectors.
+- `local_*`: local affine-Jacobian vorticity estimates that do not use Hodge or Fourier.
 - `spectral_signed_*`: signed circulation and vorticity of the Fourier curl component.
 - `hodge_signed_*`: signed face-circulation metrics from the discrete Hodge curl component.
 
@@ -218,7 +223,9 @@ The most immediately useful signed columns are:
 
 ```text
 trajectory_signed_circulation_alignment
+turning_alignment
 spectral_signed_curl_alignment
+local_signed_vorticity_ratio
 spectral_signed_vorticity_ratio
 hodge_signed_curl_alignment
 ```

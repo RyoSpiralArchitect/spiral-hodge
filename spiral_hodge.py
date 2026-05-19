@@ -930,6 +930,122 @@ def signed_circulation_metrics(points: Array, vectors: Array, *, center: Optiona
     }
 
 
+def trajectory_turning_metrics(vectors: Array) -> Dict[str, float]:
+    """Intrinsic signed turning angles along the token trajectory.
+
+    This is independent of Fourier bases, graph construction, and Hodge
+    triangulation. It measures whether consecutive token-step vectors keep
+    turning in one preferred direction.
+    """
+
+    V = np.asarray(vectors, dtype=np.float64)[:, :2]
+    if len(V) < 2:
+        return {
+            "signed_angle": float("nan"),
+            "abs_angle": float("nan"),
+            "alignment": float("nan"),
+            "mean_abs_angle": float("nan"),
+            "rms_angle": float("nan"),
+            "max_abs_angle": float("nan"),
+            "samples": 0.0,
+        }
+
+    norms = np.linalg.norm(V, axis=1)
+    keep = norms > 1e-12
+    if int(np.sum(keep)) < 2:
+        return {
+            "signed_angle": float("nan"),
+            "abs_angle": float("nan"),
+            "alignment": float("nan"),
+            "mean_abs_angle": float("nan"),
+            "rms_angle": float("nan"),
+            "max_abs_angle": float("nan"),
+            "samples": 0.0,
+        }
+
+    U = V[keep] / norms[keep, None]
+    cross = U[:-1, 0] * U[1:, 1] - U[:-1, 1] * U[1:, 0]
+    dot = np.sum(U[:-1] * U[1:], axis=1)
+    angles = np.arctan2(cross, np.clip(dot, -1.0, 1.0))
+    signed = float(np.sum(angles))
+    abs_total = float(np.sum(np.abs(angles)))
+    return {
+        "signed_angle": signed,
+        "abs_angle": abs_total,
+        "alignment": signed / max(abs_total, 1e-30),
+        "mean_abs_angle": float(np.mean(np.abs(angles))),
+        "rms_angle": float(np.sqrt(np.mean(angles**2))),
+        "max_abs_angle": float(np.max(np.abs(angles))),
+        "samples": float(len(angles)),
+    }
+
+
+def local_jacobian_vorticity_metrics(points: Array, vectors: Array, *, k_neighbors: int = 6) -> Dict[str, float]:
+    """Estimate local curl by fitting small affine Jacobians around each point.
+
+    For each sample, this fits V(x, y) = [x, y] B + b on nearby vector samples and
+    reads scalar vorticity as dVy/dx - dVx/dy. It is a non-Hodge, non-Fourier
+    local curl proxy, useful for separating rotational clutter from coherent
+    large-scale transport.
+    """
+
+    from scipy.spatial import cKDTree
+
+    P = np.asarray(points, dtype=np.float64)[:, :2]
+    V = np.asarray(vectors, dtype=np.float64)[:, :2]
+    if len(P) != len(V):
+        raise ValueError(f"points and vectors length mismatch: {len(P)} vs {len(V)}")
+    if len(P) < 4:
+        return {
+            "signed_vorticity_mean": float("nan"),
+            "abs_vorticity_mean": float("nan"),
+            "signed_vorticity_ratio": float("nan"),
+            "vorticity_rms": float("nan"),
+            "max_abs_vorticity": float("nan"),
+            "vorticity_samples": 0.0,
+        }
+
+    k_eff = min(max(4, int(k_neighbors)), len(P))
+    tree = cKDTree(P)
+    _, inds = tree.query(P, k=k_eff)
+    if inds.ndim == 1:
+        inds = inds[:, None]
+
+    omega: List[float] = []
+    for i, nbr in enumerate(inds):
+        X = P[nbr] - P[i]
+        Y = V[nbr] - np.mean(V[nbr], axis=0, keepdims=True)
+        if np.linalg.matrix_rank(X) < 2:
+            continue
+        try:
+            B, *_ = np.linalg.lstsq(X, Y, rcond=None)
+        except np.linalg.LinAlgError:
+            continue
+        omega.append(float(B[0, 1] - B[1, 0]))
+
+    if not omega:
+        return {
+            "signed_vorticity_mean": float("nan"),
+            "abs_vorticity_mean": float("nan"),
+            "signed_vorticity_ratio": float("nan"),
+            "vorticity_rms": float("nan"),
+            "max_abs_vorticity": float("nan"),
+            "vorticity_samples": 0.0,
+        }
+
+    W = np.asarray(omega, dtype=np.float64)
+    mean = float(np.mean(W))
+    abs_mean = float(np.mean(np.abs(W)))
+    return {
+        "signed_vorticity_mean": mean,
+        "abs_vorticity_mean": abs_mean,
+        "signed_vorticity_ratio": mean / max(abs_mean, 1e-30),
+        "vorticity_rms": float(np.sqrt(np.mean(W**2))),
+        "max_abs_vorticity": float(np.max(np.abs(W))),
+        "vorticity_samples": float(len(W)),
+    }
+
+
 def evaluate_vector_coefficients_at_points(
     coeffs: Array,
     kx: Array,
@@ -1096,6 +1212,65 @@ def jax_evaluate_vorticity_coefficients_at_points(
         jnp.asarray(np.asarray(points, dtype=np.float64)[:, :2], dtype=dtype),
     )
     return np.asarray(jax.device_get(out), dtype=np.float64)
+
+
+def spectral_curl_band_metrics(
+    spec: FourierSpectrum,
+    hspec: HelmholtzSpectrum,
+    *,
+    low_cut: float = 1.0 / 3.0,
+    high_cut: float = 2.0 / 3.0,
+) -> Dict[str, float]:
+    """Split Fourier Helmholtz curl energy into radial frequency bands.
+
+    The ``*_ratio`` values are relative to total spectral energy and sum to the
+    overall ``spectral_curl_ratio``. The ``*_band_ratio`` values are relative to
+    curl energy only and sum to one when curl energy is present.
+    """
+
+    coeffs = np.asarray(hspec.curl_coeffs, dtype=np.complex128)
+    if coeffs.ndim != 3 or coeffs.shape[0] != 2:
+        raise ValueError(f"curl coeffs must have shape [2,modes,modes], got {coeffs.shape}")
+    KX, KY = np.meshgrid(np.asarray(spec.kx, dtype=np.float64), np.asarray(spec.ky, dtype=np.float64), indexing="ij")
+    radius = np.sqrt(KX**2 + KY**2)
+    max_radius = float(np.max(radius)) if radius.size else 0.0
+    if max_radius <= 0.0:
+        return {
+            "curl_low": float("nan"),
+            "curl_mid": float("nan"),
+            "curl_high": float("nan"),
+            "curl_low_ratio": float("nan"),
+            "curl_mid_ratio": float("nan"),
+            "curl_high_ratio": float("nan"),
+            "curl_low_band_ratio": float("nan"),
+            "curl_mid_band_ratio": float("nan"),
+            "curl_high_band_ratio": float("nan"),
+        }
+
+    low_edge = float(low_cut) * max_radius
+    high_edge = float(high_cut) * max_radius
+    curl_power = np.abs(coeffs[0]) ** 2 + np.abs(coeffs[1]) ** 2
+    masks = {
+        "low": radius <= low_edge,
+        "mid": (radius > low_edge) & (radius <= high_edge),
+        "high": radius > high_edge,
+    }
+    powers = {name: float(np.sum(curl_power[mask])) for name, mask in masks.items()}
+    total_energy = float(hspec.energy.get("total", np.sum(curl_power)))
+    curl_energy = float(hspec.energy.get("curl", np.sum(curl_power)))
+    total_denom = max(total_energy, 1e-30)
+    curl_denom = max(curl_energy, 1e-30)
+    return {
+        "curl_low": powers["low"],
+        "curl_mid": powers["mid"],
+        "curl_high": powers["high"],
+        "curl_low_ratio": powers["low"] / total_denom,
+        "curl_mid_ratio": powers["mid"] / total_denom,
+        "curl_high_ratio": powers["high"] / total_denom,
+        "curl_low_band_ratio": powers["low"] / curl_denom,
+        "curl_mid_band_ratio": powers["mid"] / curl_denom,
+        "curl_high_band_ratio": powers["high"] / curl_denom,
+    }
 
 
 def spectral_signed_curl_metrics(spec: FourierSpectrum, hspec: HelmholtzSpectrum) -> Dict[str, float]:
@@ -1414,6 +1589,19 @@ LAYER_SWEEP_FIELDS = [
     "trajectory_abs_circulation",
     "trajectory_signed_circulation_ratio",
     "trajectory_signed_circulation_alignment",
+    "turning_signed_angle",
+    "turning_abs_angle",
+    "turning_alignment",
+    "turning_mean_abs_angle",
+    "turning_rms_angle",
+    "turning_max_abs_angle",
+    "turning_samples",
+    "local_signed_vorticity_mean",
+    "local_abs_vorticity_mean",
+    "local_signed_vorticity_ratio",
+    "local_vorticity_rms",
+    "local_max_abs_vorticity",
+    "local_vorticity_samples",
     "spectral_total",
     "spectral_grad_ratio",
     "spectral_curl_ratio",
@@ -1421,6 +1609,15 @@ LAYER_SWEEP_FIELDS = [
     "spectral_grad",
     "spectral_curl",
     "spectral_harmonic",
+    "spectral_curl_low",
+    "spectral_curl_mid",
+    "spectral_curl_high",
+    "spectral_curl_low_ratio",
+    "spectral_curl_mid_ratio",
+    "spectral_curl_high_ratio",
+    "spectral_curl_low_band_ratio",
+    "spectral_curl_mid_band_ratio",
+    "spectral_curl_high_band_ratio",
     "spectral_signed_curl_circulation",
     "spectral_abs_curl_circulation",
     "spectral_signed_curl_circulation_ratio",
@@ -1579,8 +1776,14 @@ def layer_metric_row(
 
     if "trajectory_signed" in result:
         _copy_metrics("trajectory", result["trajectory_signed"], row)
+    if "trajectory_turning" in result:
+        _copy_metrics("turning", result["trajectory_turning"], row)
+    if "local_vorticity" in result:
+        _copy_metrics("local", result["local_vorticity"], row)
     if "spectral_helmholtz" in result:
         _copy_energy("spectral", result["spectral_helmholtz"].energy, row)
+    if "spectral_curl_bands" in result:
+        _copy_metrics("spectral", result["spectral_curl_bands"], row)
     if "spectral_signed" in result:
         _copy_metrics("spectral", result["spectral_signed"], row)
     if "hodge" in result:
@@ -1613,14 +1816,22 @@ def analyze_layer_from_coordinates(
         "coordinates": coord,
         "field": field,
         "trajectory_signed": signed_circulation_metrics(field.points, field.vectors),
+        "trajectory_turning": trajectory_turning_metrics(field.vectors),
+        "local_vorticity": local_jacobian_vorticity_metrics(field.points, field.vectors, k_neighbors=k_neighbors),
     }
 
     if do_fourier:
         try:
             fspec = vector_spectrum(field.points, field.vectors, modes=fourier_modes, backend=fourier_backend)
             hspec = helmholtz_project_spectrum(fspec)
+            bands = spectral_curl_band_metrics(fspec, hspec)
             signed = spectral_signed_curl_metrics(fspec, hspec)
-            result.update({"fourier": fspec, "spectral_helmholtz": hspec, "spectral_signed": signed})
+            result.update({
+                "fourier": fspec,
+                "spectral_helmholtz": hspec,
+                "spectral_curl_bands": bands,
+                "spectral_signed": signed,
+            })
         except Exception as e:
             warnings.warn(f"Layer {field.layer}: Fourier/Helmholtz failed: {e}")
 
@@ -1767,6 +1978,39 @@ def plot_curl_comparison(rows: Sequence[Dict[str, Any]], *, variant: str = "real
     return fig, ax
 
 
+def plot_spectral_curl_bands(rows: Sequence[Dict[str, Any]], *, variant: str = "real"):
+    """Plot Fourier Helmholtz curl energy split by low/mid/high frequency."""
+
+    import matplotlib.pyplot as plt
+
+    rr = _rows_for_variant(rows, variant)
+    if not rr:
+        raise ValueError(f"No rows for variant={variant}")
+    layers = np.asarray([int(r["layer"]) for r in rr])
+    metrics = [
+        ("spectral_curl_low_ratio", "low-frequency curl"),
+        ("spectral_curl_mid_ratio", "mid-frequency curl"),
+        ("spectral_curl_high_ratio", "high-frequency curl"),
+    ]
+    fig, ax = plt.subplots(figsize=(8, 4.5))
+    plotted = False
+    for key, label in metrics:
+        y = np.asarray([float(r.get(key, float("nan"))) for r in rr], dtype=np.float64)
+        if np.all(np.isnan(y)):
+            continue
+        ax.plot(layers, y, marker="o", label=label)
+        plotted = True
+    if not plotted:
+        raise ValueError(f"No spectral curl band metrics for variant={variant}")
+    ax.set_title(f"Spectral curl frequency bands by layer ({variant})")
+    ax.set_xlabel("layer")
+    ax.set_ylabel("curl-band energy / total spectral energy")
+    ax.set_ylim(bottom=0.0)
+    ax.legend()
+    fig.tight_layout()
+    return fig, ax
+
+
 def plot_null_model_curl(
     rows: Sequence[Dict[str, Any]],
     *,
@@ -1810,7 +2054,9 @@ def plot_signed_circulation_comparison(rows: Sequence[Dict[str, Any]], *, varian
     layers = np.asarray([int(r["layer"]) for r in rr])
     metrics = [
         ("trajectory_signed_circulation_alignment", "trajectory circulation"),
+        ("turning_alignment", "trajectory turning"),
         ("spectral_signed_curl_alignment", "spectral curl circulation"),
+        ("local_signed_vorticity_ratio", "local Jacobian vorticity"),
         ("hodge_signed_curl_alignment", "hodge face curl"),
         ("spectral_signed_vorticity_ratio", "spectral vorticity"),
     ]
@@ -1910,9 +2156,19 @@ def save_layer_sweep_plots(rows: Sequence[Dict[str, Any]], output_dir: Union[str
             saved.append(path)
             plt.close(fig)
 
+        has_bands = any(not np.isnan(float(r.get("spectral_curl_high_ratio", float("nan")))) for r in real_rows)
+        if has_bands:
+            fig, _ = plot_spectral_curl_bands(rows, variant=variant)
+            path = outdir / f"spectral_curl_bands_{variant}.png"
+            fig.savefig(path, dpi=160)
+            saved.append(path)
+            plt.close(fig)
+
         signed_keys = [
             "trajectory_signed_circulation_alignment",
+            "turning_alignment",
             "spectral_signed_curl_alignment",
+            "local_signed_vorticity_ratio",
             "hodge_signed_curl_alignment",
             "spectral_signed_vorticity_ratio",
         ]
@@ -1939,7 +2195,9 @@ def save_layer_sweep_plots(rows: Sequence[Dict[str, Any]], output_dir: Union[str
 
     signed_plot_specs = [
         ("trajectory_signed_circulation_alignment", "Trajectory signed circulation: real vs null models", "null_model_signed_trajectory.png"),
+        ("turning_alignment", "Trajectory turning alignment: real vs null models", "null_model_turning_alignment.png"),
         ("spectral_signed_curl_alignment", "Spectral signed curl circulation: real vs null models", "null_model_signed_spectral_curl.png"),
+        ("local_signed_vorticity_ratio", "Local Jacobian signed vorticity: real vs null models", "null_model_local_signed_vorticity.png"),
         ("hodge_signed_curl_alignment", "Hodge signed face curl: real vs null models", "null_model_signed_hodge_curl.png"),
         ("spectral_signed_vorticity_ratio", "Spectral signed vorticity: real vs null models", "null_model_signed_spectral_vorticity.png"),
     ]
@@ -1975,9 +2233,21 @@ def print_layer_sweep_summary(rows: Sequence[Dict[str, Any]]) -> None:
             idx = int(np.nanargmax(vals))
             layer = int(rr[idx]["layer"])
             print(f"  {source} curl peak: layer={layer}, ratio={vals[idx]:.4f}")
+        for key, label in [
+            ("spectral_curl_low_ratio", "low-frequency spectral curl"),
+            ("spectral_curl_high_ratio", "high-frequency spectral curl"),
+        ]:
+            vals = np.asarray([float(r.get(key, float("nan"))) for r in rr], dtype=np.float64)
+            if vals.size == 0 or np.all(np.isnan(vals)):
+                continue
+            idx = int(np.nanargmax(vals))
+            layer = int(rr[idx]["layer"])
+            print(f"  {label} peak: layer={layer}, ratio={vals[idx]:.4f}")
         signed_specs = [
             ("trajectory_signed_circulation_alignment", "trajectory signed circulation"),
+            ("turning_alignment", "trajectory turning"),
             ("spectral_signed_curl_alignment", "spectral signed curl"),
+            ("local_signed_vorticity_ratio", "local Jacobian vorticity"),
             ("hodge_signed_curl_alignment", "hodge signed curl"),
             ("spectral_signed_vorticity_ratio", "spectral signed vorticity"),
         ]
@@ -2023,6 +2293,8 @@ def run_pipeline_from_hidden(
         "coordinates": coord,
         "field": field,
         "trajectory_signed": signed_circulation_metrics(field.points, field.vectors),
+        "trajectory_turning": trajectory_turning_metrics(field.vectors),
+        "local_vorticity": local_jacobian_vorticity_metrics(field.points, field.vectors, k_neighbors=k_neighbors),
     }
 
     if do_fourier:
@@ -2030,8 +2302,14 @@ def run_pipeline_from_hidden(
         try:
             fspec = vector_spectrum(field.points, field.vectors, modes=fourier_modes, backend=fourier_backend)
             hspec = helmholtz_project_spectrum(fspec)
+            bands = spectral_curl_band_metrics(fspec, hspec)
             signed = spectral_signed_curl_metrics(fspec, hspec)
-            result.update({"fourier": fspec, "spectral_helmholtz": hspec, "spectral_signed": signed})
+            result.update({
+                "fourier": fspec,
+                "spectral_helmholtz": hspec,
+                "spectral_curl_bands": bands,
+                "spectral_signed": signed,
+            })
         except Exception as e:
             warnings.warn(f"Fourier/Helmholtz failed: {e}")
 
@@ -2107,6 +2385,7 @@ def _format_energy(name: str, energy: Dict[str, float]) -> str:
 
 def _format_signed(name: str, metrics: Dict[str, float]) -> str:
     preferred = [
+        "alignment",
         "signed_circulation_alignment",
         "signed_curl_alignment",
         "signed_vorticity_ratio",
@@ -2271,8 +2550,20 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     if "spectral_helmholtz" in result:
         backend = result["fourier"].backend
         print(_format_energy(f"spectral Helmholtz ({backend})", result["spectral_helmholtz"].energy))
+    if "spectral_curl_bands" in result:
+        b = result["spectral_curl_bands"]
+        print(
+            "spectral curl bands: "
+            f"low={b.get('curl_low_ratio', float('nan')):.4f}, "
+            f"mid={b.get('curl_mid_ratio', float('nan')):.4f}, "
+            f"high={b.get('curl_high_ratio', float('nan')):.4f}"
+        )
     if "trajectory_signed" in result:
         print(_format_signed("trajectory signed circulation", result["trajectory_signed"]))
+    if "trajectory_turning" in result:
+        print(_format_signed("trajectory turning", result["trajectory_turning"]))
+    if "local_vorticity" in result:
+        print(_format_signed("local Jacobian vorticity", result["local_vorticity"]))
     if "spectral_signed" in result:
         print(_format_signed("spectral signed curl", result["spectral_signed"]))
     if "hodge" in result:
