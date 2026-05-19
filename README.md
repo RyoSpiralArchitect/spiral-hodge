@@ -53,12 +53,51 @@ spectral_signed_vorticity_ratio         = +0.6479
 
 That sign flip is the point: the unsigned energy says "there is curl-like structure"; the signed metrics say "the structure has a direction."
 
+## Current Research Reading
+
+The first live JAX run shifted the working hypothesis. The early intuition was:
+
+> meaning formation creates vortex-like structure.
+
+The more useful version now looks like:
+
+> coherent autoregressive representation may suppress high-frequency rotational disorder while preserving or reorganizing larger-scale transport.
+
+In the short GPT-2 prompt:
+
+```text
+The serpent coils not around the tree, but around cognition.
+```
+
+the `reverse_tokens` baseline behaves exactly as a signed-orientation sanity check should: unsigned energy stays the same, while signed trajectory, spectral curl, spectral vorticity, Hodge curl, and local Jacobian vorticity flip sign.
+
+The stronger separation is not in total spectral curl. It is in smoothness and local rotational clutter:
+
+```text
+graph_high_freq_ratio mean
+real:          0.4063
+shuffle:       0.7703
+random_hidden: 0.6968
+
+hodge_curl_ratio mean
+real:          0.1109
+shuffle:       0.4928
+random_hidden: 0.2647
+```
+
+This suggests that `graph_*` and `hodge_*` are currently better detectors of local disorder, while `spectral_*` may be closer to a mixture of global transport and generic curl induced by projection. The research question is therefore not just "is there a vortex?" but:
+
+> which scales of rotational structure are suppressed, preserved, or amplified across layers and null models?
+
+See [docs/research_notes.md](docs/research_notes.md) for the fuller interpretation, caveats, and next experiments.
+
 ## Repository Layout
 
 ```text
 .
 ├── spiral_hodge.py                  # CLI and analysis implementation
 ├── spiral_hodge_report.py           # static interactive HTML report generator
+├── docs/research_notes.md            # current hypotheses and live-run interpretation
 ├── tests/test_spiral_hodge.py        # path resolution and signed-orientation tests
 ├── examples/izumi-gpt2/              # sample CSV and plots from a GPT-2 run
 ├── requirements.txt
