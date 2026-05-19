@@ -7,4 +7,5 @@ transformers
 
 # Optional accelerators / reducers:
 # finufft
+# jax
 # umap-learn

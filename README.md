@@ -85,10 +85,11 @@ Optional dependencies:
 
 ```bash
 pip install finufft      # optional faster native Fourier backend
+pip install jax          # optional JAX/XLA direct Fourier backend
 pip install umap-learn   # optional UMAP reducer
 ```
 
-The default Fourier backend is `direct`, which avoids native FINUFFT crashes and is safer for small to medium token sequences.
+The default Fourier backend is `direct`, which avoids native FINUFFT crashes and is safer for small to medium token sequences. Use `--fourier-backend jax` to run the direct nonuniform Fourier and signed-curl evaluation kernels through JAX/XLA when JAX is installed.
 
 ## Quick Start Without a Model
 
@@ -284,7 +285,7 @@ Common options:
 --layer N                     single-layer mode
 --null-models LIST            real, shuffle_tokens, reverse_tokens, random_hidden, all
 --reducer pca|umap            semantic coordinate reducer
---fourier-backend direct|finufft
+--fourier-backend direct|finufft|jax
 --fourier-modes N
 --graph-eigs N
 --k-neighbors N

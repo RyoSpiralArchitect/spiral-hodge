@@ -9,6 +9,15 @@ import spiral_hodge as hodge
 import spiral_hodge_report as report
 
 
+def _jax_available() -> bool:
+    try:
+        import jax  # noqa: F401
+        import jax.numpy as jnp  # noqa: F401
+    except Exception:
+        return False
+    return True
+
+
 class TestHFModelRefResolution(unittest.TestCase):
     def test_model_path_overrides_hub_name(self) -> None:
         with tempfile.TemporaryDirectory() as td:
@@ -106,6 +115,46 @@ class TestSignedOrientationMetrics(unittest.TestCase):
             metric["signed_vorticity_ratio"],
             -rev_metric["signed_vorticity_ratio"],
             places=10,
+        )
+
+
+@unittest.skipUnless(_jax_available(), "JAX is not installed")
+class TestJaxFourierBackend(unittest.TestCase):
+    def _field(self) -> hodge.VectorFieldBundle:
+        theta = np.linspace(0.0, 1.8 * np.pi, 18)
+        radius = np.linspace(0.7, 1.2, theta.size)
+        coords = np.stack([radius * np.cos(theta), radius * np.sin(theta)], axis=1)[None, :, :]
+        return hodge.token_trajectory_field(coords, layer=0)
+
+    def test_jax_spectrum_matches_direct_backend(self) -> None:
+        field = self._field()
+
+        direct = hodge.vector_spectrum(field.points, field.vectors, modes=8, backend="direct")
+        jax_spec = hodge.vector_spectrum(field.points, field.vectors, modes=8, backend="jax")
+
+        self.assertEqual(jax_spec.backend, "jax")
+        np.testing.assert_allclose(jax_spec.coeffs, direct.coeffs, rtol=1e-4, atol=1e-5)
+        np.testing.assert_allclose(jax_spec.power, direct.power, rtol=1e-4, atol=1e-5)
+
+    def test_jax_signed_curl_matches_direct_backend(self) -> None:
+        field = self._field()
+
+        direct = hodge.vector_spectrum(field.points, field.vectors, modes=8, backend="direct")
+        direct_metric = hodge.spectral_signed_curl_metrics(direct, hodge.helmholtz_project_spectrum(direct))
+        jax_spec = hodge.vector_spectrum(field.points, field.vectors, modes=8, backend="jax")
+        jax_metric = hodge.spectral_signed_curl_metrics(jax_spec, hodge.helmholtz_project_spectrum(jax_spec))
+
+        np.testing.assert_allclose(
+            jax_metric["signed_curl_alignment"],
+            direct_metric["signed_curl_alignment"],
+            rtol=1e-4,
+            atol=1e-5,
+        )
+        np.testing.assert_allclose(
+            jax_metric["signed_vorticity_ratio"],
+            direct_metric["signed_vorticity_ratio"],
+            rtol=1e-4,
+            atol=1e-5,
         )
 
 

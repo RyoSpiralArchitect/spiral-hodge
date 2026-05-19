@@ -20,7 +20,7 @@ Design notes:
 Install core deps:
   pip install numpy scipy scikit-learn matplotlib torch transformers
 Optional:
-  pip install finufft umap-learn
+  pip install finufft umap-learn jax
 
 Examples:
   python3 spiral_hodge.py --synthetic --save-plots
@@ -29,6 +29,7 @@ Examples:
   python3 spiral_hodge.py --model-path ./model/gpt2 --local-files-only --text "..." --all-layers
   python3 spiral_hodge.py --model gpt2 --text "..." --fourier-backend direct
   python3 spiral_hodge.py --model gpt2 --text "..." --fourier-backend finufft
+  python3 spiral_hodge.py --model gpt2 --text "..." --fourier-backend jax
 """
 from __future__ import annotations
 
@@ -42,7 +43,7 @@ os.environ.setdefault("VECLIB_MAXIMUM_THREADS", "1")
 os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Literal, Optional, Sequence, Tuple, Union
+from typing import Any, Callable, Dict, List, Literal, Optional, Sequence, Tuple, Union
 import argparse
 import csv
 from pathlib import Path
@@ -55,6 +56,11 @@ Array = np.ndarray
 DEFAULT_TEXT = "The serpent coils not around the tree, but around cognition."
 SCRIPT_DIR = Path(__file__).resolve().parent
 HF_OFFLINE_ENV_VARS = ("HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE")
+FourierBackend = Literal["direct", "finufft", "jax"]
+
+_JAX_VECTOR_SPECTRUM_IMPL: Optional[Callable[..., Tuple[Any, Any, Any]]] = None
+_JAX_EVAL_VECTOR_IMPL: Optional[Callable[..., Any]] = None
+_JAX_EVAL_VORTICITY_IMPL: Optional[Callable[..., Any]] = None
 
 
 @dataclass
@@ -187,6 +193,12 @@ def print_diagnostics() -> None:
         print(f"finufft: {version}")
     except Exception as e:
         print(f"finufft: import failed or not installed: {e}")
+    try:
+        import jax  # type: ignore
+        print(f"jax: {jax.__version__}")
+        print("jax devices:", ", ".join(str(d) for d in jax.devices()))
+    except Exception as e:
+        print(f"jax: import failed or not installed: {e}")
 
 
 def synthetic_hidden_states(
@@ -650,17 +662,106 @@ def finufft_vector_spectrum(
     return FourierSpectrum(coeffs=coeffs, power=power, kx=k, ky=k.copy(), scaled_points=P, backend="finufft")
 
 
+def _import_jax():
+    try:
+        import jax  # type: ignore
+        import jax.numpy as jnp  # type: ignore
+    except ImportError as e:
+        raise ImportError(
+            "JAX Fourier backend requested; install with `pip install jax` "
+            "or use `--fourier-backend direct`."
+        ) from e
+    return jax, jnp
+
+
+def _jax_float_dtype(jax: Any, jnp: Any) -> Any:
+    """Use float64 only when JAX has x64 enabled on the active platform."""
+
+    try:
+        return jnp.float64 if bool(jax.config.read("jax_enable_x64")) else jnp.float32
+    except Exception:
+        return jnp.float32
+
+
+def _get_jax_vector_spectrum_impl() -> Callable[..., Tuple[Any, Any, Any]]:
+    global _JAX_VECTOR_SPECTRUM_IMPL
+    if _JAX_VECTOR_SPECTRUM_IMPL is not None:
+        return _JAX_VECTOR_SPECTRUM_IMPL
+
+    jax, jnp = _import_jax()
+
+    @jax.jit
+    def _impl(points: Any, vectors: Any, k: Any, isign: Any) -> Tuple[Any, Any, Any]:
+        kx, ky = jnp.meshgrid(k, k, indexing="ij")
+        flat_kx = kx.reshape(-1)
+        flat_ky = ky.reshape(-1)
+        phase_arg = points[:, 0:1] * flat_kx[None, :] + points[:, 1:2] * flat_ky[None, :]
+        phase = isign * phase_arg
+        cos_phase = jnp.cos(phase)
+        sin_phase = jnp.sin(phase)
+        coeff_x_re = vectors[:, 0] @ cos_phase
+        coeff_x_im = vectors[:, 0] @ sin_phase
+        coeff_y_re = vectors[:, 1] @ cos_phase
+        coeff_y_im = vectors[:, 1] @ sin_phase
+        denom = points.shape[0]
+        coeffs_re = jnp.stack([coeff_x_re, coeff_y_re]).reshape(2, k.shape[0], k.shape[0]) / denom
+        coeffs_im = jnp.stack([coeff_x_im, coeff_y_im]).reshape(2, k.shape[0], k.shape[0]) / denom
+        power = coeffs_re[0] ** 2 + coeffs_im[0] ** 2 + coeffs_re[1] ** 2 + coeffs_im[1] ** 2
+        return coeffs_re, coeffs_im, power
+
+    _JAX_VECTOR_SPECTRUM_IMPL = _impl
+    return _JAX_VECTOR_SPECTRUM_IMPL
+
+
+def jax_nonuniform_vector_spectrum(
+    points: Array,
+    vectors: Array,
+    *,
+    modes: int = 32,
+    isign: int = -1,
+) -> FourierSpectrum:
+    """JAX/XLA direct nonuniform DFT of vector samples."""
+
+    jax, jnp = _import_jax()
+    P = scale_points_to_periodic_square(points)
+    V = np.asarray(vectors, dtype=np.float64)[:, :2]
+    if len(P) != len(V):
+        raise ValueError(f"points and vectors length mismatch: {len(P)} vs {len(V)}")
+    if len(P) == 0:
+        raise ValueError("Need at least one vector sample.")
+    if modes < 4:
+        raise ValueError("modes should be at least 4")
+
+    dtype = _jax_float_dtype(jax, jnp)
+    k = np.fft.fftfreq(modes, d=1.0 / modes).astype(np.float64)
+    impl = _get_jax_vector_spectrum_impl()
+    coeffs_re_jax, coeffs_im_jax, power_jax = impl(
+        jnp.asarray(P, dtype=dtype),
+        jnp.asarray(V, dtype=dtype),
+        jnp.asarray(k, dtype=dtype),
+        jnp.asarray(float(isign), dtype=dtype),
+    )
+    coeffs = np.asarray(jax.device_get(coeffs_re_jax), dtype=np.float64) + 1j * np.asarray(
+        jax.device_get(coeffs_im_jax),
+        dtype=np.float64,
+    )
+    power = np.asarray(jax.device_get(power_jax), dtype=np.float64)
+    return FourierSpectrum(coeffs=coeffs, power=power, kx=k, ky=k.copy(), scaled_points=P, backend="jax")
+
+
 def vector_spectrum(
     points: Array,
     vectors: Array,
     *,
     modes: int = 32,
-    backend: Literal["direct", "finufft"] = "direct",
+    backend: FourierBackend = "direct",
 ) -> FourierSpectrum:
     if backend == "direct":
         return direct_nonuniform_vector_spectrum(points, vectors, modes=modes)
     if backend == "finufft":
         return finufft_vector_spectrum(points, vectors, modes=modes)
+    if backend == "jax":
+        return jax_nonuniform_vector_spectrum(points, vectors, modes=modes)
     raise ValueError(f"unknown Fourier backend: {backend}")
 
 
@@ -860,6 +961,58 @@ def evaluate_vector_coefficients_at_points(
     return out.real
 
 
+def _get_jax_eval_vector_impl() -> Callable[..., Any]:
+    global _JAX_EVAL_VECTOR_IMPL
+    if _JAX_EVAL_VECTOR_IMPL is not None:
+        return _JAX_EVAL_VECTOR_IMPL
+
+    jax, jnp = _import_jax()
+
+    @jax.jit
+    def _impl(coeffs_re: Any, coeffs_im: Any, k: Any, points: Any) -> Any:
+        kx, ky = jnp.meshgrid(k, k, indexing="ij")
+        flat_kx = kx.reshape(-1)
+        flat_ky = ky.reshape(-1)
+        coeffs_re_flat = coeffs_re.reshape(2, -1)
+        coeffs_im_flat = coeffs_im.reshape(2, -1)
+        phase_arg = points[:, 0:1] * flat_kx[None, :] + points[:, 1:2] * flat_ky[None, :]
+        cos_phase = jnp.cos(phase_arg)
+        sin_phase = jnp.sin(phase_arg)
+        out_x = cos_phase @ coeffs_re_flat[0] - sin_phase @ coeffs_im_flat[0]
+        out_y = cos_phase @ coeffs_re_flat[1] - sin_phase @ coeffs_im_flat[1]
+        return jnp.stack([out_x, out_y], axis=1)
+
+    _JAX_EVAL_VECTOR_IMPL = _impl
+    return _JAX_EVAL_VECTOR_IMPL
+
+
+def jax_evaluate_vector_coefficients_at_points(
+    coeffs: Array,
+    kx: Array,
+    ky: Array,
+    points: Array,
+) -> Array:
+    """Evaluate vector Fourier coefficients with JAX/XLA."""
+
+    jax, jnp = _import_jax()
+    kx_np = np.asarray(kx, dtype=np.float64)
+    ky_np = np.asarray(ky, dtype=np.float64)
+    if not np.array_equal(kx_np, ky_np):
+        raise ValueError("JAX evaluator currently expects matching square kx/ky grids.")
+    dtype = _jax_float_dtype(jax, jnp)
+    coeffs_np = np.asarray(coeffs, dtype=np.complex128)
+    if coeffs_np.ndim != 3 or coeffs_np.shape[0] != 2:
+        raise ValueError(f"coeffs must have shape [2,modes,modes], got {coeffs_np.shape}")
+    impl = _get_jax_eval_vector_impl()
+    out = impl(
+        jnp.asarray(coeffs_np.real, dtype=dtype),
+        jnp.asarray(coeffs_np.imag, dtype=dtype),
+        jnp.asarray(kx_np, dtype=dtype),
+        jnp.asarray(np.asarray(points, dtype=np.float64)[:, :2], dtype=dtype),
+    )
+    return np.asarray(jax.device_get(out), dtype=np.float64)
+
+
 def evaluate_vorticity_coefficients_at_points(
     coeffs: Array,
     kx: Array,
@@ -891,12 +1044,80 @@ def evaluate_vorticity_coefficients_at_points(
     return out.real
 
 
+def _get_jax_eval_vorticity_impl() -> Callable[..., Any]:
+    global _JAX_EVAL_VORTICITY_IMPL
+    if _JAX_EVAL_VORTICITY_IMPL is not None:
+        return _JAX_EVAL_VORTICITY_IMPL
+
+    jax, jnp = _import_jax()
+
+    @jax.jit
+    def _impl(coeffs_re: Any, coeffs_im: Any, k: Any, points: Any) -> Any:
+        kx, ky = jnp.meshgrid(k, k, indexing="ij")
+        base_re = kx * coeffs_re[1] - ky * coeffs_re[0]
+        base_im = kx * coeffs_im[1] - ky * coeffs_im[0]
+        omega_re = -base_im
+        omega_im = base_re
+        flat_kx = kx.reshape(-1)
+        flat_ky = ky.reshape(-1)
+        flat_omega_re = omega_re.reshape(-1)
+        flat_omega_im = omega_im.reshape(-1)
+        phase_arg = points[:, 0:1] * flat_kx[None, :] + points[:, 1:2] * flat_ky[None, :]
+        cos_phase = jnp.cos(phase_arg)
+        sin_phase = jnp.sin(phase_arg)
+        return cos_phase @ flat_omega_re - sin_phase @ flat_omega_im
+
+    _JAX_EVAL_VORTICITY_IMPL = _impl
+    return _JAX_EVAL_VORTICITY_IMPL
+
+
+def jax_evaluate_vorticity_coefficients_at_points(
+    coeffs: Array,
+    kx: Array,
+    ky: Array,
+    points: Array,
+) -> Array:
+    """Evaluate scalar vorticity from Fourier coefficients with JAX/XLA."""
+
+    jax, jnp = _import_jax()
+    kx_np = np.asarray(kx, dtype=np.float64)
+    ky_np = np.asarray(ky, dtype=np.float64)
+    if not np.array_equal(kx_np, ky_np):
+        raise ValueError("JAX evaluator currently expects matching square kx/ky grids.")
+    dtype = _jax_float_dtype(jax, jnp)
+    coeffs_np = np.asarray(coeffs, dtype=np.complex128)
+    if coeffs_np.ndim != 3 or coeffs_np.shape[0] != 2:
+        raise ValueError(f"coeffs must have shape [2,modes,modes], got {coeffs_np.shape}")
+    impl = _get_jax_eval_vorticity_impl()
+    out = impl(
+        jnp.asarray(coeffs_np.real, dtype=dtype),
+        jnp.asarray(coeffs_np.imag, dtype=dtype),
+        jnp.asarray(kx_np, dtype=dtype),
+        jnp.asarray(np.asarray(points, dtype=np.float64)[:, :2], dtype=dtype),
+    )
+    return np.asarray(jax.device_get(out), dtype=np.float64)
+
+
 def spectral_signed_curl_metrics(spec: FourierSpectrum, hspec: HelmholtzSpectrum) -> Dict[str, float]:
     """Signed orientation metrics for the Fourier Helmholtz curl component."""
 
-    curl_vectors = evaluate_vector_coefficients_at_points(hspec.curl_coeffs, spec.kx, spec.ky, spec.scaled_points)
+    if spec.backend == "jax":
+        curl_vectors = jax_evaluate_vector_coefficients_at_points(
+            hspec.curl_coeffs,
+            spec.kx,
+            spec.ky,
+            spec.scaled_points,
+        )
+        omega = jax_evaluate_vorticity_coefficients_at_points(
+            hspec.curl_coeffs,
+            spec.kx,
+            spec.ky,
+            spec.scaled_points,
+        )
+    else:
+        curl_vectors = evaluate_vector_coefficients_at_points(hspec.curl_coeffs, spec.kx, spec.ky, spec.scaled_points)
+        omega = evaluate_vorticity_coefficients_at_points(hspec.curl_coeffs, spec.kx, spec.ky, spec.scaled_points)
     circ = signed_circulation_metrics(spec.scaled_points, curl_vectors)
-    omega = evaluate_vorticity_coefficients_at_points(hspec.curl_coeffs, spec.kx, spec.ky, spec.scaled_points)
     omega_mean = float(np.mean(omega)) if omega.size else float("nan")
     omega_abs_mean = float(np.mean(np.abs(omega))) if omega.size else float("nan")
     omega_rms = float(np.sqrt(np.mean(omega**2))) if omega.size else float("nan")
@@ -1377,7 +1598,7 @@ def analyze_layer_from_coordinates(
     *,
     layer: int,
     fourier_modes: int = 32,
-    fourier_backend: Literal["direct", "finufft"] = "direct",
+    fourier_backend: FourierBackend = "direct",
     graph_eigs: int = 32,
     k_neighbors: int = 8,
     do_fourier: bool = True,
@@ -1430,7 +1651,7 @@ def run_layer_sweep_from_hidden(
     null_models: Sequence[NullModelName] = ("real",),
     seed: int = 0,
     fourier_modes: int = 32,
-    fourier_backend: Literal["direct", "finufft"] = "direct",
+    fourier_backend: FourierBackend = "direct",
     graph_eigs: int = 32,
     k_neighbors: int = 8,
     do_fourier: bool = True,
@@ -1786,7 +2007,7 @@ def run_pipeline_from_hidden(
     reducer: Literal["pca", "umap"] = "pca",
     n_components: int = 2,
     fourier_modes: int = 32,
-    fourier_backend: Literal["direct", "finufft"] = "direct",
+    fourier_backend: FourierBackend = "direct",
     graph_eigs: int = 32,
     k_neighbors: int = 8,
     do_fourier: bool = True,
@@ -1843,7 +2064,7 @@ def run_pipeline(
     reducer: Literal["pca", "umap"] = "pca",
     max_length: Optional[int] = None,
     fourier_modes: int = 32,
-    fourier_backend: Literal["direct", "finufft"] = "direct",
+    fourier_backend: FourierBackend = "direct",
     device: Literal["auto", "cpu", "cuda", "mps"] = "cpu",
     dtype: Literal["auto", "float32", "float16", "bfloat16"] = "auto",
     trust_remote_code: bool = False,
@@ -1932,7 +2153,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--reducer", choices=["pca", "umap"], default="pca")
     parser.add_argument("--max-length", type=int, default=None)
     parser.add_argument("--fourier-modes", "--nufft-modes", dest="fourier_modes", type=int, default=32)
-    parser.add_argument("--fourier-backend", choices=["direct", "finufft"], default="direct")
+    parser.add_argument("--fourier-backend", choices=["direct", "finufft", "jax"], default="direct")
     parser.add_argument("--graph-eigs", type=int, default=32)
     parser.add_argument("--k-neighbors", type=int, default=8)
     parser.add_argument("--device", choices=["auto", "cpu", "cuda", "mps"], default="cpu")
