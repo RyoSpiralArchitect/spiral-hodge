@@ -167,6 +167,103 @@ class TestSignedOrientationMetrics(unittest.TestCase):
         )
 
 
+class TestHLTDGraphHodge(unittest.TestCase):
+    def test_exact_flow_is_recovered_on_path_graph(self) -> None:
+        edges = np.asarray([(0, 1), (1, 2)], dtype=int)
+        B = hodge.vertex_edge_incidence(3, edges)
+        C, triangles = hodge.triangle_boundary_matrix_from_cliques(edges)
+        phi = np.asarray([0.0, 1.0, 3.0])
+        flow = np.asarray(B.T @ phi).reshape(-1)
+
+        exact, coexact, harmonic, *_rest, energy = hodge.hodge_decompose_graph_edge_flow(
+            flow,
+            B,
+            C,
+            ridge=1e-9,
+        )
+
+        self.assertEqual(triangles.shape, (0, 3))
+        np.testing.assert_allclose(exact, flow, atol=1e-7)
+        np.testing.assert_allclose(coexact, np.zeros_like(flow), atol=1e-7)
+        np.testing.assert_allclose(harmonic, np.zeros_like(flow), atol=1e-6)
+        self.assertGreater(energy["exact_ratio"], 0.999999)
+
+    def test_triangle_boundary_flow_is_coexact(self) -> None:
+        edges = np.asarray([(0, 1), (0, 2), (1, 2)], dtype=int)
+        B = hodge.vertex_edge_incidence(3, edges)
+        C, triangles = hodge.triangle_boundary_matrix_from_cliques(edges)
+        flow = np.asarray(C[:, 0].toarray()).reshape(-1)
+
+        exact, coexact, harmonic, *_rest, energy = hodge.hodge_decompose_graph_edge_flow(
+            flow,
+            B,
+            C,
+            ridge=1e-9,
+        )
+
+        np.testing.assert_array_equal(triangles, np.asarray([(0, 1, 2)], dtype=int))
+        np.testing.assert_allclose(exact, np.zeros_like(flow), atol=1e-7)
+        np.testing.assert_allclose(coexact, flow, atol=1e-7)
+        np.testing.assert_allclose(harmonic, np.zeros_like(flow), atol=1e-6)
+        self.assertGreater(energy["coexact_ratio"], 0.999999)
+
+    def test_node_vectors_from_edge_component_reconstructs_line_flow(self) -> None:
+        points = np.asarray([[0.0, 0.0], [1.0, 0.0], [2.0, 0.0]])
+        edges = np.asarray([(0, 1), (1, 2)], dtype=int)
+        component = np.asarray([1.0, 1.0])
+
+        vectors = hodge.node_vectors_from_edge_component(points, edges, component, ridge=1e-9)
+
+        np.testing.assert_allclose(vectors[:, 0], np.ones(3), atol=1e-7)
+        np.testing.assert_allclose(vectors[:, 1], np.zeros(3), atol=1e-7)
+
+    def test_hltd_from_coordinates_exports_semantic_flow_energy(self) -> None:
+        hidden = hodge.synthetic_hidden_states(layers=2, tokens=16, dim=12, seed=7).hidden
+        coord = hodge.make_semantic_coordinates(hidden, n_components=4, verbose=False)
+
+        decomp = hodge.hltd_from_coordinates(coord, layer=1, k_neighbors=4, ridge=1e-6)
+
+        self.assertGreater(len(decomp.edges), 0)
+        self.assertIn("semantic_flow_ratio", decomp.energy)
+        self.assertTrue(np.isfinite(decomp.energy["semantic_flow_ratio"]))
+        self.assertLess(decomp.energy["reconstruction_error"], 1e-9)
+
+    def test_centered_hltd_energy_is_invariant_under_reversal(self) -> None:
+        theta = np.linspace(0.0, 1.6 * np.pi, 18)
+        coords = np.stack([np.cos(theta), np.sin(theta), 0.2 * theta], axis=1)[None, :, :]
+        rev_coords = coords[:, ::-1, :]
+        coord = hodge.CoordinateBundle(
+            coords=coords,
+            reducer=None,
+            explained_variance_ratio=None,
+            flattened_input_shape=(1, coords.shape[1], coords.shape[2]),
+        )
+        rev_coord = hodge.CoordinateBundle(
+            coords=rev_coords,
+            reducer=None,
+            explained_variance_ratio=None,
+            flattened_input_shape=(1, coords.shape[1], coords.shape[2]),
+        )
+
+        decomp = hodge.hltd_from_coordinates(
+            coord,
+            layer=0,
+            k_neighbors=5,
+            ridge=1e-9,
+            vector_mode="centered",
+        )
+        rev_decomp = hodge.hltd_from_coordinates(
+            rev_coord,
+            layer=0,
+            k_neighbors=5,
+            ridge=1e-9,
+            vector_mode="centered",
+        )
+
+        for key in ["total", "exact_ratio", "coexact_ratio", "harmonic_ratio", "semantic_flow_ratio"]:
+            self.assertAlmostEqual(decomp.energy[key], rev_decomp.energy[key], places=8)
+
+
 @unittest.skipUnless(_jax_available(), "JAX is not installed")
 class TestJaxFourierBackend(unittest.TestCase):
     def _field(self) -> hodge.VectorFieldBundle:

@@ -51,10 +51,17 @@ The current pipeline separates several notions that can all look like "curl":
 | Local Jacobian | `local_signed_vorticity_ratio` | Local affine-fit vorticity, independent of Fourier and Hodge |
 | Spectral signed curl | `spectral_signed_curl_alignment`, `spectral_signed_vorticity_ratio` | Handedness of the Fourier curl component |
 | Hodge signed curl | `hodge_signed_curl_alignment` | Signed face circulation from discrete Hodge curl |
+| HLTD graph Hodge | `hltd_exact_ratio`, `hltd_coexact_ratio`, `hltd_harmonic_ratio`, `hltd_semantic_flow_ratio` | kNN edge-flow decomposition into presence, local circulation, and candidate global loop components |
 
 The important design principle is to avoid letting one metric carry the whole
 interpretation. The useful signal comes from agreement and disagreement between
 metric families.
+
+For HLTD, use `--hltd-vector-mode centered` when comparing real and reversed
+trajectories. The first implementation used forward differences anchored at
+`z_t`; reversal then changed which endpoint was dropped. Centered differences
+use the same interior node set under reversal, so unsigned Hodge ratios are a
+cleaner structural diagnostic.
 
 ## 3. What The Short Live Run Shows
 
@@ -245,19 +252,22 @@ The safest claim is:
 
 High-value next steps:
 
-1. Run long-text experiments with `--max-length 256`, `512`, and `1024`.
-2. Compare prompts with explicit redirection:
+1. Run HLTD sweeps with `--components 32 --hltd --hltd-vector-mode centered --hltd-k 12`, `16`, and `24`.
+2. Run long-text experiments with `--max-length 256`, `512`, and `1024`.
+3. Compare prompts with explicit redirection:
    - "not X, but Y"
    - metaphors
    - causal chains
    - flat descriptive sentences
-3. Track band-limited spectral curl on longer trajectories.
-4. Add curl-band signed metrics, not only energy bands.
-5. Add persistent homology on the token path or local point cloud.
-6. Compare GPT-2 against another small causal LM.
-7. Aggregate across many prompts and report confidence intervals for:
+4. Track band-limited spectral curl on longer trajectories.
+5. Add curl-band signed metrics, not only energy bands.
+6. Add persistent homology or k-sweep stability checks before calling harmonic
+   energy a global concept loop.
+7. Compare GPT-2 against another small causal LM.
+8. Aggregate across many prompts and report confidence intervals for:
    - real vs shuffle graph high-frequency ratio
    - real vs shuffle Hodge curl ratio
+   - real vs shuffle HLTD semantic-flow ratio
    - real vs reverse signed cancellation
    - low/mid/high spectral curl separation
 
@@ -266,6 +276,7 @@ The practical target is a table like:
 ```text
 real preserves low-frequency transport
 real suppresses local Hodge curl
+middle layers raise HLTD coexact or semantic-flow energy
 shuffle inflates graph high-frequency energy
 reverse flips signed orientation without changing unsigned energy
 ```
@@ -273,3 +284,23 @@ reverse flips signed orientation without changing unsigned energy
 If that pattern holds across many texts, Spiral Hodge becomes less a "spiral
 detector" and more a multi-scale probe for coherence, transport, and rotational
 disorder in hidden-state trajectories.
+
+## 8. First HLTD Prompt-Family Sweep
+
+The first 20-prompt HLTD suite is documented in
+[hltd_prompt_family_observations.md](hltd_prompt_family_observations.md).
+
+The short version:
+
+- centered HLTD fixes the reversal-anchor issue for unsigned ratios;
+- harmonic energy remains effectively zero at `k=16`;
+- coexact/local-swirl energy is strongest in middle layers;
+- ontology-collapse prompts have the highest real-minus-shuffle coexact gap;
+- random hidden controls also have high non-exact ratios, so raw flow energy is
+  not itself the claim.
+
+The updated working claim is:
+
+> HLTD coexact energy is a candidate marker of middle-layer local semantic
+> circulation, while harmonic concept-ring structure has not yet been observed
+> in the v0 prompt-family suite.
