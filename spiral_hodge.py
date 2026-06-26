@@ -149,6 +149,36 @@ class HodgeDecomposition:
     D1: Any  # sparse [n_faces, n_edges]
 
 
+@dataclass
+class NodeVectorFieldBundle:
+    """Token-step vector samples anchored at node/start coordinates."""
+
+    points: Array  # [token_steps, coord_dim], usually z_t
+    vectors: Array  # [token_steps, coord_dim], usually z_{t+step} - z_t
+    token_edges: List[Tuple[int, int]]
+    layer: int
+
+
+@dataclass
+class HLTDDecomposition:
+    """Hodge-Latent Traversal Dynamics decomposition on a kNN clique complex."""
+
+    points: Array  # [n_nodes, coord_dim]
+    vectors: Array  # [n_nodes, coord_dim]
+    edges: Array  # [n_edges, 2], oriented low_index -> high_index
+    triangles: Array  # [n_triangles, 3], oriented i < j < k
+    flow: Array  # [n_edges], scalar edge flow
+    exact: Array  # [n_edges], exact/gradient/presence component
+    coexact: Array  # [n_edges], coexact/local circulation component
+    harmonic: Array  # [n_edges], harmonic/global loop candidate
+    phi: Array  # [n_nodes]
+    psi: Array  # [n_triangles]
+    energy: Dict[str, float]
+    B: Any  # sparse [n_nodes, n_edges]
+    C: Any  # sparse [n_edges, n_triangles]
+    k_neighbors: int
+
+
 def log(msg: str, *, verbose: bool = True) -> None:
     if verbose:
         print(msg, flush=True)
@@ -561,6 +591,377 @@ def token_trajectory_field(
     vectors = P[step:] - P[:-step]
     token_edges = [(i, i + step) for i in range(T - step)]
     return VectorFieldBundle(points=points, vectors=vectors, token_edges=token_edges, layer=layer_idx)
+
+
+def token_node_vector_field(
+    coords: Array,
+    *,
+    layer: int = -1,
+    step: int = 1,
+    mode: Literal["forward", "centered"] = "forward",
+) -> NodeVectorFieldBundle:
+    """Create token-step node vectors for HLTD.
+
+    ``forward`` anchors v_t = z_{t+step} - z_t at z_t.
+    ``centered`` anchors v_t = (z_{t+step} - z_{t-step}) / 2 at z_t,
+    which makes reversed trajectories use the same interior node set.
+    """
+
+    coords = np.asarray(coords, dtype=np.float64)
+    if coords.ndim != 3:
+        raise ValueError(f"coords must have shape [layers, tokens, coord_dim], got {coords.shape}")
+    L, T, _ = coords.shape
+    if step < 1:
+        raise ValueError("step must be >= 1")
+    if T <= step:
+        raise ValueError(f"Need more than step={step} tokens; got T={T}.")
+    layer_idx = layer % L
+    P = coords[layer_idx]
+    if mode == "forward":
+        points = P[:-step].copy()
+        vectors = P[step:] - P[:-step]
+        token_edges = [(i, i + step) for i in range(T - step)]
+    elif mode == "centered":
+        if T <= 2 * step:
+            raise ValueError(f"Need more than 2*step={2 * step} tokens for centered mode; got T={T}.")
+        points = P[step:-step].copy()
+        vectors = 0.5 * (P[2 * step :] - P[: -2 * step])
+        token_edges = [(i - step, i + step) for i in range(step, T - step)]
+    else:
+        raise ValueError(f"unknown node vector mode: {mode}")
+    return NodeVectorFieldBundle(points=points, vectors=vectors, token_edges=token_edges, layer=layer_idx)
+
+
+# -----------------------------------------------------------------------------
+# Hodge-Latent Traversal Dynamics (HLTD)
+# -----------------------------------------------------------------------------
+
+
+def build_knn_edges(points: Array, *, k: int = 16) -> Array:
+    """Build undirected kNN edges, oriented by increasing node index."""
+
+    from scipy.spatial import cKDTree
+
+    P = np.asarray(points, dtype=np.float64)
+    if P.ndim != 2:
+        raise ValueError(f"points must have shape [nodes, dim], got {P.shape}")
+    n = len(P)
+    if n < 2:
+        raise ValueError("Need at least two points to build a kNN graph.")
+    k_eff = min(max(1, int(k)) + 1, n)
+    tree = cKDTree(P)
+    _, idx = tree.query(P, k=k_eff)
+    if idx.ndim == 1:
+        idx = idx[:, None]
+
+    edge_set = set()
+    for i in range(n):
+        for j_raw in idx[i, 1:]:
+            j = int(j_raw)
+            if i == j:
+                continue
+            a, b = sorted((i, j))
+            edge_set.add((a, b))
+    if not edge_set:
+        raise ValueError("kNN graph has no edges.")
+    return np.asarray(sorted(edge_set), dtype=int)
+
+
+def vertex_edge_incidence(n_vertices: int, edges: Array):
+    """Return B [vertices, edges] with -1 at tail and +1 at head."""
+
+    from scipy.sparse import coo_matrix
+
+    edges = np.asarray(edges, dtype=int)
+    if edges.ndim != 2 or edges.shape[1] != 2:
+        raise ValueError(f"edges must have shape [edges,2], got {edges.shape}")
+    rows = edges.reshape(-1)
+    cols = np.repeat(np.arange(len(edges)), 2)
+    vals = np.tile(np.array([-1.0, 1.0]), len(edges))
+    return coo_matrix((vals, (rows, cols)), shape=(n_vertices, len(edges))).tocsr()
+
+
+def triangle_boundary_matrix_from_cliques(edges: Array):
+    """Build C [edges, triangles] from 3-cliques in the undirected graph.
+
+    Edge orientation is low index -> high index. For i < j < k, the oriented
+    boundary is (i,j) + (j,k) - (i,k).
+    """
+
+    from scipy.sparse import coo_matrix
+
+    edges = np.asarray(edges, dtype=int)
+    edge_to_idx = {tuple(edge.tolist()): idx for idx, edge in enumerate(edges)}
+    neighbors: Dict[int, set[int]] = {}
+    for i_raw, j_raw in edges.tolist():
+        i = int(i_raw)
+        j = int(j_raw)
+        neighbors.setdefault(i, set()).add(j)
+        neighbors.setdefault(j, set()).add(i)
+
+    triangles: List[Tuple[int, int, int]] = []
+    for i in sorted(neighbors):
+        for j in sorted(n for n in neighbors[i] if n > i):
+            common = neighbors[i].intersection(neighbors[j])
+            for k in sorted(n for n in common if n > j):
+                triangles.append((i, j, k))
+
+    rows: List[int] = []
+    cols: List[int] = []
+    vals: List[float] = []
+    for t, (i, j, k) in enumerate(triangles):
+        for edge, sign in [((i, j), 1.0), ((j, k), 1.0), ((i, k), -1.0)]:
+            rows.append(edge_to_idx[edge])
+            cols.append(t)
+            vals.append(sign)
+    C = coo_matrix((vals, (rows, cols)), shape=(len(edges), len(triangles))).tocsr()
+    return C, np.asarray(triangles, dtype=int).reshape(-1, 3)
+
+
+def edge_flow_from_node_vectors(points: Array, vectors: Array, edges: Array, *, eps: float = 1e-9) -> Array:
+    """Project node vectors onto oriented graph edges as scalar edge flow."""
+
+    P = np.asarray(points, dtype=np.float64)
+    V = np.asarray(vectors, dtype=np.float64)
+    edges = np.asarray(edges, dtype=int)
+    if P.ndim != 2 or V.ndim != 2:
+        raise ValueError(f"points/vectors must be matrices, got {P.shape} and {V.shape}")
+    if P.shape != V.shape:
+        raise ValueError(f"points and vectors shape mismatch: {P.shape} vs {V.shape}")
+    if edges.ndim != 2 or edges.shape[1] != 2:
+        raise ValueError(f"edges must have shape [edges,2], got {edges.shape}")
+
+    flow = np.zeros(len(edges), dtype=np.float64)
+    for e, (i, j) in enumerate(edges.tolist()):
+        dz = P[j] - P[i]
+        unit = dz / max(float(np.linalg.norm(dz)), eps)
+        flow[e] = float(0.5 * np.dot(V[i] + V[j], unit))
+    return flow
+
+
+def _component_alignment(a: Array, b: Array, *, eps: float = 1e-30) -> float:
+    aa = np.asarray(a, dtype=np.float64).reshape(-1)
+    bb = np.asarray(b, dtype=np.float64).reshape(-1)
+    denom = float(np.linalg.norm(aa) * np.linalg.norm(bb))
+    return float(np.dot(aa, bb) / max(denom, eps))
+
+
+def hodge_decompose_graph_edge_flow(
+    flow: Array,
+    B: Any,
+    C: Any,
+    *,
+    ridge: float = 1e-5,
+) -> Tuple[Array, Array, Array, Array, Array, Dict[str, float]]:
+    """Ridge-stabilized graph Hodge decomposition for scalar edge flow."""
+
+    from scipy.sparse import eye
+    from scipy.sparse.linalg import spsolve
+
+    y = np.asarray(flow, dtype=np.float64).reshape(-1)
+    if B.shape[1] != len(y) or C.shape[0] != len(y):
+        raise ValueError("B/C shapes are inconsistent with flow length.")
+
+    lam = max(float(ridge), 0.0)
+    A0 = B @ B.T
+    if lam > 0:
+        A0 = A0 + lam * eye(B.shape[0], format="csr")
+    phi = np.asarray(spsolve(A0, B @ y), dtype=np.float64).reshape(-1)
+    phi = phi - float(np.mean(phi))
+    exact = np.asarray(B.T @ phi, dtype=np.float64).reshape(-1)
+
+    residual = y - exact
+    if C.shape[1] > 0:
+        A1 = C.T @ C
+        if lam > 0:
+            A1 = A1 + lam * eye(C.shape[1], format="csr")
+        psi = np.asarray(spsolve(A1, C.T @ residual), dtype=np.float64).reshape(-1)
+        coexact = np.asarray(C @ psi, dtype=np.float64).reshape(-1)
+    else:
+        psi = np.zeros(0, dtype=np.float64)
+        coexact = np.zeros_like(y)
+    harmonic = y - exact - coexact
+
+    total = float(np.dot(y, y))
+    exact_e = float(np.dot(exact, exact))
+    coexact_e = float(np.dot(coexact, coexact))
+    harmonic_e = float(np.dot(harmonic, harmonic))
+    semantic_flow_e = coexact_e + harmonic_e
+    denom = max(total, 1e-30)
+    energy = {
+        "total": total,
+        "exact": exact_e,
+        "coexact": coexact_e,
+        "harmonic": harmonic_e,
+        "semantic_flow": semantic_flow_e,
+        "exact_ratio": exact_e / denom,
+        "coexact_ratio": coexact_e / denom,
+        "harmonic_ratio": harmonic_e / denom,
+        "semantic_flow_ratio": semantic_flow_e / denom,
+        "reconstruction_error": float(np.linalg.norm(y - exact - coexact - harmonic)),
+        "exact_coexact_dot": float(np.dot(exact, coexact)),
+        "exact_harmonic_dot": float(np.dot(exact, harmonic)),
+        "coexact_harmonic_dot": float(np.dot(coexact, harmonic)),
+        "exact_coexact_alignment": _component_alignment(exact, coexact),
+        "exact_harmonic_alignment": _component_alignment(exact, harmonic),
+        "coexact_harmonic_alignment": _component_alignment(coexact, harmonic),
+    }
+    return exact, coexact, harmonic, phi, psi, energy
+
+
+def hodge_latent_traversal_dynamics(
+    points: Array,
+    vectors: Array,
+    *,
+    k_neighbors: int = 16,
+    ridge: float = 1e-5,
+    use_triangles: bool = True,
+) -> HLTDDecomposition:
+    """Run HLTD exact/coexact/harmonic decomposition on node vectors."""
+
+    P = np.asarray(points, dtype=np.float64)
+    V = np.asarray(vectors, dtype=np.float64)
+    if P.shape != V.shape:
+        raise ValueError(f"points and vectors shape mismatch: {P.shape} vs {V.shape}")
+    edges = build_knn_edges(P, k=k_neighbors)
+    B = vertex_edge_incidence(len(P), edges)
+    if use_triangles:
+        C, triangles = triangle_boundary_matrix_from_cliques(edges)
+    else:
+        from scipy.sparse import csr_matrix
+
+        C = csr_matrix((len(edges), 0), dtype=np.float64)
+        triangles = np.empty((0, 3), dtype=int)
+    flow = edge_flow_from_node_vectors(P, V, edges)
+    exact, coexact, harmonic, phi, psi, energy = hodge_decompose_graph_edge_flow(flow, B, C, ridge=ridge)
+    energy["edges"] = float(len(edges))
+    energy["triangles"] = float(len(triangles))
+    return HLTDDecomposition(
+        points=P,
+        vectors=V,
+        edges=edges,
+        triangles=triangles,
+        flow=flow,
+        exact=exact,
+        coexact=coexact,
+        harmonic=harmonic,
+        phi=phi,
+        psi=psi,
+        energy=energy,
+        B=B,
+        C=C,
+        k_neighbors=int(k_neighbors),
+    )
+
+
+def hltd_from_coordinates(
+    coord: CoordinateBundle,
+    *,
+    layer: int,
+    k_neighbors: int = 16,
+    ridge: float = 1e-5,
+    use_triangles: bool = True,
+    vector_mode: Literal["forward", "centered"] = "forward",
+) -> HLTDDecomposition:
+    """Convenience wrapper for HLTD on one layer of a coordinate bundle."""
+
+    field = token_node_vector_field(coord.coords, layer=layer, mode=vector_mode)
+    return hodge_latent_traversal_dynamics(
+        field.points,
+        field.vectors,
+        k_neighbors=k_neighbors,
+        ridge=ridge,
+        use_triangles=use_triangles,
+    )
+
+
+def node_vectors_from_edge_component(
+    points: Array,
+    edges: Array,
+    edge_component: Array,
+    *,
+    ridge: float = 1e-4,
+    eps: float = 1e-9,
+) -> Array:
+    """Reconstruct node vectors that locally explain an edge-flow component."""
+
+    P = np.asarray(points, dtype=np.float64)
+    edges = np.asarray(edges, dtype=int)
+    omega = np.asarray(edge_component, dtype=np.float64).reshape(-1)
+    if P.ndim != 2:
+        raise ValueError(f"points must have shape [nodes,dim], got {P.shape}")
+    if len(edges) != len(omega):
+        raise ValueError(f"edge/component length mismatch: {len(edges)} vs {len(omega)}")
+
+    n, dim = P.shape
+    incident: List[List[Tuple[int, int, float]]] = [[] for _ in range(n)]
+    for e, (i, j) in enumerate(edges.tolist()):
+        incident[i].append((e, j, 1.0))
+        incident[j].append((e, i, -1.0))
+
+    U = np.zeros((n, dim), dtype=np.float64)
+    lam = max(float(ridge), 0.0)
+    for i in range(n):
+        rows: List[Array] = []
+        vals: List[float] = []
+        for e, j, sign in incident[i]:
+            dz = P[j] - P[i]
+            unit = dz / max(float(np.linalg.norm(dz)), eps)
+            rows.append(unit)
+            vals.append(sign * float(omega[e]))
+        if not rows:
+            continue
+        A = np.vstack(rows)
+        y = np.asarray(vals, dtype=np.float64)
+        lhs = A.T @ A + lam * np.eye(dim)
+        rhs = A.T @ y
+        U[i] = np.linalg.solve(lhs, rhs)
+    return U
+
+
+def hltd_component_node_vectors(decomp: HLTDDecomposition, *, ridge: float = 1e-4) -> Dict[str, Array]:
+    """Return reconstructed node-vector fields for HLTD components."""
+
+    exact = node_vectors_from_edge_component(decomp.points, decomp.edges, decomp.exact, ridge=ridge)
+    coexact = node_vectors_from_edge_component(decomp.points, decomp.edges, decomp.coexact, ridge=ridge)
+    harmonic = node_vectors_from_edge_component(decomp.points, decomp.edges, decomp.harmonic, ridge=ridge)
+    return {
+        "presence": exact,
+        "exact": exact,
+        "coexact": coexact,
+        "harmonic": harmonic,
+        "semantic_flow": coexact + harmonic,
+        "full": decomp.vectors,
+    }
+
+
+def curve_stats(path: Array, *, eps: float = 1e-9) -> Dict[str, float]:
+    """Return simple path length and discrete bending-energy diagnostics."""
+
+    P = np.asarray(path, dtype=np.float64)
+    if P.ndim != 2:
+        raise ValueError(f"path must have shape [steps,dim], got {P.shape}")
+    if len(P) < 2:
+        return {
+            "length": 0.0,
+            "bending_energy": float("nan"),
+            "mean_step": float("nan"),
+            "speed_var": float("nan"),
+        }
+    diffs = np.diff(P, axis=0)
+    seg_lens = np.linalg.norm(diffs, axis=1) + eps
+    length = float(seg_lens.sum())
+    bend = 0.0
+    for a, b, la, lb in zip(diffs[:-1], diffs[1:], seg_lens[:-1], seg_lens[1:]):
+        cosang = float(np.dot(a, b) / max(float(la * lb), eps))
+        theta = float(np.arccos(np.clip(cosang, -1.0, 1.0)))
+        bend += theta**2 / max((float(la + lb) * 0.5), eps)
+    return {
+        "length": length,
+        "bending_energy": float(bend),
+        "mean_step": float(seg_lens.mean()),
+        "speed_var": float(seg_lens.var()),
+    }
 
 
 # -----------------------------------------------------------------------------
@@ -1638,6 +2039,24 @@ LAYER_SWEEP_FIELDS = [
     "hodge_abs_curl_circulation",
     "hodge_signed_curl_circulation_ratio",
     "hodge_signed_curl_alignment",
+    "hltd_edges",
+    "hltd_triangles",
+    "hltd_total",
+    "hltd_exact_ratio",
+    "hltd_coexact_ratio",
+    "hltd_harmonic_ratio",
+    "hltd_semantic_flow_ratio",
+    "hltd_exact",
+    "hltd_coexact",
+    "hltd_harmonic",
+    "hltd_semantic_flow",
+    "hltd_reconstruction_error",
+    "hltd_exact_coexact_dot",
+    "hltd_exact_harmonic_dot",
+    "hltd_coexact_harmonic_dot",
+    "hltd_exact_coexact_alignment",
+    "hltd_exact_harmonic_alignment",
+    "hltd_coexact_harmonic_alignment",
     "graph_total_power",
     "graph_low_freq_power",
     "graph_high_freq_power",
@@ -1754,6 +2173,13 @@ def _copy_metrics(prefix: str, metrics: Dict[str, float], row: Dict[str, Any]) -
             row[out_key] = float(value)
 
 
+def _copy_hltd_energy(metrics: Dict[str, float], row: Dict[str, Any]) -> None:
+    for key, value in metrics.items():
+        out_key = f"hltd_{key}"
+        if out_key in LAYER_SWEEP_FIELDS:
+            row[out_key] = float(value)
+
+
 def layer_metric_row(
     *,
     variant: str,
@@ -1790,6 +2216,8 @@ def layer_metric_row(
         _copy_energy("hodge", result["hodge"].energy, row)
     if "hodge_signed" in result:
         _copy_metrics("hodge", result["hodge_signed"], row)
+    if "hltd" in result:
+        _copy_hltd_energy(result["hltd"].energy, row)
     if "graph_fourier" in result:
         row.update(graph_band_metrics(result["graph_fourier"]))
 
@@ -1804,9 +2232,14 @@ def analyze_layer_from_coordinates(
     fourier_backend: FourierBackend = "direct",
     graph_eigs: int = 32,
     k_neighbors: int = 8,
+    hltd_k_neighbors: int = 16,
+    hltd_ridge: float = 1e-5,
+    hltd_use_triangles: bool = True,
+    hltd_vector_mode: Literal["forward", "centered"] = "forward",
     do_fourier: bool = True,
     do_graph: bool = True,
     do_hodge: bool = True,
+    do_hltd: bool = False,
     verbose: bool = True,
 ) -> Dict[str, Any]:
     """Analyze one layer using a precomputed coordinate system."""
@@ -1851,6 +2284,20 @@ def analyze_layer_from_coordinates(
         except Exception as e:
             warnings.warn(f"Layer {field.layer}: Discrete Hodge failed: {e}")
 
+    if do_hltd:
+        try:
+            hltd = hltd_from_coordinates(
+                coord,
+                layer=layer,
+                k_neighbors=hltd_k_neighbors,
+                ridge=hltd_ridge,
+                use_triangles=hltd_use_triangles,
+                vector_mode=hltd_vector_mode,
+            )
+            result["hltd"] = hltd
+        except Exception as e:
+            warnings.warn(f"Layer {field.layer}: HLTD graph Hodge failed: {e}")
+
     return result
 
 
@@ -1865,9 +2312,14 @@ def run_layer_sweep_from_hidden(
     fourier_backend: FourierBackend = "direct",
     graph_eigs: int = 32,
     k_neighbors: int = 8,
+    hltd_k_neighbors: int = 16,
+    hltd_ridge: float = 1e-5,
+    hltd_use_triangles: bool = True,
+    hltd_vector_mode: Literal["forward", "centered"] = "forward",
     do_fourier: bool = True,
     do_graph: bool = True,
     do_hodge: bool = True,
+    do_hltd: bool = False,
     verbose: bool = True,
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Dict[int, Dict[str, Any]]]]:
     """Run all-layer analysis for real and optional null-model variants."""
@@ -1899,9 +2351,14 @@ def run_layer_sweep_from_hidden(
                 fourier_backend=fourier_backend,
                 graph_eigs=graph_eigs,
                 k_neighbors=k_neighbors,
+                hltd_k_neighbors=hltd_k_neighbors,
+                hltd_ridge=hltd_ridge,
+                hltd_use_triangles=hltd_use_triangles,
+                hltd_vector_mode=hltd_vector_mode,
                 do_fourier=do_fourier,
                 do_graph=do_graph,
                 do_hodge=do_hodge,
+                do_hltd=do_hltd,
                 verbose=False,
             )
             results[variant][layer] = result
@@ -2005,6 +2462,40 @@ def plot_spectral_curl_bands(rows: Sequence[Dict[str, Any]], *, variant: str = "
     ax.set_title(f"Spectral curl frequency bands by layer ({variant})")
     ax.set_xlabel("layer")
     ax.set_ylabel("curl-band energy / total spectral energy")
+    ax.set_ylim(bottom=0.0)
+    ax.legend()
+    fig.tight_layout()
+    return fig, ax
+
+
+def plot_hltd_energy_ratios(rows: Sequence[Dict[str, Any]], *, variant: str = "real"):
+    """Plot HLTD exact/coexact/harmonic/semantic-flow ratios across layers."""
+
+    import matplotlib.pyplot as plt
+
+    rr = _rows_for_variant(rows, variant)
+    if not rr:
+        raise ValueError(f"No rows for variant={variant}")
+    layers = np.asarray([int(r["layer"]) for r in rr])
+    metrics = [
+        ("hltd_exact_ratio", "exact / presence"),
+        ("hltd_coexact_ratio", "coexact / local swirl"),
+        ("hltd_harmonic_ratio", "harmonic / global loop"),
+        ("hltd_semantic_flow_ratio", "semantic flow"),
+    ]
+    fig, ax = plt.subplots(figsize=(8, 4.5))
+    plotted = False
+    for key, label in metrics:
+        y = np.asarray([float(r.get(key, float("nan"))) for r in rr], dtype=np.float64)
+        if np.all(np.isnan(y)):
+            continue
+        ax.plot(layers, y, marker="o", label=label)
+        plotted = True
+    if not plotted:
+        raise ValueError(f"No HLTD metrics for variant={variant}")
+    ax.set_title(f"HLTD graph Hodge ratios by layer ({variant})")
+    ax.set_xlabel("layer")
+    ax.set_ylabel("edge-flow energy ratio")
     ax.set_ylim(bottom=0.0)
     ax.legend()
     fig.tight_layout()
@@ -2164,6 +2655,14 @@ def save_layer_sweep_plots(rows: Sequence[Dict[str, Any]], output_dir: Union[str
             saved.append(path)
             plt.close(fig)
 
+        has_hltd = any(not np.isnan(float(r.get("hltd_semantic_flow_ratio", float("nan")))) for r in real_rows)
+        if has_hltd:
+            fig, _ = plot_hltd_energy_ratios(rows, variant=variant)
+            path = outdir / f"hltd_energy_ratios_{variant}.png"
+            fig.savefig(path, dpi=160)
+            saved.append(path)
+            plt.close(fig)
+
         signed_keys = [
             "trajectory_signed_circulation_alignment",
             "turning_alignment",
@@ -2236,6 +2735,10 @@ def print_layer_sweep_summary(rows: Sequence[Dict[str, Any]]) -> None:
         for key, label in [
             ("spectral_curl_low_ratio", "low-frequency spectral curl"),
             ("spectral_curl_high_ratio", "high-frequency spectral curl"),
+            ("hltd_exact_ratio", "HLTD exact/presence"),
+            ("hltd_coexact_ratio", "HLTD coexact/local swirl"),
+            ("hltd_harmonic_ratio", "HLTD harmonic/global loop"),
+            ("hltd_semantic_flow_ratio", "HLTD semantic flow"),
         ]:
             vals = np.asarray([float(r.get(key, float("nan"))) for r in rr], dtype=np.float64)
             if vals.size == 0 or np.all(np.isnan(vals)):
@@ -2280,9 +2783,14 @@ def run_pipeline_from_hidden(
     fourier_backend: FourierBackend = "direct",
     graph_eigs: int = 32,
     k_neighbors: int = 8,
+    hltd_k_neighbors: int = 16,
+    hltd_ridge: float = 1e-5,
+    hltd_use_triangles: bool = True,
+    hltd_vector_mode: Literal["forward", "centered"] = "forward",
     do_fourier: bool = True,
     do_graph: bool = True,
     do_hodge: bool = True,
+    do_hltd: bool = False,
     verbose: bool = True,
 ) -> Dict[str, Any]:
     """Run the prototype from an existing [layers,tokens,dim] hidden array."""
@@ -2331,6 +2839,21 @@ def run_pipeline_from_hidden(
         except Exception as e:
             warnings.warn(f"Discrete Hodge failed: {e}")
 
+    if do_hltd:
+        log("[stage] HLTD graph Hodge decomposition", verbose=verbose)
+        try:
+            hltd = hltd_from_coordinates(
+                coord,
+                layer=layer,
+                k_neighbors=hltd_k_neighbors,
+                ridge=hltd_ridge,
+                use_triangles=hltd_use_triangles,
+                vector_mode=hltd_vector_mode,
+            )
+            result["hltd"] = hltd
+        except Exception as e:
+            warnings.warn(f"HLTD graph Hodge failed: {e}")
+
     return result
 
 
@@ -2340,9 +2863,12 @@ def run_pipeline(
     *,
     layer: int = -1,
     reducer: Literal["pca", "umap"] = "pca",
+    n_components: int = 2,
     max_length: Optional[int] = None,
     fourier_modes: int = 32,
     fourier_backend: FourierBackend = "direct",
+    graph_eigs: int = 32,
+    k_neighbors: int = 8,
     device: Literal["auto", "cpu", "cuda", "mps"] = "cpu",
     dtype: Literal["auto", "float32", "float16", "bfloat16"] = "auto",
     trust_remote_code: bool = False,
@@ -2350,6 +2876,11 @@ def run_pipeline(
     do_fourier: bool = True,
     do_graph: bool = True,
     do_hodge: bool = True,
+    do_hltd: bool = False,
+    hltd_k_neighbors: int = 16,
+    hltd_ridge: float = 1e-5,
+    hltd_use_triangles: bool = True,
+    hltd_vector_mode: Literal["forward", "centered"] = "forward",
     verbose: bool = True,
 ) -> Dict[str, Any]:
     bundle = extract_hidden_states(
@@ -2366,11 +2897,19 @@ def run_pipeline(
         bundle.hidden,
         layer=layer,
         reducer=reducer,
+        n_components=n_components,
         fourier_modes=fourier_modes,
         fourier_backend=fourier_backend,
+        graph_eigs=graph_eigs,
+        k_neighbors=k_neighbors,
+        hltd_k_neighbors=hltd_k_neighbors,
+        hltd_ridge=hltd_ridge,
+        hltd_use_triangles=hltd_use_triangles,
+        hltd_vector_mode=hltd_vector_mode,
         do_fourier=do_fourier,
         do_graph=do_graph,
         do_hodge=do_hodge,
+        do_hltd=do_hltd,
         verbose=verbose,
     )
     result["hidden_bundle"] = bundle
@@ -2380,6 +2919,16 @@ def run_pipeline(
 def _format_energy(name: str, energy: Dict[str, float]) -> str:
     keys = ["grad_ratio", "curl_ratio", "harmonic_ratio"]
     bits = [f"{k}={energy.get(k, float('nan')):.4f}" for k in keys]
+    return f"{name}: " + ", ".join(bits)
+
+
+def _format_hltd_energy(name: str, energy: Dict[str, float]) -> str:
+    keys = ["exact_ratio", "coexact_ratio", "harmonic_ratio", "semantic_flow_ratio"]
+    bits = [f"{k}={energy.get(k, float('nan')):.4f}" for k in keys]
+    edges = int(energy.get("edges", 0.0))
+    triangles = int(energy.get("triangles", 0.0))
+    bits.append(f"edges={edges}")
+    bits.append(f"triangles={triangles}")
     return f"{name}: " + ", ".join(bits)
 
 
@@ -2430,11 +2979,22 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--output-dir", default=".", help="Directory for CSV and plots")
     parser.add_argument("--seed", type=int, default=0, help="Random seed for synthetic data/null models")
     parser.add_argument("--reducer", choices=["pca", "umap"], default="pca")
+    parser.add_argument("--components", type=int, default=2, help="Coordinate dimensions for PCA/UMAP charts")
     parser.add_argument("--max-length", type=int, default=None)
     parser.add_argument("--fourier-modes", "--nufft-modes", dest="fourier_modes", type=int, default=32)
     parser.add_argument("--fourier-backend", choices=["direct", "finufft", "jax"], default="direct")
     parser.add_argument("--graph-eigs", type=int, default=32)
     parser.add_argument("--k-neighbors", type=int, default=8)
+    parser.add_argument("--hltd", action="store_true", help="Run kNN graph Hodge-Latent Traversal Dynamics metrics")
+    parser.add_argument("--hltd-k", type=int, default=16, help="kNN size for HLTD graph construction")
+    parser.add_argument("--hltd-ridge", type=float, default=1e-5, help="Ridge regularization for HLTD solves")
+    parser.add_argument(
+        "--hltd-vector-mode",
+        choices=["forward", "centered"],
+        default="forward",
+        help="Node-vector stencil for HLTD edge flows",
+    )
+    parser.add_argument("--no-hltd-triangles", action="store_true", help="Disable 3-clique coexact component in HLTD")
     parser.add_argument("--device", choices=["auto", "cpu", "cuda", "mps"], default="cpu")
     parser.add_argument("--dtype", choices=["auto", "float32", "float16", "bfloat16"], default="auto")
     parser.add_argument("--trust-remote-code", action="store_true")
@@ -2499,15 +3059,21 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         rows, _ = run_layer_sweep_from_hidden(
             hidden,
             reducer=args.reducer,
+            n_components=args.components,
             null_models=null_models,
             seed=args.seed,
             fourier_modes=args.fourier_modes,
             fourier_backend=args.fourier_backend,
             graph_eigs=args.graph_eigs,
             k_neighbors=args.k_neighbors,
+            hltd_k_neighbors=args.hltd_k,
+            hltd_ridge=args.hltd_ridge,
+            hltd_use_triangles=not args.no_hltd_triangles,
+            hltd_vector_mode=args.hltd_vector_mode,
             do_fourier=not args.no_fourier,
             do_graph=not args.no_graph,
             do_hodge=not args.no_hodge,
+            do_hltd=args.hltd,
             verbose=verbose,
         )
 
@@ -2532,13 +3098,19 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         hidden,
         layer=args.layer,
         reducer=args.reducer,
+        n_components=args.components,
         fourier_modes=args.fourier_modes,
         fourier_backend=args.fourier_backend,
         graph_eigs=args.graph_eigs,
         k_neighbors=args.k_neighbors,
+        hltd_k_neighbors=args.hltd_k,
+        hltd_ridge=args.hltd_ridge,
+        hltd_use_triangles=not args.no_hltd_triangles,
+        hltd_vector_mode=args.hltd_vector_mode,
         do_fourier=not args.no_fourier,
         do_graph=not args.no_graph,
         do_hodge=not args.no_hodge,
+        do_hltd=args.hltd,
         verbose=verbose,
     )
     result["hidden_bundle"] = bundle
@@ -2570,6 +3142,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         print(_format_energy("discrete Hodge", result["hodge"].energy))
     if "hodge_signed" in result:
         print(_format_signed("hodge signed curl", result["hodge_signed"]))
+    if "hltd" in result:
+        print(_format_hltd_energy("HLTD graph Hodge", result["hltd"].energy))
     if "graph_fourier" in result:
         g = result["graph_fourier"]
         print("graph spectrum eigenvalues:", np.array2string(g.eigenvalues[:10], precision=4))

@@ -19,10 +19,96 @@ For an input text and a causal LM, `spiral_hodge.py` runs this pipeline:
 5. Project Fourier coefficients into Helmholtz-like gradient, curl, and harmonic components.
 6. Build a graph Fourier spectrum over sampled trajectory points.
 7. Build a Delaunay complex over token coordinates and run a discrete Hodge decomposition over edge flows.
-8. Compute signed circulation and signed curl metrics, so reversed token order can be distinguished from the original direction.
-9. Split spectral curl into low/mid/high frequency bands to separate coherent transport from high-frequency rotational clutter.
-10. Add Hodge-independent vortex proxies: intrinsic trajectory turning and local Jacobian vorticity.
-11. Export CSV metrics and diagnostic plots across every layer and optional null models.
+8. Optionally run Hodge-Latent Traversal Dynamics (HLTD): a kNN graph Hodge decomposition over PCA/UMAP token-step node vectors.
+9. Compute signed circulation and signed curl metrics, so reversed token order can be distinguished from the original direction.
+10. Split spectral curl into low/mid/high frequency bands to separate coherent transport from high-frequency rotational clutter.
+11. Add Hodge-independent vortex proxies: intrinsic trajectory turning and local Jacobian vorticity.
+12. Export CSV metrics and diagnostic plots across every layer and optional null models.
+
+## Hodge-Latent Traversal Dynamics
+
+HLTD treats token generation as a sampled vector field on a hidden-state chart.
+For each layer, token-step vectors are projected onto a kNN graph as scalar
+edge flow, then decomposed into:
+
+```text
+exact      -> presence / gradient / source-sink dynamics
+coexact    -> local semantic circulation over 3-cliques
+harmonic   -> candidate global concept-loop component
+flow       -> coexact + harmonic
+```
+
+This is intentionally separate from the older 2D Delaunay Hodge metric.
+The Delaunay metric is a compact local-curl diagnostic for projected token
+paths. HLTD can run on higher-dimensional charts, such as PCA-32, and logs
+`hltd_exact_ratio`, `hltd_coexact_ratio`, `hltd_harmonic_ratio`, and
+`hltd_semantic_flow_ratio`.
+
+Example:
+
+```bash
+python3 spiral_hodge.py \
+  --synthetic \
+  --all-layers \
+  --components 8 \
+  --hltd \
+  --hltd-k 12 \
+  --hltd-vector-mode centered \
+  --null-models all \
+  --output-dir spiral_out_hltd \
+  --csv-output layer_metrics.csv \
+  --save-plots
+```
+
+For model runs, start with PCA rather than UMAP for decomposition:
+
+```bash
+python3 spiral_hodge.py \
+  --model-path ./model/gpt2 \
+  --text "The map drank the road and called it home." \
+  --all-layers \
+  --components 32 \
+  --hltd \
+  --hltd-k 16 \
+  --hltd-vector-mode centered \
+  --fourier-backend direct \
+  --output-dir spiral_out_hltd_gpt2
+```
+
+The safest interpretation is comparative: look for layer/prompt regions where
+HLTD non-exact energy beats matched nulls while fluency or downstream semantic
+probes remain stable. Harmonic energy is topology-sensitive, so treat it as a
+candidate global loop signal until it survives k-neighbor and bootstrap checks.
+
+Use `--hltd-vector-mode centered` for reversal-sensitive experiments. The
+original `forward` mode anchors each vector at `z_t`; centered mode anchors
+`(z_{t+1} - z_{t-1}) / 2` at `z_t`, so real and reversed trajectories share the
+same interior node set before edge-flow projection.
+
+### Prompt-family HLTD suite
+
+The repository includes a small prompt suite for comparing literal, metaphor,
+identity-stress, and ontology-collapse text families:
+
+```bash
+python3 scripts/run_hltd_prompt_suite.py \
+  --suite data/hltd_prompt_suite.jsonl \
+  --model-path /Users/ryospiralarchitect/SpiralReality/model/gpt2 \
+  --output-root spiral_out_hltd_suite \
+  --k 16 \
+  --components 32 \
+  --max-length 128 \
+  --null-models all
+
+python3 scripts/summarize_hltd_suite.py \
+  --run-root spiral_out_hltd_suite \
+  --output spiral_out_hltd_suite/summary.csv
+```
+
+The output root is ignored by git because per-prompt reports and plots can grow
+quickly. The summary script reads each `layer_metrics.csv` and reports family
+means for middle-layer HLTD coexact energy, null differences, graph
+high-frequency energy, and reversal sanity checks.
 
 ## Why Signed Curl Matters
 
@@ -90,6 +176,8 @@ This suggests that `graph_*` and `hodge_*` are currently better detectors of loc
 > which scales of rotational structure are suppressed, preserved, or amplified across layers and null models?
 
 See [docs/research_notes.md](docs/research_notes.md) for the fuller interpretation, caveats, and next experiments.
+See [docs/hltd_prompt_family_observations.md](docs/hltd_prompt_family_observations.md)
+for the first 20-prompt HLTD family sweep.
 
 ## Repository Layout
 
@@ -97,7 +185,10 @@ See [docs/research_notes.md](docs/research_notes.md) for the fuller interpretati
 .
 ├── spiral_hodge.py                  # CLI and analysis implementation
 ├── spiral_hodge_report.py           # static interactive HTML report generator
+├── data/hltd_prompt_suite.jsonl      # prompt-family suite for HLTD sweeps
+├── scripts/                          # prompt-suite run and summary helpers
 ├── docs/research_notes.md            # current hypotheses and live-run interpretation
+├── docs/hltd_prompt_family_observations.md
 ├── tests/test_spiral_hodge.py        # path resolution and signed-orientation tests
 ├── examples/izumi-gpt2/              # sample CSV and plots from a GPT-2 run
 ├── requirements.txt
