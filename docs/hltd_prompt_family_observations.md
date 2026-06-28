@@ -154,3 +154,43 @@ The next experiment should make the claim harder to pass:
 5. Add one-step causal steering from PCA-chart HLTD components.
 6. Treat harmonic energy as a separate topology-stability question, not as a
    required signal for the coexact finding.
+
+## k-Sweep Update
+
+The first `k = 12, 16, 24` sweep is summarized in the generated report:
+
+```text
+spiral_out_hltd_ksweep/summary_report.md
+```
+
+Across all families and k values, real HLTD coexact energy peaks at layer 5:
+
+```text
+L5 = 0.8906
+L6 = 0.8824
+L4 = 0.8773
+```
+
+The real-minus-shuffle coexact delta also peaks at layer 5:
+
+```text
+L5 = +0.0925
+L4 = +0.0903
+L6 = +0.0793
+```
+
+The family ordering from the first `k=16` run remains visible when averaged
+over k:
+
+```text
+ontology_collapse  0.8826
+identity_stress    0.8770
+metaphor_shift     0.8705
+literal_stable     0.8554
+```
+
+The cautious read is stronger now:
+
+> HLTD coexact energy robustly localizes around middle layers across k=12/16/24,
+> with ontology-collapse prompts still showing the strongest family-level
+> signal. The family ordering remains provisional until prompt counts grow.

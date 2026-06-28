@@ -304,3 +304,10 @@ The updated working claim is:
 > HLTD coexact energy is a candidate marker of middle-layer local semantic
 > circulation, while harmonic concept-ring structure has not yet been observed
 > in the v0 prompt-family suite.
+
+The first k-sweep (`k = 12, 16, 24`) strengthens the middle-layer part of that
+claim. Across all prompt families and k values, the mean real coexact ratio
+peaks at layer 5, and the mean real-minus-shuffle coexact delta also peaks at
+layer 5. This makes the next gate a topology ablation: compare the current
+3-clique complex against `--no-hltd-triangles` runs before interpreting the
+absence of harmonic energy too strongly.
