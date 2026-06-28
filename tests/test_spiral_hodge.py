@@ -263,6 +263,46 @@ class TestHLTDGraphHodge(unittest.TestCase):
         for key in ["total", "exact_ratio", "coexact_ratio", "harmonic_ratio", "semantic_flow_ratio"]:
             self.assertAlmostEqual(decomp.energy[key], rev_decomp.energy[key], places=8)
 
+    def test_same_graph_reverse_hltd_diagnostic_is_exactly_stable(self) -> None:
+        theta = np.linspace(0.0, 2.0 * np.pi, 24, endpoint=False)
+        points = np.stack([np.cos(theta), np.sin(theta)], axis=1)
+        vectors = np.stack([-np.sin(theta), np.cos(theta)], axis=1)
+
+        decomp = hodge.hodge_latent_traversal_dynamics(points, vectors, k_neighbors=6, ridge=1e-9)
+        metrics = hodge.hltd_same_graph_reverse_metrics(decomp, ridge=1e-9)
+
+        self.assertLess(metrics["coexact_ratio_gap"], 1e-10)
+        self.assertLess(metrics["semantic_flow_ratio_gap"], 1e-10)
+        self.assertLess(metrics["total_ratio_gap"], 1e-10)
+        if decomp.energy["coexact"] > 1e-9:
+            self.assertAlmostEqual(metrics["coexact_alignment"], -1.0, places=7)
+
+    def test_layer_metric_row_exports_same_graph_reverse_diagnostic(self) -> None:
+        hidden = hodge.synthetic_hidden_states(layers=2, tokens=16, dim=12, seed=11).hidden
+        coord = hodge.make_semantic_coordinates(hidden, n_components=4, verbose=False)
+
+        result = hodge.analyze_layer_from_coordinates(
+            coord,
+            layer=1,
+            do_fourier=False,
+            do_graph=False,
+            do_hodge=False,
+            do_hltd=True,
+            hltd_k_neighbors=4,
+            hltd_ridge=1e-6,
+            hltd_same_graph_reverse=True,
+        )
+        row = hodge.layer_metric_row(
+            variant="real",
+            layer=1,
+            hidden_shape=hidden.shape,
+            coord=coord,
+            result=result,
+        )
+
+        self.assertIn("hltd_same_graph_reverse_coexact_ratio_gap", row)
+        self.assertLess(row["hltd_same_graph_reverse_coexact_ratio_gap"], 1e-10)
+
 
 @unittest.skipUnless(_jax_available(), "JAX is not installed")
 class TestJaxFourierBackend(unittest.TestCase):

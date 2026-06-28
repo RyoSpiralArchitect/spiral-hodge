@@ -304,3 +304,18 @@ The updated working claim is:
 > HLTD coexact energy is a candidate marker of middle-layer local semantic
 > circulation, while harmonic concept-ring structure has not yet been observed
 > in the v0 prompt-family suite.
+
+The first k-sweep (`k = 12, 16, 24`) strengthens the middle-layer part of that
+claim. Across all prompt families and k values, the mean real coexact ratio
+peaks at layer 5, and the mean real-minus-shuffle coexact delta also peaks at
+layer 5. This makes the next gate a topology ablation: compare the current
+3-clique complex against `--no-hltd-triangles` runs before interpreting the
+absence of harmonic energy too strongly.
+
+The reversal-invariance gate now has two levels. `reverse_tokens` is the
+realistic null because it reverses the token order and rebuilds the projected
+chart, graph, and triangle complex. `--hltd-same-graph-reverse` is the stricter
+linear sanity check: it keeps the same graph/triangle complex and reverses only
+the node vectors. If same-graph gaps are near zero while `reverse_tokens` gaps
+remain nonzero, the residual gap should be interpreted as graph-construction
+jitter before treating it as a semantic asymmetry.

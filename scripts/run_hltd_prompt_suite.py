@@ -45,6 +45,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--fourier-backend", choices=["direct", "finufft", "jax"], default="direct")
     parser.add_argument("--null-models", default="all")
     parser.add_argument("--save-plots", action="store_true")
+    parser.add_argument("--hltd-same-graph-reverse", action="store_true", help="Emit same-graph reverse HLTD diagnostics")
+    parser.add_argument("--no-hltd-triangles", action="store_true", help="Disable 3-clique coexact component")
+    parser.add_argument(
+        "--topology-label",
+        default=None,
+        help="Optional suffix for run directories, e.g. no_triangles for topology ablations",
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
@@ -58,7 +65,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         family = str(item["family"])
         text = str(item["text"])
         for k in args.k:
-            run_dir = output_root / f"{family}__{prompt_id}__k{k}"
+            topology_label = args.topology_label
+            if topology_label is None and args.no_hltd_triangles:
+                topology_label = "no_triangles"
+            run_name = f"{family}__{prompt_id}__k{k}"
+            if topology_label:
+                run_name = f"{run_name}__{topology_label}"
+            run_dir = output_root / run_name
             cmd = [
                 sys.executable,
                 "spiral_hodge.py",
@@ -86,6 +99,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "--csv-output",
                 "layer_metrics.csv",
             ]
+            if args.no_hltd_triangles:
+                cmd.append("--no-hltd-triangles")
+            if args.hltd_same_graph_reverse:
+                cmd.append("--hltd-same-graph-reverse")
             if args.save_plots:
                 cmd.append("--save-plots")
             run_command(cmd, dry_run=args.dry_run)
@@ -98,7 +115,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "--output",
                 "report.html",
                 "--title",
-                f"HLTD {family} {prompt_id} k={k}",
+                f"HLTD {family} {prompt_id} k={k}" + (f" {topology_label}" if topology_label else ""),
             ]
             run_command(report_cmd, dry_run=args.dry_run)
 

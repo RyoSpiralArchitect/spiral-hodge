@@ -105,10 +105,59 @@ python3 scripts/summarize_hltd_suite.py \
   --output spiral_out_hltd_suite/summary.csv
 ```
 
+For k-sweeps, pass multiple `--k` values:
+
+```bash
+python3 scripts/run_hltd_prompt_suite.py \
+  --suite data/hltd_prompt_suite.jsonl \
+  --model-path /Users/ryospiralarchitect/SpiralReality/model/gpt2 \
+  --output-root spiral_out_hltd_ksweep \
+  --k 12 16 24 \
+  --components 32 \
+  --max-length 128 \
+  --null-models all \
+  --hltd-same-graph-reverse
+
+python3 scripts/summarize_hltd_suite.py \
+  --run-root spiral_out_hltd_ksweep \
+  --output spiral_out_hltd_ksweep/summary.csv
+```
+
 The output root is ignored by git because per-prompt reports and plots can grow
-quickly. The summary script reads each `layer_metrics.csv` and reports family
-means for middle-layer HLTD coexact energy, null differences, graph
-high-frequency energy, and reversal sanity checks.
+quickly. The summary script reads each `layer_metrics.csv` and now emits:
+
+```text
+summary.csv              # one row per prompt/k/topology run
+summary_family_k.csv     # family x k aggregate table
+summary_layer.csv        # layer-wise aggregate curves and real-minus-null deltas
+summary_prompt.csv       # prompt-level means across k
+summary_bootstrap.csv    # prompt-level bootstrap confidence intervals
+summary_family_gaps.csv  # pairwise family-gap bootstrap intervals
+summary_report.md        # compact Markdown report for research notes
+```
+
+For triangle/topology ablations, keep run directories distinct:
+
+```bash
+python3 scripts/run_hltd_prompt_suite.py \
+  --suite data/hltd_prompt_suite.jsonl \
+  --model-path /Users/ryospiralarchitect/SpiralReality/model/gpt2 \
+  --output-root spiral_out_hltd_topology \
+  --k 12 16 24 \
+  --components 32 \
+  --max-length 128 \
+  --null-models all \
+  --no-hltd-triangles
+```
+
+`--no-hltd-triangles` automatically appends `__no_triangles` to each run
+directory, and the summarizer records that suffix as a `topology` column.
+
+Use `--hltd-same-graph-reverse` for the reversal-invariance gate. It fixes the
+real trajectory's kNN graph and triangle complex, reverses only the node vector
+field, and writes `hltd_same_graph_reverse_*` diagnostics. The usual
+`reverse_tokens` null still rebuilds the chart/graph, so comparing both gaps
+helps separate graph-construction jitter from true Hodge decomposition issues.
 
 ## Why Signed Curl Matters
 
