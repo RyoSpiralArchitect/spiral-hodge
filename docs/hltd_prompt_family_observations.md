@@ -194,3 +194,42 @@ The cautious read is stronger now:
 > HLTD coexact energy robustly localizes around middle layers across k=12/16/24,
 > with ontology-collapse prompts still showing the strongest family-level
 > signal. The family ordering remains provisional until prompt counts grow.
+
+## Reversal-Invariance Gate
+
+The next robustness check is implemented as `--hltd-same-graph-reverse`.
+It keeps the real kNN graph, edge orientation, and triangle complex fixed, then
+reverses only the node-vector field:
+
+```text
+v -> -v
+```
+
+This should preserve exact/coexact/harmonic energy ratios to numerical
+precision and flip component directions. It gives a stricter reference than
+the `reverse_tokens` null, which rebuilds the chart and graph after reversing
+token order.
+
+The intended read is:
+
+```text
+same-graph reverse gap near zero:
+    Hodge decomposition is orientation-stable on a fixed complex.
+
+reverse_tokens gap nonzero:
+    likely graph/triangle/chart rebuild jitter, not necessarily a flow failure.
+```
+
+For the next full gate run, use both:
+
+```bash
+python3 scripts/run_hltd_prompt_suite.py \
+  --suite data/hltd_prompt_suite.jsonl \
+  --model-path /Users/ryospiralarchitect/SpiralReality/model/gpt2 \
+  --output-root spiral_out_hltd_invariance \
+  --k 12 16 24 \
+  --components 32 \
+  --max-length 128 \
+  --null-models all \
+  --hltd-same-graph-reverse
+```

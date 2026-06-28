@@ -37,6 +37,7 @@ RUN_SUMMARY_METRICS = [
     "real_coexact_mid_peak",
     "max_reverse_hltd_coexact_gap",
     "max_reverse_signed_trajectory_gap",
+    "max_same_graph_reverse_coexact_gap",
 ]
 
 BOOTSTRAP_METRICS = [
@@ -46,6 +47,7 @@ BOOTSTRAP_METRICS = [
     "real_exact_l5_l8",
     "real_harmonic_max",
     "max_reverse_hltd_coexact_gap",
+    "max_same_graph_reverse_coexact_gap",
 ]
 
 LAYER_METRICS = [
@@ -55,6 +57,8 @@ LAYER_METRICS = [
     "hltd_semantic_flow_ratio",
     "graph_high_freq_ratio",
     "hodge_curl_ratio",
+    "hltd_same_graph_reverse_coexact_ratio_gap",
+    "hltd_same_graph_reverse_semantic_flow_ratio_gap",
 ]
 
 
@@ -120,6 +124,11 @@ def peak_metric(rows: Sequence[Dict[str, str]], metric: str, *, layer_min: int =
         return float("nan"), -1
     layer, value = max(vals, key=lambda item: item[1])
     return value, layer
+
+
+def max_metric(rows: Sequence[Dict[str, str]], metric: str, *, layer_min: int = 0, layer_max: int = 999) -> float:
+    vals = [value for _, value in metric_values(rows, metric, layer_min=layer_min, layer_max=layer_max)]
+    return max(vals) if vals else float("nan")
 
 
 def max_reverse_unsigned_gap(rows: Sequence[Dict[str, str]], metric: str) -> float:
@@ -190,6 +199,7 @@ def build_run_summary(csv_path: Path) -> Dict[str, Any]:
         "real_coexact_mid_peak_layer": peak_mid_layer,
         "max_reverse_hltd_coexact_gap": max_reverse_unsigned_gap(rows, "hltd_coexact_ratio"),
         "max_reverse_signed_trajectory_gap": max_reverse_signed_gap(rows, "trajectory_signed_circulation_alignment"),
+        "max_same_graph_reverse_coexact_gap": max_metric(real, "hltd_same_graph_reverse_coexact_ratio_gap"),
     }
 
 
@@ -472,6 +482,14 @@ def write_markdown_report(
             if str(row["topology"]) == topology and row["metric"] in {"real_coexact_l5_l8", "real_minus_shuffle_coexact_l5_l8"}
         ]
         lines.append(markdown_table(["family", "metric", "mean", "ci_low", "ci_high"], boot_table))
+        lines.extend(["", "### Reverse Gates", ""])
+        reverse_table = [
+            [row["family"], row["metric"], fmt(row["mean"]), fmt(row["ci_low"]), fmt(row["ci_high"])]
+            for row in bootstrap_rows
+            if str(row["topology"]) == topology
+            and row["metric"] in {"max_reverse_hltd_coexact_gap", "max_same_graph_reverse_coexact_gap"}
+        ]
+        lines.append(markdown_table(["family", "metric", "mean", "ci_low", "ci_high"], reverse_table))
         lines.extend(["", "### Pairwise family gaps", ""])
         gap_table = [
             [row["metric"], f"{row['family_a']} - {row['family_b']}", fmt(row["diff_mean"]), fmt(row["ci_low"]), fmt(row["ci_high"])]

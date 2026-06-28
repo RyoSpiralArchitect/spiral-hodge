@@ -115,7 +115,8 @@ python3 scripts/run_hltd_prompt_suite.py \
   --k 12 16 24 \
   --components 32 \
   --max-length 128 \
-  --null-models all
+  --null-models all \
+  --hltd-same-graph-reverse
 
 python3 scripts/summarize_hltd_suite.py \
   --run-root spiral_out_hltd_ksweep \
@@ -151,6 +152,12 @@ python3 scripts/run_hltd_prompt_suite.py \
 
 `--no-hltd-triangles` automatically appends `__no_triangles` to each run
 directory, and the summarizer records that suffix as a `topology` column.
+
+Use `--hltd-same-graph-reverse` for the reversal-invariance gate. It fixes the
+real trajectory's kNN graph and triangle complex, reverses only the node vector
+field, and writes `hltd_same_graph_reverse_*` diagnostics. The usual
+`reverse_tokens` null still rebuilds the chart/graph, so comparing both gaps
+helps separate graph-construction jitter from true Hodge decomposition issues.
 
 ## Why Signed Curl Matters
 

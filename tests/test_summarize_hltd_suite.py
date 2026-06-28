@@ -18,6 +18,8 @@ FIELDS = [
     "graph_high_freq_ratio",
     "hodge_curl_ratio",
     "trajectory_signed_circulation_alignment",
+    "hltd_same_graph_reverse_coexact_ratio_gap",
+    "hltd_same_graph_reverse_semantic_flow_ratio_gap",
 ]
 
 
@@ -30,10 +32,10 @@ def write_metrics(path: Path) -> None:
     ]:
         rows.extend(
             [
-                ["real", layer, real, 1.0 - real, 0.0, real, 0.1, 0.2, signed],
-                ["shuffle_tokens", layer, shuffle, 1.0 - shuffle, 0.0, shuffle, 0.2, 0.3, -signed],
-                ["reverse_tokens", layer, reverse, 1.0 - reverse, 0.0, reverse, 0.1, 0.2, -signed],
-                ["random_hidden", layer, random_hidden, 1.0 - random_hidden, 0.0, random_hidden, 0.3, 0.4, signed],
+                ["real", layer, real, 1.0 - real, 0.0, real, 0.1, 0.2, signed, 0.001, 0.002],
+                ["shuffle_tokens", layer, shuffle, 1.0 - shuffle, 0.0, shuffle, 0.2, 0.3, -signed, 0.003, 0.004],
+                ["reverse_tokens", layer, reverse, 1.0 - reverse, 0.0, reverse, 0.1, 0.2, -signed, 0.001, 0.002],
+                ["random_hidden", layer, random_hidden, 1.0 - random_hidden, 0.0, random_hidden, 0.3, 0.4, signed, 0.005, 0.006],
             ]
         )
     with path.open("w", newline="", encoding="utf-8") as f:
@@ -66,6 +68,7 @@ class TestSummarizeHLTDSuite(unittest.TestCase):
             self.assertAlmostEqual(run_summary["real_minus_random_coexact_l5_l8"], 0.35)
             self.assertAlmostEqual(run_summary["max_reverse_hltd_coexact_gap"], 0.0)
             self.assertAlmostEqual(run_summary["max_reverse_signed_trajectory_gap"], 0.0)
+            self.assertAlmostEqual(run_summary["max_same_graph_reverse_coexact_gap"], 0.001)
 
             family_k = summarize.build_family_k_summary([run_summary])
             self.assertEqual(family_k[0]["k"], 12)
@@ -79,6 +82,7 @@ class TestSummarizeHLTDSuite(unittest.TestCase):
             prompt_rows = summarize.build_prompt_summary([run_summary])
             bootstrap = summarize.build_bootstrap_summary(prompt_rows, samples=10, seed=0)
             self.assertTrue(any(row["metric"] == "real_coexact_l5_l8" for row in bootstrap))
+            self.assertTrue(any(row["metric"] == "max_same_graph_reverse_coexact_gap" for row in bootstrap))
 
     def test_main_writes_extra_outputs(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

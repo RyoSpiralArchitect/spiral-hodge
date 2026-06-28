@@ -832,6 +832,37 @@ def hodge_latent_traversal_dynamics(
 
         C = csr_matrix((len(edges), 0), dtype=np.float64)
         triangles = np.empty((0, 3), dtype=int)
+    return hodge_latent_traversal_dynamics_on_complex(
+        P,
+        V,
+        edges=edges,
+        B=B,
+        C=C,
+        triangles=triangles,
+        k_neighbors=k_neighbors,
+        ridge=ridge,
+    )
+
+
+def hodge_latent_traversal_dynamics_on_complex(
+    points: Array,
+    vectors: Array,
+    *,
+    edges: Array,
+    B: Any,
+    C: Any,
+    triangles: Array,
+    k_neighbors: int,
+    ridge: float = 1e-5,
+) -> HLTDDecomposition:
+    """Run HLTD on a fixed graph/triangle complex."""
+
+    P = np.asarray(points, dtype=np.float64)
+    V = np.asarray(vectors, dtype=np.float64)
+    edges = np.asarray(edges, dtype=int)
+    triangles = np.asarray(triangles, dtype=int).reshape(-1, 3)
+    if P.shape != V.shape:
+        raise ValueError(f"points and vectors shape mismatch: {P.shape} vs {V.shape}")
     flow = edge_flow_from_node_vectors(P, V, edges)
     exact, coexact, harmonic, phi, psi, energy = hodge_decompose_graph_edge_flow(flow, B, C, ridge=ridge)
     energy["edges"] = float(len(edges))
@@ -852,6 +883,45 @@ def hodge_latent_traversal_dynamics(
         C=C,
         k_neighbors=int(k_neighbors),
     )
+
+
+def hltd_same_graph_reverse_metrics(decomp: HLTDDecomposition, *, ridge: float = 1e-5) -> Dict[str, float]:
+    """Reverse vectors on the same HLTD graph and report invariance diagnostics."""
+
+    rev = hodge_latent_traversal_dynamics_on_complex(
+        decomp.points,
+        -decomp.vectors,
+        edges=decomp.edges,
+        B=decomp.B,
+        C=decomp.C,
+        triangles=decomp.triangles,
+        k_neighbors=decomp.k_neighbors,
+        ridge=ridge,
+    )
+    metrics: Dict[str, float] = {}
+    for key in [
+        "total",
+        "exact_ratio",
+        "coexact_ratio",
+        "harmonic_ratio",
+        "semantic_flow_ratio",
+        "reconstruction_error",
+    ]:
+        metrics[key] = float(rev.energy.get(key, float("nan")))
+    metrics["coexact_ratio_gap"] = abs(
+        float(decomp.energy.get("coexact_ratio", float("nan"))) - float(rev.energy.get("coexact_ratio", float("nan")))
+    )
+    metrics["semantic_flow_ratio_gap"] = abs(
+        float(decomp.energy.get("semantic_flow_ratio", float("nan"))) - float(rev.energy.get("semantic_flow_ratio", float("nan")))
+    )
+    metrics["total_ratio_gap"] = abs(
+        float(decomp.energy.get("total", float("nan"))) - float(rev.energy.get("total", float("nan")))
+    ) / max(float(decomp.energy.get("total", 0.0)), 1e-30)
+    metrics["exact_alignment"] = _component_alignment(decomp.exact, rev.exact)
+    metrics["coexact_alignment"] = _component_alignment(decomp.coexact, rev.coexact)
+    metrics["harmonic_alignment"] = _component_alignment(decomp.harmonic, rev.harmonic)
+    metrics["semantic_flow_alignment"] = _component_alignment(decomp.coexact + decomp.harmonic, rev.coexact + rev.harmonic)
+    return metrics
 
 
 def hltd_from_coordinates(
@@ -2057,6 +2127,19 @@ LAYER_SWEEP_FIELDS = [
     "hltd_exact_coexact_alignment",
     "hltd_exact_harmonic_alignment",
     "hltd_coexact_harmonic_alignment",
+    "hltd_same_graph_reverse_total",
+    "hltd_same_graph_reverse_exact_ratio",
+    "hltd_same_graph_reverse_coexact_ratio",
+    "hltd_same_graph_reverse_harmonic_ratio",
+    "hltd_same_graph_reverse_semantic_flow_ratio",
+    "hltd_same_graph_reverse_reconstruction_error",
+    "hltd_same_graph_reverse_coexact_ratio_gap",
+    "hltd_same_graph_reverse_semantic_flow_ratio_gap",
+    "hltd_same_graph_reverse_total_ratio_gap",
+    "hltd_same_graph_reverse_exact_alignment",
+    "hltd_same_graph_reverse_coexact_alignment",
+    "hltd_same_graph_reverse_harmonic_alignment",
+    "hltd_same_graph_reverse_semantic_flow_alignment",
     "graph_total_power",
     "graph_low_freq_power",
     "graph_high_freq_power",
@@ -2218,6 +2301,8 @@ def layer_metric_row(
         _copy_metrics("hodge", result["hodge_signed"], row)
     if "hltd" in result:
         _copy_hltd_energy(result["hltd"].energy, row)
+    if "hltd_same_graph_reverse" in result:
+        _copy_metrics("hltd_same_graph_reverse", result["hltd_same_graph_reverse"], row)
     if "graph_fourier" in result:
         row.update(graph_band_metrics(result["graph_fourier"]))
 
@@ -2236,6 +2321,7 @@ def analyze_layer_from_coordinates(
     hltd_ridge: float = 1e-5,
     hltd_use_triangles: bool = True,
     hltd_vector_mode: Literal["forward", "centered"] = "forward",
+    hltd_same_graph_reverse: bool = False,
     do_fourier: bool = True,
     do_graph: bool = True,
     do_hodge: bool = True,
@@ -2295,6 +2381,8 @@ def analyze_layer_from_coordinates(
                 vector_mode=hltd_vector_mode,
             )
             result["hltd"] = hltd
+            if hltd_same_graph_reverse:
+                result["hltd_same_graph_reverse"] = hltd_same_graph_reverse_metrics(hltd, ridge=hltd_ridge)
         except Exception as e:
             warnings.warn(f"Layer {field.layer}: HLTD graph Hodge failed: {e}")
 
@@ -2316,6 +2404,7 @@ def run_layer_sweep_from_hidden(
     hltd_ridge: float = 1e-5,
     hltd_use_triangles: bool = True,
     hltd_vector_mode: Literal["forward", "centered"] = "forward",
+    hltd_same_graph_reverse: bool = False,
     do_fourier: bool = True,
     do_graph: bool = True,
     do_hodge: bool = True,
@@ -2355,6 +2444,7 @@ def run_layer_sweep_from_hidden(
                 hltd_ridge=hltd_ridge,
                 hltd_use_triangles=hltd_use_triangles,
                 hltd_vector_mode=hltd_vector_mode,
+                hltd_same_graph_reverse=hltd_same_graph_reverse,
                 do_fourier=do_fourier,
                 do_graph=do_graph,
                 do_hodge=do_hodge,
@@ -2787,6 +2877,7 @@ def run_pipeline_from_hidden(
     hltd_ridge: float = 1e-5,
     hltd_use_triangles: bool = True,
     hltd_vector_mode: Literal["forward", "centered"] = "forward",
+    hltd_same_graph_reverse: bool = False,
     do_fourier: bool = True,
     do_graph: bool = True,
     do_hodge: bool = True,
@@ -2851,6 +2942,8 @@ def run_pipeline_from_hidden(
                 vector_mode=hltd_vector_mode,
             )
             result["hltd"] = hltd
+            if hltd_same_graph_reverse:
+                result["hltd_same_graph_reverse"] = hltd_same_graph_reverse_metrics(hltd, ridge=hltd_ridge)
         except Exception as e:
             warnings.warn(f"HLTD graph Hodge failed: {e}")
 
@@ -2881,6 +2974,7 @@ def run_pipeline(
     hltd_ridge: float = 1e-5,
     hltd_use_triangles: bool = True,
     hltd_vector_mode: Literal["forward", "centered"] = "forward",
+    hltd_same_graph_reverse: bool = False,
     verbose: bool = True,
 ) -> Dict[str, Any]:
     bundle = extract_hidden_states(
@@ -2906,6 +3000,7 @@ def run_pipeline(
         hltd_ridge=hltd_ridge,
         hltd_use_triangles=hltd_use_triangles,
         hltd_vector_mode=hltd_vector_mode,
+        hltd_same_graph_reverse=hltd_same_graph_reverse,
         do_fourier=do_fourier,
         do_graph=do_graph,
         do_hodge=do_hodge,
@@ -2994,6 +3089,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         default="forward",
         help="Node-vector stencil for HLTD edge flows",
     )
+    parser.add_argument(
+        "--hltd-same-graph-reverse",
+        action="store_true",
+        help="Compute HLTD reverse-flow diagnostics on the same graph/triangle complex",
+    )
     parser.add_argument("--no-hltd-triangles", action="store_true", help="Disable 3-clique coexact component in HLTD")
     parser.add_argument("--device", choices=["auto", "cpu", "cuda", "mps"], default="cpu")
     parser.add_argument("--dtype", choices=["auto", "float32", "float16", "bfloat16"], default="auto")
@@ -3070,6 +3170,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             hltd_ridge=args.hltd_ridge,
             hltd_use_triangles=not args.no_hltd_triangles,
             hltd_vector_mode=args.hltd_vector_mode,
+            hltd_same_graph_reverse=args.hltd_same_graph_reverse,
             do_fourier=not args.no_fourier,
             do_graph=not args.no_graph,
             do_hodge=not args.no_hodge,
@@ -3107,6 +3208,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         hltd_ridge=args.hltd_ridge,
         hltd_use_triangles=not args.no_hltd_triangles,
         hltd_vector_mode=args.hltd_vector_mode,
+        hltd_same_graph_reverse=args.hltd_same_graph_reverse,
         do_fourier=not args.no_fourier,
         do_graph=not args.no_graph,
         do_hodge=not args.no_hodge,
@@ -3144,6 +3246,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         print(_format_signed("hodge signed curl", result["hodge_signed"]))
     if "hltd" in result:
         print(_format_hltd_energy("HLTD graph Hodge", result["hltd"].energy))
+    if "hltd_same_graph_reverse" in result:
+        m = result["hltd_same_graph_reverse"]
+        print(
+            "HLTD same-graph reverse: "
+            f"coexact_gap={m.get('coexact_ratio_gap', float('nan')):.3e}, "
+            f"flow_gap={m.get('semantic_flow_ratio_gap', float('nan')):.3e}, "
+            f"coexact_alignment={m.get('coexact_alignment', float('nan')):+.4f}"
+        )
     if "graph_fourier" in result:
         g = result["graph_fourier"]
         print("graph spectrum eigenvalues:", np.array2string(g.eigenvalues[:10], precision=4))

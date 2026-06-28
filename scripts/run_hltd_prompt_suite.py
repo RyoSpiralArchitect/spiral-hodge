@@ -45,6 +45,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--fourier-backend", choices=["direct", "finufft", "jax"], default="direct")
     parser.add_argument("--null-models", default="all")
     parser.add_argument("--save-plots", action="store_true")
+    parser.add_argument("--hltd-same-graph-reverse", action="store_true", help="Emit same-graph reverse HLTD diagnostics")
     parser.add_argument("--no-hltd-triangles", action="store_true", help="Disable 3-clique coexact component")
     parser.add_argument(
         "--topology-label",
@@ -100,6 +101,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             ]
             if args.no_hltd_triangles:
                 cmd.append("--no-hltd-triangles")
+            if args.hltd_same_graph_reverse:
+                cmd.append("--hltd-same-graph-reverse")
             if args.save_plots:
                 cmd.append("--save-plots")
             run_command(cmd, dry_run=args.dry_run)
