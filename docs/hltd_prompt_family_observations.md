@@ -233,3 +233,18 @@ python3 scripts/run_hltd_prompt_suite.py \
   --null-models all \
   --hltd-same-graph-reverse
 ```
+
+## Topology Robustness Gate
+
+The full triangle/no-triangle topology ablation and same-graph reversal gate is
+written up in:
+
+```text
+docs/hltd_robustness_gate.md
+```
+
+Short read: with triangles, the v0.1 signal is a middle-layer coexact/local
+swirl component; without triangles, coexact is structurally zero and residual
+energy is forced into harmonic. The current evidence therefore supports local
+semantic circulation, while harmonic/global concept-ring claims remain
+deferred.
