@@ -228,6 +228,19 @@ class TestHLTDGraphHodge(unittest.TestCase):
         self.assertTrue(np.isfinite(decomp.energy["semantic_flow_ratio"]))
         self.assertLess(decomp.energy["reconstruction_error"], 1e-9)
 
+    def test_pca_chart_vectors_to_hidden_maps_differentials(self) -> None:
+        from sklearn.decomposition import PCA
+
+        rng = np.random.default_rng(5)
+        X = rng.normal(size=(20, 6))
+        reducer = PCA(n_components=3, random_state=0).fit(X)
+        chart_vectors = rng.normal(size=(4, 3))
+
+        hidden_vectors = hodge.pca_chart_vectors_to_hidden(chart_vectors, reducer)
+
+        self.assertEqual(hidden_vectors.shape, (4, 6))
+        np.testing.assert_allclose(hidden_vectors, chart_vectors @ reducer.components_)
+
     def test_centered_hltd_energy_is_invariant_under_reversal(self) -> None:
         theta = np.linspace(0.0, 1.6 * np.pi, 18)
         coords = np.stack([np.cos(theta), np.sin(theta), 0.2 * theta], axis=1)[None, :, :]

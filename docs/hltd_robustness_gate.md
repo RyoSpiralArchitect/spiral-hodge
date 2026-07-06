@@ -214,8 +214,8 @@ This run does not yet support these stronger statements:
 The natural next steps are:
 
 1. Increase prompt count for the family gaps.
-2. Add one-step activation steering along reconstructed coexact and presence
-   vectors.
+2. Extend one-step steering across layers, token-selection rules, and random
+   tangent seeds.
 3. Compare centered-difference, forward-difference, and path-edge-native
    flows.
 4. Add path-integration metrics: bending energy, manifold adherence, and

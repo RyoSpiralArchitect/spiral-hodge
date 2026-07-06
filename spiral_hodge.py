@@ -562,6 +562,29 @@ def make_semantic_coordinates(
     return CoordinateBundle(coords=coords, reducer=reducer, explained_variance_ratio=evr, flattened_input_shape=(L, T, D))
 
 
+def pca_chart_vectors_to_hidden(chart_vectors: Array, reducer: Any) -> Array:
+    """Map PCA-chart differential vectors back into hidden-space directions.
+
+    This maps directions, not absolute coordinates, so the PCA mean is not
+    added. If the PCA was fit on normalized hidden states, the returned vectors
+    live in that normalized-hidden tangent coordinate system.
+    """
+
+    components = getattr(reducer, "components_", None)
+    if components is None:
+        raise ValueError("PCA reducer with components_ is required.")
+    C = np.asarray(components, dtype=np.float64)
+    V = np.asarray(chart_vectors, dtype=np.float64)
+    if V.ndim == 0:
+        raise ValueError("chart_vectors must have at least one dimension.")
+    if V.shape[-1] != C.shape[0]:
+        raise ValueError(f"chart vector dim {V.shape[-1]} does not match PCA components {C.shape[0]}.")
+
+    flat = V.reshape(-1, V.shape[-1])
+    hidden = flat @ C
+    return hidden.reshape(*V.shape[:-1], C.shape[1])
+
+
 # -----------------------------------------------------------------------------
 # Token trajectory vector field
 # -----------------------------------------------------------------------------
