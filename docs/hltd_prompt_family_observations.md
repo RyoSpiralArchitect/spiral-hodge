@@ -248,3 +248,19 @@ swirl component; without triangles, coexact is structurally zero and residual
 energy is forced into harmonic. The current evidence therefore supports local
 semantic circulation, while harmonic/global concept-ring claims remain
 deferred.
+
+## One-Step Steering Gate
+
+The first causal steering gate is written up in:
+
+```text
+docs/hltd_steering_gate.md
+```
+
+Short read: reconstructed HLTD component directions do move next-token logits.
+Compared with matched random tangent steering, coexact improves teacher-forced
+next-token support in `identity_stress` and `ontology_collapse` prompts, but
+does not yet show a universal advantage across all families. Presence is also
+causally active, especially in ontology-collapse prompts, so the next gate
+needs semantic probes and multi-step generation rather than relying only on
+teacher-forced next-token support.

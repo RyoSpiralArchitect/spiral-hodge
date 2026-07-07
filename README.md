@@ -159,6 +159,51 @@ field, and writes `hltd_same_graph_reverse_*` diagnostics. The usual
 `reverse_tokens` null still rebuilds the chart/graph, so comparing both gaps
 helps separate graph-construction jitter from true Hodge decomposition issues.
 
+### One-step causal steering
+
+After a robust coexact layer has been identified, run a small causal gate by
+adding reconstructed HLTD component directions to one hidden state and comparing
+the next-token logits:
+
+```bash
+python3 scripts/run_hltd_steering.py \
+  --model-path /Users/ryospiralarchitect/SpiralReality/model/gpt2 \
+  --text "The map drank the road and called it home." \
+  --layer 5 \
+  --k 16 \
+  --components 32 \
+  --alphas 0.25 0.5 1.0 \
+  --output-dir spiral_out_hltd_steering
+```
+
+The script writes `steering_metrics.csv` and `steering_report.md`. It compares
+presence, coexact, semantic-flow, harmonic, and matched random-tangent
+directions using KL divergence, entropy shift, top-token movement, and the
+teacher-forced next-token log-probability shift.
+
+To run the same gate across the prompt-family suite:
+
+```bash
+python3 scripts/run_hltd_steering_suite.py \
+  --suite data/hltd_prompt_suite.jsonl \
+  --model-path /Users/ryospiralarchitect/SpiralReality/model/gpt2 \
+  --output-root spiral_out_hltd_steering_suite \
+  --layers 5 \
+  --k 16 \
+  --components 32 \
+  --alphas 0.5 1.0
+```
+
+The suite runner writes one `steering_metrics.csv` per prompt/layer/k and then
+calls `scripts/summarize_hltd_steering.py`, producing:
+
+```text
+summary.csv             # one row per component/alpha steering intervention
+summary_component.csv   # family x component x alpha means
+summary_pairwise.csv    # component-minus-random-tangent contrasts
+summary_report.md       # compact Markdown readout
+```
+
 ## Why Signed Curl Matters
 
 The first version of this experiment measured curl energy ratios. Those ratios are useful, but they are unsigned: reversing a trajectory can preserve the same amount of curl energy.
