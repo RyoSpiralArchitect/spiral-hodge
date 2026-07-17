@@ -178,3 +178,49 @@ The next experiments should make the steering claim harder to pass:
    teacher-forced next-token support.
 6. Run short closed-loop generation with presence/coexact/random steering and
    measure fluency, identity drift, and affordance drift.
+
+## Next-Gate Sweep Update
+
+The first layer/seed/token-selector extension is summarized in:
+
+```text
+docs/hltd_next_gate_steering_sweep.md
+```
+
+Short read: in a lite run over one prompt per family, layers 4-8, seeds 0/1,
+and `max_component` versus `middle` token selectors, the middle-token selector
+showed a cleaner positive coexact-minus-random teacher-forced next-token signal
+from L5-L8. The max-component selector was less stable, which makes token
+selection itself part of the robustness gate rather than a harmless detail.
+
+The same note now includes the fast full-suite MPS run over all 20 prompts.
+That run completed 100 prompt/layer/k steering runs and 2000 rows in 38.8
+seconds, and preserved the main selector read: middle-token coexact steering
+exceeds matched random tangent on teacher-forced next-token support across
+L4-L8, with the strongest family-level effect in ontology-collapse prompts.
+
+The note also includes the first coarse semantic-target gate using
+`data/hltd_semantic_targets.json`. That gate adds family-level lexical
+target/control sets and reports target-mass and semantic-margin deltas. Short
+read: coexact middle-token steering still has the cleaner next-token effect,
+but lexical semantic-margin evidence is family-dependent rather than global.
+It appears most clearly in `identity_stress` and late `ontology_collapse`
+layers, while `literal_stable` remains a useful negative control.
+
+The learned-probe update goes one step further by training layer-wise hidden
+state probes for `identity_stress`, `ontology_collapse`, and
+`affordance_stress`. It changes the causal read: presence is the stronger
+label-consistent probe direction, while coexact's learned-probe advantage is
+narrow and appears mainly in late ontology movement at L7-L8. Coexact remains
+important, but the current evidence now separates "next-token support" from
+"probe-consistent identity/ontology stabilization."
+
+The explicit dissociation gate in `docs/hltd_dissociation_gate.md` sharpens
+that separation. `presence_plus_coexact` combines the coexact next-token effect
+with positive ontology probe margin, while `coexact_minus_presence` retains
+some next-token support but loses much of the learned-probe stabilization.
+
+The structural/causal branch ledger in `docs/hltd_branch_hodge.md` reconnects
+that dissociation to the graph-Hodge decomposition. Its current read is that
+the structural middle-layer field is mostly coexact with triangles, while the
+causal directions split into coexact traversal and presence stabilization.
