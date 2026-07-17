@@ -1,0 +1,323 @@
+{
+  "literal_stable": {
+    "target": [
+      "library",
+      "student",
+      "notebook",
+      "table",
+      "mechanic",
+      "battery",
+      "garage",
+      "nurse",
+      "patient",
+      "train",
+      "teacher",
+      "drawer"
+    ],
+    "control": [
+      "mirror",
+      "shadow",
+      "ocean",
+      "moon",
+      "dream",
+      "memory",
+      "animal",
+      "thunder",
+      "key",
+      "yesterday"
+    ]
+  },
+  "metaphor_shift": {
+    "target": [
+      "city",
+      "animal",
+      "streets",
+      "lamps",
+      "window",
+      "river",
+      "weather",
+      "rain",
+      "thunder",
+      "memory",
+      "lantern",
+      "garden",
+      "roots",
+      "gold"
+    ],
+    "control": [
+      "battery",
+      "garage",
+      "nurse",
+      "patient",
+      "attendance",
+      "platform",
+      "drawer",
+      "quizzes",
+      "temperature",
+      "repair"
+    ]
+  },
+  "identity_stress": {
+    "target": [
+      "mirror",
+      "door",
+      "face",
+      "room",
+      "name",
+      "statue",
+      "sculptor",
+      "letter",
+      "person",
+      "mask",
+      "actor",
+      "photograph",
+      "image",
+      "visitor"
+    ],
+    "control": [
+      "battery",
+      "train",
+      "temperature",
+      "garage",
+      "platform",
+      "quizzes",
+      "notebook",
+      "teacher",
+      "mechanic",
+      "cable"
+    ]
+  },
+  "identity_door_object": {
+    "target": [
+      "door",
+      "room",
+      "key",
+      "lock",
+      "opened",
+      "entered",
+      "threshold",
+      "wall",
+      "handle",
+      "hinge"
+    ],
+    "control": [
+      "battery",
+      "train",
+      "temperature",
+      "garage",
+      "platform",
+      "quizzes",
+      "notebook",
+      "teacher",
+      "mechanic",
+      "cable"
+    ]
+  },
+  "identity_mirror_mask": {
+    "target": [
+      "mirror",
+      "mask",
+      "face",
+      "image",
+      "reflection",
+      "photograph",
+      "actor",
+      "name",
+      "visitor",
+      "person"
+    ],
+    "control": [
+      "battery",
+      "train",
+      "temperature",
+      "garage",
+      "platform",
+      "quizzes",
+      "notebook",
+      "teacher",
+      "mechanic",
+      "cable"
+    ]
+  },
+  "identity_generic_control": {
+    "target": [
+      "library",
+      "student",
+      "notebook",
+      "table",
+      "mechanic",
+      "battery",
+      "garage",
+      "nurse",
+      "patient",
+      "train"
+    ],
+    "control": [
+      "mirror",
+      "door",
+      "face",
+      "room",
+      "name",
+      "mask",
+      "actor",
+      "photograph",
+      "image",
+      "visitor"
+    ]
+  },
+  "ontology_collapse": {
+    "target": [
+      "map",
+      "road",
+      "home",
+      "cup",
+      "ocean",
+      "shadow",
+      "key",
+      "calendar",
+      "bird",
+      "kitchen",
+      "spoon",
+      "clock",
+      "garden",
+      "gate",
+      "moon",
+      "candle",
+      "horse",
+      "rain"
+    ],
+    "control": [
+      "library",
+      "student",
+      "battery",
+      "garage",
+      "nurse",
+      "patient",
+      "train",
+      "teacher",
+      "drawer",
+      "platform"
+    ]
+  },
+  "ontology_moon_celestial": {
+    "target": [
+      "moon",
+      "star",
+      "sky",
+      "night",
+      "silver",
+      "light",
+      "candle",
+      "shadow",
+      "dream",
+      "cloud"
+    ],
+    "control": [
+      "library",
+      "student",
+      "battery",
+      "garage",
+      "nurse",
+      "patient",
+      "train",
+      "teacher",
+      "drawer",
+      "platform"
+    ]
+  },
+  "ontology_map_road": {
+    "target": [
+      "map",
+      "road",
+      "home",
+      "path",
+      "street",
+      "gate",
+      "key",
+      "journey",
+      "garden",
+      "yesterday"
+    ],
+    "control": [
+      "library",
+      "student",
+      "battery",
+      "garage",
+      "nurse",
+      "patient",
+      "train",
+      "teacher",
+      "drawer",
+      "platform"
+    ]
+  },
+  "ontology_surreal_control": {
+    "target": [
+      "library",
+      "student",
+      "notebook",
+      "table",
+      "mechanic",
+      "battery",
+      "garage",
+      "nurse",
+      "patient",
+      "train"
+    ],
+    "control": [
+      "map",
+      "road",
+      "moon",
+      "shadow",
+      "key",
+      "ocean",
+      "cup",
+      "clock",
+      "garden",
+      "rain"
+    ]
+  },
+  "affordance_stress": {
+    "target": [
+      "cup",
+      "taught",
+      "child",
+      "apologize",
+      "speak",
+      "chair",
+      "remember",
+      "courage",
+      "fear",
+      "bottle",
+      "guiding",
+      "river",
+      "glass",
+      "fish",
+      "rain",
+      "blanket",
+      "listened",
+      "nightmares",
+      "shelter",
+      "watch",
+      "ladder",
+      "windows",
+      "sky",
+      "moon",
+      "choose"
+    ],
+    "control": [
+      "library",
+      "student",
+      "battery",
+      "garage",
+      "nurse",
+      "patient",
+      "train",
+      "teacher",
+      "drawer",
+      "platform",
+      "quizzes",
+      "temperature"
+    ]
+  }
+}

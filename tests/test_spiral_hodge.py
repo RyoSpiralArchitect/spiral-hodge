@@ -168,6 +168,185 @@ class TestSignedOrientationMetrics(unittest.TestCase):
 
 
 class TestHLTDGraphHodge(unittest.TestCase):
+    def test_radius_filtration_uses_graph_median_edge_scale(self) -> None:
+        points = np.asarray([[0.0], [1.0], [2.0], [3.0]])
+        edges = np.asarray(
+            [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)],
+            dtype=int,
+        )
+
+        _C_open, triangles_open, _, diag_open = hodge.triangle_clique_radius_filtration(
+            points,
+            edges,
+            radius_scale=1.2,
+        )
+        _C_mid, triangles_mid, _, diag_mid = hodge.triangle_clique_radius_filtration(
+            points,
+            edges,
+            radius_scale=1.4,
+        )
+        C_full, triangles_full, _, diag_full = hodge.triangle_clique_radius_filtration(
+            points,
+            edges,
+            radius_scale=np.inf,
+        )
+
+        self.assertEqual(len(triangles_open), 0)
+        self.assertEqual(len(triangles_mid), 2)
+        self.assertEqual(len(triangles_full), 4)
+        self.assertEqual(C_full.shape, (6, 4))
+        self.assertAlmostEqual(diag_open["graph_edge_length_median"], 1.5)
+        self.assertAlmostEqual(diag_mid["triangle_fill_actual"], 0.5)
+        self.assertTrue(np.isinf(diag_full["filtration_radius_scale_requested"]))
+
+    def test_triangle_filtration_is_nested_and_matches_full_clique_complex(self) -> None:
+        points = np.asarray(
+            [
+                [0.0, 0.0],
+                [1.0, 0.0],
+                [1.0, 1.0],
+                [0.0, 1.0],
+            ]
+        )
+        edges = np.asarray(
+            [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)],
+            dtype=int,
+        )
+
+        C0, triangles0, _, diag0 = hodge.triangle_clique_filtration(
+            points,
+            edges,
+            fill_fraction=0.0,
+        )
+        C50, triangles50, scores50, _ = hodge.triangle_clique_filtration(
+            points,
+            edges,
+            fill_fraction=0.5,
+        )
+        C1, triangles1, scores1, diag1 = hodge.triangle_clique_filtration(
+            points,
+            edges,
+            fill_fraction=1.0,
+        )
+        C_full, triangles_full = hodge.triangle_boundary_matrix_from_cliques(edges)
+
+        self.assertEqual(C0.shape[1], 0)
+        self.assertEqual(triangles0.shape, (0, 3))
+        self.assertEqual(diag0["triangle_fill_actual"], 0.0)
+        self.assertEqual(len(triangles50), 2)
+        np.testing.assert_array_equal(triangles50, triangles1[:2])
+        self.assertTrue(np.all(np.diff(scores1) >= 0.0))
+        np.testing.assert_array_equal(scores50, scores1[:2])
+        self.assertEqual(C1.shape, C_full.shape)
+        self.assertEqual(set(map(tuple, triangles1)), set(map(tuple, triangles_full)))
+        self.assertEqual(diag1["triangle_fill_actual"], 1.0)
+
+    def test_incremental_boundary_basis_preserves_prefix_rank(self) -> None:
+        edges = np.asarray([(0, 1), (0, 2), (0, 3), (1, 2), (2, 3)], dtype=int)
+        triangles = np.asarray([(0, 1, 2), (0, 2, 3), (0, 1, 2)], dtype=int)
+        C = hodge.triangle_boundary_matrix(edges, triangles)
+
+        basis, rank_after, accepted = hodge.incremental_orthonormal_column_basis(C)
+        limited_basis, limited_rank_after, limited_accepted = (
+            hodge.incremental_orthonormal_column_basis(C, maximum_rank=1)
+        )
+
+        self.assertEqual(basis.shape, (5, 2))
+        np.testing.assert_array_equal(rank_after, np.asarray([1, 2, 2]))
+        np.testing.assert_array_equal(accepted, np.asarray([0, 1]))
+        np.testing.assert_allclose(basis.T @ basis, np.eye(2), atol=1e-12)
+        self.assertEqual(limited_basis.shape, (5, 1))
+        np.testing.assert_array_equal(limited_rank_after, np.asarray([1, 1, 1]))
+        np.testing.assert_array_equal(limited_accepted, np.asarray([0]))
+
+    def test_basis_hodge_projection_has_orthogonal_energy_closure(self) -> None:
+        edges = np.asarray([(0, 1), (0, 2), (1, 2)], dtype=int)
+        B = hodge.vertex_edge_incidence(3, edges)
+        C, _ = hodge.triangle_boundary_matrix_from_cliques(edges)
+        exact_basis, _, _ = hodge.incremental_orthonormal_column_basis(B.T)
+        coexact_basis, _, _ = hodge.incremental_orthonormal_column_basis(C)
+        flows = np.asarray([[1.0, -0.4, 0.7], [-0.5, 0.2, 1.3]])
+
+        exact, coexact, harmonic, energies = hodge.hodge_decompose_graph_edge_flows_from_bases(
+            flows,
+            exact_basis,
+            coexact_basis,
+        )
+
+        np.testing.assert_allclose(exact @ coexact.T, np.zeros((2, 2)), atol=1e-12)
+        np.testing.assert_allclose(exact @ harmonic.T, np.zeros((2, 2)), atol=1e-12)
+        np.testing.assert_allclose(coexact @ harmonic.T, np.zeros((2, 2)), atol=1e-12)
+        for energy in energies:
+            self.assertAlmostEqual(
+                energy["total"],
+                energy["exact"] + energy["coexact"] + energy["harmonic"],
+                places=12,
+            )
+            self.assertLess(energy["reconstruction_error"], 1e-12)
+
+    def test_matched_betti_hltd_selects_orthogonal_intermediate_complex(self) -> None:
+        rng = np.random.default_rng(23)
+        points = rng.normal(size=(5, 4))
+        vectors = rng.normal(size=(5, 4))
+
+        decomp, topology = hodge.hodge_latent_traversal_dynamics_matched_betti(
+            points,
+            vectors,
+            k_neighbors=4,
+            target_betti_1_fraction=0.5,
+        )
+
+        self.assertEqual(topology["complex_mode"], "matched_betti")
+        self.assertEqual(topology["hodge_solver"], "orthogonal")
+        self.assertEqual(topology["cycle_rank"], 6.0)
+        self.assertEqual(topology["triangle_rank"], 3.0)
+        self.assertEqual(topology["betti_1"], 3.0)
+        self.assertEqual(topology["betti_1_fraction"], 0.5)
+        self.assertEqual(len(decomp.triangles), int(topology["triangle_count"]))
+        self.assertEqual(decomp.C.shape, (10, len(decomp.triangles)))
+        self.assertAlmostEqual(
+            decomp.energy["total"],
+            decomp.energy["exact"] + decomp.energy["coexact"] + decomp.energy["harmonic"],
+            places=12,
+        )
+        self.assertLess(abs(decomp.energy["exact_coexact_alignment"]), 1e-12)
+        self.assertLess(abs(decomp.energy["exact_harmonic_alignment"]), 1e-12)
+        self.assertLess(abs(decomp.energy["coexact_harmonic_alignment"]), 1e-12)
+        np.testing.assert_allclose(decomp.B.T @ decomp.phi, decomp.exact, atol=1e-10)
+        np.testing.assert_allclose(decomp.C @ decomp.psi, decomp.coexact, atol=1e-10)
+        np.testing.assert_allclose(decomp.B @ decomp.harmonic, 0.0, atol=1e-10)
+        np.testing.assert_allclose(decomp.C.T @ decomp.harmonic, 0.0, atol=1e-10)
+
+    def test_harmonic_ring_transfers_to_coexact_when_faces_fill_it(self) -> None:
+        edges = np.asarray([(0, 1), (0, 2), (0, 3), (1, 2), (2, 3)], dtype=int)
+        B = hodge.vertex_edge_incidence(4, edges)
+        ring_flow = np.asarray([1.0, 0.0, -1.0, 1.0, 1.0])
+        C_open = hodge.triangle_boundary_matrix(edges, np.empty((0, 3), dtype=int))
+        C_filled = hodge.triangle_boundary_matrix(
+            edges,
+            np.asarray([(0, 1, 2), (0, 2, 3)], dtype=int),
+        )
+
+        *_, open_energy = hodge.hodge_decompose_graph_edge_flow(
+            ring_flow,
+            B,
+            C_open,
+            ridge=1e-9,
+        )
+        *_, filled_energy = hodge.hodge_decompose_graph_edge_flow(
+            ring_flow,
+            B,
+            C_filled,
+            ridge=1e-9,
+        )
+        open_topology = hodge.hodge_complex_topology_diagnostics(4, edges, C_open)
+        filled_topology = hodge.hodge_complex_topology_diagnostics(4, edges, C_filled)
+
+        self.assertGreater(open_energy["harmonic_ratio"], 0.999999)
+        self.assertGreater(filled_energy["coexact_ratio"], 0.999999)
+        self.assertEqual(open_topology["betti_1"], 2.0)
+        self.assertEqual(filled_topology["betti_1"], 0.0)
+
     def test_exact_flow_is_recovered_on_path_graph(self) -> None:
         edges = np.asarray([(0, 1), (1, 2)], dtype=int)
         B = hodge.vertex_edge_incidence(3, edges)
@@ -206,6 +385,36 @@ class TestHLTDGraphHodge(unittest.TestCase):
         np.testing.assert_allclose(coexact, flow, atol=1e-7)
         np.testing.assert_allclose(harmonic, np.zeros_like(flow), atol=1e-6)
         self.assertGreater(energy["coexact_ratio"], 0.999999)
+
+    def test_batch_hodge_matches_independent_single_flow_decompositions(self) -> None:
+        edges = np.asarray([(0, 1), (0, 2), (1, 2)], dtype=int)
+        B = hodge.vertex_edge_incidence(3, edges)
+        C, _triangles = hodge.triangle_boundary_matrix_from_cliques(edges)
+        flows = np.asarray(
+            [
+                [1.0, 0.5, -0.5],
+                [-0.2, 0.7, 1.1],
+            ]
+        )
+
+        exact, coexact, harmonic, phi, psi, energies = hodge.hodge_decompose_graph_edge_flows(
+            flows,
+            B,
+            C,
+            ridge=1e-7,
+        )
+
+        self.assertEqual(exact.shape, flows.shape)
+        self.assertEqual(coexact.shape, flows.shape)
+        self.assertEqual(harmonic.shape, flows.shape)
+        self.assertEqual(phi.shape, (2, 3))
+        self.assertEqual(psi.shape, (2, 1))
+        for index, flow in enumerate(flows):
+            single = hodge.hodge_decompose_graph_edge_flow(flow, B, C, ridge=1e-7)
+            np.testing.assert_allclose(exact[index], single[0])
+            np.testing.assert_allclose(coexact[index], single[1])
+            np.testing.assert_allclose(harmonic[index], single[2])
+            self.assertAlmostEqual(energies[index]["coexact_ratio"], single[-1]["coexact_ratio"])
 
     def test_node_vectors_from_edge_component_reconstructs_line_flow(self) -> None:
         points = np.asarray([[0.0, 0.0], [1.0, 0.0], [2.0, 0.0]])

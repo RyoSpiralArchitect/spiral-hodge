@@ -64,6 +64,31 @@ def run_command(cmd: Sequence[str], *, dry_run: bool = False) -> None:
     subprocess.run(cmd, check=True)
 
 
+def load_target_set_keys(path: Optional[str]) -> set[str]:
+    if path is None or not str(path).strip():
+        return set()
+    with Path(path).expanduser().open(encoding="utf-8") as f:
+        raw = json.load(f)
+    if not isinstance(raw, dict):
+        raise ValueError(f"Semantic target set file must contain an object: {path}")
+    return {str(key) for key in raw}
+
+
+def choose_target_set_key(
+    *,
+    requested_key: Optional[str],
+    prompt_id: str,
+    family: str,
+    target_set_keys: set[str],
+) -> Optional[str]:
+    if requested_key:
+        return str(requested_key)
+    for key in [prompt_id, family, "default"]:
+        if key in target_set_keys:
+            return key
+    return None
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--suite", default="data/hltd_prompt_suite.jsonl", help="JSONL prompt suite")
@@ -80,14 +105,26 @@ def main(argv: Sequence[str] | None = None) -> int:
         default=["presence", "coexact", "semantic_flow", "harmonic", "random_tangent"],
     )
     parser.add_argument("--selector-component", default="coexact")
+    parser.add_argument(
+        "--token-selectors",
+        nargs="+",
+        default=None,
+        choices=["max_component", "middle", "fixed", "all_interior", "position_bin"],
+    )
+    parser.add_argument("--token-indices", type=int, nargs="+", default=None)
+    parser.add_argument("--position-bins", type=int, nargs="+", default=None)
+    parser.add_argument("--position-bin-count", type=int, default=12)
     parser.add_argument("--families", nargs="+", default=None)
     parser.add_argument("--prompt-ids", nargs="+", default=None)
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--max-prompts-per-family", type=int, default=None)
     parser.add_argument("--device", choices=["auto", "cpu", "cuda", "mps"], default="cpu")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--seeds", type=int, nargs="+", default=None, help="Random tangent seeds")
     parser.add_argument("--min-chart-norm", type=float, default=1e-6)
     parser.add_argument("--target-text", default=None)
+    parser.add_argument("--target-set-file", default=None)
+    parser.add_argument("--target-set-key", default=None)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--no-summary", action="store_true")
     args = parser.parse_args(argv)
@@ -105,6 +142,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     output_root = Path(args.output_root)
     output_root.mkdir(parents=True, exist_ok=True)
+    target_set_keys = load_target_set_keys(args.target_set_file)
 
     for item in prompts:
         prompt_id = str(item["prompt_id"])
@@ -145,8 +183,28 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "--steering-components",
                     *[str(x) for x in args.steering_components],
                 ]
+                if args.seeds is not None:
+                    cmd.extend(["--seeds", *[str(x) for x in args.seeds]])
+                if args.token_selectors is not None:
+                    cmd.extend(["--token-selectors", *[str(x) for x in args.token_selectors]])
+                if args.token_indices is not None:
+                    cmd.extend(["--token-indices", *[str(x) for x in args.token_indices]])
+                if args.position_bins is not None:
+                    cmd.extend(["--position-bins", *[str(x) for x in args.position_bins]])
+                if args.position_bin_count != 12:
+                    cmd.extend(["--position-bin-count", str(args.position_bin_count)])
                 if args.target_text is not None:
                     cmd.extend(["--target-text", str(args.target_text)])
+                if args.target_set_file is not None:
+                    cmd.extend(["--target-set-file", str(args.target_set_file)])
+                    target_set_key = choose_target_set_key(
+                        requested_key=args.target_set_key,
+                        prompt_id=prompt_id,
+                        family=family,
+                        target_set_keys=target_set_keys,
+                    )
+                    if target_set_key is not None:
+                        cmd.extend(["--target-set-key", target_set_key])
                 run_command(cmd, dry_run=args.dry_run)
 
     if not args.no_summary:

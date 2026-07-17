@@ -264,3 +264,95 @@ does not yet show a universal advantage across all families. Presence is also
 causally active, especially in ontology-collapse prompts, so the next gate
 needs semantic probes and multi-step generation rather than relying only on
 teacher-forced next-token support.
+
+## Steering Selector Sweep
+
+The first next-gate steering expansion is written up in:
+
+```text
+docs/hltd_next_gate_steering_sweep.md
+```
+
+Short read: in a lite sweep over GPT-2 layers 4-8, random-tangent seeds 0/1,
+and `max_component` versus `middle` token selectors, token selection mattered.
+The middle-token selector produced a cleaner positive coexact-minus-random
+next-token signal across L5-L8, while max-component selection changed sign in
+some layers. Token selection is therefore part of the robustness gate, not a
+harmless implementation detail.
+
+The fast full-suite update in the same note extends this to all 20 current
+prompts. The middle-token coexact-minus-random next-token delta stays positive
+across L4-L8, and the strongest family-level effect appears in
+`ontology_collapse` prompts.
+
+The semantic-target update adds coarse lexical target/control sets. It keeps
+the same next-token read but separates semantic mass from generic logit
+movement: the layer-averaged semantic margin is not globally positive until
+L8/middle, while `identity_stress` and late `ontology_collapse` prompts show
+the clearest positive coexact-minus-random semantic-margin deltas. This makes
+learned identity and affordance probes the next natural gate.
+
+The learned-probe gate is now also included in the same next-gate note. It
+trains internal-suite probes for `identity_stress`, `ontology_collapse`, and
+`affordance_stress`. The strongest new read is that presence, not coexact, is
+the more label-consistent direction under these probes. Coexact keeps a narrow
+late ontology signal at L7-L8, so the project now has three separable effects:
+middle-token next-token support, lexical semantic-margin hints, and learned
+probe-consistent stabilization.
+
+The dissociation gate extends this into derived directions:
+
+```text
+docs/hltd_dissociation_gate.md
+```
+
+The short read is now cleaner: presence behaves like a stabilizing basin
+direction; coexact behaves like a traversal direction. Adding them can combine
+next-token support with ontology-probe stabilization, while subtracting
+presence preserves some next-token support but removes much of the
+probe-consistent stabilization.
+
+## Branch Hodge Ledger
+
+The current structural/causal join is written up in:
+
+```text
+docs/hltd_branch_hodge.md
+```
+
+Short read: the structural Hodge branch remains coexact-dominant under the
+triangle complex, while the causal gates split into coexact traversal and
+presence stabilization. `presence_plus_coexact` is the first combined branch
+that keeps next-token support while retaining positive ontology-probe margin.
+The same ledger now includes the structural `k=12/16/24` branch sweep, where
+coexact remains dominant and same-graph reversal gaps stay at zero.
+It now also includes the causal/probe `k=12/16/24` sweep: coexact keeps
+positive next-token traversal across k, presence keeps learned-probe
+stabilization across k, and `presence_plus_coexact` remains the combined branch.
+The ledger also compares `middle` against `max_component`; the middle selector
+keeps stronger coexact traversal, while max-component selection emphasizes
+presence/probe stabilization more strongly.
+
+The all-interior structural localization pass is written up in:
+
+```text
+docs/hltd_branch_heatmap.md
+```
+
+Short read: coexact peaks are mid-to-late and family-specific, presence shifts
+earlier as k increases, and the hybrid branch sits between them.
+
+The all-interior causal/probe position gate is written up in:
+
+```text
+docs/hltd_all_interior_position_gate.md
+```
+
+The full 20-prompt k=16 gate and `k=12/16/24` k-sweep show that next-token
+peaks and ontology-probe peaks can land in different position bins.
+Coexact-like branches dominate early-phase cross-family next-token traversal,
+while presence dominates ontology-probe margin at a different token-position
+phase.
+The selected-bin seed gate then makes this sharper: at k=16 over bins
+0/1/2/4 and seeds 0-7, `coexact_minus_presence` is the cleanest traversal
+branch, while `presence` remains the strongest ontology-probe branch.

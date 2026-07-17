@@ -1,0 +1,21 @@
+{
+  "identity_stress": {
+    "positive_families": [
+      "identity_stress"
+    ],
+    "description": "Object/person identity instability and selfhood transfer."
+  },
+  "ontology_collapse": {
+    "positive_families": [
+      "ontology_collapse"
+    ],
+    "description": "Category-boundary collapse and impossible object affordances."
+  },
+  "affordance_stress": {
+    "positive_families": [
+      "identity_stress",
+      "ontology_collapse"
+    ],
+    "description": "Nonhuman objects gaining agentic, social, or impossible capabilities."
+  }
+}

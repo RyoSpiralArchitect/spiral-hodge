@@ -704,17 +704,12 @@ def vertex_edge_incidence(n_vertices: int, edges: Array):
     return coo_matrix((vals, (rows, cols)), shape=(n_vertices, len(edges))).tocsr()
 
 
-def triangle_boundary_matrix_from_cliques(edges: Array):
-    """Build C [edges, triangles] from 3-cliques in the undirected graph.
-
-    Edge orientation is low index -> high index. For i < j < k, the oriented
-    boundary is (i,j) + (j,k) - (i,k).
-    """
-
-    from scipy.sparse import coo_matrix
+def clique_triangles(edges: Array) -> Array:
+    """Enumerate oriented 3-cliques in an undirected graph."""
 
     edges = np.asarray(edges, dtype=int)
-    edge_to_idx = {tuple(edge.tolist()): idx for idx, edge in enumerate(edges)}
+    if edges.ndim != 2 or edges.shape[1] != 2:
+        raise ValueError(f"edges must have shape [edges,2], got {edges.shape}")
     neighbors: Dict[int, set[int]] = {}
     for i_raw, j_raw in edges.tolist():
         i = int(i_raw)
@@ -728,17 +723,330 @@ def triangle_boundary_matrix_from_cliques(edges: Array):
             common = neighbors[i].intersection(neighbors[j])
             for k in sorted(n for n in common if n > j):
                 triangles.append((i, j, k))
+    return np.asarray(triangles, dtype=int).reshape(-1, 3)
+
+
+def triangle_boundary_matrix(edges: Array, triangles: Array):
+    """Build C [edges, triangles] for a supplied oriented triangle set.
+
+    Edge orientation is low index -> high index. For i < j < k, the oriented
+    boundary is (i,j) + (j,k) - (i,k).
+    """
+
+    from scipy.sparse import coo_matrix
+
+    edges = np.asarray(edges, dtype=int)
+    if edges.ndim != 2 or edges.shape[1] != 2:
+        raise ValueError(f"edges must have shape [edges,2], got {edges.shape}")
+    triangles = np.asarray(triangles, dtype=int).reshape(-1, 3)
+    edge_to_idx = {tuple(edge.tolist()): idx for idx, edge in enumerate(edges)}
 
     rows: List[int] = []
     cols: List[int] = []
     vals: List[float] = []
-    for t, (i, j, k) in enumerate(triangles):
+    for t, (i_raw, j_raw, k_raw) in enumerate(triangles.tolist()):
+        i, j, k = sorted((int(i_raw), int(j_raw), int(k_raw)))
         for edge, sign in [((i, j), 1.0), ((j, k), 1.0), ((i, k), -1.0)]:
+            if edge not in edge_to_idx:
+                raise ValueError(f"triangle {(i, j, k)} uses missing edge {edge}")
             rows.append(edge_to_idx[edge])
             cols.append(t)
             vals.append(sign)
     C = coo_matrix((vals, (rows, cols)), shape=(len(edges), len(triangles))).tocsr()
-    return C, np.asarray(triangles, dtype=int).reshape(-1, 3)
+    return C
+
+
+def triangle_boundary_matrix_from_cliques(edges: Array):
+    """Build C [edges, triangles] from every 3-clique in the graph."""
+
+    triangles = clique_triangles(edges)
+    return triangle_boundary_matrix(edges, triangles), triangles
+
+
+def clique_triangle_filtration_geometry(
+    points: Array,
+    edges: Array,
+) -> Tuple[Array, Array, float]:
+    """Return clique triangles ordered by geometric radius.
+
+    A triangle's radius is its longest edge in chart space. The graph median
+    edge length is returned as a field-local scale for comparisons across
+    prompts, layers, and neighborhood sizes.
+    """
+
+    P = np.asarray(points, dtype=np.float64)
+    edges = np.asarray(edges, dtype=int)
+    if P.ndim != 2:
+        raise ValueError(f"points must have shape [nodes, dim], got {P.shape}")
+    if edges.ndim != 2 or edges.shape[1] != 2:
+        raise ValueError(f"edges must have shape [edges,2], got {edges.shape}")
+    if len(edges) == 0:
+        raise ValueError("edges must not be empty")
+    if np.min(edges) < 0 or np.max(edges) >= len(P):
+        raise ValueError("edge vertex index lies outside points")
+
+    edge_lengths = np.linalg.norm(P[edges[:, 1]] - P[edges[:, 0]], axis=1)
+    finite_positive = edge_lengths[np.isfinite(edge_lengths) & (edge_lengths > 1e-12)]
+    if len(finite_positive) == 0:
+        raise ValueError("graph edges have no positive finite geometric length")
+    edge_scale = float(np.median(finite_positive))
+
+    all_triangles = clique_triangles(edges)
+    if len(all_triangles) == 0:
+        return all_triangles, np.zeros(0, dtype=np.float64), edge_scale
+
+    scores = np.empty(len(all_triangles), dtype=np.float64)
+    for idx, (i, j, k) in enumerate(all_triangles.tolist()):
+        scores[idx] = max(
+            float(np.linalg.norm(P[j] - P[i])),
+            float(np.linalg.norm(P[k] - P[j])),
+            float(np.linalg.norm(P[k] - P[i])),
+        )
+    order = np.asarray(
+        sorted(
+            range(len(all_triangles)),
+            key=lambda idx: (float(scores[idx]), *all_triangles[idx].tolist()),
+        ),
+        dtype=int,
+    )
+    return all_triangles[order].copy(), scores[order].copy(), edge_scale
+
+
+def triangle_clique_filtration(
+    points: Array,
+    edges: Array,
+    *,
+    fill_fraction: float,
+) -> Tuple[Any, Array, Array, Dict[str, float]]:
+    """Build a nested geometric filtration of the graph's clique triangles.
+
+    Triangles enter in ascending order of their longest geometric edge. The
+    fraction controls triangle count, so 0 keeps the graph cycle space open and
+    1 reproduces the full clique complex. Ties are resolved lexicographically,
+    making the sequence deterministic and nested across calls.
+    """
+
+    edges = np.asarray(edges, dtype=int)
+    fraction = float(fill_fraction)
+    if not 0.0 <= fraction <= 1.0:
+        raise ValueError(f"fill_fraction must be in [0, 1], got {fill_fraction}")
+
+    ordered_triangles, ordered_scores, edge_scale = clique_triangle_filtration_geometry(
+        points,
+        edges,
+    )
+    if len(ordered_triangles) == 0:
+        from scipy.sparse import csr_matrix
+
+        empty = np.empty((0, 3), dtype=int)
+        diagnostics = {
+            "filtration_mode": "count",
+            "triangle_fill_requested": fraction,
+            "triangle_fill_actual": 0.0,
+            "triangle_count": 0.0,
+            "triangle_count_full": 0.0,
+            "filtration_radius": float("nan"),
+            "filtration_radius_full": float("nan"),
+            "filtration_radius_scale_requested": float("nan"),
+            "filtration_radius_scale_actual": float("nan"),
+            "filtration_radius_scale_full": float("nan"),
+            "graph_edge_length_median": edge_scale,
+        }
+        return csr_matrix((len(edges), 0), dtype=np.float64), empty, np.zeros(0), diagnostics
+
+    keep = (
+        0
+        if fraction == 0.0
+        else min(len(ordered_triangles), int(np.ceil(fraction * len(ordered_triangles))))
+    )
+    triangles = ordered_triangles[:keep].copy()
+    selected_scores = ordered_scores[:keep].copy()
+    C = triangle_boundary_matrix(edges, triangles)
+    diagnostics = {
+        "filtration_mode": "count",
+        "triangle_fill_requested": fraction,
+        "triangle_fill_actual": float(keep / len(ordered_triangles)),
+        "triangle_count": float(keep),
+        "triangle_count_full": float(len(ordered_triangles)),
+        "filtration_radius": float(selected_scores[-1]) if keep else float("nan"),
+        "filtration_radius_full": float(ordered_scores[-1]),
+        "filtration_radius_scale_requested": float("nan"),
+        "filtration_radius_scale_actual": (
+            float(selected_scores[-1] / edge_scale) if keep else float("nan")
+        ),
+        "filtration_radius_scale_full": float(ordered_scores[-1] / edge_scale),
+        "graph_edge_length_median": edge_scale,
+    }
+    return C, triangles, selected_scores, diagnostics
+
+
+def triangle_clique_radius_filtration(
+    points: Array,
+    edges: Array,
+    *,
+    radius_scale: float,
+) -> Tuple[Any, Array, Array, Dict[str, Any]]:
+    """Build a clique complex at a normalized geometric radius.
+
+    ``radius_scale`` thresholds each triangle's longest edge after division by
+    the median graph-edge length. ``np.inf`` selects the full clique complex.
+    """
+
+    from scipy.sparse import csr_matrix
+
+    threshold = float(radius_scale)
+    if np.isnan(threshold) or threshold < 0.0:
+        raise ValueError(f"radius_scale must be non-negative or inf, got {radius_scale}")
+    edges = np.asarray(edges, dtype=int)
+    ordered_triangles, ordered_scores, edge_scale = clique_triangle_filtration_geometry(
+        points,
+        edges,
+    )
+    normalized_scores = ordered_scores / edge_scale
+    if len(ordered_triangles) == 0:
+        diagnostics: Dict[str, Any] = {
+            "filtration_mode": "radius",
+            "triangle_fill_requested": float("nan"),
+            "triangle_fill_actual": 0.0,
+            "triangle_count": 0.0,
+            "triangle_count_full": 0.0,
+            "filtration_radius": float("nan"),
+            "filtration_radius_full": float("nan"),
+            "filtration_radius_scale_requested": threshold,
+            "filtration_radius_scale_actual": float("nan"),
+            "filtration_radius_scale_full": float("nan"),
+            "graph_edge_length_median": edge_scale,
+        }
+        empty = np.empty((0, 3), dtype=int)
+        return csr_matrix((len(edges), 0), dtype=np.float64), empty, np.zeros(0), diagnostics
+
+    keep = (
+        len(ordered_triangles)
+        if np.isinf(threshold)
+        else int(np.searchsorted(normalized_scores, threshold, side="right"))
+    )
+    triangles = ordered_triangles[:keep].copy()
+    selected_scores = ordered_scores[:keep].copy()
+    C = triangle_boundary_matrix(edges, triangles)
+    diagnostics = {
+        "filtration_mode": "radius",
+        "triangle_fill_requested": float("nan"),
+        "triangle_fill_actual": float(keep / len(ordered_triangles)),
+        "triangle_count": float(keep),
+        "triangle_count_full": float(len(ordered_triangles)),
+        "filtration_radius": float(selected_scores[-1]) if keep else float("nan"),
+        "filtration_radius_full": float(ordered_scores[-1]),
+        "filtration_radius_scale_requested": threshold,
+        "filtration_radius_scale_actual": (
+            float(selected_scores[-1] / edge_scale) if keep else float("nan")
+        ),
+        "filtration_radius_scale_full": float(normalized_scores[-1]),
+        "graph_edge_length_median": edge_scale,
+    }
+    return C, triangles, selected_scores, diagnostics
+
+
+def incremental_orthonormal_column_basis(
+    matrix: Any,
+    *,
+    relative_tolerance: float = 1e-10,
+    absolute_tolerance: float = 1e-12,
+    maximum_rank: Optional[int] = None,
+) -> Tuple[Array, Array, Array]:
+    """Build a prefix-preserving orthonormal basis for matrix columns.
+
+    Returns the accepted basis, the rank after every input column, and the
+    accepted input-column indices. Two-pass modified Gram-Schmidt keeps each
+    prefix suitable for a nested simplicial filtration.
+    """
+
+    from scipy.sparse import issparse
+
+    if len(matrix.shape) != 2:
+        raise ValueError(f"matrix must be two-dimensional, got {matrix.shape}")
+    n_rows, n_columns = (int(matrix.shape[0]), int(matrix.shape[1]))
+    max_rank = min(n_rows, n_columns)
+    if maximum_rank is not None:
+        requested_rank = int(maximum_rank)
+        if requested_rank < 0:
+            raise ValueError("maximum_rank must be non-negative")
+        max_rank = min(max_rank, requested_rank)
+    basis = np.empty((n_rows, max_rank), dtype=np.float64)
+    rank_after = np.zeros(n_columns, dtype=int)
+    accepted: List[int] = []
+    rank = 0
+
+    for column_index in range(n_columns):
+        if rank >= max_rank:
+            rank_after[column_index:] = rank
+            break
+        if issparse(matrix):
+            vector = np.asarray(matrix.getcol(column_index).toarray(), dtype=np.float64).reshape(-1)
+        else:
+            vector = np.asarray(matrix[:, column_index], dtype=np.float64).reshape(-1)
+        original_norm = float(np.linalg.norm(vector))
+        residual = vector.copy()
+        if rank:
+            current = basis[:, :rank]
+            for _ in range(2):
+                residual -= current @ (current.T @ residual)
+        residual_norm = float(np.linalg.norm(residual))
+        threshold = max(float(absolute_tolerance), float(relative_tolerance) * original_norm)
+        if residual_norm > threshold:
+            basis[:, rank] = residual / residual_norm
+            accepted.append(column_index)
+            rank += 1
+        rank_after[column_index] = rank
+    return basis[:, :rank].copy(), rank_after, np.asarray(accepted, dtype=int)
+
+
+def hodge_complex_topology_diagnostics(
+    n_vertices: int,
+    edges: Array,
+    C: Any,
+    *,
+    triangle_rank: Optional[int] = None,
+) -> Dict[str, float]:
+    """Return graph-cycle and first-homology dimensions for an HLTD complex."""
+
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+
+    edges = np.asarray(edges, dtype=int)
+    if edges.ndim != 2 or edges.shape[1] != 2:
+        raise ValueError(f"edges must have shape [edges,2], got {edges.shape}")
+    if C.shape[0] != len(edges):
+        raise ValueError("C row count must match edge count")
+
+    adjacency = coo_matrix(
+        (
+            np.ones(2 * len(edges), dtype=np.float64),
+            (np.concatenate([edges[:, 0], edges[:, 1]]), np.concatenate([edges[:, 1], edges[:, 0]])),
+        ),
+        shape=(int(n_vertices), int(n_vertices)),
+    ).tocsr()
+    components = int(connected_components(adjacency, directed=False, return_labels=False))
+    cycle_rank = int(len(edges) - int(n_vertices) + components)
+    if triangle_rank is None:
+        if C.shape[1] == 0:
+            resolved_triangle_rank = 0
+        else:
+            gram = np.asarray((C @ C.T).toarray(), dtype=np.float64)
+            resolved_triangle_rank = int(np.linalg.matrix_rank(gram, hermitian=True))
+    else:
+        resolved_triangle_rank = int(triangle_rank)
+        if resolved_triangle_rank < 0 or resolved_triangle_rank > min(C.shape):
+            raise ValueError("triangle_rank is inconsistent with C")
+    betti_1 = max(cycle_rank - resolved_triangle_rank, 0)
+    return {
+        "vertices": float(n_vertices),
+        "edges": float(len(edges)),
+        "connected_components": float(components),
+        "cycle_rank": float(cycle_rank),
+        "triangle_rank": float(resolved_triangle_rank),
+        "betti_1": float(betti_1),
+        "betti_1_fraction": float(betti_1 / max(cycle_rank, 1)),
+    }
 
 
 def edge_flow_from_node_vectors(points: Array, vectors: Array, edges: Array, *, eps: float = 1e-9) -> Array:
@@ -769,49 +1077,23 @@ def _component_alignment(a: Array, b: Array, *, eps: float = 1e-30) -> float:
     return float(np.dot(aa, bb) / max(denom, eps))
 
 
-def hodge_decompose_graph_edge_flow(
+def _hodge_component_energy(
     flow: Array,
-    B: Any,
-    C: Any,
-    *,
-    ridge: float = 1e-5,
-) -> Tuple[Array, Array, Array, Array, Array, Dict[str, float]]:
-    """Ridge-stabilized graph Hodge decomposition for scalar edge flow."""
-
-    from scipy.sparse import eye
-    from scipy.sparse.linalg import spsolve
-
+    exact: Array,
+    coexact: Array,
+    harmonic: Array,
+) -> Dict[str, float]:
     y = np.asarray(flow, dtype=np.float64).reshape(-1)
-    if B.shape[1] != len(y) or C.shape[0] != len(y):
-        raise ValueError("B/C shapes are inconsistent with flow length.")
-
-    lam = max(float(ridge), 0.0)
-    A0 = B @ B.T
-    if lam > 0:
-        A0 = A0 + lam * eye(B.shape[0], format="csr")
-    phi = np.asarray(spsolve(A0, B @ y), dtype=np.float64).reshape(-1)
-    phi = phi - float(np.mean(phi))
-    exact = np.asarray(B.T @ phi, dtype=np.float64).reshape(-1)
-
-    residual = y - exact
-    if C.shape[1] > 0:
-        A1 = C.T @ C
-        if lam > 0:
-            A1 = A1 + lam * eye(C.shape[1], format="csr")
-        psi = np.asarray(spsolve(A1, C.T @ residual), dtype=np.float64).reshape(-1)
-        coexact = np.asarray(C @ psi, dtype=np.float64).reshape(-1)
-    else:
-        psi = np.zeros(0, dtype=np.float64)
-        coexact = np.zeros_like(y)
-    harmonic = y - exact - coexact
-
+    exact = np.asarray(exact, dtype=np.float64).reshape(-1)
+    coexact = np.asarray(coexact, dtype=np.float64).reshape(-1)
+    harmonic = np.asarray(harmonic, dtype=np.float64).reshape(-1)
     total = float(np.dot(y, y))
     exact_e = float(np.dot(exact, exact))
     coexact_e = float(np.dot(coexact, coexact))
     harmonic_e = float(np.dot(harmonic, harmonic))
     semantic_flow_e = coexact_e + harmonic_e
     denom = max(total, 1e-30)
-    energy = {
+    return {
         "total": total,
         "exact": exact_e,
         "coexact": coexact_e,
@@ -829,7 +1111,257 @@ def hodge_decompose_graph_edge_flow(
         "exact_harmonic_alignment": _component_alignment(exact, harmonic),
         "coexact_harmonic_alignment": _component_alignment(coexact, harmonic),
     }
-    return exact, coexact, harmonic, phi, psi, energy
+
+
+def hodge_decompose_graph_edge_flows_from_bases(
+    flows: Array,
+    exact_basis: Array,
+    coexact_basis: Array,
+) -> Tuple[Array, Array, Array, List[Dict[str, float]]]:
+    """Orthogonally project edge flows onto supplied Hodge subspace bases."""
+
+    Y = np.asarray(flows, dtype=np.float64)
+    if Y.ndim == 1:
+        Y = Y[None, :]
+    if Y.ndim != 2:
+        raise ValueError(f"flows must have shape [samples, edges], got {Y.shape}")
+    Q_exact = np.asarray(exact_basis, dtype=np.float64)
+    Q_coexact = np.asarray(coexact_basis, dtype=np.float64)
+    for name, basis in [("exact_basis", Q_exact), ("coexact_basis", Q_coexact)]:
+        if basis.ndim != 2 or basis.shape[0] != Y.shape[1]:
+            raise ValueError(
+                f"{name} must have shape [edges, rank], got {basis.shape} for {Y.shape[1]} edges"
+            )
+
+    exact = (Y @ Q_exact) @ Q_exact.T if Q_exact.shape[1] else np.zeros_like(Y)
+    residual = Y - exact
+    coexact = (
+        (residual @ Q_coexact) @ Q_coexact.T
+        if Q_coexact.shape[1]
+        else np.zeros_like(Y)
+    )
+    harmonic = residual - coexact
+    energies = [
+        _hodge_component_energy(Y[idx], exact[idx], coexact[idx], harmonic[idx])
+        for idx in range(Y.shape[0])
+    ]
+    return exact, coexact, harmonic, energies
+
+
+def hodge_latent_traversal_dynamics_matched_betti(
+    points: Array,
+    vectors: Array,
+    *,
+    k_neighbors: int = 16,
+    target_betti_1_fraction: float = 0.5,
+) -> Tuple[HLTDDecomposition, Dict[str, Any]]:
+    """Run orthogonal HLTD on the geometric prefix nearest a target Betti-1 ratio.
+
+    The kNN graph stays fixed while triangles are ordered by their longest-edge
+    radius. The selected prefix is the attainable triangle-boundary rank whose
+    resulting ``betti_1 / cycle_rank`` is closest to the requested fraction.
+    Rank ties retain the earlier prefix, preserving more of the harmonic space.
+    """
+
+    from scipy.sparse.linalg import lsqr
+
+    P = np.asarray(points, dtype=np.float64)
+    V = np.asarray(vectors, dtype=np.float64)
+    target = float(target_betti_1_fraction)
+    if P.ndim != 2 or V.ndim != 2:
+        raise ValueError(f"points/vectors must be matrices, got {P.shape} and {V.shape}")
+    if P.shape != V.shape:
+        raise ValueError(f"points and vectors shape mismatch: {P.shape} vs {V.shape}")
+    if not np.isfinite(target) or not 0.0 <= target <= 1.0:
+        raise ValueError("target_betti_1_fraction must be finite and between 0 and 1")
+
+    edges = build_knn_edges(P, k=k_neighbors)
+    B = vertex_edge_incidence(len(P), edges)
+    ordered_triangles, ordered_scores, edge_scale = clique_triangle_filtration_geometry(
+        P,
+        edges,
+    )
+    C_full = triangle_boundary_matrix(edges, ordered_triangles)
+    exact_basis, _exact_rank_after, _exact_accepted = incremental_orthonormal_column_basis(B.T)
+    cycle_rank = max(len(edges) - exact_basis.shape[1], 0)
+    coexact_basis_full, triangle_rank_after, _triangle_accepted = (
+        incremental_orthonormal_column_basis(
+            C_full,
+            maximum_rank=cycle_rank,
+        )
+    )
+
+    desired_triangle_rank = (1.0 - target) * float(cycle_rank)
+    attainable_ranks = np.unique(
+        np.concatenate([np.asarray([0], dtype=int), triangle_rank_after.astype(int)])
+    )
+    triangle_rank = int(
+        min(
+            attainable_ranks.tolist(),
+            key=lambda rank: (abs(float(rank) - desired_triangle_rank), int(rank)),
+        )
+    )
+    if triangle_rank:
+        reached = np.flatnonzero(triangle_rank_after >= triangle_rank)
+        triangle_count = int(reached[0]) + 1
+    else:
+        triangle_count = 0
+
+    triangles = ordered_triangles[:triangle_count].copy()
+    C = triangle_boundary_matrix(edges, triangles)
+    coexact_basis = coexact_basis_full[:, :triangle_rank]
+    flow = edge_flow_from_node_vectors(P, V, edges)
+    exact_batch, coexact_batch, harmonic_batch, energies = (
+        hodge_decompose_graph_edge_flows_from_bases(
+            flow,
+            exact_basis,
+            coexact_basis,
+        )
+    )
+    exact = exact_batch[0]
+    coexact = coexact_batch[0]
+    harmonic = harmonic_batch[0]
+    energy = energies[0]
+
+    phi = np.asarray(
+        lsqr(B.T, exact, atol=1e-12, btol=1e-12)[0],
+        dtype=np.float64,
+    )
+    phi -= float(np.mean(phi))
+    psi = (
+        np.asarray(lsqr(C, coexact, atol=1e-12, btol=1e-12)[0], dtype=np.float64)
+        if C.shape[1]
+        else np.zeros(0, dtype=np.float64)
+    )
+    energy["edges"] = float(len(edges))
+    energy["triangles"] = float(len(triangles))
+
+    topology: Dict[str, Any] = {
+        "complex_mode": "matched_betti",
+        "hodge_solver": "orthogonal",
+        "betti_1_fraction_target": target,
+        "triangle_rank_target": desired_triangle_rank,
+        "triangle_rank_full": float(coexact_basis_full.shape[1]),
+        "triangle_count": float(triangle_count),
+        "triangle_count_full": float(len(ordered_triangles)),
+        "triangle_fill_actual": float(
+            triangle_count / len(ordered_triangles) if len(ordered_triangles) else 0.0
+        ),
+        "filtration_radius": (
+            float(ordered_scores[triangle_count - 1]) if triangle_count else float("nan")
+        ),
+        "filtration_radius_full": (
+            float(ordered_scores[-1]) if len(ordered_scores) else float("nan")
+        ),
+        "filtration_radius_scale_actual": (
+            float(ordered_scores[triangle_count - 1] / edge_scale)
+            if triangle_count
+            else float("nan")
+        ),
+        "filtration_radius_scale_full": (
+            float(ordered_scores[-1] / edge_scale) if len(ordered_scores) else float("nan")
+        ),
+        "graph_edge_length_median": float(edge_scale),
+    }
+    topology.update(
+        hodge_complex_topology_diagnostics(
+            len(P),
+            edges,
+            C,
+            triangle_rank=triangle_rank,
+        )
+    )
+    topology["betti_1_fraction_error"] = float(topology["betti_1_fraction"] - target)
+    topology["betti_1_fraction_abs_error"] = abs(topology["betti_1_fraction_error"])
+
+    return (
+        HLTDDecomposition(
+            points=P,
+            vectors=V,
+            edges=edges,
+            triangles=triangles,
+            flow=flow,
+            exact=exact,
+            coexact=coexact,
+            harmonic=harmonic,
+            phi=phi,
+            psi=psi,
+            energy=energy,
+            B=B,
+            C=C,
+            k_neighbors=int(k_neighbors),
+        ),
+        topology,
+    )
+
+
+def hodge_decompose_graph_edge_flows(
+    flows: Array,
+    B: Any,
+    C: Any,
+    *,
+    ridge: float = 1e-5,
+) -> Tuple[Array, Array, Array, Array, Array, List[Dict[str, float]]]:
+    """Batch graph-Hodge decomposition with one factorization per complex."""
+
+    from scipy.sparse import eye
+    from scipy.sparse.linalg import spsolve
+
+    Y = np.asarray(flows, dtype=np.float64)
+    if Y.ndim == 1:
+        Y = Y[None, :]
+    if Y.ndim != 2:
+        raise ValueError(f"flows must have shape [samples, edges], got {Y.shape}")
+    if B.shape[1] != Y.shape[1] or C.shape[0] != Y.shape[1]:
+        raise ValueError("B/C shapes are inconsistent with flow length.")
+
+    lam = max(float(ridge), 0.0)
+    A0 = B @ B.T
+    if lam > 0:
+        A0 = A0 + lam * eye(B.shape[0], format="csr")
+    phi_t = np.asarray(spsolve(A0, B @ Y.T), dtype=np.float64).reshape(B.shape[0], -1)
+    phi_t = phi_t - np.mean(phi_t, axis=0, keepdims=True)
+    exact_t = np.asarray(B.T @ phi_t, dtype=np.float64).reshape(Y.shape[1], -1)
+
+    residual_t = Y.T - exact_t
+    if C.shape[1] > 0:
+        A1 = C.T @ C
+        if lam > 0:
+            A1 = A1 + lam * eye(C.shape[1], format="csr")
+        psi_t = np.asarray(spsolve(A1, C.T @ residual_t), dtype=np.float64).reshape(C.shape[1], -1)
+        coexact_t = np.asarray(C @ psi_t, dtype=np.float64).reshape(Y.shape[1], -1)
+    else:
+        psi_t = np.zeros((0, Y.shape[0]), dtype=np.float64)
+        coexact_t = np.zeros_like(residual_t)
+    harmonic_t = Y.T - exact_t - coexact_t
+
+    exact = exact_t.T
+    coexact = coexact_t.T
+    harmonic = harmonic_t.T
+    energies = [
+        _hodge_component_energy(Y[idx], exact[idx], coexact[idx], harmonic[idx])
+        for idx in range(Y.shape[0])
+    ]
+    return exact, coexact, harmonic, phi_t.T, psi_t.T, energies
+
+
+def hodge_decompose_graph_edge_flow(
+    flow: Array,
+    B: Any,
+    C: Any,
+    *,
+    ridge: float = 1e-5,
+) -> Tuple[Array, Array, Array, Array, Array, Dict[str, float]]:
+    """Ridge-stabilized graph Hodge decomposition for scalar edge flow."""
+
+    y = np.asarray(flow, dtype=np.float64).reshape(-1)
+    exact, coexact, harmonic, phi, psi, energies = hodge_decompose_graph_edge_flows(
+        y[None, :],
+        B,
+        C,
+        ridge=ridge,
+    )
+    return exact[0], coexact[0], harmonic[0], phi[0], psi[0], energies[0]
 
 
 def hodge_latent_traversal_dynamics(
