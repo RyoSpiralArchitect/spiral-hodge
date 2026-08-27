@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "experiment": "hltd_signed_all_interior_position_gate",
+  "contract": {
+    "model": "local GPT-2 small",
+    "layer": 5,
+    "k": 16,
+    "complex_mode": "matched_betti",
+    "target_betti_1_fraction": 0.5,
+    "component": "coexact",
+    "baseline_component": "random_tangent",
+    "token_selector": "all_interior",
+    "alphas": [-1.0, -0.5, -0.25, 0.25, 0.5, 1.0],
+    "seeds": [0, 1, 2, 3, 4, 5, 6, 7],
+    "position_bins": 12,
+    "bootstrap_samples": 5000,
+    "bootstrap_seed": 1729
+  },
+  "analysis_script": "scripts/plot_hltd_signed_position_gate.py",
+  "run_documentation": "docs/hltd_signed_position_gate.md",
+  "ignored_source_artifacts": [
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_full20_s8/summary.csv",
+      "rows": 54144,
+      "bytes": 49327369,
+      "sha256": "647c508db14c5cee9b7604ff80c524cdf4bdf3ca66dce507f084d66cdec4ceec"
+    }
+  ],
+  "tracked_data": [
+    {
+      "path": "docs/data/hltd_signed_position/summary_prompt_bin_response_coefficients.csv",
+      "rows": 960,
+      "bytes": 261016,
+      "sha256": "32d4a7b550e5a4b03178ba84156993bfa1e3e630634a731682c078e3475b052b"
+    },
+    {
+      "path": "docs/data/hltd_signed_position/summary_position_response_bootstrap.csv",
+      "rows": 48,
+      "bytes": 16761,
+      "sha256": "c38e61790148c69773fa00f17a2bbce5872bcbdfec94635c3dc4522ab4753358"
+    },
+    {
+      "path": "docs/data/hltd_signed_position/summary_position_phase_bootstrap.csv",
+      "rows": 16,
+      "bytes": 4136,
+      "sha256": "fcb6c3fa29745a98d2029feda89a2dcc0992bfbbce4d6a9c889bbf41f5a4bca4"
+    },
+    {
+      "path": "docs/data/hltd_signed_position/summary_position_trend_bootstrap.csv",
+      "rows": 4,
+      "bytes": 1313,
+      "sha256": "c3f3a2b5730c6d4c9f80076b9cff8f3f769c3cc22a26a21bf1dd3667a3f9344a"
+    },
+    {
+      "path": "docs/data/hltd_signed_position/summary_position_coverage.csv",
+      "rows": 12,
+      "bytes": 2077,
+      "sha256": "599e33f05bfde94f1fea034d3199a61dcecdd42b1b5b4fb1e056e3973408fcf4"
+    },
+    {
+      "path": "docs/data/hltd_signed_position/summary_family_position_response.csv",
+      "rows": 192,
+      "bytes": 42557,
+      "sha256": "d78464b38aff6773bfcf8688e36b1005f96faf862f9f8cd3a3ed674a26d4114a"
+    }
+  ],
+  "tracked_figures": [
+    {
+      "path": "docs/figures/hltd_signed_coexact_position_profile.png",
+      "bytes": 274243,
+      "sha256": "b917b8039ed12ea406b92adb1826e9ad2071d101ba04cfe0d91fced13c995dd1"
+    },
+    {
+      "path": "docs/figures/hltd_signed_coexact_family_position_profile.png",
+      "bytes": 282225,
+      "sha256": "cd9a9a874071460f5ca61b328f53d916cc0a5d4553531848f4719a23a63a968e"
+    },
+    {
+      "path": "docs/figures/hltd_signed_coexact_position_coverage.png",
+      "bytes": 77133,
+      "sha256": "ca4197d413fbfd35b5cd398fcd5a60fc162dbcc2ba17ea213b08027d505e336c"
+    }
+  ]
+}

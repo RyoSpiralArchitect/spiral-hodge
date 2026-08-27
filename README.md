@@ -694,6 +694,10 @@ radius-filtration, matched-topology, and prompt-bootstrap branch-persistence
 gate.
 See [docs/hltd_matched_betti_causal_gate.md](docs/hltd_matched_betti_causal_gate.md)
 for the pre-registered L5/k16 interior-complex one-step causal result.
+See [docs/hltd_signed_causal_gate.md](docs/hltd_signed_causal_gate.md) for the
+signed odd/even gate and prompt-level response-coefficient analysis.
+See [docs/hltd_signed_position_gate.md](docs/hltd_signed_position_gate.md) for
+the signed all-interior coexact position profile and phase analysis.
 See [docs/hltd_branch_heatmap.md](docs/hltd_branch_heatmap.md) for all-interior
 branch localization.
 See [docs/hltd_all_interior_position_gate.md](docs/hltd_all_interior_position_gate.md)
@@ -720,6 +724,8 @@ first closed-loop branch-steering harness and smoke result.
 ├── docs/hltd_branch_hodge.md
 ├── docs/hltd_topology_filtration.md
 ├── docs/hltd_matched_betti_causal_gate.md
+├── docs/hltd_signed_causal_gate.md
+├── docs/hltd_signed_position_gate.md
 ├── docs/hltd_branch_heatmap.md
 ├── docs/hltd_all_interior_position_gate.md
 ├── docs/hltd_closed_loop_gate.md
