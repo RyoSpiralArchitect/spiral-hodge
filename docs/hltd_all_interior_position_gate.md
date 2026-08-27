@@ -422,3 +422,12 @@ L5/bin4. The hybrid branch preserves much of the traversal signal and recovers
 some probe margin, but it does not beat pure presence on probe stabilization.
 
 ![Selected-bin ontology peak bars](../spiral_out_hltd_selected_bins_position_k16_seeds_v2/plots/ontology_collapse_peak_bars.png)
+
+## Signed Matched-Betti Follow-Up
+
+The positive-only position gate above does not separate branch orientation
+from sign-symmetric perturbation. The fixed L5/k16 matched-Betti follow-up uses
+paired positive and negative alpha values, eight random seeds, prompt-level
+bootstrap inference, and all interior nodes. See
+[`hltd_signed_position_gate.md`](hltd_signed_position_gate.md) for the command,
+strict pairing contract, tracked figures, and result.
