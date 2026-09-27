@@ -1,0 +1,42 @@
+{
+  "created_utc": "2026-09-26T22:28:45.808358+00:00",
+  "command": "python3 -S; audit_arm for bridge and L8",
+  "site_disabled": true,
+  "passed": true,
+  "arms": {
+    "bridge": {
+      "raw": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_l8_native_fp32_full20_20260927_continued/bridge/summary.csv",
+        "bytes": 14160445,
+        "sha256": "b617199bf9741ddf2f1dc464dc11fb9944bbbff8f2af0e7a9ad867fde9e370b2"
+      },
+      "coefficients": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_l8_native_fp32_full20_20260927_continued/bridge/analysis/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 65016,
+        "sha256": "62ec09252581f5a3acf846f6ed2e5e523b6c39277fd2b74d6c294bf10e8824ab"
+      },
+      "raw_rows": 14784,
+      "active_token_units": 143,
+      "coefficient_count": 236,
+      "max_abs_error": 2.220446049250313e-16,
+      "passed": true
+    },
+    "l8": {
+      "raw": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_l8_native_fp32_full20_20260927_continued/l8/summary.csv",
+        "bytes": 52264577,
+        "sha256": "74796843aa6fc378308f6373b045462a421396b2f0fdb550f2afd4dd3016b183"
+      },
+      "coefficients": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_l8_native_fp32_full20_20260927_continued/l8/analysis/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 260149,
+        "sha256": "d68a4fe5d52e43108833b667884795e009352bf05363645db79b0db2b64b33e3"
+      },
+      "raw_rows": 54144,
+      "active_token_units": 534,
+      "coefficient_count": 956,
+      "max_abs_error": 3.3306690738754696e-16,
+      "passed": true
+    }
+  }
+}

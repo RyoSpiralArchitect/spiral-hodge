@@ -1,0 +1,29 @@
+{
+  "models": {
+    "float16": {
+      "requested_dtype": "float16",
+      "observed_dtype": "torch.float16",
+      "parameter_tensors": 148,
+      "parameter_count": 124439808,
+      "checkpoint_comparison": "exact F32-to-F16 cast",
+      "all_equal": true,
+      "lm_head_tied": true
+    },
+    "float32": {
+      "requested_dtype": "float32",
+      "observed_dtype": "torch.float32",
+      "parameter_tensors": 148,
+      "parameter_count": 124439808,
+      "checkpoint_comparison": "exact F32",
+      "all_equal": true,
+      "lm_head_tied": true
+    }
+  },
+  "python": "3.12.6 (v3.12.6:a4a2d2b0d85, Sep  6 2024, 16:08:03) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "platform": "macOS-26.4.1-arm64-arm-64bit",
+  "torch": "2.12.1",
+  "transformers": "5.13.0",
+  "numpy": "2.2.3",
+  "device": "mps",
+  "autocast": false
+}

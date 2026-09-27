@@ -3,6 +3,8 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import numpy as np
 
@@ -25,6 +27,23 @@ class FakeTokenizer:
 
 
 class TestHLTDClosedLoop(unittest.TestCase):
+    def test_generation_logs_original_node_position_not_generated_position(self) -> None:
+        hidden = np.array([[[1., 1.]], [[1., 1.]]])
+        with patch.object(closed_loop, "_forward_hidden_and_logits", return_value=({}, hidden, np.array([0., 1.]))):
+            _, rows = closed_loop._run_closed_loop_component(
+                model=None, tokenizer=FakeTokenizer(), prompt_input_ids=[1, 2, 3, 4, 5], device="cpu",
+                coord=SimpleNamespace(reducer=FakeReducer()),
+                field=SimpleNamespace(points=np.array([[0., 0.], [.5, .5], [1., 1.]])),
+                component_vectors={}, layer=1, k=2, component="baseline", alpha=0, seed=0,
+                generate_steps=2, natural_step_norm=1, normalize_hidden=False, min_chart_norm=1e-6,
+                target_set="", target_set_ids=[], control_set_ids=[], stop_at_eos=False,
+            )
+        self.assertEqual([r["node_token_index"] for r in rows], [3, 3])
+        self.assertEqual([r["position_frac"] for r in rows], [.75, .75])
+        self.assertEqual([r["prefix_len"] for r in rows], [5, 6])
+        self.assertIn("node_token_index", closed_loop.STEP_FIELDS)
+        self.assertIn("position_frac", closed_loop.STEP_FIELDS)
+
     def test_nearest_node_index_returns_distance(self) -> None:
         idx, dist = closed_loop._nearest_node_index(
             np.asarray([[0.0, 0.0], [2.0, 0.0], [0.0, 3.0]]),

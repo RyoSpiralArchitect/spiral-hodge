@@ -1,0 +1,80 @@
+{
+  "created_utc": "2026-09-12T08:27:28.193790+00:00",
+  "scope": "Validate the new independent raw checker against existing completed runs only. Does not read full20 native-FP32 treatment results.",
+  "audit_source": {
+    "path": "scripts/audit_hltd_precision_raw.py",
+    "bytes": 6829,
+    "sha256": "0faa2e05db1f0532b8e2834a1e6b5c2ae187f42e03f4e37cf34db3e22a731dce"
+  },
+  "checks": {
+    "fp16_replay": {
+      "raw": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/fp16_replay/summary.csv",
+        "bytes": 12020321,
+        "sha256": "f67bbd97cccf24ed865d629c3553c52b4c9039a609c5ab25d156c3295269e2c2"
+      },
+      "coefficients": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/analysis/fp16_replay/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 51963,
+        "sha256": "c4a29fa45498415e31413247ff43a36e7ebc93651445dd0cb09c1d529d9c1cf0"
+      },
+      "raw_rows": 12288,
+      "active_token_units": 118,
+      "coefficient_count": 188,
+      "max_abs_error": 2.220446049250313e-16,
+      "passed": true
+    },
+    "fp32_fixed_field": {
+      "raw": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/fp32_fixed_field/summary.csv",
+        "bytes": 12086793,
+        "sha256": "0c1b2400fdc5ed8ae58cf0392b8aadb36a4770909ca9fb87dcc05ad57d617312"
+      },
+      "coefficients": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/analysis/fp32_fixed_field/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 51994,
+        "sha256": "611139f3db4990a559d8df3e3a2891b1bb30fc838f93a13aea2fa524bae35ec7"
+      },
+      "raw_rows": 12288,
+      "active_token_units": 118,
+      "coefficient_count": 188,
+      "max_abs_error": 3.3306690738754696e-16,
+      "passed": true
+    },
+    "fp32_rebuilt_field": {
+      "raw": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/fp32_rebuilt_field/summary.csv",
+        "bytes": 12005161,
+        "sha256": "5b796d75dc9fcfb9a15fe7df1682f3f3bace9d622eacef4f392e44be8f867a17"
+      },
+      "coefficients": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/analysis/fp32_rebuilt_field/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 52003,
+        "sha256": "2d2083e6e17ecbeab15e5c17be8c30217ab04b6b12f9cd129a5cf2ae99686e0f"
+      },
+      "raw_rows": 12288,
+      "active_token_units": 118,
+      "coefficient_count": 188,
+      "max_abs_error": 2.220446049250313e-16,
+      "passed": true
+    },
+    "previous_full20_fp16": {
+      "raw": {
+        "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/summary.csv",
+        "bytes": 48940121,
+        "sha256": "a4922f6a2561985d82ca5dee066df76ce11e223f645973d32b71eecb6c07b1b8"
+      },
+      "coefficients": {
+        "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 258995,
+        "sha256": "a8ff39691d95847229c8f607dfb11851bfc8464ca4b9ac194cb4f09f81a33644"
+      },
+      "raw_rows": 54144,
+      "active_token_units": 528,
+      "coefficient_count": 952,
+      "max_abs_error": 4.440892098500626e-16,
+      "passed": true
+    }
+  },
+  "passed": true
+}

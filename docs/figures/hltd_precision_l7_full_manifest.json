@@ -1,0 +1,1079 @@
+{
+  "schema_version": 1,
+  "experiment": "hltd_l7_native_fp32_full20",
+  "created_utc": "2026-09-12T08:54:08.275896+00:00",
+  "protocol": {
+    "path": "docs/data/hltd_precision_l7_full/protocol.json",
+    "bytes": 23598,
+    "sha256": "cb00ff05f7a6345578ba446abb062bd94718ccf7dd41f8288d9a0199d8beed82"
+  },
+  "documentation": "docs/hltd_precision_l7_full_gate.md",
+  "primary_status": "PRECISION_STABLE_ON_FULL_SUITE",
+  "tracked_data": [
+    {
+      "path": "docs/data/hltd_precision_l7_full/activity_comparison.csv",
+      "bytes": 11600,
+      "sha256": "3a15c919f913fb9a4d5e8a3eebb50c8559b3821e66c1e218e317f813e7d5a3a4",
+      "rows": 564
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/early_precision_comparison.csv",
+      "bytes": 2949,
+      "sha256": "60087fae0191f3ad723f55ada36fcd467cc6a265c5e26e21db17a049f64c5097",
+      "rows": 20
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/execution_receipt.json",
+      "bytes": 320,
+      "sha256": "470108375f0143e30b83609e8f6154e44b7563e088db8439557be3f3f199873e"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fixed_field_audit.json",
+      "bytes": 148,
+      "sha256": "cbe33ab82a77f9ebb9cb722a284f3b080ab247d1bd571730cc692c83f921012c"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp16_coefficient_replay_audit.json",
+      "bytes": 724,
+      "sha256": "2d2261f69829c690522af8debdc09152550fb82e12588496ccd2019939ff91f7"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp16_replay__summary_position_coverage.csv",
+      "bytes": 2048,
+      "sha256": "a912c3b0701aedab012f4f73624f66e226369d33974dab781566ac276baa5f5c",
+      "rows": 12
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp16_replay__summary_position_phase_bootstrap.csv",
+      "bytes": 4141,
+      "sha256": "6840f40177dafd0133682d44f96bfd177b067b882a5c605dd2cced0683b43d5e",
+      "rows": 16
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp16_replay__summary_position_response_bootstrap.csv",
+      "bytes": 16909,
+      "sha256": "412cebd784a25904f10e25545ad21508728d39c26148a4cb2ba7ba82a739bc23",
+      "rows": 48
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp16_replay__summary_prompt_bin_response_coefficients.csv",
+      "bytes": 258988,
+      "sha256": "aef0d8cb4d22047ca5a2448aa04bacb9e4c1c48a6787f75337204f83ba932e85",
+      "rows": 952
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp16_replay__summary_prompt_position_phases.csv",
+      "bytes": 58831,
+      "sha256": "600820b1ead015e3421a3bd00b9a81bec9308ccde8e97c45e838e23e2a552975",
+      "rows": 320
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp32_fixed_field__summary_position_coverage.csv",
+      "bytes": 2048,
+      "sha256": "a912c3b0701aedab012f4f73624f66e226369d33974dab781566ac276baa5f5c",
+      "rows": 12
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp32_fixed_field__summary_position_phase_bootstrap.csv",
+      "bytes": 4127,
+      "sha256": "4f4f608d9ccbdc6b2af23b9a34480643d25beace00ccdfdc62c843daacf7c945",
+      "rows": 16
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp32_fixed_field__summary_position_response_bootstrap.csv",
+      "bytes": 16903,
+      "sha256": "dacb2e77666a117e92d90c2473299e3f26b2927e3f08551553e6843b59f149eb",
+      "rows": 48
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp32_fixed_field__summary_prompt_bin_response_coefficients.csv",
+      "bytes": 259081,
+      "sha256": "5bfddeae34d8ade9625fed7628370422e3337a9ba8158e85f3d1f04a17f3cdf3",
+      "rows": 952
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp32_fixed_field__summary_prompt_position_phases.csv",
+      "bytes": 58841,
+      "sha256": "1d434030748c568a3ca0f8d96089e23b4a2d2681b6d8fc47b021fd2447a51694",
+      "rows": 320
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp32_rebuilt_field__summary_position_coverage.csv",
+      "bytes": 2048,
+      "sha256": "a912c3b0701aedab012f4f73624f66e226369d33974dab781566ac276baa5f5c",
+      "rows": 12
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp32_rebuilt_field__summary_position_phase_bootstrap.csv",
+      "bytes": 4131,
+      "sha256": "85b9842ee7a49862e6df8f94208c509806c0799569762be2d4b421f46a02b6f5",
+      "rows": 16
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp32_rebuilt_field__summary_position_response_bootstrap.csv",
+      "bytes": 16884,
+      "sha256": "fcd6dde06202b47e9497fefe316f7596f7019b558295ebcd248fb29eec076893",
+      "rows": 48
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp32_rebuilt_field__summary_prompt_bin_response_coefficients.csv",
+      "bytes": 259087,
+      "sha256": "6456efb49dbce2763f75f3ed9bdc1f3582e9704551b96d71b1f396aad183ef49",
+      "rows": 952
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/fp32_rebuilt_field__summary_prompt_position_phases.csv",
+      "bytes": 58822,
+      "sha256": "aa78039d8626c23cb3b9634c7491dd0b74a7b33c8171e4915d3b6c11e8c7c7ab",
+      "rows": 320
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/independent_raw_audit.json",
+      "bytes": 3060,
+      "sha256": "3ca93988da5a11f4340b3c882ed7771fa53015023d001d445f2d44046a5e8f14"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/largest_change_diagnostic.json",
+      "bytes": 3057,
+      "sha256": "ff0650856af5ddfe845fe49c4a72ff9082f26a60ea50b07af22f128d542a77bf"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/load_audit.json",
+      "bytes": 84055,
+      "sha256": "3bdd1b50d33275682fe3a53d1643229ef1357b805144d5f27ec09c4479375610"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/precision_verdict.json",
+      "bytes": 7525,
+      "sha256": "37ffb06c2c2b6c3de663674894a1297d9aa2d8dd77222e98e21818458d41d5ae"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/protocol.json",
+      "bytes": 23598,
+      "sha256": "cb00ff05f7a6345578ba446abb062bd94718ccf7dd41f8288d9a0199d8beed82"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/raw_checker_preflight.json",
+      "bytes": 3206,
+      "sha256": "3542f1cd59d0fde1e1c06388de8b629f088204b3d00fc751f041769870476cf3"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/replay_audit.json",
+      "bytes": 559,
+      "sha256": "fb9bce17bb23d0e979ffc1eb6aa7a0dba4b18d04f57110ade85d28e5b6571063"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7_full/zero_calibration.json",
+      "bytes": 310443,
+      "sha256": "c5565456280bf6294eececf23e6693941daa94b5cf924768df64b39702f920d2"
+    }
+  ],
+  "tracked_figures": [
+    {
+      "path": "docs/figures/hltd_precision_l7_full_comparison.png",
+      "bytes": 165338,
+      "sha256": "4d3afda90ba96d33f3d99fa580139c0bade2f695e8f704a548de951879d70ac7"
+    },
+    {
+      "path": "docs/figures/hltd_precision_l7_full_rebuilt_position_profile.png",
+      "bytes": 282463,
+      "sha256": "fff1bcf3bd2190662b40cb171368e04c012d2fa5f66abf7cca45fe1da152c147"
+    }
+  ],
+  "verification_code": [
+    {
+      "path": "scripts/audit_hltd_precision_raw.py",
+      "bytes": 6829,
+      "sha256": "0faa2e05db1f0532b8e2834a1e6b5c2ae187f42e03f4e37cf34db3e22a731dce"
+    },
+    {
+      "path": "tests/test_hltd_precision_raw_audit.py",
+      "bytes": 3409,
+      "sha256": "917d0637a11ec7f52d760ee577f9570a1b51c38997b39a374dc768a42cc49150"
+    },
+    {
+      "path": "tests/test_hltd_precision_full_artifacts.py",
+      "bytes": 10145,
+      "sha256": "3c8b582f252a6a5a4b9ccd018fb8ad7b556c2be2042e877966f91ee1a96d025b"
+    }
+  ],
+  "ignored_source_artifacts": [
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/activity_comparison.csv",
+      "bytes": 11600,
+      "sha256": "3a15c919f913fb9a4d5e8a3eebb50c8559b3821e66c1e218e317f813e7d5a3a4",
+      "rows": 564
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/early_precision_comparison.csv",
+      "bytes": 2949,
+      "sha256": "60087fae0191f3ad723f55ada36fcd467cc6a265c5e26e21db17a049f64c5097",
+      "rows": 20
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/plots/signed_coexact_family_position_profile.png",
+      "bytes": 286033,
+      "sha256": "6b502c80ddf9781f5a1bccddb6cd645dbb2b0f79dacd35d6dffff27f4f14b5e9"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/plots/signed_coexact_position_coverage.png",
+      "bytes": 80119,
+      "sha256": "37c41f2f653ce5cbea9f792a35c9f6d3e11002321db63d16dbc21e8fb5133a1f"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/plots/signed_coexact_position_profile.png",
+      "bytes": 278651,
+      "sha256": "68366f8c5266f23d2fc6f986932a067a3b2ccaa8420370a2186f439ab5eebd31"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_family_position_response.csv",
+      "bytes": 42551,
+      "sha256": "777782eda7ee72d9d8abc6b37f1bae7ce73106362bbbd515939d1b0dfce3c938",
+      "rows": 192
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_position_coverage.csv",
+      "bytes": 2048,
+      "sha256": "a912c3b0701aedab012f4f73624f66e226369d33974dab781566ac276baa5f5c",
+      "rows": 12
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_position_phase_bootstrap.csv",
+      "bytes": 4141,
+      "sha256": "6840f40177dafd0133682d44f96bfd177b067b882a5c605dd2cced0683b43d5e",
+      "rows": 16
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_position_response_bootstrap.csv",
+      "bytes": 16909,
+      "sha256": "412cebd784a25904f10e25545ad21508728d39c26148a4cb2ba7ba82a739bc23",
+      "rows": 48
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_position_trend_bootstrap.csv",
+      "bytes": 1311,
+      "sha256": "d741c0c52fb1546d554a2ea8abc5d7f3ff6524c81c106a6e3540e57569dfa88e",
+      "rows": 4
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_prompt_bin_response_coefficients.csv",
+      "bytes": 258988,
+      "sha256": "aef0d8cb4d22047ca5a2448aa04bacb9e4c1c48a6787f75337204f83ba932e85",
+      "rows": 952
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_prompt_bin_signed_contrasts.csv",
+      "bytes": 700925,
+      "sha256": "b50ed59adc003de957c0b0b822a382718bbddfda0fea767e7cd2f87f113b5955",
+      "rows": 2856
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_prompt_position_phases.csv",
+      "bytes": 58831,
+      "sha256": "600820b1ead015e3421a3bd00b9a81bec9308ccde8e97c45e838e23e2a552975",
+      "rows": 320
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_prompt_position_trends.csv",
+      "bytes": 17477,
+      "sha256": "c5e57e3ce7a9f12a42ed118a76a18345cd2c9e9dd70f3fc09996ddb5de3f0eca",
+      "rows": 80
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_seed_collapsed_position_gaps.csv",
+      "bytes": 1650634,
+      "sha256": "bddcddd9faf803fc8db0b3258fb74a9b63a8d6cc4b6e988782fa0cf9a6c816c8",
+      "rows": 6336
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_seed_matched_position_gaps.csv",
+      "bytes": 12927055,
+      "sha256": "02667fd959d16581433c3afba880788def8c29d58097caecb65be64833cd1b1c",
+      "rows": 50688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_signed_position_report.md",
+      "bytes": 7095,
+      "sha256": "fb7d06e056f8e3e09b9cf69d590712de2d80f8e22f7c421871928faa1e3af49c"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_token_signed_contrasts.csv",
+      "bytes": 2386378,
+      "sha256": "bffdb64b5f2b149214c6898b80f97287a75e94963cc53c19fc77ded935e25b72",
+      "rows": 6336
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/plots/signed_coexact_family_position_profile.png",
+      "bytes": 285007,
+      "sha256": "31b8144228019311603c8c114a8ccb1136950a4f2fa18a660848f7df6ecfbec5"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/plots/signed_coexact_position_coverage.png",
+      "bytes": 80119,
+      "sha256": "37c41f2f653ce5cbea9f792a35c9f6d3e11002321db63d16dbc21e8fb5133a1f"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/plots/signed_coexact_position_profile.png",
+      "bytes": 280091,
+      "sha256": "1f5a4bcb125dda44a2b9155258e8b34746b4da818940b5970c2648363080771c"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_family_position_response.csv",
+      "bytes": 42575,
+      "sha256": "f20235183d2070155c0f24709abccab4083f2fbef4eccd97711d6e646ec86e2e",
+      "rows": 192
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_position_coverage.csv",
+      "bytes": 2048,
+      "sha256": "a912c3b0701aedab012f4f73624f66e226369d33974dab781566ac276baa5f5c",
+      "rows": 12
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_position_phase_bootstrap.csv",
+      "bytes": 4127,
+      "sha256": "4f4f608d9ccbdc6b2af23b9a34480643d25beace00ccdfdc62c843daacf7c945",
+      "rows": 16
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_position_response_bootstrap.csv",
+      "bytes": 16903,
+      "sha256": "dacb2e77666a117e92d90c2473299e3f26b2927e3f08551553e6843b59f149eb",
+      "rows": 48
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_position_trend_bootstrap.csv",
+      "bytes": 1310,
+      "sha256": "bd5aef1065a4ef09016376f7a9b012f04ab38252a7dcd6735b7828b68702df8e",
+      "rows": 4
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_prompt_bin_response_coefficients.csv",
+      "bytes": 259081,
+      "sha256": "5bfddeae34d8ade9625fed7628370422e3337a9ba8158e85f3d1f04a17f3cdf3",
+      "rows": 952
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_prompt_bin_signed_contrasts.csv",
+      "bytes": 700918,
+      "sha256": "3248eacc2c998067ee194ee136db04700eade0e19afa976597a8d1357d9b1997",
+      "rows": 2856
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_prompt_position_phases.csv",
+      "bytes": 58841,
+      "sha256": "1d434030748c568a3ca0f8d96089e23b4a2d2681b6d8fc47b021fd2447a51694",
+      "rows": 320
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_prompt_position_trends.csv",
+      "bytes": 17484,
+      "sha256": "a42127ad1b5595e69b53a36312edfde644524ea9733863908b87d25f4c35b830",
+      "rows": 80
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_seed_collapsed_position_gaps.csv",
+      "bytes": 1650720,
+      "sha256": "d059282cf62fb10d112ab9a373b4d7fb42f2b5898f22580b72295395ee9def72",
+      "rows": 6336
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_seed_matched_position_gaps.csv",
+      "bytes": 12926709,
+      "sha256": "ec524745a9ca2dfefdea049b1eed1e308ee6f67aa0ec514fd041f8f72c9ffad0",
+      "rows": 50688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_signed_position_report.md",
+      "bytes": 7095,
+      "sha256": "9a3ff6cd285848cd334a85c9ecd3c67e006b01d5d239915feb2730923cbfafe9"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_token_signed_contrasts.csv",
+      "bytes": 2386607,
+      "sha256": "316945ef2ae65677d68f2b8048b107bf6c9dd08e204e99ae7379bfe2292d3dcb",
+      "rows": 6336
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/plots/signed_coexact_family_position_profile.png",
+      "bytes": 285376,
+      "sha256": "12f798025e2a488c37c31000a88adad69547edb26ae74cfcf542cf0e32f17541"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/plots/signed_coexact_position_coverage.png",
+      "bytes": 80119,
+      "sha256": "37c41f2f653ce5cbea9f792a35c9f6d3e11002321db63d16dbc21e8fb5133a1f"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/plots/signed_coexact_position_profile.png",
+      "bytes": 282463,
+      "sha256": "fff1bcf3bd2190662b40cb171368e04c012d2fa5f66abf7cca45fe1da152c147"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_family_position_response.csv",
+      "bytes": 42552,
+      "sha256": "142be7b45234915e1b960ce05a252154cc42252d47b1b271959c7840a7245438",
+      "rows": 192
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_position_coverage.csv",
+      "bytes": 2048,
+      "sha256": "a912c3b0701aedab012f4f73624f66e226369d33974dab781566ac276baa5f5c",
+      "rows": 12
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_position_phase_bootstrap.csv",
+      "bytes": 4131,
+      "sha256": "85b9842ee7a49862e6df8f94208c509806c0799569762be2d4b421f46a02b6f5",
+      "rows": 16
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_position_response_bootstrap.csv",
+      "bytes": 16884,
+      "sha256": "fcd6dde06202b47e9497fefe316f7596f7019b558295ebcd248fb29eec076893",
+      "rows": 48
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_position_trend_bootstrap.csv",
+      "bytes": 1308,
+      "sha256": "b92c5a4b76c88b34500c1a5a96c0412b6b820832f6b07f327ffbc070147b2f8d",
+      "rows": 4
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_prompt_bin_response_coefficients.csv",
+      "bytes": 259087,
+      "sha256": "6456efb49dbce2763f75f3ed9bdc1f3582e9704551b96d71b1f396aad183ef49",
+      "rows": 952
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_prompt_bin_signed_contrasts.csv",
+      "bytes": 700975,
+      "sha256": "28883fb0bf09a74d9a8c77f638300f19ad6f83b1545205ad14ce2908d4d9b995",
+      "rows": 2856
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_prompt_position_phases.csv",
+      "bytes": 58822,
+      "sha256": "aa78039d8626c23cb3b9634c7491dd0b74a7b33c8171e4915d3b6c11e8c7c7ab",
+      "rows": 320
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_prompt_position_trends.csv",
+      "bytes": 17484,
+      "sha256": "18fb40cb77f294fd1672a076ddfa546681d1365e191c03bad836237f0037df27",
+      "rows": 80
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_seed_collapsed_position_gaps.csv",
+      "bytes": 1650734,
+      "sha256": "8ec0317c1847a247c562847f89c301ef7618fd7cfffdf7f7ae1e99db10828589",
+      "rows": 6336
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_seed_matched_position_gaps.csv",
+      "bytes": 12927264,
+      "sha256": "79704ed9332f82fddc92cc097d38560fb4d2ba29b36b13c3e43d29e5655c0ab5",
+      "rows": 50688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_signed_position_report.md",
+      "bytes": 7095,
+      "sha256": "00825f41abdf9a6baac5a99c40f0ea028c31f158256bb81d10c1ee61fd0b8bdf"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_token_signed_contrasts.csv",
+      "bytes": 2386712,
+      "sha256": "831c70ae82bc1b489da8b820b289fa4e6f652dccf6bb09a4f444c1163b7b23f2",
+      "rows": 6336
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/precision_comparison.png",
+      "bytes": 165338,
+      "sha256": "4d3afda90ba96d33f3d99fa580139c0bade2f695e8f704a548de951879d70ac7"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/analysis/precision_verdict.json",
+      "bytes": 7525,
+      "sha256": "37ffb06c2c2b6c3de663674894a1297d9aa2d8dd77222e98e21818458d41d5ae"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/execution_receipt.json",
+      "bytes": 320,
+      "sha256": "470108375f0143e30b83609e8f6154e44b7563e088db8439557be3f3f199873e"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/execution_started.json",
+      "bytes": 263,
+      "sha256": "1ae32cae24ff7f998bc5834119e03ef84dcb00ef1fbc21d28af4e420e69cca9c"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fixed_field_audit.json",
+      "bytes": 148,
+      "sha256": "cbe33ab82a77f9ebb9cb722a284f3b080ab247d1bd571730cc692c83f921012c"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_coefficient_replay_audit.json",
+      "bytes": 724,
+      "sha256": "2d2261f69829c690522af8debdc09152550fb82e12588496ccd2019939ff91f7"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/delta_trace.json",
+      "bytes": 899891,
+      "sha256": "c0fb739b40bc431a9f84920aeac3633f8591698a1dc926c8e399a4a7efef5392"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/design_validation.json",
+      "bytes": 141,
+      "sha256": "2e38af1b5d07900218829730c28a19e8c8ba9d038f79adc1a5265d67a6beae22"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/identity_01/steering_metrics.csv",
+      "bytes": 2905727,
+      "sha256": "39d36bd78fe874973215b019a2afb1c072846e83c4ff9971a6159b2b55e35236",
+      "rows": 3168
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/identity_02/steering_metrics.csv",
+      "bytes": 2707665,
+      "sha256": "407fbd126920cb64e9fd85b8fe6eb8869b27754d93a2c0623a210e5643dd2f9b",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/identity_03/steering_metrics.csv",
+      "bytes": 2726487,
+      "sha256": "29a0801ebe4d81f46756fa68c8911a52713920908d5d52d21d20b826271a612f",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/identity_04/steering_metrics.csv",
+      "bytes": 2445646,
+      "sha256": "fc54b3d99e589ba17b83087b0bf69f912d4be82158bda6194bd6483a2c8e6dfb",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/identity_05/steering_metrics.csv",
+      "bytes": 2381504,
+      "sha256": "467870840fde30a5110e9d29e14627bde8f95ae9f738d06ce9536ea4b5f015b3",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/literal_01/steering_metrics.csv",
+      "bytes": 2887087,
+      "sha256": "cfca5a6f18de1893f68bec396007e817192e66e6eab1193ff295c461999a3fc8",
+      "rows": 3072
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/literal_02/steering_metrics.csv",
+      "bytes": 2348659,
+      "sha256": "5365feeb1ed2955b70afdfd09f563316a5a4d3a63ae3cf289457c22597d048ca",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/literal_03/steering_metrics.csv",
+      "bytes": 2297725,
+      "sha256": "8700eba5d9d8732e9077f5cddfefcd23918f1568dc76e67c68d8cf628b998cf9",
+      "rows": 2496
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/literal_04/steering_metrics.csv",
+      "bytes": 2205530,
+      "sha256": "b5331ffcb180de24c3aed45483337ac35e0647b2340148142f31eb3fd6f03c2e",
+      "rows": 2304
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/literal_05/steering_metrics.csv",
+      "bytes": 2189621,
+      "sha256": "399bd122e6fcf154e11921b3f4b717746c1213cf433546ff181f95ac51bb6f88",
+      "rows": 2400
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/metaphor_01/steering_metrics.csv",
+      "bytes": 2885808,
+      "sha256": "0a69501440d3a85c2302dd140e6d384b5dd36e45550b6a46ead9f023a6eff5c9",
+      "rows": 3168
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/metaphor_02/steering_metrics.csv",
+      "bytes": 2544951,
+      "sha256": "56eefdb44bb4e5849e608eca867dd0945f534ce383d04d8a4555b764742c023f",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/metaphor_03/steering_metrics.csv",
+      "bytes": 2538549,
+      "sha256": "8c0cefd27f4d49e1aaaf3018a51cb470166a253e1075fa6a793079848dcc7792",
+      "rows": 2784
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/metaphor_04/steering_metrics.csv",
+      "bytes": 2460794,
+      "sha256": "88290fbeaa0f3ba366b4c2806c2981524075d7c38a5f727848cb174806580a5c",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/metaphor_05/steering_metrics.csv",
+      "bytes": 2282397,
+      "sha256": "d90cc18eaec2080f470c8a2c22f04aa9f2d3697bee267c2e29418db66f7b99d0",
+      "rows": 2496
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/ontology_01/steering_metrics.csv",
+      "bytes": 2719199,
+      "sha256": "7a7d25d97aca60be90479762ce3685286d1f3b441c68196fd432c1fa09ade21d",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/ontology_02/steering_metrics.csv",
+      "bytes": 2478779,
+      "sha256": "23d74336c02d7f768de137d1404f5c80d33df852f2e605744258d96b7c0e53b9",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/ontology_03/steering_metrics.csv",
+      "bytes": 2467459,
+      "sha256": "52fd15a9e08d8f0acd1df8efa27854b6a30659fc4589da9498b92d2d4ea4c69b",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/ontology_04/steering_metrics.csv",
+      "bytes": 2491133,
+      "sha256": "94a7092715b3427b908fff220d772d07ac812c89ccb6fb20a47bc46022edbec3",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/ontology_05/steering_metrics.csv",
+      "bytes": 2365646,
+      "sha256": "b459a1072113772d2407ace5a4f48c479ca0366e8f8e93ed82f3477645d4f727",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/summary.csv",
+      "bytes": 53068098,
+      "sha256": "36dee0107cf79b8c1f411a374f88ae3ca3a4242786fafe00b7a7c79d4662091e",
+      "rows": 54144
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/delta_trace.json",
+      "bytes": 899891,
+      "sha256": "c0fb739b40bc431a9f84920aeac3633f8591698a1dc926c8e399a4a7efef5392"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/design_validation.json",
+      "bytes": 141,
+      "sha256": "2e38af1b5d07900218829730c28a19e8c8ba9d038f79adc1a5265d67a6beae22"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/identity_01/steering_metrics.csv",
+      "bytes": 2908464,
+      "sha256": "4403f2225483e5ac3fe723666b2eb70b2990a85839d76b9913b464c3d2e63102",
+      "rows": 3168
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/identity_02/steering_metrics.csv",
+      "bytes": 2710331,
+      "sha256": "6cb06cd0458d7f278406bae25adb9bcc03dfb2de6b562eca1c81e177da4149fd",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/identity_03/steering_metrics.csv",
+      "bytes": 2729173,
+      "sha256": "7e1c4e54de8dd557fcf918fa23d718f50d749ac1ca49ac15e315d5bebff60c53",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/identity_04/steering_metrics.csv",
+      "bytes": 2447205,
+      "sha256": "239c88a13b2c26597cabc00fcf7bbbf079e282cab2802927128f77c2c92d9b9f",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/identity_05/steering_metrics.csv",
+      "bytes": 2382056,
+      "sha256": "19af3fcb23e1196bbfca1b3b96094b5ba5d5c258fbd93d75099c3bb421512d4f",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/literal_01/steering_metrics.csv",
+      "bytes": 2888464,
+      "sha256": "1c1c6277c4ee9f5b24db04f853fd7dbfe232c2e8db6d5128afbc7c896f4f1248",
+      "rows": 3072
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/literal_02/steering_metrics.csv",
+      "bytes": 2350982,
+      "sha256": "9b3cb3678a6c6e85e69c5a3f59e099880c276d8979ce60d5feaea7f2e6a6dcdb",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/literal_03/steering_metrics.csv",
+      "bytes": 2297992,
+      "sha256": "950f08a5de2055f6b29eda00948528df1b2a7b5a4a8fa8f97e8e6144602831bd",
+      "rows": 2496
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/literal_04/steering_metrics.csv",
+      "bytes": 2207528,
+      "sha256": "a6f776edade21094d766519788cd12b7c5773aa7b6cf612730be9172303c7460",
+      "rows": 2304
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/literal_05/steering_metrics.csv",
+      "bytes": 2191780,
+      "sha256": "6acdc70b17b579243f7d89d183a5cc1806a8dcc282972c4f090e6ae045563c92",
+      "rows": 2400
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/metaphor_01/steering_metrics.csv",
+      "bytes": 2884628,
+      "sha256": "60ef7145d5142ff2fdd81c1a26769c5ec88602bc6b1c0c6ea56f8612c10cb891",
+      "rows": 3168
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/metaphor_02/steering_metrics.csv",
+      "bytes": 2545070,
+      "sha256": "b623514f6f379fa6827d4a2722af77ec63e21e760739ff11811ef9244f164433",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/metaphor_03/steering_metrics.csv",
+      "bytes": 2539172,
+      "sha256": "b06224f25b656b0d5575dc0752efa768c32a1a4aa7b6a4e9dded2fa775f543b9",
+      "rows": 2784
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/metaphor_04/steering_metrics.csv",
+      "bytes": 2463628,
+      "sha256": "6d9a83fd55557acd95bbc483cf4e3350a412a6f75b03570c1a54a6dd5b13766b",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/metaphor_05/steering_metrics.csv",
+      "bytes": 2281876,
+      "sha256": "b0846c75907e928413586b6f04c46d13de894513c2f78615497e96f3b15046bd",
+      "rows": 2496
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/ontology_01/steering_metrics.csv",
+      "bytes": 2721297,
+      "sha256": "9dba2ab417eb3072876fff0b07d4f0ab3a7174faad197c938d3d81b41c3871c0",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/ontology_02/steering_metrics.csv",
+      "bytes": 2479627,
+      "sha256": "408da24988b7519259243391397d8e54db147bb864528d0edbe997f0efea2950",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/ontology_03/steering_metrics.csv",
+      "bytes": 2467503,
+      "sha256": "2646e106d002a994c200ff8005a2d27a15a74c97f7b7418f8ae4ead9e32e7b0c",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/ontology_04/steering_metrics.csv",
+      "bytes": 2492032,
+      "sha256": "795db9decde2c171c26fdeb847957a9186eee80b2615a960a5c0130271b586ef",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/ontology_05/steering_metrics.csv",
+      "bytes": 2366506,
+      "sha256": "e9cd4af6d4140dc765a5672def7c652bb4f764e85d5315491de8c609d25ad34e",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/summary.csv",
+      "bytes": 53363766,
+      "sha256": "cd46ce98572d31b35e2d86b5203f3e9cd467ca9151d420a00f36e9f842c0a7e7",
+      "rows": 54144
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/delta_trace.json",
+      "bytes": 899891,
+      "sha256": "e2a5c5ef1e768f0285ca500b02278d79c5b2d6f7233391d3def1bfea3ffb693f"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/design_validation.json",
+      "bytes": 141,
+      "sha256": "2e38af1b5d07900218829730c28a19e8c8ba9d038f79adc1a5265d67a6beae22"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/identity_01/steering_metrics.csv",
+      "bytes": 2918850,
+      "sha256": "f190f1e9e5a8f8d6c5eddf98a0d26b526d2779101eb6ebd772f105736920c7d7",
+      "rows": 3168
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/identity_02/steering_metrics.csv",
+      "bytes": 2710049,
+      "sha256": "b96319fa92a62aacf906e33ac1f08f86616d60ea6023ff3718e3056907cb11ce",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/identity_03/steering_metrics.csv",
+      "bytes": 2725129,
+      "sha256": "3eee108f4c943d6ae0b40f7ed6a9d3b93b6a4c5a89770e3cd00e9344f5c33ef9",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/identity_04/steering_metrics.csv",
+      "bytes": 2357210,
+      "sha256": "a6dfb9a6ea04728412884d4f12f27213d0ce25aa123b0b1017172fd5ed9fc456",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/identity_05/steering_metrics.csv",
+      "bytes": 2378756,
+      "sha256": "0fb603305b037c0dc909bd683c64bdda72303ff5682afd62dde1afac1b2a84c1",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/literal_01/steering_metrics.csv",
+      "bytes": 2777944,
+      "sha256": "6f1bc9779fa2f33ab7eaa0d625e480fae104520519b196d9283fc4621196f504",
+      "rows": 3072
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/literal_02/steering_metrics.csv",
+      "bytes": 2344786,
+      "sha256": "1f0dd3125537ddd413a8701201c541d6a0e1e3ddb56a7f0fe2ecfb5eabf8beb8",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/literal_03/steering_metrics.csv",
+      "bytes": 2295184,
+      "sha256": "2f3c6ec0c12f4190fcf7e77e93391340981ce5202e1ad592ae3b87b8b8d0f0f9",
+      "rows": 2496
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/literal_04/steering_metrics.csv",
+      "bytes": 2208234,
+      "sha256": "fdc3fbd4f3b28ea400a14cfc4c72a296ba62ea93202d3ef287c3ecfd77892a12",
+      "rows": 2304
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/literal_05/steering_metrics.csv",
+      "bytes": 2198658,
+      "sha256": "02a267c981cbe8aa81221e9ba945bf285de11abeafab1aa9b9671e9d2a945d38",
+      "rows": 2400
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/metaphor_01/steering_metrics.csv",
+      "bytes": 2881163,
+      "sha256": "88d16d96b2655047126d3a1b55903e2e2c9262da6685860ba6825273564f8893",
+      "rows": 3168
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/metaphor_02/steering_metrics.csv",
+      "bytes": 2545131,
+      "sha256": "8157f96ddfabb8eede51da5aa610ee5daea77f4b0c3696564b35ced50edde14d",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/metaphor_03/steering_metrics.csv",
+      "bytes": 2546787,
+      "sha256": "a79a594899ecfadf44a2e2f856c75b0c1efcebc8a40b2a230ba3edcb86c6bd96",
+      "rows": 2784
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/metaphor_04/steering_metrics.csv",
+      "bytes": 2459617,
+      "sha256": "92d1466e80498122c97deb7d2480d3c102e4ce05b36d1d6dbb772b47750f617a",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/metaphor_05/steering_metrics.csv",
+      "bytes": 2285660,
+      "sha256": "9a72afa493b74f584af42955ed3558c25910046fef736551f0451ca64f2e19ca",
+      "rows": 2496
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/ontology_01/steering_metrics.csv",
+      "bytes": 2718688,
+      "sha256": "77cde0180c5e547d319e6e771a7b114cf014673baac7326731156841ce0c045c",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/ontology_02/steering_metrics.csv",
+      "bytes": 2479851,
+      "sha256": "e6a5860b116cff449b0096bc38f6f36a64b1390eebf0b297425ac79aa17749dd",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/ontology_03/steering_metrics.csv",
+      "bytes": 2471140,
+      "sha256": "671620ee8f6eecb35153b82c0016c5c6eb2c3450a10e0cf207b6c1537f555646",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/ontology_04/steering_metrics.csv",
+      "bytes": 2491908,
+      "sha256": "abbad39131700781000170e02bf6b01aed1efab9eae978fdffde8b80618d1307",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/ontology_05/steering_metrics.csv",
+      "bytes": 2372232,
+      "sha256": "1c02f53aaf68f70afa8c8842562bf4dcb2ab2e1db2742c1b0e41469f41254a7b",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/summary.csv",
+      "bytes": 53283717,
+      "sha256": "e4f795aa5a5c8aebc74e320006112013d4a8ce6b73b22530536a95f4e71442c9",
+      "rows": 54144
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/identity_01_fields.npz",
+      "bytes": 2741108,
+      "sha256": "9d1228aff6602c44b33747f75d4660e436fcb3a3f7d7604bb093055cd5490d92"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/identity_02_fields.npz",
+      "bytes": 2540516,
+      "sha256": "c979730d8d8c43e2cff7518d70fd9d98fa8023f63d169c14d22a041007eeede1"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/identity_03_fields.npz",
+      "bytes": 2539877,
+      "sha256": "f62d92698e8d10b0cb44beea09b174e22e7cc0c5881b8aea5e32cf3c388a76a3"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/identity_04_fields.npz",
+      "bytes": 2339839,
+      "sha256": "32fb89e6d45af4b4a2a0cd9dc7ead4f9547dfdb9c7252c99dda0e796f1f6bd7d"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/identity_05_fields.npz",
+      "bytes": 2338411,
+      "sha256": "733099885f3e5d29ac144606fce2b5118c34bd1c598c4f8032ddb3dfe776c61e"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/independent_raw_audit.json",
+      "bytes": 3060,
+      "sha256": "3ca93988da5a11f4340b3c882ed7771fa53015023d001d445f2d44046a5e8f14"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/largest_change_diagnostic.json",
+      "bytes": 3057,
+      "sha256": "ff0650856af5ddfe845fe49c4a72ff9082f26a60ea50b07af22f128d542a77bf"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/literal_01_fields.npz",
+      "bytes": 2674713,
+      "sha256": "eac5ffeb185a1beab5fc762c241e89b7385c1591638afdd21166eed69ad9bc2f"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/literal_02_fields.npz",
+      "bytes": 2339545,
+      "sha256": "b16331dd03ce1a97d01aaa2f19783a98ea0482d3a583fadb728df28c8acb9018"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/literal_03_fields.npz",
+      "bytes": 2272584,
+      "sha256": "0c44e6eb434710071bbe8dac2a0d30cb9b50dbcd0f6273d8bad946ef06aab7ba"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/literal_04_fields.npz",
+      "bytes": 2137300,
+      "sha256": "85f92c7480b0522a8592735f599c59c5ed3405b3800532932dbc1dab0ec63959"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/literal_05_fields.npz",
+      "bytes": 2205155,
+      "sha256": "1b2c8409103a7ff935abe355013ee6cd89de3f7a88e3e39479aa42b5e8537ec6"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/load_audit.json",
+      "bytes": 84055,
+      "sha256": "3bdd1b50d33275682fe3a53d1643229ef1357b805144d5f27ec09c4479375610"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/metaphor_01_fields.npz",
+      "bytes": 2741334,
+      "sha256": "fa17db2b96dcd9dfe2071b6f519b0be827697f28e491e293b67bda15fed747b4"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/metaphor_02_fields.npz",
+      "bytes": 2406216,
+      "sha256": "a9c7aed40a2a0e9a08bd9556604037a4ee18163255f3161da919ab80a10341f5"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/metaphor_03_fields.npz",
+      "bytes": 2473625,
+      "sha256": "fc8585eb8cd467acfaabfe77e672c730c4aa323d0f40de1f264aaf3118a19a92"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/metaphor_04_fields.npz",
+      "bytes": 2339195,
+      "sha256": "6751fc5f19ad0ba50bba073bbea3fce1f9327eca5d4327150c05de719c9af7c0"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/metaphor_05_fields.npz",
+      "bytes": 2272227,
+      "sha256": "9bf8f764ffb2d11a01da3ff7cab62b87d9ac419b4ed88207a9dae70a5cd9bfc2"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/ontology_01_fields.npz",
+      "bytes": 2540007,
+      "sha256": "cf87041ec9c416694af5e057403356d6e4b4db8497d8232afd8b7a26f5496a13"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/ontology_02_fields.npz",
+      "bytes": 2340002,
+      "sha256": "e33087861bca730f7d0e444a0e6d5d1aee5bd952af7846c3db0c2fb3ea20d80e"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/ontology_03_fields.npz",
+      "bytes": 2406140,
+      "sha256": "54466cc07fe9491b8c5b793dcb647353be3ac9fe45d600ce6e99f1e19f8b673e"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/ontology_04_fields.npz",
+      "bytes": 2406692,
+      "sha256": "7533fbfc1e68554de38e966df592aab8616fb74d4293117c6c5f97808bcdc958"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/ontology_05_fields.npz",
+      "bytes": 2339849,
+      "sha256": "475ee4162e276f8268117da4b1cab168956bcce7f8a1c2b79331037531f395f0"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/replay_audit.json",
+      "bytes": 559,
+      "sha256": "fb9bce17bb23d0e979ffc1eb6aa7a0dba4b18d04f57110ade85d28e5b6571063"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/zero_calibration.json",
+      "bytes": 310443,
+      "sha256": "c5565456280bf6294eececf23e6693941daa94b5cf924768df64b39702f920d2"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912_launch/completion.json",
+      "bytes": 77,
+      "sha256": "c557e4b9f43f7ad2c665eea5b1babc07ff6625f57509f6c8b294483abdc63b88"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912_launch/launch.json",
+      "bytes": 356,
+      "sha256": "5ac02b74cc8df840e4f97d177d99416b0b1c2a23019dcf88d765e9f8a2a8a217"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912_launch/process.json",
+      "bytes": 15,
+      "sha256": "853be9d51e8cdd2d96f9cf1d663d03f4e2d9e3476ef9eb061acbed5e2d7fb9ed"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912_launch/raw_checker_preflight.json",
+      "bytes": 3206,
+      "sha256": "3542f1cd59d0fde1e1c06388de8b629f088204b3d00fc751f041769870476cf3"
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912_launch/run.log",
+      "bytes": 5183,
+      "sha256": "e93bd2716e6b3d06844e0698a66207d579277720ca6017a95fd2fe53f35eece3"
+    }
+  ],
+  "interpretation_boundary": "Engineering precision stability on the original 20 texts, including four known-FP32 pilot texts. Separate within-sample early-response support. Not population equivalence, independent prompt replication, semantic control, or exact field-direction invariance. The largest-change diagnostic is post hoc."
+}

@@ -1,0 +1,16 @@
+{
+  "label": "POST_HOC_SECONDARY_COMPLETE_LATE_SENSITIVITY",
+  "completed_utc": "2026-09-11T15:12:24.423138+00:00",
+  "n_prompts": 18,
+  "mean": 0.34735342101321065,
+  "ci_lower": 0.21810916885781834,
+  "ci_upper": 0.4824323923219084,
+  "bootstrap_samples": 5000,
+  "bootstrap_seed": 1729,
+  "excluded_prompt_ids": [
+    "literal_01",
+    "literal_02"
+  ],
+  "primary_verdict_changed": false,
+  "scope": "Descriptive sensitivity; not a replacement for the frozen primary or secondary estimator."
+}

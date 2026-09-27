@@ -536,6 +536,22 @@ python3 scripts/plot_hltd_closed_loop.py \
   --components presence_plus_coexact coexact_minus_presence presence random_tangent
 ```
 
+Audit retrieved original-prompt phases across saved closed-loop runs with:
+
+```bash
+python3 scripts/summarize_hltd_closed_loop_phase.py \
+  --scan-root . \
+  --output-root spiral_out_hltd_closed_loop_phase_audit_v1 \
+  --evidence-root docs
+```
+
+The audit verifies deterministic seed copies, keeps run identities separate,
+and exports prompt-balanced phase, distance, and matched-random summaries.
+New closed-loop logs record the retrieved node's original token position
+directly. See [the phase audit note](docs/hltd_closed_loop_phase_audit.md)
+for results, provenance, and the distinction between retrieval phase and a
+causal phase effect.
+
 Render target-vocabulary sensitivity across multiple closed-loop roots with:
 
 ```bash
@@ -698,6 +714,26 @@ See [docs/hltd_signed_causal_gate.md](docs/hltd_signed_causal_gate.md) for the
 signed odd/even gate and prompt-level response-coefficient analysis.
 See [docs/hltd_signed_position_gate.md](docs/hltd_signed_position_gate.md) for
 the signed all-interior coexact position profile and phase analysis.
+See [docs/hltd_signed_l7_position_gate.md](docs/hltd_signed_l7_position_gate.md)
+for the frozen L7 early-position follow-up, its passing within-sample endpoint,
+and the FP16 batch-calibration boundary. Semantic control remains unsupported.
+See [docs/hltd_precision_l7_gate.md](docs/hltd_precision_l7_gate.md) for the
+four-prompt native-FP32 sensitivity pilot: the early response survives both
+fixed-field and rebuilt-field checks.
+See [docs/hltd_precision_l7_full_gate.md](docs/hltd_precision_l7_full_gate.md) for
+the completed full20 native-FP32 gate. All 20 early coefficients remain positive
+in both arms, within the preset 0.05 sensitivity bound. The largest individual
+reconstruction shift is retained; semantic control and L8 remain separate.
+See [docs/hltd_signed_l8_position_gate.md](docs/hltd_signed_l8_position_gate.md)
+for the native-FP32 L8 extension: complete early coverage, a positive
+within-sample next-token endpoint, and a negative secondary lexical-semantic
+contrast. The five-text L7 runtime bridge and missing-input recovery are
+retained; no unseen-prompt or semantic-control claim is made.
+See [docs/hltd_fresh_l7_l8_gate.md](docs/hltd_fresh_l7_l8_gate.md) for the
+new-text, single-runtime L7/L8 gate: both early mean-response endpoints pass,
+but only 17/20 and 16/20 prompts are positive. The paired L8 advantage remains
+secondary with layer-relative dose and activity masks; lexical-semantic
+alignment and prefix-only availability remain unestablished.
 See [docs/hltd_branch_heatmap.md](docs/hltd_branch_heatmap.md) for all-interior
 branch localization.
 See [docs/hltd_all_interior_position_gate.md](docs/hltd_all_interior_position_gate.md)

@@ -1,0 +1,10 @@
+{
+  "protocol": {
+    "path": "docs/data/hltd_signed_l8_position/protocol_continuation.json",
+    "bytes": 40132,
+    "sha256": "224030e9a3c55db4fe73b2167dc93accb3db5dd065f22940de6b6bec2c93081e"
+  },
+  "started_utc": "2026-09-26T22:20:42.286070+00:00",
+  "status": "COMPLETED",
+  "completed_utc": "2026-09-26T22:27:04.495688+00:00"
+}

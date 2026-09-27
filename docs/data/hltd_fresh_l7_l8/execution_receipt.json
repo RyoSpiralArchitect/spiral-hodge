@@ -1,0 +1,10 @@
+{
+  "protocol": {
+    "path": "docs/data/hltd_fresh_l7_l8/protocol.json",
+    "bytes": 34968,
+    "sha256": "74cfcb5f91ba56ffabc1eb8d8ef0f3006237921bc57175868b412edcec624ca1"
+  },
+  "started_utc": "2026-09-27T01:00:58.593473+00:00",
+  "status": "COMPLETED",
+  "completed_utc": "2026-09-27T01:19:02.648636+00:00"
+}

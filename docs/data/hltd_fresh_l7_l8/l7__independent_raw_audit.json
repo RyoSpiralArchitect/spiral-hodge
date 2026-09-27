@@ -1,0 +1,17 @@
+{
+  "raw": {
+    "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_fresh20_l7_l8_fp32_20260927/l7/summary.csv",
+    "bytes": 56946298,
+    "sha256": "6311897287eeef36e34961e0c2d8325e7c7fe92f63e56c7751a87d6af5901295"
+  },
+  "coefficients": {
+    "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_fresh20_l7_l8_fp32_20260927/l7/analysis/summary_prompt_bin_response_coefficients.csv",
+    "bytes": 264294,
+    "sha256": "895a0cb5fec1aba97b442e6334257bf2cbf32eb2e0776023281bfe7b9b7cdfb3"
+  },
+  "raw_rows": 58176,
+  "active_token_units": 568,
+  "coefficient_count": 956,
+  "max_abs_error": 2.220446049250313e-16,
+  "passed": true
+}

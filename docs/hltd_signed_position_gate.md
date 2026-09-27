@@ -248,6 +248,17 @@ than only immediate observed-token support.
 
 ## Artifacts
 
+The subsequent [closed-loop phase audit](hltd_closed_loop_phase_audit.md)
+recovers original-prompt retrieval positions from the existing rollout logs.
+It is a descriptive bridge with a different decomposition contract; it does
+not serve as a replication of this signed matched-Betti gate.
+
+The [signed L7 follow-up](hltd_signed_l7_position_gate.md) subsequently froze
+the early odd next-token endpoint before running. It passes within this same
+20-prompt sample, while the lexical semantic-margin intervals include zero.
+Its note preserves the failed cross-batch calibration and explains why shared
+baseline offsets cancel in relative coexact-minus-random contrasts.
+
 - `position/summary_seed_matched_position_gaps.csv`
 - `position/summary_seed_collapsed_position_gaps.csv`
 - `position/summary_token_signed_contrasts.csv`

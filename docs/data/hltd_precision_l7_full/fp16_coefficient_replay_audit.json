@@ -1,0 +1,18 @@
+{
+  "raw": {
+    "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/summary.csv",
+    "bytes": 53068098,
+    "sha256": "36dee0107cf79b8c1f411a374f88ae3ca3a4242786fafe00b7a7c79d4662091e"
+  },
+  "coefficients": {
+    "path": "docs/data/hltd_signed_l7_position/summary_prompt_bin_response_coefficients.csv",
+    "bytes": 258995,
+    "sha256": "a8ff39691d95847229c8f607dfb11851bfc8464ca4b9ac194cb4f09f81a33644"
+  },
+  "raw_rows": 54144,
+  "active_token_units": 528,
+  "coefficient_count": 952,
+  "max_abs_error": 4.440892098500626e-16,
+  "passed": true,
+  "scope": "Current matched-batch FP16 raw rows against the earlier single-baseline full20 prompt-bin coefficients; no native-FP32 treatment rows are read."
+}

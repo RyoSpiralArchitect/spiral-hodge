@@ -1,0 +1,10 @@
+{
+  "protocol": {
+    "path": "docs/data/hltd_precision_l7/protocol.json",
+    "bytes": 12865,
+    "sha256": "df86bf783131119e142293db7e471fc6dde7f91c6a2c6593b51f9f68cd6441e4"
+  },
+  "started_utc": "2026-09-11T18:47:33.038352+00:00",
+  "status": "COMPLETED",
+  "completed_utc": "2026-09-11T18:55:15.128729+00:00"
+}

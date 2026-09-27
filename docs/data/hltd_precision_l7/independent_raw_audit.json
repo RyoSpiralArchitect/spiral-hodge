@@ -1,0 +1,67 @@
+{
+  "created_utc": "2026-09-11T19:01:04.999847+00:00",
+  "protocol": {
+    "path": "docs/data/hltd_precision_l7/protocol.json",
+    "bytes": 12865,
+    "sha256": "df86bf783131119e142293db7e471fc6dde7f91c6a2c6593b51f9f68cd6441e4"
+  },
+  "method": "Independent standard-library CSV reduction. Subtract steered outputs directly; average the eight exact seed pairs; fit per-token odd/even coefficients; equal-average tokens in each prompt bin. No production estimator or saved baseline delta used.",
+  "tolerance": 1e-10,
+  "arms": {
+    "fp16_replay": {
+      "raw": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/fp16_replay/summary.csv",
+        "bytes": 12020321,
+        "sha256": "f67bbd97cccf24ed865d629c3553c52b4c9039a609c5ab25d156c3295269e2c2"
+      },
+      "coefficients": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/analysis/fp16_replay/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 51963,
+        "sha256": "c4a29fa45498415e31413247ff43a36e7ebc93651445dd0cb09c1d529d9c1cf0"
+      },
+      "raw_rows": 12288,
+      "active_token_units": 118,
+      "seed_alpha_pairs": 5664,
+      "coefficient_count": 188,
+      "max_abs_error": 2.220446049250313e-16,
+      "passed": true
+    },
+    "fp32_fixed_field": {
+      "raw": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/fp32_fixed_field/summary.csv",
+        "bytes": 12086793,
+        "sha256": "0c1b2400fdc5ed8ae58cf0392b8aadb36a4770909ca9fb87dcc05ad57d617312"
+      },
+      "coefficients": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/analysis/fp32_fixed_field/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 51994,
+        "sha256": "611139f3db4990a559d8df3e3a2891b1bb30fc838f93a13aea2fa524bae35ec7"
+      },
+      "raw_rows": 12288,
+      "active_token_units": 118,
+      "seed_alpha_pairs": 5664,
+      "coefficient_count": 188,
+      "max_abs_error": 3.3306690738754696e-16,
+      "passed": true
+    },
+    "fp32_rebuilt_field": {
+      "raw": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/fp32_rebuilt_field/summary.csv",
+        "bytes": 12005161,
+        "sha256": "5b796d75dc9fcfb9a15fe7df1682f3f3bace9d622eacef4f392e44be8f867a17"
+      },
+      "coefficients": {
+        "path": "spiral_out_hltd_precision_l7_pilot4_20260912/analysis/fp32_rebuilt_field/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 52003,
+        "sha256": "2d2083e6e17ecbeab15e5c17be8c30217ab04b6b12f9cd129a5cf2ae99686e0f"
+      },
+      "raw_rows": 12288,
+      "active_token_units": 118,
+      "seed_alpha_pairs": 5664,
+      "coefficient_count": 188,
+      "max_abs_error": 2.220446049250313e-16,
+      "passed": true
+    }
+  },
+  "passed": true
+}

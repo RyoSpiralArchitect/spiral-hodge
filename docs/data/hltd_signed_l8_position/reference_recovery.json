@@ -1,0 +1,38 @@
+{
+  "source_shards": [
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/literal_01/steering_metrics.csv",
+      "bytes": 2777944,
+      "sha256": "6f1bc9779fa2f33ab7eaa0d625e480fae104520519b196d9283fc4621196f504",
+      "rows": 3072
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/literal_03/steering_metrics.csv",
+      "bytes": 2295184,
+      "sha256": "2f3c6ec0c12f4190fcf7e77e93391340981ce5202e1ad592ae3b87b8b8d0f0f9",
+      "rows": 2496
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/metaphor_01/steering_metrics.csv",
+      "bytes": 2881163,
+      "sha256": "88d16d96b2655047126d3a1b55903e2e2c9262da6685860ba6825273564f8893",
+      "rows": 3168
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/identity_01/steering_metrics.csv",
+      "bytes": 2918850,
+      "sha256": "f190f1e9e5a8f8d6c5eddf98a0d26b526d2779101eb6ebd772f105736920c7d7",
+      "rows": 3168
+    },
+    {
+      "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/ontology_01/steering_metrics.csv",
+      "bytes": 2718688,
+      "sha256": "77cde0180c5e547d319e6e771a7b114cf014673baac7326731156841ce0c045c",
+      "rows": 2880
+    }
+  ],
+  "source_hashes_verified": true,
+  "raw_rows": 14784,
+  "family_source": "data/hltd_prompt_suite.jsonl",
+  "scope": "Original numeric row data, family restored from frozen prompt metadata; not original aggregate bytes."
+}

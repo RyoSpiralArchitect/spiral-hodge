@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "figures": [
+    {
+      "path": "docs/figures/hltd_signed_l8_layer_comparison.png",
+      "width": 1980,
+      "height": 1440,
+      "nonwhite_fraction": 0.0265256734006734,
+      "pixel_std": 32.253688634291976,
+      "visually_inspected": true
+    },
+    {
+      "path": "docs/figures/hltd_signed_l8_position_profile.png",
+      "width": 2356,
+      "height": 1520,
+      "nonwhite_fraction": 0.3105902622643195,
+      "pixel_std": 35.54672155603188,
+      "visually_inspected": true
+    }
+  ]
+}

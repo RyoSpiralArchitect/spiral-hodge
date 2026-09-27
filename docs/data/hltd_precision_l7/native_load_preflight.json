@@ -1,0 +1,13 @@
+{
+  "dtype": "torch.float32",
+  "checked_parameters": 124439808,
+  "exact_parameter_tensors": 148,
+  "mismatched_tensors": [],
+  "max_abs_error": 0,
+  "logit_dtype": "torch.float32",
+  "hidden_dtypes": [
+    "torch.float32"
+  ],
+  "lm_head_tied": true,
+  "scope": "Exploratory native-FP32 load and unsteered forward check before nonzero precision pilot. The pilot repeats the full check and records runtime receipts."
+}

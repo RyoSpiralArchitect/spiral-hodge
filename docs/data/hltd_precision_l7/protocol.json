@@ -1,0 +1,425 @@
+{
+  "schema_version": 1,
+  "protocol_id": "hltd-l7-native-fp32-sensitivity-pilot4-v1",
+  "frozen_utc": "2026-09-11T18:47:31.666458+00:00",
+  "knowledge_at_freeze": "Previous FP16 L7 results are known. No nonzero native-FP32 intervention for this pilot has been run. Native-FP32 checkpoint loading and a short unsteered forward were checked.",
+  "selection_rule": "First numbered prompt of each of the four existing families. Deterministic previously-seen subset, not held-out prompts.",
+  "suite": "data/hltd_prompt_suite.jsonl",
+  "target_set_file": "data/hltd_semantic_targets.json",
+  "model_path": "/Users/ryospiralarchitect/\ud83c\udf00SpiralReality\ud83c\udf00/model/gpt2",
+  "historical_raw": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/summary.csv",
+  "run_root": "spiral_out_hltd_precision_l7_pilot4_20260912",
+  "prompts": [
+    {
+      "prompt_id": "literal_01",
+      "family": "literal_stable",
+      "token_count": 34,
+      "input_ids": [
+        464,
+        5888,
+        4721,
+        379,
+        5193,
+        287,
+        262,
+        3329,
+        13,
+        317,
+        3710,
+        4624,
+        257,
+        20922,
+        319,
+        262,
+        3084,
+        11,
+        1100,
+        1115,
+        5468,
+        11,
+        18984,
+        734,
+        17336,
+        11,
+        290,
+        6807,
+        1363,
+        878,
+        262,
+        6290,
+        2540,
+        13
+      ]
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "family": "metaphor_shift",
+      "token_count": 35,
+      "input_ids": [
+        464,
+        1748,
+        373,
+        257,
+        11029,
+        5044,
+        11,
+        663,
+        6483,
+        12704,
+        739,
+        262,
+        32209,
+        13,
+        2750,
+        17577,
+        11,
+        790,
+        4324,
+        550,
+        1716,
+        281,
+        29708,
+        312,
+        11,
+        290,
+        262,
+        7850,
+        12086,
+        703,
+        284,
+        2740,
+        287,
+        8465,
+        13
+      ]
+    },
+    {
+      "prompt_id": "identity_01",
+      "family": "identity_stress",
+      "token_count": 35,
+      "input_ids": [
+        32,
+        10162,
+        12086,
+        852,
+        257,
+        3420,
+        13,
+        632,
+        750,
+        407,
+        1280,
+        11,
+        475,
+        790,
+        1986,
+        326,
+        5982,
+        340,
+        1625,
+        736,
+        6872,
+        257,
+        1180,
+        2119,
+        11,
+        257,
+        1180,
+        1438,
+        11,
+        290,
+        262,
+        976,
+        5897,
+        3252,
+        13
+      ]
+    },
+    {
+      "prompt_id": "ontology_01",
+      "family": "ontology_collapse",
+      "token_count": 32,
+      "input_ids": [
+        464,
+        3975,
+        24070,
+        262,
+        2975,
+        290,
+        1444,
+        340,
+        1363,
+        13,
+        317,
+        6508,
+        7817,
+        257,
+        1200,
+        284,
+        20927,
+        262,
+        9151,
+        11,
+        981,
+        257,
+        9082,
+        24650,
+        2346,
+        656,
+        257,
+        1994,
+        290,
+        14838,
+        7415,
+        13
+      ]
+    }
+  ],
+  "design": {
+    "model": "local GPT-2 small",
+    "device": "mps",
+    "pca_components": 32,
+    "pca_fit_scope": "all layers and token positions within each full teacher-forced prompt",
+    "normalize_hidden": true,
+    "field_mode": "centered",
+    "max_length": 96,
+    "pca_seed": 0,
+    "node_ridge": 0.0001,
+    "min_chart_norm": 0.000001,
+    "alpha_scaling": "median natural centered hidden step norm",
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "components": [
+      "coexact",
+      "random_tangent"
+    ],
+    "alphas": [
+      -1,
+      -0.5,
+      -0.25,
+      0.25,
+      0.5,
+      1
+    ],
+    "batch_size": 12,
+    "row_constants": {
+      "layer": 7,
+      "k": 16,
+      "complex_mode": "matched_betti",
+      "hodge_solver": "orthogonal",
+      "betti_1_fraction_target": 0.5,
+      "random_tangent_reference": "max_full_branch_node_speed",
+      "token_selector": "all_interior",
+      "selector_component": "coexact"
+    },
+    "ridge": 0.00001
+  },
+  "analysis": {
+    "bins": 12,
+    "position_fraction": "token_index / (token_count - 1)",
+    "bootstrap_samples": 5000,
+    "bootstrap_seed": 1729,
+    "bootstrap_unit": "prompt, after averaging seeds within exact token/alpha and averaging tokens within prompt bins",
+    "interval": "two-sided percentile 95%, quantiles 0.025/0.975",
+    "phase_weighting": "equal mean of four bin response coefficients within prompt; equal prompt weights",
+    "odd_fit": "sum(a * odd(a)) / sum(a^2), through origin, a in [0.25,0.5,1]",
+    "even_fit": "sum(a^2 * even(a)) / sum(a^4)",
+    "gap": "coexact metric delta minus seed-matched random_tangent metric delta",
+    "odd": "(gap(+a) - gap(-a)) / 2",
+    "even": "(gap(+a) + gap(-a)) / 2",
+    "group_iteration": "existing bootstrap_position_phases, sorted PHASE_INFERENCE_KEYS; unchanged RNG stream"
+  },
+  "arms": {
+    "fp16_replay": {
+      "model_dtype": "float16",
+      "field_dtype": "float16"
+    },
+    "fp32_fixed_field": {
+      "model_dtype": "float32",
+      "field_dtype": "float16"
+    },
+    "fp32_rebuilt_field": {
+      "model_dtype": "float32",
+      "field_dtype": "float32"
+    }
+  },
+  "baseline_policy": "Unhooked batch of 12 identical prompts, same as intervention batch. All rows must be exactly identical before using row 0 as their common baseline.",
+  "dtype_policy": "Explicit independent checkpoint loads; all 148 trainable tensors must exactly equal source F32 bytes for FP32 and the F32-to-F16 cast for replay. An in-memory upcast is forbidden. No autocast or device fallback.",
+  "nominal_delta_policy": "Trace every [12,768] float32 delta batch before model-dtype addition. FP32 fixed-field trace must be byte-identical to FP16 replay, including random seeds, signs, norm scale and order.",
+  "tolerances": {
+    "zero_hook_max_abs": 0.0001,
+    "legacy_replay_max_abs": 1e-8,
+    "early_coefficient_max_abs_change": 0.05
+  },
+  "primary": {
+    "metric": "next_token_logprob_delta",
+    "contrast_type": "odd",
+    "bins": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "aggregation": "Existing seed-matched signed estimator; equal mean of all four early bin coefficients within each prompt.",
+    "coverage_rule": "All four early bins must be finite for each of four prompts in every arm. No imputation or reduced-prompt sensitivity claim.",
+    "stability_rule": "Each prompt early coefficient in BOTH native-FP32 arms must differ from FP16 replay by at most 0.05 in absolute value; every prompt coefficient in all three arms must be positive.",
+    "tolerance_interpretation": "Prespecified engineering sensitivity bound, not statistical or population equivalence. Always report actual deltas and separate fixed-field from rebuilt-field changes."
+  },
+  "secondary": [
+    "Full 12-bin and phase profiles with descriptive four-prompt bootstrap intervals",
+    "Even and lexical semantic-margin responses",
+    "Activity-mask changes after rebuilding the field",
+    "Cross-batch numerical offset by dtype; matched-batch controls drive row metrics"
+  ],
+  "stop_rules": [
+    "Stop before nonzero interventions on a load or zero-control failure.",
+    "Run FP16 replay first and stop if saved steered probabilities or field scalars differ from historical subset beyond 1e-8.",
+    "Stop if fixed-field nominal delta bytes differ.",
+    "Keep every failed attempt and do not replace the protocol after viewing results."
+  ],
+  "non_goals": [
+    "No L8 run",
+    "No full 20-prompt FP32 replication in this pilot",
+    "No claim of independent prompt replication, semantic control, readability preservation or IEEE hardware-level equivalence"
+  ],
+  "frozen_files": [
+    {
+      "path": "data/hltd_prompt_suite.jsonl",
+      "bytes": 4224,
+      "sha256": "8591d80b7cac5fa4c29944768633b63ab6ad2ba030699300e0fb4105feb839e8"
+    },
+    {
+      "path": "data/hltd_semantic_targets.json",
+      "bytes": 4915,
+      "sha256": "d800906dd4142e3cfea922de7cf5c53b41fd583c94d7fb8b434b3e5984524356"
+    },
+    {
+      "path": "spiral_hodge.py",
+      "bytes": 143814,
+      "sha256": "20cab07c2a2d3c023b00ccfdc20847945c08cc1cfc91e2c27876759f571fabb7"
+    },
+    {
+      "path": "scripts/run_hltd_steering.py",
+      "bytes": 40561,
+      "sha256": "2f3f43824de19bc34057d2cb0de315edfd828b36399c5482483ec9689646d793"
+    },
+    {
+      "path": "scripts/run_hltd_steering_fast_suite.py",
+      "bytes": 19244,
+      "sha256": "6a486931aceabdb570fa2761f4895ff46adc2707d9a82f25089aaf1acde6850c"
+    },
+    {
+      "path": "scripts/run_hltd_steering_suite.py",
+      "bytes": 8868,
+      "sha256": "5a5bb7822d68353ec60fc3eff8413a13a5048258cc6c8b03849be857834de69a"
+    },
+    {
+      "path": "scripts/summarize_hltd_steering.py",
+      "bytes": 20001,
+      "sha256": "da933ceb31765f3cef0a39df0a7ef04b1f51c69b560d9b9bd65fb34f291c3e3a"
+    },
+    {
+      "path": "scripts/plot_hltd_signed_position_gate.py",
+      "bytes": 45774,
+      "sha256": "55a864dde051c342e642c007b6bc978dd2f125617f03845f3bccdd79a36aae60"
+    },
+    {
+      "path": "scripts/evaluate_hltd_signed_layer_gate.py",
+      "bytes": 10439,
+      "sha256": "8f31a80cd83bf99bd76c83768719dab510a957f04aaa6022c1af80d7c86c6a96"
+    },
+    {
+      "path": "scripts/calibrate_hltd_steering_batch.py",
+      "bytes": 5194,
+      "sha256": "a21e03e62320f53fa0126f58efa8921f50481fcdfaf1fde08cfd05101cc6f5e1"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/preflight_legacy_fp16.json",
+      "bytes": 12946,
+      "sha256": "c276603e159c5fae1af2e0cb11bc23d2bf8808ad2b2e85c7b19cf3551c0cbf3c"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/batch_diagnostic.json",
+      "bytes": 1725,
+      "sha256": "5223ef3b984a8042724cf86136079ff69f4aa81bc3a019fd7986da04f9a55863"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/zero_batch_calibration.json",
+      "bytes": 171395,
+      "sha256": "99db3809ec5b85614b04972a566032d6f41fa2e7afad560e05895a265977e6c2"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/\ud83c\udf00SpiralReality\ud83c\udf00/model/gpt2/config.json",
+      "sha256": "0daed7749b4f02b8f76240d5444551d7b08712dab4d0adb8239c56ba823bb7b4",
+      "bytes": 665
+    },
+    {
+      "path": "/Users/ryospiralarchitect/\ud83c\udf00SpiralReality\ud83c\udf00/model/gpt2/generation_config.json",
+      "sha256": "ed0b32ac72c0f5f44a719abb2d7786ea5146c871f83717b7f2018065954de02b",
+      "bytes": 124
+    },
+    {
+      "path": "/Users/ryospiralarchitect/\ud83c\udf00SpiralReality\ud83c\udf00/model/gpt2/merges.txt",
+      "sha256": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5",
+      "bytes": 456318
+    },
+    {
+      "path": "/Users/ryospiralarchitect/\ud83c\udf00SpiralReality\ud83c\udf00/model/gpt2/model.safetensors",
+      "sha256": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707",
+      "bytes": 548105171
+    },
+    {
+      "path": "/Users/ryospiralarchitect/\ud83c\udf00SpiralReality\ud83c\udf00/model/gpt2/tokenizer_config.json",
+      "sha256": "5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f",
+      "bytes": 26
+    },
+    {
+      "path": "/Users/ryospiralarchitect/\ud83c\udf00SpiralReality\ud83c\udf00/model/gpt2/vocab.json",
+      "sha256": "196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783",
+      "bytes": 1042301
+    },
+    {
+      "path": "scripts/run_hltd_precision_gate.py",
+      "bytes": 15123,
+      "sha256": "5982ba90f69f008ee7766efa9a836842c100836da95d2a183032fd63ca37d60c"
+    },
+    {
+      "path": "scripts/analyze_hltd_precision_gate.py",
+      "bytes": 7945,
+      "sha256": "4c9339d8b7b56e70fc291b6134ed573c770708765f45230d2103d8c89c4c1eb3"
+    },
+    {
+      "path": "tests/test_hltd_precision_gate.py",
+      "bytes": 3857,
+      "sha256": "57e3ed0ee092e7c5ce59bfeb164717df3d5c76aa6ffb97f318840e978db3accb"
+    },
+    {
+      "path": "docs/data/hltd_precision_l7/native_load_preflight.json",
+      "bytes": 420,
+      "sha256": "8f53b0ef390950dd2ef6b04fcdab9e556ad0fd7451a028f45bc6a55bd5d0d11b"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/protocol.json",
+      "bytes": 20589,
+      "sha256": "504e8301222b563d1ac1f43ec8e5924bb2202edc2857e41a28ba4f9598777fdb"
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/summary.csv",
+      "bytes": 48940121,
+      "sha256": "a4922f6a2561985d82ca5dee066df76ce11e223f645973d32b71eecb6c07b1b8"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/Library/Python/3.12/lib/python/site-packages/sitecustomize.py",
+      "bytes": 538296,
+      "sha256": "0f2902203d8290f1bae0380260c3990456e83e5b8a8af996ffddc7c829393497"
+    }
+  ]
+}

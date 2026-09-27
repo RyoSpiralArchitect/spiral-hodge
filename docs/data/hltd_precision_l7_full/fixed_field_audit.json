@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "matched_batches": 4512,
+  "scope": "Identical nominal F32 delta bytes before model-dtype addition; no field/scale change."
+}

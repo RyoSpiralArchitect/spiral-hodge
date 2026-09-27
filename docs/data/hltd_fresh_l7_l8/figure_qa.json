@@ -1,0 +1,28 @@
+{
+  "created_utc": "2026-09-27T01:21:40.367822+00:00",
+  "visual_review": "All three saved figures inspected: axes, prompt labels, intervals, legends and bounds legible with no unintended overlap.",
+  "figures": [
+    {
+      "path": "docs/figures/hltd_fresh_l7_l8_comparison.png",
+      "width": 2160,
+      "height": 1530,
+      "nonwhite_fraction": 0.046559852335996126,
+      "pixel_std": 30.463728416158286
+    },
+    {
+      "path": "docs/figures/hltd_fresh_l7_position_profile.png",
+      "width": 2356,
+      "height": 1520,
+      "nonwhite_fraction": 0.3112383835224734,
+      "pixel_std": 35.49233360214089
+    },
+    {
+      "path": "docs/figures/hltd_fresh_l8_position_profile.png",
+      "width": 2356,
+      "height": 1520,
+      "nonwhite_fraction": 0.3040478956304173,
+      "pixel_std": 35.643462365860806
+    }
+  ],
+  "passed": true
+}

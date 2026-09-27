@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "parameter_tensors": 148,
+  "parameter_count": 124439808,
+  "source_bytes_equal_after_both_layers": true
+}

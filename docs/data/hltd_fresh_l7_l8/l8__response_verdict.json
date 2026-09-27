@@ -1,0 +1,37 @@
+{
+  "status": "SUPPORTED_WITHIN_SAMPLE",
+  "complete_early_coverage": true,
+  "expected_prompt_bins": 80,
+  "observed_prompt_bins": 80,
+  "missing_prompt_bins": [],
+  "primary": {
+    "metric": "next_token_logprob_delta",
+    "contrast_type": "odd",
+    "bins": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "pass_rule": "Each layer must have all 80 early prompt/bins and strictly positive lower 95% prompt-bootstrap bound. The joint status is BOTH_LAYERS_SUPPORTED_ON_FRESH_TEXTS only if both pass. Otherwise report NOT_SUPPORTED_AT_BOTH_LAYERS or INSUFFICIENT_COVERAGE, retaining both layer results.",
+    "missing_rule": "No imputation, excluded prompts, reduced-prompt primary estimate, or sign requirement for each prompt."
+  },
+  "interpretation_boundary": "Within-sample layer generalization only; not independent prompt replication or semantic control.",
+  "mean": 0.4422901761452392,
+  "ci_lower": 0.2853367119731931,
+  "ci_upper": 0.5955124953576142,
+  "n_prompts": 20,
+  "positive_prompts": 16,
+  "design_validation": {
+    "raw_rows": 58176,
+    "candidate_token_units": 606,
+    "active_coexact_token_units": 565,
+    "n_prompts": 20,
+    "exact_grid_passed": true
+  },
+  "raw_receipt": {
+    "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_fresh20_l7_l8_fp32_20260927/l8/summary.csv",
+    "bytes": 57101579,
+    "sha256": "23a7ba62e4418f31035da6b15a015c4d0f3ff23cc76c926b8a8526ba17949854"
+  }
+}

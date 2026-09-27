@@ -1,0 +1,12 @@
+{
+  "status": "BRIDGE_PASSED",
+  "passed": true,
+  "max_abs_early_change": 0.0,
+  "activity_changes": 0,
+  "failing_prompts": [],
+  "prompt_count": 5,
+  "tolerance": 0.05,
+  "boundary": "Five known texts only; engineering continuity, not exact runtime equivalence on all 20 texts.",
+  "evaluated_utc": "2026-09-26T22:20:43.703461+00:00",
+  "reused_bridge_run": "spiral_out_hltd_l8_native_fp32_full20_20260927"
+}

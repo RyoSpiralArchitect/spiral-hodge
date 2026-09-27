@@ -1,0 +1,43 @@
+{
+  "status": "SUPPORTED_WITHIN_SAMPLE",
+  "complete_early_coverage": true,
+  "expected_prompt_bins": 80,
+  "observed_prompt_bins": 80,
+  "missing_prompt_bins": [],
+  "primary": {
+    "metric": "next_token_logprob_delta",
+    "contrast_type": "odd",
+    "phase": "early",
+    "bins": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "pass_rule": "All 20 prompts have a finite estimate in each early bin, and the 95% prompt-bootstrap CI lower endpoint is strictly greater than zero.",
+    "missing_rule": "INSUFFICIENT_COVERAGE; no imputation, no reduced-prompt primary claim"
+  },
+  "interpretation_boundary": "Within-sample layer generalization only; not independent prompt replication or semantic control.",
+  "mean": 0.5658917220730718,
+  "ci_lower": 0.4603412763704331,
+  "ci_upper": 0.6678251907817976,
+  "n_prompts": 20,
+  "evaluated_utc": "2026-09-11T15:04:50.112723+00:00",
+  "design_validation": {
+    "raw_rows": 54144,
+    "candidate_token_units": 564,
+    "active_coexact_token_units": 528,
+    "n_prompts": 20,
+    "exact_grid_passed": true
+  },
+  "protocol_receipt": {
+    "path": "docs/data/hltd_signed_l7_position/protocol.json",
+    "bytes": 20589,
+    "sha256": "504e8301222b563d1ac1f43ec8e5924bb2202edc2857e41a28ba4f9598777fdb"
+  },
+  "raw_receipt": {
+    "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/summary.csv",
+    "bytes": 48940121,
+    "sha256": "a4922f6a2561985d82ca5dee066df76ce11e223f645973d32b71eecb6c07b1b8"
+  }
+}

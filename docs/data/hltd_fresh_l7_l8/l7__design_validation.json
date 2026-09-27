@@ -1,0 +1,7 @@
+{
+  "raw_rows": 58176,
+  "candidate_token_units": 606,
+  "active_coexact_token_units": 568,
+  "n_prompts": 20,
+  "exact_grid_passed": true
+}
