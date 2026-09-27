@@ -38,6 +38,14 @@ def copy_precision_references(root: Path) -> None:
         path.write_bytes((ROOT / name).read_bytes())
 
 
+def l8_protocol_with_canonical_bridge() -> dict:
+    protocol = json.loads((ROOT / "docs/data/hltd_signed_l8_position/protocol.json").read_text())
+    raw = next(r for r in l8.load_bridge_manifest(ROOT)["ignored_source_artifacts"]
+               if r["path"] == protocol["bridge"]["reference_raw"])
+    protocol["frozen_files"].append(raw)
+    return protocol
+
+
 @pytest.mark.parametrize("change", [
     "prompts", "seeds", "alphas", "arms", "tolerances", "historical_raw",
     "bins", "metric", "suite", "model_path", "inventory", "input_hash",
@@ -175,7 +183,8 @@ def test_full_contract_cannot_select_edited_companions(tmp_path: Path, change: s
 ], ids=["l8", "fresh"])
 @pytest.mark.parametrize("change", ["model_path", "missing_weight", "weight_hash", "tokenizer_hash", "no_receipts"])
 def test_selected_model_must_be_bound_to_reference_receipts(tmp_path: Path, runner, protocol_file: str, change: str) -> None:
-    protocol = json.loads((ROOT / protocol_file).read_text())
+    protocol = l8_protocol_with_canonical_bridge() if runner is l8 else json.loads((ROOT / protocol_file).read_text())
+    runner.validate_protocol(protocol)
     protocol["run_root"] = "spiral_out_model_binding_test"
     if change == "model_path":
         protocol["model_path"] = str(tmp_path / "other_model")
@@ -203,6 +212,65 @@ def test_fresh_gate_keeps_the_reference_runtime() -> None:
     protocol["runtime"]["packages"]["torch"] = "different"
     with pytest.raises(ValueError, match="runtime"):
         fresh.validate_protocol(protocol)
+
+
+@pytest.mark.parametrize("change", ["raw_path", "coefficient_path", "both_paths", "raw_hash", "coefficient_hash",
+                                    "missing_raw", "missing_coefficients", "missing_sources"])
+def test_l8_bridge_requires_canonical_paths_and_receipts(tmp_path: Path, change: str) -> None:
+    protocol = l8_protocol_with_canonical_bridge()
+    l8.validate_protocol(protocol)
+    protocol["run_root"] = "spiral_out_bridge_binding_test"
+    raw = protocol["bridge"]["reference_raw"]
+    coefficients = protocol["bridge"]["reference_coefficients"]
+    if change.endswith("paths") or change.endswith("path"):
+        for key in (["reference_raw", "reference_coefficients"] if change == "both_paths" else
+                    ["reference_raw" if change == "raw_path" else "reference_coefficients"]):
+            edited = tmp_path / f"{key}.csv"
+            edited.write_text("edited comparison\n")
+            protocol["bridge"][key] = str(edited)
+            protocol["frozen_files"].append(file_receipt(edited))
+    elif change.endswith("hash"):
+        selected = raw if change == "raw_hash" else coefficients
+        next(r for r in protocol["frozen_files"] if r["path"] == selected)["sha256"] = "0" * 64
+    elif change == "missing_sources":
+        protocol["bridge"].pop("reference_raw")
+    else:
+        selected = raw if change == "missing_raw" else coefficients
+        protocol["frozen_files"] = [r for r in protocol["frozen_files"] if r["path"] != selected]
+    path = tmp_path / "candidate.json"
+    write_json(path, protocol)
+    with patch.object(l8, "ROOT", tmp_path), patch.object(l8, "verify_frozen_files"), patch.object(l8, "_run") as execute:
+        with pytest.raises(ValueError, match="bridge"):
+            l8.run(path)
+        execute.assert_not_called()
+    assert not (tmp_path / protocol["run_root"]).exists()
+
+
+def test_bridge_manifest_pin_and_original_reference_are_not_replaceable(tmp_path: Path) -> None:
+    path = tmp_path / l8.BRIDGE_MANIFEST
+    write_json(path, {"tracked_data": [], "ignored_source_artifacts": []})
+    with pytest.raises(ValueError, match="canonical bridge manifest changed"):
+        l8.load_bridge_manifest(tmp_path)
+    path.write_bytes((ROOT / l8.BRIDGE_MANIFEST).read_bytes())
+    write_json(tmp_path / l8.REFERENCE, {"edited": True})
+    with pytest.raises(ValueError, match="canonical L8 reference protocol changed"):
+        l8.validate_bridge_binding(l8_protocol_with_canonical_bridge(), {}, tmp_path)
+
+
+def test_continuation_shards_are_pinned_without_requiring_missing_aggregate(tmp_path: Path) -> None:
+    protocol = json.loads((ROOT / "docs/data/hltd_signed_l8_position/protocol_continuation.json").read_text())
+    l8.validate_protocol(protocol)
+    with pytest.raises(ValueError, match="continue_hltd_l8_gate"):
+        l8._run(protocol, tmp_path)
+    changed = copy.deepcopy(protocol)
+    changed["bridge"]["reference_prompt_shards"][0]["sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="bridge reference shards"):
+        l8.validate_protocol(changed)
+    changed = copy.deepcopy(protocol)
+    source = changed["bridge"]["reference_prompt_shards"][0]["path"]
+    changed["frozen_files"] = [r for r in changed["frozen_files"] if r["path"] != source]
+    with pytest.raises(ValueError, match="unbound or changed bridge input"):
+        l8.validate_protocol(changed)
 
 
 def precision_fixture(root: Path, activity: str) -> tuple[Path, dict]:
@@ -311,6 +379,11 @@ def l8_freeze_fixture(root: Path) -> tuple[Path, list[Path]]:
     for path in required:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text("fixture\n")
+    def receipt(path: Path) -> dict:
+        return {**file_receipt(path), "path": str(path.relative_to(root))}
+
+    write_json(root / l8.BRIDGE_MANIFEST, {"tracked_data": [receipt(reference_path), receipt(required[1])],
+                                        "ignored_source_artifacts": [receipt(required[0])]})
     return model, required
 
 
@@ -344,6 +417,7 @@ def test_l8_freeze_records_all_required_files_and_current_source(tmp_path: Path,
     original_validator = l8.validate_protocol
     with patch.object(l8, "ROOT", tmp_path), patch.object(l8, "runtime_snapshot", return_value={}), \
             patch.object(l8, "validate_protocol", side_effect=lambda p: original_validator(p, tmp_path)), \
+            patch.object(l8, "BRIDGE_MANIFEST_SHA256", file_receipt(tmp_path / l8.BRIDGE_MANIFEST)["sha256"]), \
             patch.dict("sys.modules", {"transformers": SimpleNamespace(__file__=str(tmp_path / "transformers/__init__.py"))}):
         protocol = l8.freeze(tmp_path / "new/protocol.json", model, "spiral_out_new")
     recorded_paths = {tmp_path / record["path"] for record in protocol["frozen_files"]}
@@ -359,6 +433,20 @@ def test_l8_freeze_records_all_required_files_and_current_source(tmp_path: Path,
             source.unlink()
         original_model.rmdir()
     verify_frozen_files(protocol, tmp_path)
+
+
+@pytest.mark.parametrize("selected", [0, 1], ids=["raw", "coefficients"])
+def test_l8_freeze_rejects_changed_existing_bridge_bytes(tmp_path: Path, selected: int) -> None:
+    model, required = l8_freeze_fixture(tmp_path)
+    required[selected].write_text("changed reference data\n")
+    validator = l8.validate_protocol
+    with patch.object(l8, "ROOT", tmp_path), patch.object(l8, "runtime_snapshot", return_value={}), \
+            patch.object(l8, "validate_protocol", side_effect=lambda p: validator(p, tmp_path)), \
+            patch.object(l8, "BRIDGE_MANIFEST_SHA256", file_receipt(tmp_path / l8.BRIDGE_MANIFEST)["sha256"]), \
+            patch.dict("sys.modules", {"transformers": SimpleNamespace(__file__=str(tmp_path / "transformers/__init__.py"))}):
+        with pytest.raises(ValueError, match="changed bridge input"):
+            l8.freeze(tmp_path / "new/protocol.json", model, "spiral_out_new")
+    assert not (tmp_path / "new").exists()
 
 
 def test_relocation_does_not_skip_unrelated_historical_inputs(tmp_path: Path) -> None:

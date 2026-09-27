@@ -56,6 +56,18 @@ an omitted/modified model receipt. Fresh-text validation also binds the model
 path and runtime to its reference. These checks run before model work and have
 negative entrypoint tests; normal freezes record the required assets first.
 
+A sixth review identified candidate-selected bridge CSVs. L8 bridge paths and
+receipts are now pinned to the original full-precision figure manifest, whose
+SHA256 is fixed in code. The manifest also anchors the full reference protocol.
+Both the aggregate input and the explicitly amended five-shard recovery are
+checked against original paths, hashes and byte counts; candidate-selected
+hashes cannot substitute for the original evidence. Tests cover altered or
+missing receipts, edited CSV pairs, changed bytes during freeze, and manifest
+replacement. Recovery protocols remain valid only with the pinned shards and
+must use the continuation entrypoint; the ordinary runner rejects them before
+model work. The original failed aggregate attempt is preserved, not made valid
+by inventing a retrospective receipt.
+
 ## Historical evidence
 
 No prior protocol, execution receipt, coefficient, figure, result hash, or failed

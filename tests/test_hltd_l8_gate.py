@@ -21,13 +21,16 @@ ROOT = Path(__file__).resolve().parents[1]
 def example_protocol() -> dict:
     reference = json.loads((ROOT / runner.REFERENCE).read_text())
     recorded = json.loads((ROOT / "docs/data/hltd_signed_l8_position/protocol.json").read_text())
+    raw = next(r for r in runner.load_bridge_manifest(ROOT)["ignored_source_artifacts"]
+               if r["path"] == recorded["bridge"]["reference_raw"])
+    recorded["frozen_files"].append(raw)
     result = {key: copy.deepcopy(reference[key]) for key in ["suite", "target_set_file", "prompts", "design", "analysis"]}
     result["design"]["row_constants"]["layer"] = 8
     result.update({"reference_protocol": runner.REFERENCE, "run_root": "spiral_out_l8_unit_test",
         "model_path": recorded["model_path"], "frozen_files": recorded["frozen_files"],
         "runtime": {}, "tolerances": {"zero_hook_max_abs": 0.0001},
         "primary": {"metric": "next_token_logprob_delta", "contrast_type": "odd", "bins": [0, 1, 2, 3]},
-        "bridge": {"prompt_ids": runner.BRIDGE_IDS, "max_abs_early_change": 0.05},
+        "bridge": recorded["bridge"],
         "checkpoint_sha256": next(r["sha256"] for r in reference["frozen_files"] if r["path"].endswith("/model.safetensors"))})
     return result
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import importlib.metadata
 import json
 import os
@@ -25,6 +26,8 @@ from scripts.hltd_historical_sources import verify_historical_inputs
 from scripts.run_hltd_precision_full_gate import audit_model_weight_bytes
 
 REFERENCE = "docs/data/hltd_precision_l7_full/protocol.json"
+BRIDGE_MANIFEST = "docs/figures/hltd_precision_l7_full_manifest.json"
+BRIDGE_MANIFEST_SHA256 = "af46562e8eb043270895e159ef5ca58c40bf57c76fc5a68b01db1cbe0591ca1f"
 BRIDGE_IDS = ["literal_01", "literal_03", "metaphor_01", "identity_01", "ontology_01"]
 PACKAGES = ["torch", "transformers", "numpy", "pandas", "scipy", "scikit-learn", "safetensors", "tokenizers"]
 MODEL_FILES = {"config.json", "generation_config.json", "merges.txt", "model.safetensors",
@@ -61,6 +64,43 @@ def validate_model_binding(protocol: dict, reference: dict, root: Path = ROOT) -
             raise ValueError(f"unbound or changed model input: {model_path / name}")
 
 
+def load_bridge_manifest(root: Path = ROOT) -> dict:
+    payload = (root / BRIDGE_MANIFEST).read_bytes()
+    if hashlib.sha256(payload).hexdigest() != BRIDGE_MANIFEST_SHA256:
+        raise ValueError("canonical bridge manifest changed")
+    return json.loads(payload)
+
+
+def validate_bridge_binding(protocol: dict, reference: dict, root: Path = ROOT) -> None:
+    manifest = load_bridge_manifest(root)
+    canonical = {r["path"]: r for r in manifest["tracked_data"] + manifest["ignored_source_artifacts"]}
+    reference_receipt = file_receipt(root / REFERENCE)
+    if any(reference_receipt[key] != canonical[REFERENCE][key] for key in ("sha256", "bytes")):
+        raise ValueError("canonical L8 reference protocol changed")
+    bridge = protocol["bridge"]
+    coefficients = "docs/data/hltd_precision_l7_full/fp32_rebuilt_field__summary_prompt_bin_response_coefficients.csv"
+    if bridge.get("reference_coefficients") != coefficients:
+        raise ValueError("changed bridge coefficient source")
+    required = [canonical[coefficients]]
+    prefix = reference["run_root"] + "/fp32_rebuilt_field/"
+    if "reference_raw" in bridge and "reference_prompt_shards" not in bridge:
+        if bridge["reference_raw"] != prefix + "summary.csv" or "continuation" in protocol:
+            raise ValueError("changed bridge raw source")
+        required.append(canonical[bridge["reference_raw"]])
+    elif "reference_prompt_shards" in bridge and "reference_raw" not in bridge and "continuation" in protocol:
+        shards = [canonical[prefix + prompt + "/steering_metrics.csv"] for prompt in BRIDGE_IDS]
+        if bridge["reference_prompt_shards"] != shards:
+            raise ValueError("changed bridge reference shards")
+        required.extend(shards)
+    else:
+        raise ValueError("missing or ambiguous bridge reference inputs")
+    frozen = {r["path"]: r for r in protocol.get("frozen_files", [])}
+    for expected in required:
+        actual = frozen.get(expected["path"])
+        if actual is None or any(actual[key] != expected[key] for key in ("sha256", "bytes")):
+            raise ValueError(f"unbound or changed bridge input: {expected['path']}")
+
+
 def validate_protocol(protocol: dict, root: Path = ROOT) -> None:
     reference = json.loads((root / REFERENCE).read_text())
     design = copy.deepcopy(reference["design"])
@@ -82,6 +122,7 @@ def validate_protocol(protocol: dict, root: Path = ROOT) -> None:
     if protocol["checkpoint_sha256"] != expected_sha:
         raise ValueError("changed source checkpoint")
     validate_model_binding(protocol, reference, root)
+    validate_bridge_binding(protocol, reference, root)
     if Path(protocol["run_root"]).is_absolute() or not protocol["run_root"].startswith("spiral_out_") or len(Path(protocol["run_root"]).parts) != 1:
         raise ValueError("run root must be a new top-level spiral_out_ directory")
 
@@ -152,7 +193,7 @@ def freeze(path: Path, model_path: Path, run_root: str) -> dict:
     paths.extend(required_model_paths)
     # Bind optional loader assets too, without using discovery for required ones.
     paths.extend(source for source in model_path.iterdir() if source.is_file())
-    paths.extend(ROOT / name for name in [REFERENCE, protocol["bridge"]["reference_raw"],
+    paths.extend(ROOT / name for name in [REFERENCE, BRIDGE_MANIFEST, protocol["bridge"]["reference_raw"],
         protocol["bridge"]["reference_coefficients"], "scripts/run_hltd_l8_gate.py", "scripts/analyze_hltd_l8_gate.py",
         "scripts/audit_hltd_precision_raw.py", "scripts/run_hltd_precision_full_gate.py", "tests/test_hltd_l8_gate.py",
         "scripts/hltd_historical_sources.py"])
@@ -237,6 +278,8 @@ def run_stage(model, tokenizer, protocol: dict, output: Path) -> pd.DataFrame:
 
 
 def _run(protocol: dict, output: Path) -> bool:
+    if "continuation" in protocol:
+        raise ValueError("input-recovery protocols require continue_hltd_l8_gate.py")
     import torch
     from scripts.analyze_hltd_l8_gate import analyze_stage, compare_bridge
 
