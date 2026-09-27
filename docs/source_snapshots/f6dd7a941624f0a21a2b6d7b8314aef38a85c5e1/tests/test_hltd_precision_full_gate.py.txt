@@ -18,7 +18,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def example_protocol() -> dict:
-    protocol = json.loads((ROOT / "docs/data/hltd_precision_l7_full/protocol.json").read_text())
+    protocol = json.loads((ROOT / "docs/data/hltd_precision_l7/protocol.json").read_text())
+    protocol["reference_protocol"] = "docs/data/hltd_signed_l7_position/protocol.json"
+    protocol["pilot_protocol"] = "docs/data/hltd_precision_l7/protocol.json"
+    protocol["pilot_prompt_ids"] = [p["prompt_id"] for p in protocol["prompts"]]
+    protocol["prompts"] = json.loads((ROOT / protocol["reference_protocol"]).read_text())["prompts"]
     protocol["run_root"] = "spiral_out_precision_full_unit_test"
     return protocol
 
@@ -35,7 +39,7 @@ class TestHLTDPrecisionFullGate(unittest.TestCase):
                 validate_full_protocol(bad)
         bad = copy.deepcopy(protocol)
         bad["design"]["batch_size"] = 1
-        with self.assertRaisesRegex(ValueError, "changed full contract"):
+        with self.assertRaisesRegex(ValueError, "changed pilot contract"):
             validate_full_protocol(bad)
 
     def test_byte_audit_rejects_signed_zero_and_half_upcast(self) -> None:

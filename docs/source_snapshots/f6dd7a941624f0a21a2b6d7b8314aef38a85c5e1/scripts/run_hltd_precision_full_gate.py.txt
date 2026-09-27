@@ -18,9 +18,6 @@ if str(ROOT) not in sys.path:
 from scripts import run_hltd_precision_gate as pilot
 from scripts.evaluate_hltd_signed_layer_gate import file_receipt, verify_frozen_files
 
-FULL_REFERENCE = "docs/data/hltd_precision_l7_full/protocol.json"
-FULL_REFERENCE_SHA256 = "cb00ff05f7a6345578ba446abb062bd94718ccf7dd41f8288d9a0199d8beed82"
-
 
 def audit_model_weight_bytes(model, checkpoint: Path, dtype: str) -> dict:
     """Check the actual in-run tensors, including signed-zero byte identity."""
@@ -57,10 +54,21 @@ def audit_model_weight_bytes(model, checkpoint: Path, dtype: str) -> dict:
 
 
 def validate_full_protocol(protocol: dict, root: Path = ROOT) -> None:
-    pilot.validate_recorded_protocol(protocol, reference_path=FULL_REFERENCE,
-                                    reference_sha256=FULL_REFERENCE_SHA256, label="full", root=root)
     previous = json.loads((root / protocol["reference_protocol"]).read_text())
     pilot_protocol = json.loads((root / protocol["pilot_protocol"]).read_text())
+    if protocol["prompts"] != previous["prompts"] or len(protocol["prompts"]) != 20:
+        raise ValueError("full gate must preserve all 20 original prompts and tokenization")
+    for key in ["design", "analysis", "arms", "tolerances", "suite", "target_set_file", "model_path"]:
+        if protocol[key] != pilot_protocol[key]:
+            raise ValueError(f"changed pilot contract: {key}")
+    if protocol["historical_raw"] != pilot_protocol["historical_raw"]:
+        raise ValueError("changed historical replay source")
+    if protocol["primary"]["bins"] != [0, 1, 2, 3]:
+        raise ValueError("the primary endpoint must use all four early bins")
+    if (protocol["primary"]["metric"], protocol["primary"]["contrast_type"]) != ("next_token_logprob_delta", "odd"):
+        raise ValueError("changed primary metric or contrast")
+    if protocol["pilot_prompt_ids"] != [p["prompt_id"] for p in pilot_protocol["prompts"]]:
+        raise ValueError("changed pilot/remainder membership")
     if (root / protocol["run_root"]).resolve() in {
         (root / previous["run_root"]).resolve(), (root / pilot_protocol["run_root"]).resolve(),
     }:
@@ -69,8 +77,8 @@ def validate_full_protocol(protocol: dict, root: Path = ROOT) -> None:
 
 def run(protocol_path: Path) -> None:
     protocol = json.loads(protocol_path.read_text())
-    validate_full_protocol(protocol, ROOT)
     verify_frozen_files(protocol)
+    validate_full_protocol(protocol)
     output = ROOT / protocol["run_root"]
     output.mkdir(exist_ok=False)
     receipt = {"protocol": file_receipt(protocol_path), "started_utc": pilot.utc_now(), "status": "RUNNING"}

@@ -46,6 +46,21 @@ def stage_protocol(protocol: dict, stage: str) -> dict:
     return result
 
 
+def validate_model_binding(protocol: dict, reference: dict, root: Path = ROOT) -> None:
+    model_path = Path(protocol["model_path"])
+    if not model_path.is_absolute():
+        raise ValueError("model path must be absolute")
+    expected = {Path(r["path"]).name: r for r in reference["frozen_files"]
+                if Path(r["path"]).parent == Path(reference["model_path"])}
+    if not MODEL_FILES.issubset(expected):
+        raise ValueError("reference lacks the frozen GPT-2 model/tokenizer inventory")
+    frozen = {(root / r["path"]).resolve(): r for r in protocol.get("frozen_files", [])}
+    for name, original in expected.items():
+        receipt = frozen.get((model_path / name).resolve())
+        if receipt is None or any(receipt[key] != original[key] for key in ("sha256", "bytes")):
+            raise ValueError(f"unbound or changed model input: {model_path / name}")
+
+
 def validate_protocol(protocol: dict, root: Path = ROOT) -> None:
     reference = json.loads((root / REFERENCE).read_text())
     design = copy.deepcopy(reference["design"])
@@ -66,6 +81,7 @@ def validate_protocol(protocol: dict, root: Path = ROOT) -> None:
     expected_sha = next(r["sha256"] for r in reference["frozen_files"] if r["path"].endswith("/model.safetensors"))
     if protocol["checkpoint_sha256"] != expected_sha:
         raise ValueError("changed source checkpoint")
+    validate_model_binding(protocol, reference, root)
     if Path(protocol["run_root"]).is_absolute() or not protocol["run_root"].startswith("spiral_out_") or len(Path(protocol["run_root"]).parts) != 1:
         raise ValueError("run root must be a new top-level spiral_out_ directory")
 

@@ -40,6 +40,26 @@
       "path": "tests/test_hltd_precision_full_artifacts.py",
       "bytes": 10145,
       "sha256": "3c8b582f252a6a5a4b9ccd018fb8ad7b556c2be2042e877966f91ee1a96d025b"
+    },
+    {
+      "path": "scripts/run_hltd_precision_full_gate.py",
+      "bytes": 5435,
+      "sha256": "1bc84f4b09bbfd11d38311d6bf83f27e44d6d31160993dd270747f8c853b7d8f"
+    },
+    {
+      "path": "tests/test_hltd_precision_full_gate.py",
+      "bytes": 6606,
+      "sha256": "3b88ea51e846c84fb176608db12703aa243c4bd2b24dfd5b8414476cea3043de"
+    },
+    {
+      "path": "tests/test_hltd_l8_gate.py",
+      "bytes": 8004,
+      "sha256": "5afa9a36975197c250f810f4aa076cbcaa288d12be9c2dc7d3aac6773ee48ee6"
+    },
+    {
+      "path": "tests/test_hltd_fresh_gate.py",
+      "bytes": 7343,
+      "sha256": "af65f5aef4dc35f2cf14bfff8de34826380e5eb701de9d948fdcb208e5e15fbd"
     }
   ]
 }

@@ -13,6 +13,7 @@ import pytest
 from scripts import analyze_hltd_precision_full_gate as full_analysis
 from scripts import analyze_hltd_precision_gate as pilot_analysis
 from scripts import run_hltd_l8_gate as l8
+from scripts import run_hltd_fresh_gate as fresh
 from scripts import run_hltd_precision_full_gate as full_runner
 from scripts import run_hltd_precision_gate as pilot
 from scripts.evaluate_hltd_signed_layer_gate import file_receipt, verify_frozen_files
@@ -28,6 +29,13 @@ def write_json(path: Path, value: dict | list) -> None:
 
 def recorded_pilot() -> dict:
     return json.loads((ROOT / pilot.PILOT_REFERENCE).read_text())
+
+
+def copy_precision_references(root: Path) -> None:
+    for name in [pilot.PILOT_REFERENCE, full_runner.FULL_REFERENCE, "docs/data/hltd_signed_l7_position/protocol.json"]:
+        path = root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes((ROOT / name).read_bytes())
 
 
 @pytest.mark.parametrize("change", [
@@ -88,10 +96,8 @@ def test_pilot_accepts_same_contract_and_rejects_rewritten_reference(tmp_path: P
 
 @pytest.mark.parametrize("runner", [pilot, full_runner], ids=["pilot", "full"])
 def test_precision_runners_reject_device_fallback_before_model_work(tmp_path: Path, runner) -> None:
+    copy_precision_references(tmp_path)
     reference = (ROOT / pilot.PILOT_REFERENCE).read_bytes()
-    local_reference = tmp_path / pilot.PILOT_REFERENCE
-    local_reference.parent.mkdir(parents=True)
-    local_reference.write_bytes(reference)
     protocol = (json.loads(reference) if runner is pilot else
                 json.loads((ROOT / "docs/data/hltd_precision_l7_full/protocol.json").read_text()))
     protocol["run_root"] = "spiral_out_fallback_test"
@@ -108,6 +114,95 @@ def test_precision_runners_reject_device_fallback_before_model_work(tmp_path: Pa
     assert receipt["status"] == "FAILED"
     assert "fallback" in receipt["error"]
     assert not (output / "load_audit.json").exists()
+
+
+@pytest.mark.parametrize("change", ["pilot_protocol", "reference_protocol", "coupled_companions",
+    "canonical_full", "model_path", "tolerances", "seeds", "alphas", "arms", "historical_raw",
+    "prompts", "primary", "inventory", "input_hash", "absolute_root", "parent_root"])
+def test_full_contract_cannot_select_edited_companions(tmp_path: Path, change: str) -> None:
+    copy_precision_references(tmp_path)
+    protocol = json.loads((ROOT / full_runner.FULL_REFERENCE).read_text())
+    protocol["run_root"] = "spiral_out_full_review"
+    if change in {"pilot_protocol", "reference_protocol", "coupled_companions"}:
+        companion = recorded_pilot()
+        previous = json.loads((ROOT / protocol["reference_protocol"]).read_text())
+        if change == "coupled_companions":
+            companion["design"]["seeds"] = [0]
+            previous["prompts"][0]["prompt_id"] = "substituted_prompt"
+            protocol["design"] = copy.deepcopy(companion["design"])
+            protocol["prompts"] = copy.deepcopy(previous["prompts"])
+        if change != "reference_protocol":
+            write_json(tmp_path / "edited/pilot.json", companion)
+            protocol["pilot_protocol"] = "edited/pilot.json"
+        if change != "pilot_protocol":
+            write_json(tmp_path / "edited/previous.json", previous)
+            protocol["reference_protocol"] = "edited/previous.json"
+    elif change in {"canonical_full", "model_path", "historical_raw"}:
+        protocol["model_path" if change == "canonical_full" else change] = "changed-source"
+        if change == "canonical_full":
+            write_json(tmp_path / full_runner.FULL_REFERENCE, protocol)
+    elif change == "tolerances":
+        protocol["tolerances"]["early_coefficient_max_abs_change"] = 1
+    elif change in {"seeds", "alphas"}:
+        protocol["design"][change] = protocol["design"][change][:-1]
+    elif change == "arms":
+        protocol["arms"].pop("fp16_replay")
+    elif change == "prompts":
+        protocol["prompts"] = protocol["prompts"][:-1]
+    elif change == "primary":
+        protocol["primary"]["metric"] = "semantic_margin_delta"
+    elif change == "inventory":
+        protocol["frozen_files"] = []
+    elif change == "input_hash":
+        record = next(r for r in protocol["frozen_files"] if r["path"] == protocol["pilot_protocol"])
+        record["sha256"] = "0" * 64
+    else:
+        protocol["run_root"] = str(tmp_path / "escape") if change == "absolute_root" else "../escape"
+    path = tmp_path / "candidate.json"
+    write_json(path, protocol)
+    with patch.object(full_runner, "ROOT", tmp_path), patch.object(full_runner, "verify_frozen_files") as verify, \
+            patch.object(pilot, "_run_pilot") as execute:
+        with pytest.raises(ValueError):
+            full_runner.run(path)
+        verify.assert_not_called()
+        execute.assert_not_called()
+    assert not list(tmp_path.glob("spiral_out_*"))
+
+
+@pytest.mark.parametrize("runner,protocol_file", [
+    (l8, "docs/data/hltd_signed_l8_position/protocol.json"),
+    (fresh, "docs/data/hltd_fresh_l7_l8/protocol.json"),
+], ids=["l8", "fresh"])
+@pytest.mark.parametrize("change", ["model_path", "missing_weight", "weight_hash", "tokenizer_hash", "no_receipts"])
+def test_selected_model_must_be_bound_to_reference_receipts(tmp_path: Path, runner, protocol_file: str, change: str) -> None:
+    protocol = json.loads((ROOT / protocol_file).read_text())
+    protocol["run_root"] = "spiral_out_model_binding_test"
+    if change == "model_path":
+        protocol["model_path"] = str(tmp_path / "other_model")
+    elif change == "no_receipts":
+        protocol["frozen_files"] = []
+    else:
+        name = "tokenizer_config.json" if change == "tokenizer_hash" else "model.safetensors"
+        selected = str(Path(protocol["model_path"]) / name)
+        if change == "missing_weight":
+            protocol["frozen_files"] = [r for r in protocol["frozen_files"] if r["path"] != selected]
+        else:
+            next(r for r in protocol["frozen_files"] if r["path"] == selected)["sha256"] = "0" * 64
+    path = tmp_path / "candidate.json"
+    write_json(path, protocol)
+    with patch.object(runner, "ROOT", tmp_path), patch.object(runner, "verify_frozen_files"), \
+            patch.object(runner, "_run") as execute:
+        with pytest.raises(ValueError):
+            runner.run(path)
+        execute.assert_not_called()
+    assert not (tmp_path / protocol["run_root"]).exists()
+
+
+def test_fresh_gate_keeps_the_reference_runtime() -> None:
+    protocol = json.loads((ROOT / "docs/data/hltd_fresh_l7_l8/protocol.json").read_text())
+    protocol["runtime"]["packages"]["torch"] = "different"
+    with pytest.raises(ValueError, match="runtime"):
+        fresh.validate_protocol(protocol)
 
 
 def precision_fixture(root: Path, activity: str) -> tuple[Path, dict]:
@@ -335,7 +430,7 @@ def test_historical_fallback_never_substitutes_data_or_external_sources(tmp_path
 def test_preserved_source_manifest_is_byte_exact() -> None:
     manifest = json.loads((ROOT / SNAPSHOT / "manifest.json").read_text())
     assert manifest["source_commit"] == SNAPSHOT.name
-    assert len(manifest["files"]) == 8
+    assert len(manifest["files"]) == 12
     for record in manifest["files"]:
         actual = file_receipt(ROOT / SNAPSHOT / (record["path"] + ".txt"))
         assert actual["sha256"] == record["sha256"]

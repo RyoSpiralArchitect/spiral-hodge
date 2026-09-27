@@ -41,10 +41,25 @@ MPS parameter placement alone cannot retroactively establish that fallback was
 disabled. The original evidence is retained with that verification limitation,
 not reclassified as having passed the new guard.
 
+A fifth review found that the full runner could compare a candidate against
+candidate-selected edited companion protocols. Both precision runners now use
+the same canonical-contract validator, with separately pinned canonical JSON
+hashes. The full comparison binds the reference paths, scientific fields,
+frozen input inventory and non-code input hashes before any output or model
+work. Tests cover coupled edited companions, a rewritten canonical full
+protocol, design/input changes and output-path escapes.
+
+The related L8/fresh model contracts now require receipts for the actual selected
+model directory, matching every referenced model/config/tokenizer asset's bytes.
+An unchanged declared checkpoint hash cannot cover a different loaded model or
+an omitted/modified model receipt. Fresh-text validation also binds the model
+path and runtime to its reference. These checks run before model work and have
+negative entrypoint tests; normal freezes record the required assets first.
+
 ## Historical evidence
 
 No prior protocol, execution receipt, coefficient, figure, result hash, or failed
-run has been rewritten. The eight source files affected by these fixes and
+run has been rewritten. The twelve source files affected by these fixes and
 their historical-code tests are preserved byte-for-byte in
 [`source_snapshots/f6dd7a941624f0a21a2b6d7b8314aef38a85c5e1`](source_snapshots/f6dd7a941624f0a21a2b6d7b8314aef38a85c5e1/manifest.json).
 The snapshot manifest records the original repository path, byte count, SHA256,

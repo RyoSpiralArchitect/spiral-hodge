@@ -34,30 +34,37 @@ PILOT_REFERENCE = "docs/data/hltd_precision_l7/protocol.json"
 PILOT_REFERENCE_SHA256 = "df86bf783131119e142293db7e471fc6dde7f91c6a2c6593b51f9f68cd6441e4"
 
 
-def validate_pilot_protocol(protocol: dict, root: Path = ROOT) -> None:
-    payload = (root / PILOT_REFERENCE).read_bytes()
-    if hashlib.sha256(payload).hexdigest() != PILOT_REFERENCE_SHA256:
-        raise ValueError("canonical pilot protocol changed")
+def validate_recorded_protocol(
+    protocol: dict, *, reference_path: str, reference_sha256: str, label: str, root: Path,
+) -> None:
+    payload = (root / reference_path).read_bytes()
+    if hashlib.sha256(payload).hexdigest() != reference_sha256:
+        raise ValueError(f"canonical {label} protocol changed")
     reference = json.loads(payload)
     metadata = {"run_root", "frozen_files", "frozen_utc", "command_argv", "analysis_argv"}
     if set(protocol) - metadata != set(reference) - metadata:
-        raise ValueError("changed pilot contract keys")
+        raise ValueError(f"changed {label} contract keys")
     for key in set(reference) - metadata:
         if protocol[key] != reference[key]:
-            raise ValueError(f"changed pilot contract: {key}")
+            raise ValueError(f"changed {label} contract: {key}")
     frozen = protocol["frozen_files"]
     expected = {record["path"]: record for record in reference["frozen_files"]}
     if len(frozen) != len(expected) or {record["path"] for record in frozen} != set(expected):
-        raise ValueError("changed pilot frozen input inventory")
+        raise ValueError(f"changed {label} frozen input inventory")
     for record in frozen:
         source = Path(record["path"])
         local_code = (not source.is_absolute() and ".." not in source.parts and source.suffix == ".py"
                       and source.parts[0] in {"scripts", "tests", "spiral_hodge.py"})
         if not local_code and any(record[key] != expected[record["path"]][key] for key in ("sha256", "bytes")):
-            raise ValueError(f"changed pilot input: {source}")
+            raise ValueError(f"changed {label} input: {source}")
     out = Path(protocol["run_root"])
     if out.is_absolute() or len(out.parts) != 1 or not out.name.startswith("spiral_out_"):
         raise ValueError("run root must be a new top-level spiral_out_ directory")
+
+
+def validate_pilot_protocol(protocol: dict, root: Path = ROOT) -> None:
+    validate_recorded_protocol(protocol, reference_path=PILOT_REFERENCE,
+                               reference_sha256=PILOT_REFERENCE_SHA256, label="pilot", root=root)
 
 
 def utc_now() -> str:

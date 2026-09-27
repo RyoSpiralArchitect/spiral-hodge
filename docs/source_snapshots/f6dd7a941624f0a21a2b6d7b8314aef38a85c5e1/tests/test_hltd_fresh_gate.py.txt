@@ -18,8 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def example_protocol() -> dict:
     reference = json.loads((ROOT / runner.REFERENCE).read_text())
-    result = {key: copy.deepcopy(reference[key]) for key in ["design", "analysis", "target_set_file", "tolerances",
-        "checkpoint_sha256", "model_path", "runtime", "frozen_files"]}
+    result = {key: copy.deepcopy(reference[key]) for key in ["design", "analysis", "target_set_file", "tolerances", "checkpoint_sha256"]}
     result.update({"reference_protocol": runner.REFERENCE, "suite": runner.SUITE, "layers": [7, 8],
         "run_root": "spiral_out_fresh_unit_test", "primary": {"metric": "next_token_logprob_delta", "contrast_type": "odd", "bins": [0, 1, 2, 3]},
         "paired_bootstrap": {"samples": 5000, "seed": 2718, "unit": "paired prompt", "quantiles": [0.025, 0.975]},

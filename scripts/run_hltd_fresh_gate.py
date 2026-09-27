@@ -76,11 +76,13 @@ def validate_protocol(protocol: dict, root: Path = ROOT) -> None:
     expected_design["row_constants"]["layer"] = 7
     for key, value in [("reference_protocol", REFERENCE), ("suite", SUITE), ("layers", [7, 8]),
                        ("design", expected_design), ("analysis", reference["analysis"]),
+                       ("model_path", reference["model_path"]), ("runtime", reference["runtime"]),
                        ("target_set_file", reference["target_set_file"]),
                        ("tolerances", reference["tolerances"]), ("checkpoint_sha256", reference["checkpoint_sha256"]),
                        ("paired_bootstrap", {"samples": 5000, "seed": 2718, "unit": "paired prompt", "quantiles": [0.025, 0.975]})]:
         if protocol[key] != value:
             raise ValueError(f"changed fresh-text contract: {key}")
+    previous.validate_model_binding(protocol, reference, root)
     primary = protocol["primary"]
     if (primary["metric"], primary["contrast_type"], primary["bins"]) != ("next_token_logprob_delta", "odd", [0, 1, 2, 3]):
         raise ValueError("changed primary endpoint")
@@ -142,7 +144,6 @@ def freeze(path: Path, run_root: str) -> dict:
         "command_argv": [sys.executable, "-u", "scripts/run_hltd_fresh_gate.py", "--protocol", str(path.relative_to(ROOT))],
         "analysis_argv": [sys.executable, "scripts/analyze_hltd_fresh_gate.py", "--protocol", str(path.relative_to(ROOT))],
     })
-    validate_protocol(protocol)
     if (ROOT / run_root).exists():
         raise FileExistsError(ROOT / run_root)
     # Every required input is mandatory; never silently skip a missing source.
@@ -157,6 +158,7 @@ def freeze(path: Path, run_root: str) -> dict:
         record = file_receipt(source)
         record["path"] = str(source.relative_to(ROOT)) if source.is_relative_to(ROOT) else str(source)
         protocol["frozen_files"].append(record)
+    validate_protocol(protocol)
     protocol["frozen_utc"] = utc_now()
     save_json(path, protocol)
     return protocol
