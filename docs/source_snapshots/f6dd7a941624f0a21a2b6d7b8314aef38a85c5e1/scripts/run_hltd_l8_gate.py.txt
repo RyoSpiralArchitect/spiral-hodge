@@ -21,7 +21,6 @@ if str(ROOT) not in sys.path:
 
 from scripts import run_hltd_precision_gate as precision
 from scripts.evaluate_hltd_signed_layer_gate import file_receipt, validate_protocol_rows, verify_frozen_files
-from scripts.hltd_historical_sources import verify_historical_inputs
 from scripts.run_hltd_precision_full_gate import audit_model_weight_bytes
 
 REFERENCE = "docs/data/hltd_precision_l7_full/protocol.json"
@@ -82,7 +81,7 @@ def freeze(path: Path, model_path: Path, run_root: str) -> dict:
         "reference_protocol": REFERENCE, "model_path": str(model_path), "checkpoint_sha256": checkpoint["sha256"],
         "run_root": run_root, "runtime": runtime_snapshot(), "tolerances": {"zero_hook_max_abs": 0.0001},
         "prior_input_audit": {"original_frozen_file_count": len(reference["frozen_files"]),
-            "verified_historical_noncheckpoint_files": len(reference["frozen_files"]) - 1,
+            "unchanged_noncheckpoint_files": len(reference["frozen_files"]) - 1,
             "original_checkpoint_path": old_checkpoint["path"],
             "original_checkpoint_present": (ROOT / old_checkpoint["path"]).exists(),
             "cached_checkpoint_matches_original_sha256": True},
@@ -113,23 +112,26 @@ def freeze(path: Path, model_path: Path, run_root: str) -> dict:
         "analysis_argv": [sys.executable, "scripts/analyze_hltd_l8_gate.py", "--protocol", str(path.relative_to(ROOT))],
     })
     paths = [ROOT / r["path"] for r in reference["frozen_files"] if r != old_checkpoint]
-    protocol["prior_input_audit"]["source_snapshots"] = verify_historical_inputs(
-        {"frozen_files": [r for r in reference["frozen_files"] if r != old_checkpoint]}, ROOT,
-    )
-    paths.extend(source for source in model_path.iterdir() if source.is_file())
+    for expected in reference["frozen_files"]:
+        if expected == old_checkpoint:
+            continue
+        actual = file_receipt(ROOT / expected["path"])
+        if any(actual[k] != expected[k] for k in ["sha256", "bytes"]):
+            raise ValueError(f"historical source/input changed: {expected['path']}")
+    paths.extend(model_path.iterdir())
     paths.extend(ROOT / name for name in [REFERENCE, protocol["bridge"]["reference_raw"],
         protocol["bridge"]["reference_coefficients"], "scripts/run_hltd_l8_gate.py", "scripts/analyze_hltd_l8_gate.py",
-        "scripts/audit_hltd_precision_raw.py", "scripts/run_hltd_precision_full_gate.py", "tests/test_hltd_l8_gate.py",
-        "scripts/hltd_historical_sources.py"])
+        "scripts/audit_hltd_precision_raw.py", "scripts/run_hltd_precision_full_gate.py", "tests/test_hltd_l8_gate.py"])
     import transformers
     transformer_root = Path(transformers.__file__).parent
     paths.extend(transformer_root / name for name in ["modeling_utils.py", "modeling_attn_mask_utils.py",
         "masking_utils.py", "integrations/sdpa_attention.py", "models/gpt2/modeling_gpt2.py"])
     protocol["frozen_files"] = []
     for source in sorted(set(paths)):
-        record = file_receipt(source)
-        record["path"] = str(source.relative_to(ROOT)) if source.is_relative_to(ROOT) else str(source)
-        protocol["frozen_files"].append(record)
+        if source.is_file():
+            record = file_receipt(source)
+            record["path"] = str(source.relative_to(ROOT)) if source.is_relative_to(ROOT) else str(source)
+            protocol["frozen_files"].append(record)
     validate_protocol(protocol)
     if (ROOT / run_root).exists():
         raise FileExistsError(ROOT / run_root)

@@ -8,8 +8,6 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
-from scripts.hltd_historical_sources import historical_source_path
-
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,14 +23,11 @@ def read_csv(name: str) -> list[dict[str, str]]:
 class TestHLTDPrecisionFullArtifacts(unittest.TestCase):
     def test_hashes_and_matching_intervention_traces(self) -> None:
         manifest = json.loads((ROOT / "docs/figures/hltd_precision_l7_full_manifest.json").read_text())
-        for item in manifest["tracked_data"] + manifest["tracked_figures"]:
+        for item in manifest["tracked_data"] + manifest["tracked_figures"] + manifest["verification_code"]:
             with self.subTest(path=item["path"]):
                 payload = (ROOT / item["path"]).read_bytes()
                 self.assertEqual(len(payload), item["bytes"])
                 self.assertEqual(hashlib.sha256(payload).hexdigest(), item["sha256"])
-        for item in manifest["verification_code"]:
-            with self.subTest(historical_source=item["path"]):
-                self.assertTrue(historical_source_path(item, ROOT).is_file())
         traces = {arm: next(r for r in manifest["ignored_source_artifacts"]
                             if r["path"].endswith(f"/{arm}/delta_trace.json")) for arm in ARMS[:2]}
         self.assertEqual(traces["fp16_replay"]["sha256"], traces["fp32_fixed_field"]["sha256"])

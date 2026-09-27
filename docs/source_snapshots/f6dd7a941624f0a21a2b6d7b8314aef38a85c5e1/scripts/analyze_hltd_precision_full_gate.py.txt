@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.analyze_hltd_precision_gate import activity_comparison, compare_early, save_insufficient_coverage
+from scripts.analyze_hltd_precision_gate import compare_early
 from scripts.evaluate_hltd_signed_layer_gate import decide_primary, file_receipt, validate_protocol_rows, verify_frozen_files
 from scripts.plot_hltd_signed_position_gate import render_all
 from scripts.run_hltd_precision_gate import ARMS, require_fixed_field, save_json
@@ -110,9 +110,6 @@ def analyze(protocol_path: Path) -> dict:
             if not bool((rows[key] == value).all()):
                 raise ValueError(f"changed precision condition: {arm}/{key}")
         frames[arm] = rows
-    missing = save_insufficient_coverage(frames, protocol, protocol_path, output)
-    if missing is not None:
-        return missing
     coefficients = {}
     response_verdicts = {}
     for arm in ARMS:
@@ -127,7 +124,11 @@ def analyze(protocol_path: Path) -> dict:
         )
     comparison, result = compare_full_early(coefficients, protocol)
     comparison.to_csv(output / "early_precision_comparison.csv", index=False)
-    activity = activity_comparison(frames)
+    activity = None
+    for arm, rows in frames.items():
+        selected = rows[rows["component"] == "coexact"][["prompt_id", "token_index", "component_active"]].drop_duplicates()
+        selected = selected.rename(columns={"component_active": arm})
+        activity = selected if activity is None else activity.merge(selected, on=["prompt_id", "token_index"], validate="one_to_one")
     activity.to_csv(output / "activity_comparison.csv", index=False)
     result["active_tokens"] = {arm: int(activity[arm].sum()) for arm in ARMS}
     result["activity_changes_vs_fp16"] = {arm: int((activity[arm] != activity["fp16_replay"]).sum()) for arm in ARMS if arm != "fp16_replay"}

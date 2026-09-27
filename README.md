@@ -664,6 +664,11 @@ That sign flip is the point: the unsigned energy says "there is curl-like struct
 
 ## Current Research Reading
 
+[Review hardening and historical source evidence](docs/hltd-review-hardening.md)
+documents the post-publication gate fixes. Historical protocols retain their
+original source hashes; executing them with patched code intentionally fails
+the strict preflight. New experiments require a new freeze.
+
 The first live JAX run shifted the working hypothesis. The early intuition was:
 
 > meaning formation creates vortex-like structure.
@@ -773,6 +778,12 @@ first closed-loop branch-steering harness and smoke result.
 ```
 
 ## Installation
+
+Python 3.11 or newer is required. The evidence-audit scripts use
+`hashlib.file_digest`, and the analysis harnesses require `pandas`; both
+installation routes below include the declared analysis dependencies.
+Recorded numerical experiments additionally require the exact local model
+and runtime versions bound by their individual protocols.
 
 Create and activate a virtual environment if you want to keep dependencies local:
 

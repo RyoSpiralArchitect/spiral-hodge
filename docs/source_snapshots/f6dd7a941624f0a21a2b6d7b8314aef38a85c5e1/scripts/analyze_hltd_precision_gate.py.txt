@@ -17,43 +17,9 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.evaluate_hltd_signed_layer_gate import early_coverage, file_receipt, validate_protocol_rows, verify_frozen_files
+from scripts.evaluate_hltd_signed_layer_gate import file_receipt, validate_protocol_rows, verify_frozen_files
 from scripts.plot_hltd_signed_position_gate import render_all
 from scripts.run_hltd_precision_gate import ARMS, require_fixed_field, save_json
-
-
-def activity_comparison(frames: dict[str, pd.DataFrame]) -> pd.DataFrame:
-    activity = None
-    for arm, rows in frames.items():
-        selected = rows[rows["component"] == "coexact"][["prompt_id", "token_index", "component_active"]].drop_duplicates()
-        selected = selected.rename(columns={"component_active": arm})
-        activity = selected if activity is None else activity.merge(selected, on=["prompt_id", "token_index"], validate="one_to_one")
-    return activity
-
-
-def save_insufficient_coverage(
-    frames: dict[str, pd.DataFrame], protocol: dict, protocol_path: Path, output: Path,
-) -> dict | None:
-    coverage = pd.concat([early_coverage(frames[arm], protocol).assign(precision_arm=arm) for arm in ARMS], ignore_index=True)
-    missing = coverage[coverage["n_active_tokens"] == 0]
-    if missing.empty:
-        return None
-    output.mkdir(parents=True, exist_ok=False)
-    coverage.to_csv(output / "primary_early_coverage.csv", index=False)
-    activity = activity_comparison(frames)
-    activity.to_csv(output / "activity_comparison.csv", index=False)
-    result = {
-        "status": "INSUFFICIENT_COVERAGE", "complete_early_coverage": False,
-        "missing_prompt_bins": missing[["precision_arm", "prompt_id", "position_bin"]].to_dict("records"),
-        "missing_early_prompt_arms": missing[["precision_arm", "prompt_id"]].drop_duplicates().rename(
-            columns={"precision_arm": "arm"}).to_dict("records"),
-        "active_tokens": {arm: int(activity[arm].sum()) for arm in ARMS},
-        "activity_changes_vs_fp16": {arm: int((activity[arm] != activity["fp16_replay"]).sum()) for arm in ARMS if arm != "fp16_replay"},
-        "protocol": file_receipt(protocol_path), "primary": protocol["primary"],
-        "reason": "No imputation or reduced-prompt estimate. All inference and rendering stopped before fitting; all arm coverage and activity retained.",
-    }
-    save_json(output / "precision_verdict.json", result)
-    return result
 
 
 def compare_early(coefficients: dict[str, pd.DataFrame], protocol: dict) -> tuple[pd.DataFrame, dict]:
@@ -147,10 +113,6 @@ def main(argv: list[str] | None = None) -> int:
             if not bool((rows[key] == value).all()):
                 raise ValueError(f"changed precision condition: {arm}/{key}")
         frames[arm] = rows
-    missing = save_insufficient_coverage(frames, protocol, args.protocol, output)
-    if missing is not None:
-        print(json.dumps(missing, indent=2))
-        return 0
     coefficients = {}
     for arm in ARMS:
         arm_output = output / arm
@@ -161,7 +123,11 @@ def main(argv: list[str] | None = None) -> int:
         coefficients[arm] = pd.read_csv(arm_output / "summary_prompt_bin_response_coefficients.csv")
     comparison, result = compare_early(coefficients, protocol)
     comparison.to_csv(output / "early_precision_comparison.csv", index=False)
-    activity = activity_comparison(frames)
+    activity = None
+    for arm, rows in frames.items():
+        selected = rows[rows["component"] == "coexact"][["prompt_id", "token_index", "component_active"]].drop_duplicates()
+        selected = selected.rename(columns={"component_active": arm})
+        activity = selected if activity is None else activity.merge(selected, on=["prompt_id", "token_index"], validate="one_to_one")
     activity.to_csv(output / "activity_comparison.csv", index=False)
     result["active_tokens"] = {arm: int(activity[arm].sum()) for arm in ARMS}
     result["activity_changes_vs_fp16"] = {arm: int((activity[arm] != activity["fp16_replay"]).sum()) for arm in ARMS if arm != "fp16_replay"}

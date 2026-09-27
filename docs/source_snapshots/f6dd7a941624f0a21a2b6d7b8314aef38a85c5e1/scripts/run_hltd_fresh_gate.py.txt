@@ -20,7 +20,6 @@ if str(ROOT) not in sys.path:
 
 from scripts import run_hltd_l8_gate as previous
 from scripts.evaluate_hltd_signed_layer_gate import file_receipt, verify_frozen_files
-from scripts.hltd_historical_sources import verify_historical_inputs
 from scripts.run_hltd_precision_gate import save_json, utc_now
 from scripts.run_hltd_steering_suite import read_suite
 
@@ -101,7 +100,7 @@ def freeze(path: Path, run_root: str) -> dict:
     from transformers import AutoTokenizer
 
     reference = json.loads((ROOT / REFERENCE).read_text())
-    reference_code_snapshots = verify_historical_inputs(reference, ROOT)
+    verify_frozen_files(reference)
     if previous.runtime_snapshot() != reference["runtime"]:
         raise ValueError("runtime changed since L8; stop before choosing a new comparison")
     fresh = read_suite(ROOT / SUITE)
@@ -113,7 +112,6 @@ def freeze(path: Path, run_root: str) -> dict:
     protocol["design"]["row_constants"]["layer"] = 7
     protocol.update({"schema_version": 1, "protocol_id": "hltd-fresh20-l7-l8-native-fp32-v1",
         "reference_protocol": REFERENCE, "suite": SUITE, "layers": [7, 8], "run_root": run_root,
-        "reference_code_snapshots": reference_code_snapshots,
         "knowledge_at_freeze": "All old-text L7/L8 outcomes are known. These 20 new authored texts were not measured "
             "or selected by model outputs; only tokenization and source-text duplicate checks precede this freeze. "
             "Use all first-authored texts; no response-based replacement, family reassignment, bin selection, or optional stopping. "
@@ -150,8 +148,7 @@ def freeze(path: Path, run_root: str) -> dict:
     sources.update(historical_paths)
     sources.update((Path(protocol["model_path"])).iterdir())
     sources.update(ROOT / p for p in [REFERENCE, SUITE, protocol["target_set_file"],
-        "scripts/run_hltd_fresh_gate.py", "scripts/analyze_hltd_fresh_gate.py", "tests/test_hltd_fresh_gate.py",
-        "scripts/hltd_historical_sources.py"])
+        "scripts/run_hltd_fresh_gate.py", "scripts/analyze_hltd_fresh_gate.py", "tests/test_hltd_fresh_gate.py"])
     protocol["frozen_files"] = []
     for source in sorted(sources):
         record = file_receipt(source)

@@ -1,0 +1,45 @@
+{
+  "source_commit": "f6dd7a941624f0a21a2b6d7b8314aef38a85c5e1",
+  "files": [
+    {
+      "path": "scripts/run_hltd_precision_gate.py",
+      "bytes": 15123,
+      "sha256": "5982ba90f69f008ee7766efa9a836842c100836da95d2a183032fd63ca37d60c"
+    },
+    {
+      "path": "scripts/analyze_hltd_precision_gate.py",
+      "bytes": 7945,
+      "sha256": "4c9339d8b7b56e70fc291b6134ed573c770708765f45230d2103d8c89c4c1eb3"
+    },
+    {
+      "path": "scripts/analyze_hltd_precision_full_gate.py",
+      "bytes": 8337,
+      "sha256": "8f2fa828eca6e96a9c8e37972e50620cc82bea8391a8784d9a03b6121209e7fe"
+    },
+    {
+      "path": "scripts/run_hltd_l8_gate.py",
+      "bytes": 18403,
+      "sha256": "bbea402412b14706c7fc985d6d7209a1deb0b251fd00aa4e96dfd61ed9f94639"
+    },
+    {
+      "path": "scripts/run_hltd_fresh_gate.py",
+      "bytes": 14539,
+      "sha256": "dcfc6f0ef59bf17abbc7e23567664a59fa4d7d569ffa9f8768c239fe311b1d30"
+    },
+    {
+      "path": "tests/test_hltd_fresh_artifacts.py",
+      "bytes": 10784,
+      "sha256": "ffa22f0564214e8929a0367b8fe1e716fb2cac2f0265401eda6b7749f42dc060"
+    },
+    {
+      "path": "tests/test_hltd_l8_artifacts.py",
+      "bytes": 8204,
+      "sha256": "94c5a0fc7fa8175cb50075ddb055f5df5882c674e8061d78979edd2120e48878"
+    },
+    {
+      "path": "tests/test_hltd_precision_full_artifacts.py",
+      "bytes": 10145,
+      "sha256": "3c8b582f252a6a5a4b9ccd018fb8ad7b556c2be2042e877966f91ee1a96d025b"
+    }
+  ]
+}

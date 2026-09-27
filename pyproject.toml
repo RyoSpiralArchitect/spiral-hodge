@@ -7,13 +7,14 @@ name = "spiral-hodge"
 version = "0.1.0"
 description = "Fourier, graph, Hodge, and signed circulation probes for transformer hidden-state trajectories."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "Apache-2.0"
 authors = [
   { name = "RyoSpiralArchitect" }
 ]
 dependencies = [
   "numpy",
+  "pandas",
   "scipy",
   "scikit-learn",
   "matplotlib",

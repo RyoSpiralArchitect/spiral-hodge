@@ -8,8 +8,6 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
-from scripts.hltd_historical_sources import historical_source_path
-
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,14 +22,11 @@ def rows(name: str) -> list[dict]:
 class TestHLTDL8Artifacts(unittest.TestCase):
     def test_manifest_binds_both_attempts_and_local_evidence(self) -> None:
         manifest = json.loads((ROOT / "docs/figures/hltd_signed_l8_position_manifest.json").read_text())
-        for record in manifest["tracked_data"] + manifest["tracked_figures"]:
+        for record in manifest["tracked_data"] + manifest["tracked_figures"] + manifest["verification_code"]:
             with self.subTest(path=record["path"]):
                 payload = (ROOT / record["path"]).read_bytes()
                 self.assertEqual(len(payload), record["bytes"])
                 self.assertEqual(hashlib.sha256(payload).hexdigest(), record["sha256"])
-        for record in manifest["verification_code"]:
-            with self.subTest(historical_source=record["path"]):
-                self.assertTrue(historical_source_path(record, ROOT).is_file())
         protocol = json.loads((DATA / "protocol_continuation.json").read_text())
         initial = json.loads((DATA / "protocol.json").read_text())
         for key in ["prompts", "design", "primary", "analysis", "runtime", "tolerances"]:
