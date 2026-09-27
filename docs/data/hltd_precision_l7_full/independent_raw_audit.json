@@ -1,0 +1,69 @@
+{
+  "created_utc": "2026-09-12T08:50:26.886689+00:00",
+  "protocol": {
+    "path": "docs/data/hltd_precision_l7_full/protocol.json",
+    "bytes": 23598,
+    "sha256": "cb00ff05f7a6345578ba446abb062bd94718ccf7dd41f8288d9a0199d8beed82"
+  },
+  "audit_source": {
+    "path": "/Users/ryospiralarchitect/spiral-hodge/scripts/audit_hltd_precision_raw.py",
+    "bytes": 6829,
+    "sha256": "0faa2e05db1f0532b8e2834a1e6b5c2ae187f42e03f4e37cf34db3e22a731dce"
+  },
+  "tolerance": 1e-10,
+  "method": "Independent standard-library reduction: direct steered log-probability differences, exact seed pairs, per-token signed fits, then equal token means within prompt bins. No production estimator or saved baseline deltas.",
+  "arms": {
+    "fp16_replay": {
+      "raw": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/summary.csv",
+        "bytes": 53068098,
+        "sha256": "36dee0107cf79b8c1f411a374f88ae3ca3a4242786fafe00b7a7c79d4662091e"
+      },
+      "coefficients": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_precision_l7_full20_20260912/analysis/fp16_replay/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 258988,
+        "sha256": "aef0d8cb4d22047ca5a2448aa04bacb9e4c1c48a6787f75337204f83ba932e85"
+      },
+      "raw_rows": 54144,
+      "active_token_units": 528,
+      "coefficient_count": 952,
+      "max_abs_error": 4.440892098500626e-16,
+      "passed": true
+    },
+    "fp32_fixed_field": {
+      "raw": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/summary.csv",
+        "bytes": 53363766,
+        "sha256": "cd46ce98572d31b35e2d86b5203f3e9cd467ca9151d420a00f36e9f842c0a7e7"
+      },
+      "coefficients": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_fixed_field/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 259081,
+        "sha256": "5bfddeae34d8ade9625fed7628370422e3337a9ba8158e85f3d1f04a17f3cdf3"
+      },
+      "raw_rows": 54144,
+      "active_token_units": 528,
+      "coefficient_count": 952,
+      "max_abs_error": 4.440892098500626e-16,
+      "passed": true
+    },
+    "fp32_rebuilt_field": {
+      "raw": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/summary.csv",
+        "bytes": 53283717,
+        "sha256": "e4f795aa5a5c8aebc74e320006112013d4a8ce6b73b22530536a95f4e71442c9"
+      },
+      "coefficients": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_precision_l7_full20_20260912/analysis/fp32_rebuilt_field/summary_prompt_bin_response_coefficients.csv",
+        "bytes": 259087,
+        "sha256": "6456efb49dbce2763f75f3ed9bdc1f3582e9704551b96d71b1f396aad183ef49"
+      },
+      "raw_rows": 54144,
+      "active_token_units": 528,
+      "coefficient_count": 952,
+      "max_abs_error": 4.440892098500626e-16,
+      "passed": true
+    }
+  },
+  "passed": true
+}

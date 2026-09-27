@@ -1,0 +1,37 @@
+{
+  "status": "SUPPORTED_WITHIN_SAMPLE",
+  "complete_early_coverage": true,
+  "expected_prompt_bins": 80,
+  "observed_prompt_bins": 80,
+  "missing_prompt_bins": [],
+  "primary": {
+    "metric": "next_token_logprob_delta",
+    "contrast_type": "odd",
+    "bins": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "pass_rule": "Complete 80 early prompt/bins and strictly positive lower 95% prompt-bootstrap bound. Otherwise NOT_SUPPORTED or INSUFFICIENT_COVERAGE. No requirement that every individual prompt be positive.",
+    "missing_rule": "No imputation, prompt exclusion, bin reselection or threshold change."
+  },
+  "interpretation_boundary": "Within-sample layer generalization only; not independent prompt replication or semantic control.",
+  "mean": 0.5784562741830643,
+  "ci_lower": 0.459112699955768,
+  "ci_upper": 0.7028461435194848,
+  "n_prompts": 20,
+  "positive_prompts": 20,
+  "design_validation": {
+    "raw_rows": 54144,
+    "candidate_token_units": 564,
+    "active_coexact_token_units": 534,
+    "n_prompts": 20,
+    "exact_grid_passed": true
+  },
+  "raw_receipt": {
+    "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_l8_native_fp32_full20_20260927_continued/l8/summary.csv",
+    "bytes": 52264577,
+    "sha256": "74796843aa6fc378308f6373b045462a421396b2f0fdb550f2afd4dd3016b183"
+  }
+}

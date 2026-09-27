@@ -1,0 +1,38 @@
+{
+  "n_prompts": 4,
+  "absolute_tolerance": 0.05,
+  "means": {
+    "fp16_replay": 0.34481984651016107,
+    "fp32_fixed_field": 0.34543932845084474,
+    "fp32_rebuilt_field": 0.343053568336609
+  },
+  "positive_prompts": {
+    "fp16_replay": 4,
+    "fp32_fixed_field": 4,
+    "fp32_rebuilt_field": 4
+  },
+  "max_abs_change": {
+    "fp32_fixed_field": 0.0028003619623237774,
+    "fp32_rebuilt_field": 0.014061959001560487
+  },
+  "magnitude_stable": {
+    "fp32_fixed_field": true,
+    "fp32_rebuilt_field": true
+  },
+  "status": "PRECISION_STABLE_ON_PILOT",
+  "interpretation_boundary": "Four seen prompts; numerical sensitivity, not population equivalence, a new significance gate, or a full 20-prompt FP32 replication.",
+  "active_tokens": {
+    "fp16_replay": 118,
+    "fp32_fixed_field": 118,
+    "fp32_rebuilt_field": 118
+  },
+  "activity_changes_vs_fp16": {
+    "fp32_fixed_field": 0,
+    "fp32_rebuilt_field": 0
+  },
+  "protocol": {
+    "path": "docs/data/hltd_precision_l7/protocol.json",
+    "bytes": 12865,
+    "sha256": "df86bf783131119e142293db7e471fc6dde7f91c6a2c6593b51f9f68cd6441e4"
+  }
+}

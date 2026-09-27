@@ -1,0 +1,5098 @@
+{
+  "started_utc": "2026-09-11T14:45:03.968685+00:00",
+  "completed_utc": "2026-09-11T14:46:08.740851+00:00",
+  "model_path": "/Users/ryospiralarchitect/\ud83c\udf00SpiralReality\ud83c\udf00/model/gpt2",
+  "model_dtype": "torch.float16",
+  "layer": 7,
+  "batch_size": 12,
+  "max_length": 96,
+  "device": "mps",
+  "tolerance": 0.0001,
+  "suite_sha256": "8591d80b7cac5fa4c29944768633b63ab6ad2ba030699300e0fb4105feb839e8",
+  "n_prompts": 20,
+  "n_token_units": 564,
+  "zero_vs_matched_batch_logit_max_abs": 0.0,
+  "batch_row_logit_max_abs": 0.0,
+  "batch_vs_single_logit_max_abs": 0.25,
+  "batch_vs_single_next_token_logprob_max_abs": 0.1025126222204733,
+  "passed": true,
+  "scope": "Zero-control agreement only; not nonzero steering precision equivalence.",
+  "token_units": [
+    {
+      "prompt_id": "literal_01",
+      "token_index": 1,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.016695467849757506
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 2,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.02018415350553937
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 3,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.018252275881309288
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 4,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.024750997618127712
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 5,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.000551359730749823
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 6,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.012301060528912444
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 7,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0009238295077977909
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 8,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.034094798206268706
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 9,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.05409983276322805
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 10,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0251672145080164
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 11,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.00015160757249077506
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 12,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.004052243364782271
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 13,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.013198586348252661
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 14,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.03125,
+      "batch_vs_single_next_token_logprob_delta": -0.00041076730099831593
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 15,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.018354175426424035
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 16,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.001825989552813212
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 17,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.01723253507232414
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 18,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0017762181851566083
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 19,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0028020795540300014
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 20,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.000561857261132559
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 21,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.032481767206334666
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 22,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.006706612220085617
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 23,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.00041976637457707966
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 24,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.003201587367627212
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 25,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.006177751051325231
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 26,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.022603626293232537
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 27,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.03300035591975359
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 28,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.00028479265588998715
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 29,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.01473497392164802
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 30,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.05393253170991841
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 31,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.011716428025849268
+    },
+    {
+      "prompt_id": "literal_01",
+      "token_index": 32,
+      "token_count": 34,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.007278315896385834
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 1,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.040161938665136176
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 2,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.00976486904535534
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 3,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.030207716314777144
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 4,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.040408467658039626
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 5,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.04088517945153569
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 6,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.010337053160434095
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 7,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.043513040957222415
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 8,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.1875,
+      "batch_vs_single_next_token_logprob_delta": -0.0010385620334290024
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 9,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.010311119987761685
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 10,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.016767350965565697
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 11,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.004946459188417407
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 12,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.008494401549640429
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 13,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.000343565875624563
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 14,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.006864889003466601
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 15,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.018762718446126314
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 16,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.004084455569199008
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 17,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.035778140325447794
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 18,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.012390015504635699
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 19,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.005290651865493601
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 20,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0008605489877382411
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 21,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.013116400868284472
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 22,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0379798308478172
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 23,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.05834291503541067
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 24,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.024523494472703078
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 25,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.00939743171876728
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 26,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.02219523505215193
+    },
+    {
+      "prompt_id": "literal_02",
+      "token_index": 27,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.06068778109795403
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 1,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.018350800101742948
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 2,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.017119594205233568
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 3,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.027675703047705724
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 4,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.02679441995427112
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 5,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0111725547909316
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 6,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.023068916133766493
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 7,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.00022799165704157076
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 8,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0367170002867141
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 9,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.004829917006745177
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 10,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.054232173204340484
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 11,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.007968258399714045
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 12,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.005526609267235472
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 13,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.019936219116758025
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 14,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.005188340283766024
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 15,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.027525347413089207
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 16,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.012232246509469746
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 17,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.011803240765814849
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 18,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.004313193670270721
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 19,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.04329866030090557
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 20,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.007403067788217754
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 21,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0035624362313342317
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 22,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0015759807323121322
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 23,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.006052727043879713
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 24,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.05509244845623584
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 25,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.010251423097912493
+    },
+    {
+      "prompt_id": "literal_03",
+      "token_index": 26,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.019755839863151436
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 1,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.02315673524513784
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 2,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.014870748964384006
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 3,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.01090874790472185
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 4,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.013024772980372745
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 5,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0064606403006877144
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 6,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.022196707797164095
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 7,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.011496300839567652
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 8,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0065589489121720135
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 9,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0005169476862789679
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 10,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.00677741000539811
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 11,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0010307256542887444
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 12,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.001735276290403931
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 13,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.015407426223006837
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 14,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.01453692101466686
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 15,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.008049025412660171
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 16,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.01456558409728359
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 17,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.019250440315673245
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 18,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0029761117070563614
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 19,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.041625237608784005
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 20,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.04126071810756571
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 21,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.023838107998557234
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 22,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.003266385047965059
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 23,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.03102721896172511
+    },
+    {
+      "prompt_id": "literal_04",
+      "token_index": 24,
+      "token_count": 26,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.004655415363856719
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 1,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.05051364411728798
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 2,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.03821608778302732
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 3,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.023121644665039298
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 4,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0006065341714105443
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 5,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.011334112058420942
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 6,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.002348498810079036
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 7,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0006064461938990462
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 8,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.002670708688015111
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 9,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0030772074522360526
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 10,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.005153367850766699
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 11,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.007185263739174275
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 12,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0018110833526350234
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 13,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.012519724758647044
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 14,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.008926691948346388
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 15,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.021974958557095192
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 16,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.008846170762453198
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 17,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0008934639949274015
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 18,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0018338842394172161
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 19,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0009350671058001581
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 20,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.003108715118770533
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 21,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.03640574313038769
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 22,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.022041148823518597
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 23,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.008362804455146033
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 24,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.020083978380313283
+    },
+    {
+      "prompt_id": "literal_05",
+      "token_index": 25,
+      "token_count": 27,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0003651545125933353
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 1,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.003517542205528912
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 2,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.012496694601708214
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 3,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.001303724653624272
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 4,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.044768414058268036
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 5,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.02627877139130419
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 6,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.016227136502237727
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 7,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03686855764384234
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 8,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.024173987676292086
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 9,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.023665998612614203
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 10,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.014992281356839499
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 11,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0004838848682027219
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 12,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.05100775838559457
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 13,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0009135260826838021
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 14,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.000844734886058518
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 15,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.003887138570746629
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 16,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.06317860444684698
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 17,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.008233190510324562
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 18,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.004666576737221817
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 19,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0074204457595641315
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 20,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.037849151471263554
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 21,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.004503197691406058
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 22,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 6.24455940752e-05
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 23,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.026920281963228376
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 24,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.018978222473748474
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 25,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0010733916954706046
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 26,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.024550013624050848
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 27,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.026854764196713177
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 28,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.010687198960908972
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 29,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04474639312999784
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 30,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.040962229340237855
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 31,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.009426654992481076
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 32,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04687266227318787
+    },
+    {
+      "prompt_id": "metaphor_01",
+      "token_index": 33,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.003854982926327466
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 1,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.034913261452061306
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 2,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.006036670716298431
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 3,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.02529267320630879
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 4,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0034902887468035715
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 5,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.038765822616383616
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 6,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.03361889701045584
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 7,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.058657596366401776
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 8,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0018512870218359012
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 9,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0031143011176624213
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 10,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.023501234886708744
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 11,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.026774242020309202
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 12,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.026846796444317533
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 13,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.007476818321805467
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 14,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.002053683946925844
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 15,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.002709854971413961
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 16,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.006298510975241811
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 17,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.09375,
+      "batch_vs_single_next_token_logprob_delta": -8.15676573751034e-06
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 18,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.013071824507292717
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 19,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.03125,
+      "batch_vs_single_next_token_logprob_delta": -0.0005311549502136081
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 20,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.001759812788804993
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 21,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.002099760638984094
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 22,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.009206222118748997
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 23,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0032671567038562443
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 24,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.010106772145363152
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 25,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03934765166761167
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 26,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0011411546801838313
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 27,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.009409162164956797
+    },
+    {
+      "prompt_id": "metaphor_02",
+      "token_index": 28,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.00010273109429448368
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 1,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0030392315624538924
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 2,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0048490615008205395
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 3,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.010754550873727453
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 4,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.01593166389531575
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 5,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.004575942739947436
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 6,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.024302964642316738
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 7,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.05974090633728224
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 8,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.027794524253636155
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 9,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0005938324150065455
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 10,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.046926689833171054
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 11,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.005683862464579192
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 12,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.03595820549749362
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 13,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.02541553661038165
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 14,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.1875,
+      "batch_vs_single_next_token_logprob_delta": -0.024304746668178723
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 15,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -8.811604371317117e-05
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 16,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.002754521687847955
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 17,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.00705036773001666
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 18,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.005709910705178345
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 19,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.03380283661606143
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 20,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.00047045428580361204
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 21,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0036488857784604534
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 22,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0049389324354081054
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 23,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.042893189611632465
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 24,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0320613763272064
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 25,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.025315254350715577
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 26,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.006518916194721669
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 27,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0902309667249881
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 28,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.024884493385783912
+    },
+    {
+      "prompt_id": "metaphor_03",
+      "token_index": 29,
+      "token_count": 31,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.009870044739244577
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 1,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0008275132801571772
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 2,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.02708876797490234
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 3,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.003765289313662379
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 4,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.03775985142014804
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 5,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0009882811300911953
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 6,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0005435967805453856
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 7,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.027085196525050037
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 8,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.007754916273768231
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 9,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.02142721747279097
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 10,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.013397772104895012
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 11,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.021731683584619077
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 12,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.01220717421428219
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 13,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.029050592776215467
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 14,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.003588898668432705
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 15,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.02497422170544894
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 16,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.023694639458284428
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 17,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0013090181615069696
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 18,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.057818962831760246
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 19,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.011997128786248368
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 20,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.029341406878018006
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 21,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.013311814238463171
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 22,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0005122837530819879
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 23,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.014689623322155398
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 24,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.002505166308480966
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 25,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.03841419256556833
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 26,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.002721235028531055
+    },
+    {
+      "prompt_id": "metaphor_04",
+      "token_index": 27,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.01266460864327712
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 1,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.03253292826541099
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 2,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.024386317381754452
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 3,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.015553111917711249
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 4,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.013880196016728519
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 5,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0013237378287982438
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 6,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.04701816094271294
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 7,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0003225091909797584
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 8,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.05233343854372663
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 9,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0362300723107154
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 10,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.037187994847187156
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 11,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.25,
+      "batch_vs_single_next_token_logprob_delta": -0.0032927138665286293
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 12,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.004244016910618598
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 13,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03866706126312636
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 14,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.02679276323684121
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 15,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0285941726962875
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 16,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.003287901768473489
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 17,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.007051175682079247
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 18,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.00016344104982835006
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 19,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.00484456966904645
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 20,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0038484329777901394
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 21,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.026996286225227095
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 22,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.04703270871407028
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 23,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0007606148949719227
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 24,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.048887411260352565
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 25,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.000565277718010293
+    },
+    {
+      "prompt_id": "metaphor_05",
+      "token_index": 26,
+      "token_count": 28,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.01385081587935133
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 1,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.010243146645720458
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 2,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.02044130271724498
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 3,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.022758996705434242
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 4,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.003989984721727069
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 5,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.04785381596958871
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 6,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.05046614696284735
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 7,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.004925847501112912
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 8,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0014756286321286893
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 9,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.03899109482320284
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 10,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0026866112281140886
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 11,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.010327192051377665
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 12,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.025289840074876224
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 13,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.014632391017002533
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 14,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0015830126093590025
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 15,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.014490909096124938
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 16,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.017945323525509593
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 17,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.008166009818836528
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 18,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.008384233846271627
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 19,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0063836396509344695
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 20,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.029403046365629848
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 21,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0009550077808739843
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 22,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.010801227881827913
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 23,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0011884577772036664
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 24,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.003465654292639897
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 25,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.025038842822098673
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 26,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0202700366092472
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 27,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.011787182016441022
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 28,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0016440240313642107
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 29,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.011054548996114022
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 30,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0002435957724031823
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 31,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0008355691169015245
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 32,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.020014983648835027
+    },
+    {
+      "prompt_id": "identity_01",
+      "token_index": 33,
+      "token_count": 35,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.011707365171588435
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 1,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.00023605487896816157
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 2,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.01692152423958504
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 3,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0011585051252609446
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 4,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.03209966893591343
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 5,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0017988073373231828
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 6,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0005546149491522101
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 7,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03917109231899474
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 8,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.030233209415769124
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 9,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.014169653131673954
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 10,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.018835784152017254
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 11,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.021756286727608654
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 12,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.011032464966675093
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 13,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0015200539117330436
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 14,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.007090983406243367
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 15,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04363826118327552
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 16,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.021561929818503245
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 17,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0011493052537474568
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 18,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.008792328336326705
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 19,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.010165066714897364
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 20,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.020006442892579912
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 21,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03799099366779046
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 22,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.006657752321601151
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 23,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0008573683658461562
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 24,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.03113402733507087
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 25,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.03776155309476792
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 26,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.03193608139432058
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 27,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.03136828058324426
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 28,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.005120189769172612
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 29,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0046169075034754314
+    },
+    {
+      "prompt_id": "identity_02",
+      "token_index": 30,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.009038325042169504
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 1,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0010098165957401761
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 2,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.013606801149052217
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 3,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.003807485651449838
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 4,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.030068080799253494
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 5,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0006426865279962612
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 6,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04054975312038778
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 7,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.00040376154852594937
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 8,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.002171585440578383
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 9,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.002930463859101451
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 10,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.009669103051521688
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 11,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.008912862060469706
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 12,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.010418579822555785
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 13,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0014736492973383974
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 14,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0033633881587036285
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 15,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.018283579410905304
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 16,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.006050957876169605
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 17,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.023719059494183625
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 18,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.00989812395869194
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 19,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.007718845433061006
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 20,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.011243403489942239
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 21,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.012334787707658279
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 22,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.008142960748358519
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 23,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.007181210856501252
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 24,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.02044355180662194
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 25,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.001112807046958153
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 26,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.09375,
+      "batch_vs_single_next_token_logprob_delta": -0.0007668287782038874
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 27,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.023786286101284304
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 28,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.029566492750859652
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 29,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.00996130068558898
+    },
+    {
+      "prompt_id": "identity_03",
+      "token_index": 30,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.005747271577007496
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 1,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03036788642137367
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 2,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.033156787549728506
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 3,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.007515676510138292
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 4,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.01817394873710043
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 5,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0326788110814249
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 6,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.007678438677402255
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 7,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04687362616047608
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 8,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.00026602948680931604
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 9,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0042230329191284
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 10,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.011958674745670805
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 11,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.011637143719241294
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 12,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.010822422197904302
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 13,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.06062930785984122
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 14,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0019296159983497319
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 15,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.007563592682288345
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 16,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.00034373495263650966
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 17,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.029045925181335974
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 18,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04760150069753877
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 19,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.02122060896142841
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 20,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.011644459134132035
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 21,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.003245634785756124
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 22,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0014229292555327788
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 23,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.013116756326184031
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 24,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.010200270803508715
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 25,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.00218248823250633
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 26,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.004156349986232044
+    },
+    {
+      "prompt_id": "identity_04",
+      "token_index": 27,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0196390632937522
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 1,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.020109442478741357
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 2,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.004797357029204363
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 3,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.01907907510850748
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 4,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.024804449822326546
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 5,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.013042852084453216
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 6,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0004324798762809223
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 7,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.01686949973996832
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 8,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.09375,
+      "batch_vs_single_next_token_logprob_delta": 0.004459543666474275
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 9,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04046494565558589
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 10,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.003241953791047081
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 11,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.013625436975793548
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 12,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0005761305587270726
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 13,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.01514171012576071
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 14,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.013677707880404455
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 15,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.004029770755934692
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 16,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.02710581028760828
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 17,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.005451545358070575
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 18,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.016260191544205327
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 19,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.040242774528636005
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 20,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.1875,
+      "batch_vs_single_next_token_logprob_delta": 0.014812093607460497
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 21,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.04099028435015839
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 22,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.02292052842881276
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 23,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.05580444816874319
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 24,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.02564328885127054
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 25,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.03146578869195338
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 26,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.01244181292285873
+    },
+    {
+      "prompt_id": "identity_05",
+      "token_index": 27,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0004599679186156891
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 1,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.002188653073275759
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 2,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.009827399333772746
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 3,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0017057890878504622
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 4,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.020717359538352298
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 5,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.048130502905564754
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 6,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.04613518193617949
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 7,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0009934676461114123
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 8,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.01833688736017791
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 9,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.013193962497979328
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 10,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.042399595989039085
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 11,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.09375,
+      "batch_vs_single_next_token_logprob_delta": -0.027063083646318375
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 12,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0185953405893855
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 13,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.006643705561145907
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 14,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.01603324823362584
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 15,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.02699652625631188
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 16,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.05163739941990286
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 17,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04215443266849661
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 18,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04197442080071312
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 19,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.1875,
+      "batch_vs_single_next_token_logprob_delta": 0.020757449030071484
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 20,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.005511173580778461
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 21,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0037381444406747733
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 22,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.010319258652231156
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 23,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.028535362755988558
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 24,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.018765148171553392
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 25,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.00030676873662116577
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 26,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.03428798438946501
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 27,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0020873580729556807
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 28,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.006058962958789493
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 29,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.022801814682843258
+    },
+    {
+      "prompt_id": "ontology_01",
+      "token_index": 30,
+      "token_count": 32,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.1875,
+      "batch_vs_single_next_token_logprob_delta": -8.155939237042276e-05
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 1,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.017784959831644187
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 2,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.011837818661717847
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 3,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.022243370572894605
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 4,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.004042381076629908
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 5,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.028155426346799572
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 6,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.041680547088887465
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 7,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.02104220452586958
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 8,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.016628466761446248
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 9,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.00766821326284628
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 10,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.1875,
+      "batch_vs_single_next_token_logprob_delta": 0.01219140756985837
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 11,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.012589026560377192
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 12,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.026628318484569036
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 13,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.019728036075974842
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 14,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.08372059818783839
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 15,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.004940223446993741
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 16,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.00019741267689710185
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 17,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -8.295214165343623e-05
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 18,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.007751389282233845
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 19,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.01341776038509579
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 20,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.005186005629241208
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 21,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.045074327191372277
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 22,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.010525382898677549
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 23,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.05127966802365336
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 24,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.01781257808339376
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 25,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.007196173715470877
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 26,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.009437284727525252
+    },
+    {
+      "prompt_id": "ontology_02",
+      "token_index": 27,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.008521913643903645
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 1,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.053212489050210365
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 2,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.004341285000762696
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 3,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03983213573363287
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 4,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.25,
+      "batch_vs_single_next_token_logprob_delta": 0.028786870340290704
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 5,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.1875,
+      "batch_vs_single_next_token_logprob_delta": 0.0009549091900069584
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 6,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.011881013287421638
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 7,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.008326516146055951
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 8,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.017931815612143964
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 9,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.02563418169049214
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 10,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0317897748296474
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 11,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0117391010674055
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 12,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.1875,
+      "batch_vs_single_next_token_logprob_delta": 0.01497710128651164
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 13,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.013385298445498961
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 14,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.007949137149381613
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 15,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.01804781202048389
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 16,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.00209078235666027
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 17,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.018532995304170186
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 18,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.00340605647140535
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 19,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.007899538206231682
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 20,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.03072727264920161
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 21,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.012767506928469174
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 22,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.02881340342206329
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 23,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.016146150313744556
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 24,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.03278812792029839
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 25,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.017883409095162506
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 26,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.03332506060191065
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 27,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0077393938074692414
+    },
+    {
+      "prompt_id": "ontology_03",
+      "token_index": 28,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.00018881496208678072
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 1,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0023235589053882677
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 2,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.016202162495744687
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 3,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.019500955603561465
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 4,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.004912424004487548
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 5,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.02571978799485919
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 6,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04953488548625273
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 7,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.009034356927926979
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 8,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.024250970370104596
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 9,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.016698812744962765
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 10,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0016283989996423998
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 11,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0008804511779203494
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 12,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.01598204869056019
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 13,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.010393205461454613
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 14,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.1025126222204733
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 15,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03183971222271964
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 16,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 3.983099939830481e-05
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 17,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.00927647561640299
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 18,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.016420368635593263
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 19,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0013725884331137195
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 20,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.002490181477178055
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 21,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.003597801030366554
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 22,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03316020349140558
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 23,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0005209443802272062
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 24,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0031029555400436948
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 25,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.0007042296690826788
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 26,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.007294027445794882
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 27,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.003867016335377116
+    },
+    {
+      "prompt_id": "ontology_04",
+      "token_index": 28,
+      "token_count": 30,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0012663448140841638
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 1,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.027570106071706846
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 2,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.022304555989876462
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 3,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.04922122749768221
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 4,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.019502288379072752
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 5,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.015479140949565817
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 6,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.006619852062044629
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 7,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.0031808582703121147
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 8,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03957321462354457
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 9,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.024043935590100318
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 10,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.04742510018223811
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 11,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.037248625316323114
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 12,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.011074968175989852
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 13,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.030951664435008297
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 14,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.09375,
+      "batch_vs_single_next_token_logprob_delta": -0.015401919911766981
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 15,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.014037228811815794
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 16,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.05768766621642385
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 17,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03556178287009004
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 18,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.025113920676304247
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 19,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": -0.04510700391833211
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 20,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -0.04040151018276106
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 21,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.0018747993957788367
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 22,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.125,
+      "batch_vs_single_next_token_logprob_delta": 0.001255072359910514
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 23,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.005351052032366965
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 24,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.0020779062159022033
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 25,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": -9.067600986156776e-05
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 26,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.03256122827190211
+    },
+    {
+      "prompt_id": "ontology_05",
+      "token_index": 27,
+      "token_count": 29,
+      "zero_vs_matched_batch_logit_max_abs": 0.0,
+      "batch_row_logit_max_abs": 0.0,
+      "batch_vs_single_logit_max_abs": 0.0625,
+      "batch_vs_single_next_token_logprob_delta": 0.023270573708714437
+    }
+  ]
+}

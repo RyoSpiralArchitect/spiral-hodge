@@ -19,6 +19,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 import spiral_hodge as hodge
+from scripts.hltd_position import centered_node_position
 from scripts.run_hltd_steering import (
     _decode_token,
     _entropy_from_logp,
@@ -182,6 +183,7 @@ def _run_closed_loop_component(
 
         z = _chart_point_from_hidden(hidden_now[layer, -1], coord.reducer, normalize_hidden=normalize_hidden)
         node_index, nearest_distance = _nearest_node_index(field.points, z)
+        node_token_index, position_frac = centered_node_position(node_index, prompt_len)
 
         chart_norm = 0.0
         hidden_direction_norm = 0.0
@@ -239,6 +241,8 @@ def _run_closed_loop_component(
                 "component": component,
                 "alpha": float(alpha),
                 "node_index": int(node_index),
+                "node_token_index": node_token_index,
+                "position_frac": position_frac,
                 "nearest_distance": float(nearest_distance),
                 "component_active": int(bool(component_active or component == BASELINE_COMPONENT)),
                 "delta_norm": float(np.linalg.norm(delta)),
@@ -355,6 +359,8 @@ STEP_FIELDS = [
     "component",
     "alpha",
     "node_index",
+    "node_token_index",
+    "position_frac",
     "nearest_distance",
     "component_active",
     "delta_norm",
@@ -856,6 +862,20 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     _write_csv(all_step_rows, steps_path, STEP_FIELDS)
     _write_report(all_run_rows, report_path)
     manifest = {
+        "step_schema_version": 2,
+        "field_contract": {
+            "vector_mode": "centered",
+            "step": 1,
+            "chart": "pca",
+            "normalize_hidden": not args.no_normalize_hidden,
+            "topology": "ridge_clique",
+            "ridge": float(args.ridge),
+            "node_ridge": float(args.node_ridge),
+        },
+        "stop_at_eos": not args.no_stop_at_eos,
+        "eos_token_id": getattr(tokenizer, "eos_token_id", None),
+        "max_length": args.max_length,
+        "min_chart_norm": float(args.min_chart_norm),
         "model_ref": model_ref,
         "suite": str(args.suite),
         "layers": [int(x) for x in args.layers],

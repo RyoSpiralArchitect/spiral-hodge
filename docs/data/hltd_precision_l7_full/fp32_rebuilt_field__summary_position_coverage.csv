@@ -1,0 +1,13 @@
+layer,k,complex_mode,betti_1_fraction_target,random_tangent_reference,token_selector,selector_component,position_bin,candidate_prompts,candidate_tokens,active_prompts,active_tokens,active_prompt_fraction,active_token_fraction,position_bin_lower,position_bin_center,position_bin_upper
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,0,20,40,20,40,1.0,1.0,0.0,0.041666666666666664,0.08333333333333333
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,1,20,46,20,45,1.0,0.9782608695652174,0.08333333333333333,0.125,0.16666666666666666
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,2,20,47,20,47,1.0,1.0,0.16666666666666666,0.20833333333333334,0.25
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,3,20,51,20,51,1.0,1.0,0.25,0.2916666666666667,0.3333333333333333
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,4,20,49,20,48,1.0,0.9795918367346939,0.3333333333333333,0.375,0.4166666666666667
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,5,20,44,20,42,1.0,0.9545454545454546,0.4166666666666667,0.4583333333333333,0.5
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,6,20,54,20,50,1.0,0.9259259259259259,0.5,0.5416666666666666,0.5833333333333334
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,7,20,45,20,42,1.0,0.9333333333333333,0.5833333333333334,0.625,0.6666666666666666
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,8,20,49,20,47,1.0,0.9591836734693877,0.6666666666666666,0.7083333333333334,0.75
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,9,20,52,20,48,1.0,0.9230769230769231,0.75,0.7916666666666666,0.8333333333333334
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,10,20,47,19,38,0.95,0.8085106382978723,0.8333333333333334,0.875,0.9166666666666666
+7,16,matched_betti,0.5,max_full_branch_node_speed,all_interior,coexact,11,20,40,19,30,0.95,0.75,0.9166666666666666,0.9583333333333334,1.0

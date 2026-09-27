@@ -1,0 +1,11 @@
+{
+  "protocol": {
+    "path": "docs/data/hltd_signed_l8_position/protocol.json",
+    "bytes": 26943,
+    "sha256": "58f1b8b747ba95f32ed1aff2c7f7d5cf6257da3c95c918a82c498ab8c2a2c253"
+  },
+  "started_utc": "2026-09-26T22:14:37.518602+00:00",
+  "status": "FAILED",
+  "completed_utc": "2026-09-26T22:16:28.168204+00:00",
+  "error": "FileNotFoundError: [Errno 2] No such file or directory: '/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/summary.csv'"
+}

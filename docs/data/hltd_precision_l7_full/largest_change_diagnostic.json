@@ -1,0 +1,79 @@
+{
+  "created_utc": "2026-09-12T08:52:11.230927+00:00",
+  "prompt_id": "literal_03",
+  "selection": "Post-hoc diagnostic of the largest absolute FP32 rebuilt-minus-FP16 early gap-coefficient change. Does not modify the frozen gate or threshold.",
+  "method": "Fit each branch odd next-token coefficient from steered log probabilities, averaging all eight seeds and tokens within bins, then equally averaging the four early bins. Odd differences cancel the unsteered intercept.",
+  "arms": {
+    "fp16_replay": {
+      "raw": {
+        "path": "spiral_out_hltd_precision_l7_full20_20260912/fp16_replay/literal_03/steering_metrics.csv",
+        "bytes": 2297725,
+        "sha256": "8700eba5d9d8732e9077f5cddfefcd23918f1568dc76e67c68d8cf628b998cf9"
+      },
+      "branch_early_odd_coefficients": {
+        "coexact": 0.5530561171956934,
+        "random_tangent": 0.12268677401270192
+      },
+      "gap_coefficient": 0.43036934318299147,
+      "topology": {
+        "betti_1_fraction": 0.5,
+        "cycle_rank": 234.0,
+        "triangle_rank": 117.0,
+        "triangle_count": 401.0,
+        "hodge_exact_ratio": 0.13377810250228994,
+        "hodge_coexact_ratio": 0.6135148848442801,
+        "hodge_harmonic_ratio": 0.25270701265343015
+      }
+    },
+    "fp32_fixed_field": {
+      "raw": {
+        "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_fixed_field/literal_03/steering_metrics.csv",
+        "bytes": 2297992,
+        "sha256": "950f08a5de2055f6b29eda00948528df1b2a7b5a4a8fa8f97e8e6144602831bd"
+      },
+      "branch_early_odd_coefficients": {
+        "coexact": 0.553703153066923,
+        "random_tangent": 0.12406431885882441
+      },
+      "gap_coefficient": 0.42963883420809856,
+      "topology": {
+        "betti_1_fraction": 0.5,
+        "cycle_rank": 234.0,
+        "triangle_rank": 117.0,
+        "triangle_count": 401.0,
+        "hodge_exact_ratio": 0.13377810250228994,
+        "hodge_coexact_ratio": 0.6135148848442801,
+        "hodge_harmonic_ratio": 0.25270701265343015
+      },
+      "branch_change_vs_fp16": {
+        "coexact": 0.0006470358712296065,
+        "random_tangent": 0.001377544846122486
+      }
+    },
+    "fp32_rebuilt_field": {
+      "raw": {
+        "path": "spiral_out_hltd_precision_l7_full20_20260912/fp32_rebuilt_field/literal_03/steering_metrics.csv",
+        "bytes": 2295184,
+        "sha256": "2f3c6ec0c12f4190fcf7e77e93391340981ce5202e1ad592ae3b87b8b8d0f0f9"
+      },
+      "branch_early_odd_coefficients": {
+        "coexact": 0.5146818233803543,
+        "random_tangent": 0.12465604724526971
+      },
+      "gap_coefficient": 0.3900257761350846,
+      "topology": {
+        "betti_1_fraction": 0.5,
+        "cycle_rank": 234.0,
+        "triangle_rank": 117.0,
+        "triangle_count": 401.0,
+        "hodge_exact_ratio": 0.13376675700393487,
+        "hodge_coexact_ratio": 0.6140513540718452,
+        "hodge_harmonic_ratio": 0.2521818889242201
+      },
+      "branch_change_vs_fp16": {
+        "coexact": -0.03837429381533908,
+        "random_tangent": 0.001969273232567792
+      }
+    }
+  }
+}

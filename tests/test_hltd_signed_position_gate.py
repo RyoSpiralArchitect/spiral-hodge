@@ -63,6 +63,18 @@ def synthetic_position_rows() -> pd.DataFrame:
 
 
 class TestHLTDSignedPositionGate(unittest.TestCase):
+    def test_common_baseline_offsets_cancel_before_both_signed_contrasts(self) -> None:
+        rows = synthetic_position_rows()
+        shifted = rows.copy()
+        # A shared single-vs-batch offset may vary with token, seed and sign.
+        offset = 0.17 * shifted["token_index"] + 0.03 * shifted["seed"] - 0.08 * shifted["alpha"]
+        for metric in ["next_token_logprob_delta", "semantic_margin_delta"]:
+            shifted[metric] += offset
+        original = signed_token_contrasts(collapse_seed_gaps(seed_matched_component_gaps(rows, bins=4)))
+        corrected = signed_token_contrasts(collapse_seed_gaps(seed_matched_component_gaps(shifted, bins=4)))
+        columns = [column for column in original if not column.startswith(("component_value_", "baseline_value_"))]
+        pd.testing.assert_frame_equal(original[columns], corrected[columns], check_exact=False, atol=1e-12, rtol=1e-12)
+
     def test_position_bin_clips_endpoint(self) -> None:
         self.assertEqual(position_bin(0.0, 12), 0)
         self.assertEqual(position_bin(0.5, 12), 6)

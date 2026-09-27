@@ -1,0 +1,15 @@
+{
+  "rows": 54144,
+  "tolerance": 1e-08,
+  "max_abs_errors": {
+    "next_token_logprob_steered": 1.7763568394002505e-15,
+    "target_logprob_mass_steered": 1.7763568394002505e-15,
+    "control_logprob_mass_steered": 1.7763568394002505e-15,
+    "component_active": 0.0,
+    "natural_step_norm": 7.105427357601002e-15,
+    "chart_norm": 4.440892098500626e-16,
+    "hidden_direction_norm": 4.440892098500626e-16
+  },
+  "passed": true,
+  "scope": "Steered outputs and field scalars; matched-batch baseline deltas need not equal historical single-batch deltas."
+}

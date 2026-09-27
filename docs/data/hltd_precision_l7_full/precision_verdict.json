@@ -1,0 +1,162 @@
+{
+  "n_prompts": 20,
+  "absolute_tolerance": 0.05,
+  "means": {
+    "fp16_replay": 0.5658917220730719,
+    "fp32_fixed_field": 0.5660324975520828,
+    "fp32_rebuilt_field": 0.5628783350129087
+  },
+  "positive_prompts": {
+    "fp16_replay": 20,
+    "fp32_fixed_field": 20,
+    "fp32_rebuilt_field": 20
+  },
+  "max_abs_change": {
+    "fp32_fixed_field": 0.006264604150862496,
+    "fp32_rebuilt_field": 0.04034356704790687
+  },
+  "magnitude_stable": {
+    "fp32_fixed_field": true,
+    "fp32_rebuilt_field": true
+  },
+  "status": "PRECISION_STABLE_ON_FULL_SUITE",
+  "interpretation_boundary": "All 20 previously seen texts, including four with known FP32 pilot results. Engineering sensitivity only, not population equivalence, independent prompt replication, or semantic control.",
+  "failing_prompts": {
+    "fp16_replay": [],
+    "fp32_fixed_field": [],
+    "fp32_rebuilt_field": []
+  },
+  "subsets": {
+    "pilot4": {
+      "n_prompts": 4,
+      "means": {
+        "fp16_replay": 0.34481984651016107,
+        "fp32_fixed_field": 0.34543932845084474,
+        "fp32_rebuilt_field": 0.343053568336609
+      },
+      "positive_prompts": {
+        "fp16_replay": 4,
+        "fp32_fixed_field": 4,
+        "fp32_rebuilt_field": 4
+      },
+      "max_abs_change": {
+        "fp32_fixed_field": 0.0028003619623237774,
+        "fp32_rebuilt_field": 0.014061959001560487
+      }
+    },
+    "remaining16": {
+      "n_prompts": 16,
+      "means": {
+        "fp16_replay": 0.6211596909637995,
+        "fp32_fixed_field": 0.6211807898273924,
+        "fp32_rebuilt_field": 0.6178345266819837
+      },
+      "positive_prompts": {
+        "fp16_replay": 16,
+        "fp32_fixed_field": 16,
+        "fp32_rebuilt_field": 16
+      },
+      "max_abs_change": {
+        "fp32_fixed_field": 0.006264604150862496,
+        "fp32_rebuilt_field": 0.04034356704790687
+      }
+    }
+  },
+  "active_tokens": {
+    "fp16_replay": 528,
+    "fp32_fixed_field": 528,
+    "fp32_rebuilt_field": 528
+  },
+  "activity_changes_vs_fp16": {
+    "fp32_fixed_field": 0,
+    "fp32_rebuilt_field": 0
+  },
+  "response_support": {
+    "fp16_replay": {
+      "status": "SUPPORTED_WITHIN_SAMPLE",
+      "complete_early_coverage": true,
+      "expected_prompt_bins": 80,
+      "observed_prompt_bins": 80,
+      "missing_prompt_bins": [],
+      "primary": {
+        "metric": "next_token_logprob_delta",
+        "contrast_type": "odd",
+        "bins": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "aggregation": "Existing seed-matched signed estimator; equal mean of all four early bin coefficients within each prompt.",
+        "coverage_rule": "All four early bins must be finite for each of all 20 prompts in every arm. No imputation or reduced-prompt primary claim.",
+        "stability_rule": "Every prompt early coefficient must remain positive in all three arms; BOTH native-FP32 arms must differ from FP16 replay by at most 0.05 absolute for every prompt. Otherwise retain PRECISION_SENSITIVE_ON_FULL_SUITE or INSUFFICIENT_COVERAGE and the individual failures.",
+        "tolerance_interpretation": "Prespecified engineering sensitivity bound, not statistical or population equivalence. Always report actual deltas and separate fixed-field from rebuilt-field changes.",
+        "response_support_rule": "Separate from precision sensitivity: reuse the prior L7 early response endpoint, complete 80-bin coverage and positive lower bound of a two-sided 95% percentile prompt-bootstrap interval, 5000 draws, seed1729. This cannot override a failed precision decision."
+      },
+      "interpretation_boundary": "Within-sample layer generalization only; not independent prompt replication or semantic control.",
+      "mean": 0.5658917220730718,
+      "ci_lower": 0.4603412763704331,
+      "ci_upper": 0.6678251907817977,
+      "n_prompts": 20
+    },
+    "fp32_fixed_field": {
+      "status": "SUPPORTED_WITHIN_SAMPLE",
+      "complete_early_coverage": true,
+      "expected_prompt_bins": 80,
+      "observed_prompt_bins": 80,
+      "missing_prompt_bins": [],
+      "primary": {
+        "metric": "next_token_logprob_delta",
+        "contrast_type": "odd",
+        "bins": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "aggregation": "Existing seed-matched signed estimator; equal mean of all four early bin coefficients within each prompt.",
+        "coverage_rule": "All four early bins must be finite for each of all 20 prompts in every arm. No imputation or reduced-prompt primary claim.",
+        "stability_rule": "Every prompt early coefficient must remain positive in all three arms; BOTH native-FP32 arms must differ from FP16 replay by at most 0.05 absolute for every prompt. Otherwise retain PRECISION_SENSITIVE_ON_FULL_SUITE or INSUFFICIENT_COVERAGE and the individual failures.",
+        "tolerance_interpretation": "Prespecified engineering sensitivity bound, not statistical or population equivalence. Always report actual deltas and separate fixed-field from rebuilt-field changes.",
+        "response_support_rule": "Separate from precision sensitivity: reuse the prior L7 early response endpoint, complete 80-bin coverage and positive lower bound of a two-sided 95% percentile prompt-bootstrap interval, 5000 draws, seed1729. This cannot override a failed precision decision."
+      },
+      "interpretation_boundary": "Within-sample layer generalization only; not independent prompt replication or semantic control.",
+      "mean": 0.5660324975520828,
+      "ci_lower": 0.4607574846911099,
+      "ci_upper": 0.6677766420759329,
+      "n_prompts": 20
+    },
+    "fp32_rebuilt_field": {
+      "status": "SUPPORTED_WITHIN_SAMPLE",
+      "complete_early_coverage": true,
+      "expected_prompt_bins": 80,
+      "observed_prompt_bins": 80,
+      "missing_prompt_bins": [],
+      "primary": {
+        "metric": "next_token_logprob_delta",
+        "contrast_type": "odd",
+        "bins": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "aggregation": "Existing seed-matched signed estimator; equal mean of all four early bin coefficients within each prompt.",
+        "coverage_rule": "All four early bins must be finite for each of all 20 prompts in every arm. No imputation or reduced-prompt primary claim.",
+        "stability_rule": "Every prompt early coefficient must remain positive in all three arms; BOTH native-FP32 arms must differ from FP16 replay by at most 0.05 absolute for every prompt. Otherwise retain PRECISION_SENSITIVE_ON_FULL_SUITE or INSUFFICIENT_COVERAGE and the individual failures.",
+        "tolerance_interpretation": "Prespecified engineering sensitivity bound, not statistical or population equivalence. Always report actual deltas and separate fixed-field from rebuilt-field changes.",
+        "response_support_rule": "Separate from precision sensitivity: reuse the prior L7 early response endpoint, complete 80-bin coverage and positive lower bound of a two-sided 95% percentile prompt-bootstrap interval, 5000 draws, seed1729. This cannot override a failed precision decision."
+      },
+      "interpretation_boundary": "Within-sample layer generalization only; not independent prompt replication or semantic control.",
+      "mean": 0.5628783350129087,
+      "ci_lower": 0.4577594005830724,
+      "ci_upper": 0.6659136951329078,
+      "n_prompts": 20
+    }
+  },
+  "protocol": {
+    "path": "docs/data/hltd_precision_l7_full/protocol.json",
+    "bytes": 23598,
+    "sha256": "cb00ff05f7a6345578ba446abb062bd94718ccf7dd41f8288d9a0199d8beed82"
+  }
+}

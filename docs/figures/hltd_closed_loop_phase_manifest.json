@@ -1,0 +1,893 @@
+{
+  "schema": "hltd_closed_loop_phase_evidence.v1",
+  "analysis_manifest": {
+    "path": "spiral_out_hltd_closed_loop_phase_audit_v1/phase_audit_manifest.json",
+    "sha256": "f06ffb6e4805afb1276bdb9ee875b5c28158239955499a2dd2e2fb9d3480b918",
+    "bytes": 43906
+  },
+  "sources": [
+    {
+      "source_id": "spiral_out_hltd_branch_band_runs/07__identity_stress__coexact__l4_5_7__k16__a0p8__s0_4",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_branch_band_runs/07__identity_stress__coexact__l4_5_7__k16__a0p8__s0_4/closed_loop_steps.csv",
+        "sha256": "5f99ba3bb67d6ff2303e9a99eb29c74110e9c44eff6e35d27686d5c3c11e0e2b",
+        "bytes": 505677
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_branch_band_runs/07__identity_stress__coexact__l4_5_7__k16__a0p8__s0_4/closed_loop_manifest.json",
+        "sha256": "8787e28eb72910d95ed9fd162aaa89a169faaba90c9e8e5fb37ccd361777c079",
+        "bytes": 15489
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 900,
+      "n_prompts": 5,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 420,
+      "deterministic_rows_removed": 480
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_affordance5_prompt_robust_l7_k16_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_affordance5_prompt_robust_l7_k16_a08/closed_loop_steps.csv",
+        "sha256": "4f08eced4295d7e3297aad280b17ee8521a7129eaeb30d8274eaf0bc7e11edef",
+        "bytes": 71099
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_affordance5_prompt_robust_l7_k16_a08/closed_loop_manifest.json",
+        "sha256": "8a7017482ceb123560dac7de314ffe194ed1e4b415b07d07938a5c6f82cba04f",
+        "bytes": 5449
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 120,
+      "n_prompts": 5,
+      "random_seeds": [
+        0
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 120,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_alpha_k_grid_l7",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_alpha_k_grid_l7/closed_loop_steps.csv",
+        "sha256": "7088b16d7352ad796f6e6b420278ce085ce9a6481fd366926b9825f139005546",
+        "bytes": 185796
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_alpha_k_grid_l7/closed_loop_manifest.json",
+        "sha256": "bd3440b82ab705d92b73e7b12336d6bb2ac613619db2d04cd208f000ffebf0d8",
+        "bytes": 6442
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 312,
+      "n_prompts": 2,
+      "random_seeds": [
+        0
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 312,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_branch_panel_l7_k16_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_branch_panel_l7_k16_a08/closed_loop_steps.csv",
+        "sha256": "c102ad1aaed2977dd72eb6f48b0944d5a458d5364718dc695696ccad4bfc99bb",
+        "bytes": 42742
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_branch_panel_l7_k16_a08/closed_loop_manifest.json",
+        "sha256": "3bde9e68104b103a1057c14c05cfe5b2c77d287472f972641c25b0abd349d1d0",
+        "bytes": 3421
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 72,
+      "n_prompts": 3,
+      "random_seeds": [
+        0
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 72,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_branch_panel_l7_k16_a08_steps8",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_branch_panel_l7_k16_a08_steps8/closed_loop_steps.csv",
+        "sha256": "d4aee4c617f053550149891f9bdf94a1f1a87105cb10a0883f1eabdc56439158",
+        "bytes": 84569
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_branch_panel_l7_k16_a08_steps8/closed_loop_manifest.json",
+        "sha256": "522e8ff2ebd4b0e3eff650ae6c70e1e408b64171fd87911ff0f943291ca6fd1e",
+        "bytes": 3421
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 144,
+      "n_prompts": 3,
+      "random_seeds": [
+        0
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 8,
+      "unique_rows": 144,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_identity02_branch_surface_l4_5_7_k12_16_24_a04_08_12_s0_19",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_identity02_branch_surface_l4_5_7_k12_16_24_a04_08_12_s0_19/closed_loop_steps.csv",
+        "sha256": "a61aa6085b7dcfc44c8a42de9647740e2e750f81e06411c7b01f224265c33989",
+        "bytes": 8171743
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_identity02_branch_surface_l4_5_7_k12_16_24_a04_08_12_s0_19/closed_loop_manifest.json",
+        "sha256": "3802b245dc2219c44d2a97628a90fff16944984b46a2d612fd18ce6ae69ad127",
+        "bytes": 9898
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 13680,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 2736,
+      "deterministic_rows_removed": 10944
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_identity02_prompt_heldout_branch_surface_l4_5_7_k12_16_24_a04_08_12_s0_19",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_identity02_prompt_heldout_branch_surface_l4_5_7_k12_16_24_a04_08_12_s0_19/closed_loop_steps.csv",
+        "sha256": "12aee5930b97e0b21b2be3db46301ec6c6c48f5df68f8ead86cda8e70d85b8b9",
+        "bytes": 8392820
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_identity02_prompt_heldout_branch_surface_l4_5_7_k12_16_24_a04_08_12_s0_19/closed_loop_manifest.json",
+        "sha256": "15f89441420c068e789efc3ee38910bb0038af9609f6a2a73e0fdbe0f65cfa49",
+        "bytes": 16156
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 13680,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 2736,
+      "deterministic_rows_removed": 10944
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_identity5_prompt_robust_l7_k16_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_identity5_prompt_robust_l7_k16_a08/closed_loop_steps.csv",
+        "sha256": "3e6628f04c58dca12bf7e8c84c1e4910c8db8ac18e467a4c4f3e247e1020b407",
+        "bytes": 70896
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_identity5_prompt_robust_l7_k16_a08/closed_loop_manifest.json",
+        "sha256": "a575176845ea63bcf2a90dd6783e069fd2209d5a21ec1923a600ad0854143f51",
+        "bytes": 5369
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 120,
+      "n_prompts": 5,
+      "random_seeds": [
+        0
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 120,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_k_pilot_l7_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_k_pilot_l7_a08/closed_loop_steps.csv",
+        "sha256": "45e850d4c38c3e8a1646d696fc75b78741acf51d50cc4a0e17936974eeb824f1",
+        "bytes": 84867
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_k_pilot_l7_a08/closed_loop_manifest.json",
+        "sha256": "58e4efbc50b0bea14454954a262b904d43c0a8a8ecec66ef8121800cf1df87b6",
+        "bytes": 6453
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 144,
+      "n_prompts": 2,
+      "random_seeds": [
+        0
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 144,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_layer_pilot_l5_l8_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_layer_pilot_l5_l8_a08/closed_loop_steps.csv",
+        "sha256": "8d2fe37fd44226188237bc892782c9e96bb8799b514ef39e367c8591932b0d7d",
+        "bytes": 113116
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_layer_pilot_l5_l8_a08/closed_loop_manifest.json",
+        "sha256": "3f80d1f4369b8effdef5a911032906a5411d6d3c37a27a80b66b335621a06f75",
+        "bytes": 8415
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 192,
+      "n_prompts": 2,
+      "random_seeds": [
+        0
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 192,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_ontology5_prompt_robust_l7_k16_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_ontology5_prompt_robust_l7_k16_a08/closed_loop_steps.csv",
+        "sha256": "cc55d930c95bb9f45f5f4c5ace267e163bb1cb758e606869603df471c2182e84",
+        "bytes": 70925
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_ontology5_prompt_robust_l7_k16_a08/closed_loop_manifest.json",
+        "sha256": "45709e9c27aa78a41372912a6f3a25e97e57da47fbb35d69d0c7ed8a6556e64b",
+        "bytes": 5429
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 120,
+      "n_prompts": 5,
+      "random_seeds": [
+        0
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 120,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_ontology_alpha_narrow",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_ontology_alpha_narrow/closed_loop_steps.csv",
+        "sha256": "993299b4436fdd79bf715adcc3e2ee621065c8807d0f58a9bf4482df016e439b",
+        "bytes": 6563
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_ontology_alpha_narrow/closed_loop_manifest.json",
+        "sha256": "0bfeeb8e51476618497263b9f3444db1202f0df0e872736002161d0f9318098b",
+        "bytes": 1364
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 10,
+      "n_prompts": 1,
+      "random_seeds": [],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 2,
+      "unique_rows": 10,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_ontology_alpha_sweep",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_ontology_alpha_sweep/closed_loop_steps.csv",
+        "sha256": "e72ba4c920ce1827a1c7c02d82eab37b1d278bded85f122ba0689f370a6cca5c",
+        "bytes": 9045
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_ontology_alpha_sweep/closed_loop_manifest.json",
+        "sha256": "6a2c5964d75a4774189707e222d5c08bf8dd121c51efdeb2ffce09efca193d0b",
+        "bytes": 1385
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 14,
+      "n_prompts": 1,
+      "random_seeds": [],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 2,
+      "unique_rows": 14,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_ontology_tiny",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_ontology_tiny/closed_loop_steps.csv",
+        "sha256": "ce0f4d1e33e948cea2a98784b9edb4818ad60ddd212fc0afa118e65b1ec2b951",
+        "bytes": 4118
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_ontology_tiny/closed_loop_manifest.json",
+        "sha256": "7a32a5d287c8634ed47ea96c96d17f3b92326ea2777694f2292f846296b715c3",
+        "bytes": 1366
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 6,
+      "n_prompts": 1,
+      "random_seeds": [],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 2,
+      "unique_rows": 6,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_reverse_exception_lk_probe_l5_l8_k12_k24_a08_s01",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_reverse_exception_lk_probe_l5_l8_k12_k24_a08_s01/closed_loop_steps.csv",
+        "sha256": "eb5369b08b1246fba691d85f230706692a1585583b28b3c5dc0a24b3a3ad1b65",
+        "bytes": 245028
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_reverse_exception_lk_probe_l5_l8_k12_k24_a08_s01/closed_loop_manifest.json",
+        "sha256": "139a944d38030efa76ad1c36e7a041c661e63a3cfd0a84998b84b980271a01a5",
+        "bytes": 18291
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 432,
+      "n_prompts": 2,
+      "random_seeds": [
+        0,
+        1
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 288,
+      "deterministic_rows_removed": 144
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_reverse_identity04_passing_band_l5_l7_k16_k24_a08_s04",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_reverse_identity04_passing_band_l5_l7_k16_k24_a08_s04/closed_loop_steps.csv",
+        "sha256": "1e4e175d9c6aa5dfbdf69c708083a4cb7aeb5ff47d4de18c6ad6ee6a3a77fa0d",
+        "bytes": 136140
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_reverse_identity04_passing_band_l5_l7_k16_k24_a08_s04/closed_loop_manifest.json",
+        "sha256": "efdcee116fe4ab9bd270121e2ecfe4cd9c2e249397c83c80ade6fce8634dc069",
+        "bytes": 4348
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 240,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 112,
+      "deterministic_rows_removed": 128
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_reverse_ontology05_passing_band_l7_l8_k12_k24_a08_s04",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_reverse_ontology05_passing_band_l7_l8_k12_k24_a08_s04/closed_loop_steps.csv",
+        "sha256": "d65759cf6ad4c841374eb508436c92b989d7833b574ae12e4512ae43b4f26882",
+        "bytes": 204182
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_reverse_ontology05_passing_band_l7_l8_k12_k24_a08_s04/closed_loop_manifest.json",
+        "sha256": "7ea48c754238492f4126ec6c6793c37ddf90afdf4c914955ade9d26eeef91499",
+        "bytes": 6382
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 360,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 168,
+      "deterministic_rows_removed": 192
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_seed_probe_affordance01_03_l7_k16_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_seed_probe_affordance01_03_l7_k16_a08/closed_loop_steps.csv",
+        "sha256": "2b256c0643d3cf5b3c5448baaa3a3c30b9542a15e0c0767f61c7937dfaf88fb5",
+        "bytes": 141337
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_seed_probe_affordance01_03_l7_k16_a08/closed_loop_manifest.json",
+        "sha256": "36237cabc1620146b2b850d5f5ce17b551b7a2d2aa2b0d3df8fd99b4596aa6bc",
+        "bytes": 2461
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 240,
+      "n_prompts": 2,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 80,
+      "deterministic_rows_removed": 160
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_seed_probe_ontology01_05_l7_k16_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_seed_probe_ontology01_05_l7_k16_a08/closed_loop_steps.csv",
+        "sha256": "f0351311683b4e0e385f9e0fed03e064bfea17c9d358bf5fa0384b6eaa077e8a",
+        "bytes": 140692
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_seed_probe_ontology01_05_l7_k16_a08/closed_loop_manifest.json",
+        "sha256": "f2b497e2e5f7aeb4fb686eb22eeefdbac5c4ffa39d869b53b9efb3db107836aa",
+        "bytes": 2448
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 240,
+      "n_prompts": 2,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 80,
+      "deterministic_rows_removed": 160
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_seed_reuse_smoke",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_seed_reuse_smoke/closed_loop_steps.csv",
+        "sha256": "f6b50db8ee15761ca421d5887549b371f0df3c1cdeaf84deb006431e155c54c7",
+        "bytes": 4019
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_seed_reuse_smoke/closed_loop_manifest.json",
+        "sha256": "976b3a9a70e82f04dfa18473032f1481e3b6f629fd05b5ca7fd179a1728f68a5",
+        "bytes": 1621
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 6,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 1,
+      "unique_rows": 4,
+      "deterministic_rows_removed": 2
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_sign_control_affordance01_03_l7_k16_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_sign_control_affordance01_03_l7_k16_a08/closed_loop_steps.csv",
+        "sha256": "70b3e86dc0e2b45a2239a81bec11ce0403ef1292fe7e89f626558e633f7ddb5d",
+        "bytes": 68877
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_sign_control_affordance01_03_l7_k16_a08/closed_loop_manifest.json",
+        "sha256": "64214f29298da289b582fdbac9042141e88a4a42f867d5522681b523cc8db51c",
+        "bytes": 2395
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 120,
+      "n_prompts": 2,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 56,
+      "deterministic_rows_removed": 64
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_sign_control_identity02_ontology05_l7_k16_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_sign_control_identity02_ontology05_l7_k16_a08/closed_loop_steps.csv",
+        "sha256": "5179d9146ae9e4b293787d11809bbd4b4823d6b2cf4aa9ef4530f1f421256c79",
+        "bytes": 68665
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_sign_control_identity02_ontology05_l7_k16_a08/closed_loop_manifest.json",
+        "sha256": "8a5fcb2b7de612155ee7bf200b68d80c3bd7e8ffb81c75eabeee2735d26550f9",
+        "bytes": 2378
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 120,
+      "n_prompts": 2,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 56,
+      "deterministic_rows_removed": 64
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_sign_control_identity5_l7_k16_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_sign_control_identity5_l7_k16_a08/closed_loop_steps.csv",
+        "sha256": "db171869da6618a4f526f7a345a5f6d402f6c93171d77c64eb73c0730a8fb63d",
+        "bytes": 170453
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_sign_control_identity5_l7_k16_a08/closed_loop_manifest.json",
+        "sha256": "f56d5bb64dfa5925624bf0eaf730ecffd027cd7932ed0e05234d10d14a829ec9",
+        "bytes": 5331
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 300,
+      "n_prompts": 5,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 140,
+      "deterministic_rows_removed": 160
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_sign_control_ontology5_l7_k16_a08",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_sign_control_ontology5_l7_k16_a08/closed_loop_steps.csv",
+        "sha256": "8c6bb9bb846d71bbe6f518d4c85eff85104ded948542a779057a7a1e88954bd4",
+        "bytes": 170493
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_sign_control_ontology5_l7_k16_a08/closed_loop_manifest.json",
+        "sha256": "6f8fe88c3cccecf092a3d1c30e3822eeaad89485204a1d31d18933a9db4908e2",
+        "bytes": 5391
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 300,
+      "n_prompts": 5,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 140,
+      "deterministic_rows_removed": 160
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_smoke_tiny",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_smoke_tiny/closed_loop_steps.csv",
+        "sha256": "524059e753b2cecda321ddac5d78f6b2cf6c0053c15b783a2d8c1b4e0203f43b",
+        "bytes": 4119
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_smoke_tiny/closed_loop_manifest.json",
+        "sha256": "764f80115176d5033ae09414ddacf5595ae5b3f3f22562cb81c0fc936e11b4f4",
+        "bytes": 1357
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 6,
+      "n_prompts": 1,
+      "random_seeds": [],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 2,
+      "unique_rows": 6,
+      "deterministic_rows_removed": 0
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_target_sensitivity_identity04_l7_k16_door_object_a08_s04",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_identity04_l7_k16_door_object_a08_s04/closed_loop_steps.csv",
+        "sha256": "26c8e223e53daf5b7a19fabe5b4cb36662008d552049459be792d8c151c17c6e",
+        "bytes": 34908
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_identity04_l7_k16_door_object_a08_s04/closed_loop_manifest.json",
+        "sha256": "9900d1caf59cc111173b5bfe7fec19668403d5db922579b9a1adde745c7c426c",
+        "bytes": 1340
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 60,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 28,
+      "deterministic_rows_removed": 32
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_target_sensitivity_identity04_l7_k16_generic_control_a08_s04",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_identity04_l7_k16_generic_control_a08_s04/closed_loop_steps.csv",
+        "sha256": "87648796548af2b25cce0050fceea3e7d7ebc5b14c1214a9c368f71cb9197d16",
+        "bytes": 35011
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_identity04_l7_k16_generic_control_a08_s04/closed_loop_manifest.json",
+        "sha256": "f777613da84710d4325201ae8f7b255baa149f03f461e99121369c89586d2db3",
+        "bytes": 1567
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 60,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 28,
+      "deterministic_rows_removed": 32
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_target_sensitivity_identity04_l7_k16_mirror_mask_a08_s04",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_identity04_l7_k16_mirror_mask_a08_s04/closed_loop_steps.csv",
+        "sha256": "1962385582514b4c723452bd9ccdea2135fbebe320774f76748679517b2aa1d9",
+        "bytes": 34849
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_identity04_l7_k16_mirror_mask_a08_s04/closed_loop_manifest.json",
+        "sha256": "365460da66c8766ab58d5987210f317778057ecb643346e50e224b0a230b7ecf",
+        "bytes": 1555
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 60,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 28,
+      "deterministic_rows_removed": 32
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_target_sensitivity_ontology05_l8_k16_map_road_a08_s04",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_ontology05_l8_k16_map_road_a08_s04/closed_loop_steps.csv",
+        "sha256": "b97ad41b96b6b40776ae9fe47564c80ba7f0bc711e1a1ceb6d218ef4d515d7cf",
+        "bytes": 34623
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_ontology05_l8_k16_map_road_a08_s04/closed_loop_manifest.json",
+        "sha256": "b257e58e368deb89791dd910d2688c46e7cb9a26cc9ee4f483fe037080f14c39",
+        "bytes": 1586
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 60,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 28,
+      "deterministic_rows_removed": 32
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_target_sensitivity_ontology05_l8_k16_moon_celestial_a08_s04",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_ontology05_l8_k16_moon_celestial_a08_s04/closed_loop_steps.csv",
+        "sha256": "3b62badfa6b5d8c5f517dbe82e0f8208dff1f77ae2dc237b041c0650f2af41a5",
+        "bytes": 35014
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_ontology05_l8_k16_moon_celestial_a08_s04/closed_loop_manifest.json",
+        "sha256": "69a3545d01555efd1ae1abec48e44d40fd63f201fed2f2232a6b06a7ba2335ae",
+        "bytes": 1604
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 60,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 28,
+      "deterministic_rows_removed": 32
+    },
+    {
+      "source_id": "spiral_out_hltd_closed_loop_target_sensitivity_ontology05_l8_k16_surreal_control_a08_s04",
+      "steps": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_ontology05_l8_k16_surreal_control_a08_s04/closed_loop_steps.csv",
+        "sha256": "d811b2b160ecf4f200b89d841104a1813191b05c3ae97da5024b2e264e8effa5",
+        "bytes": 35060
+      },
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_closed_loop_target_sensitivity_ontology05_l8_k16_surreal_control_a08_s04/closed_loop_manifest.json",
+        "sha256": "e1d364b5d1f91b8bda824d897c0921c82368a96e1d0708c675d1eaa7440fe84f",
+        "bytes": 1607
+      },
+      "model_ref": "/Users/ryospiralarchitect/SpiralReality/model/gpt2",
+      "raw_rows": 60,
+      "n_prompts": 1,
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "field_contract": "legacy_unrecorded",
+      "position_origin": "recovered_centered_step1",
+      "declared_max_steps": 4,
+      "unique_rows": 28,
+      "deterministic_rows_removed": 32
+    }
+  ],
+  "code": [
+    {
+      "path": "/Users/ryospiralarchitect/spiral-hodge/scripts/summarize_hltd_closed_loop_phase.py",
+      "sha256": "0ea80b8ec7a7a982e166be3682fcfd2fe739b39e3575bde09ca8e62f8ee8dc4c",
+      "bytes": 24895
+    },
+    {
+      "path": "/Users/ryospiralarchitect/spiral-hodge/scripts/hltd_position.py",
+      "sha256": "3710f138dd8645cf0c136cafa70a88b0422feb0e19dc30434f48c0b39c8bd987",
+      "bytes": 778
+    },
+    {
+      "path": "/Users/ryospiralarchitect/spiral-hodge/scripts/plot_hltd_closed_loop_phase.py",
+      "sha256": "67648b92a05eccc6dd067acebf49e7358293bbf9b4a36d82830f22bf9ec4f4a9",
+      "bytes": 10283
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "data/hltd_closed_loop_phase/phase_summary.csv",
+      "sha256": "5e7d41a54e31f32c513a1ed5cab53061a84feb5b5872ef8b586ac8a727b752dd",
+      "bytes": 657912,
+      "rows": 2448
+    },
+    {
+      "path": "data/hltd_closed_loop_phase/phase_random_gaps.csv",
+      "sha256": "90b810734b056d36956354767b849a56a0abe3044a067d1e92d4f2b52936d157",
+      "bytes": 140220,
+      "rows": 410
+    },
+    {
+      "path": "data/hltd_closed_loop_phase/phase_prompt_random_gaps.csv",
+      "sha256": "2b863865773e368d7305e5d7f996bd5c64084b4a29876bf971d2b15a069295b7",
+      "bytes": 173733,
+      "rows": 558
+    },
+    {
+      "path": "figures/hltd_closed_loop_phase_occupancy.png",
+      "sha256": "e90129cdc0acd97cf6fc064ccf35eb9097a69a6fa052c64b694b1b0a88669963",
+      "bytes": 238248
+    },
+    {
+      "path": "figures/hltd_closed_loop_phase_random_gaps.png",
+      "sha256": "aca1db5137720783b433f78f03de9b3e68283bca6848a19b0ea64bdcb4f82ef5",
+      "bytes": 113488
+    }
+  ]
+}

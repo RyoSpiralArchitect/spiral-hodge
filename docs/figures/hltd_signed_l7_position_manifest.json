@@ -1,0 +1,340 @@
+{
+  "schema_version": 1,
+  "experiment": "hltd_signed_l7_early_position_gate",
+  "protocol": {
+    "path": "docs/data/hltd_signed_l7_position/protocol.json",
+    "bytes": 20589,
+    "sha256": "504e8301222b563d1ac1f43ec8e5924bb2202edc2857e41a28ba4f9598777fdb"
+  },
+  "documentation": "docs/hltd_signed_l7_position_gate.md",
+  "primary_status": "SUPPORTED_WITHIN_SAMPLE",
+  "tracked_data": [
+    {
+      "path": "docs/data/hltd_signed_l7_position/batch_diagnostic.json",
+      "bytes": 1725,
+      "sha256": "5223ef3b984a8042724cf86136079ff69f4aa81bc3a019fd7986da04f9a55863"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/complete_late_sensitivity.json",
+      "bytes": 498,
+      "sha256": "84dd2668a13801c2da8be7224058e4c4f532b929e65374cf6ad1d1c8eed3f64d"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/execution_receipt.json",
+      "bytes": 1232,
+      "sha256": "05b1758db52b92ab80718d5c67f17f49c3c33de486e1920a72eb4ffe30bc17a6"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/gate_verdict.json",
+      "bytes": 1475,
+      "sha256": "e564bb69dd6c17ab06f0e77952906c02b5e5320439a81315dfc53792066f85f6"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/independent_raw_audit.json",
+      "bytes": 529,
+      "sha256": "b0846da84ab0ea1b0160b75f21ed245969aa1126d86da5df9298b2766ae38ecc"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/preflight_legacy_fp16.json",
+      "bytes": 12946,
+      "sha256": "c276603e159c5fae1af2e0cb11bc23d2bf8808ad2b2e85c7b19cf3551c0cbf3c"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/primary_early_coverage.csv",
+      "bytes": 1299,
+      "sha256": "fbfb3a2af58b82c0efaabdda204b028bc9eaaeaf7d33b928ce983f1afceb023d",
+      "rows": 80
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/protocol.json",
+      "bytes": 20589,
+      "sha256": "504e8301222b563d1ac1f43ec8e5924bb2202edc2857e41a28ba4f9598777fdb"
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/summary_family_position_response.csv",
+      "bytes": 42587,
+      "sha256": "9ac1493264c7ac9db36ad6e7f04b9c775c5e46a3377051be8453c574a8cdb067",
+      "rows": 192
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/summary_position_coverage.csv",
+      "bytes": 2048,
+      "sha256": "a912c3b0701aedab012f4f73624f66e226369d33974dab781566ac276baa5f5c",
+      "rows": 12
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/summary_position_phase_bootstrap.csv",
+      "bytes": 4134,
+      "sha256": "3737cb362b98b10fd275f3f093636ea4a718282da214e1d3ca6827e0c174e511",
+      "rows": 16
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/summary_position_response_bootstrap.csv",
+      "bytes": 16887,
+      "sha256": "5979e9307a45fe4be69701b6722cb7071cf7791d9fb867cda5dc0242a412417b",
+      "rows": 48
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/summary_position_trend_bootstrap.csv",
+      "bytes": 1312,
+      "sha256": "7a5229dbe4b6eb9856917320649a70559b553251dcce0c3eb0c2aee9e49cd4c7",
+      "rows": 4
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/summary_prompt_bin_response_coefficients.csv",
+      "bytes": 258995,
+      "sha256": "a8ff39691d95847229c8f607dfb11851bfc8464ca4b9ac194cb4f09f81a33644",
+      "rows": 952
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/summary_prompt_position_phases.csv",
+      "bytes": 58824,
+      "sha256": "1693c2d726a2b097afb208eef1495f010bb37a08f89e604448213b8f599a2a5f",
+      "rows": 320
+    },
+    {
+      "path": "docs/data/hltd_signed_l7_position/zero_batch_calibration.json",
+      "bytes": 171395,
+      "sha256": "99db3809ec5b85614b04972a566032d6f41fa2e7afad560e05895a265977e6c2"
+    }
+  ],
+  "tracked_figures": [
+    {
+      "path": "docs/figures/hltd_signed_l7_position_profile.png",
+      "bytes": 278651,
+      "sha256": "68366f8c5266f23d2fc6f986932a067a3b2ccaa8420370a2186f439ab5eebd31"
+    },
+    {
+      "path": "docs/figures/hltd_signed_l7_family_position_profile.png",
+      "bytes": 286033,
+      "sha256": "6b502c80ddf9781f5a1bccddb6cd645dbb2b0f79dacd35d6dffff27f4f14b5e9"
+    },
+    {
+      "path": "docs/figures/hltd_signed_l7_position_coverage.png",
+      "bytes": 80119,
+      "sha256": "37c41f2f653ce5cbea9f792a35c9f6d3e11002321db63d16dbc21e8fb5133a1f"
+    }
+  ],
+  "ignored_source_artifacts": [
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/summary.csv",
+      "bytes": 48940121,
+      "sha256": "a4922f6a2561985d82ca5dee066df76ce11e223f645973d32b71eecb6c07b1b8",
+      "rows": 54144
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/run.log",
+      "bytes": 4417,
+      "sha256": "c9699c6df28bb3c639e416b56176dae12c9ca3286016298b4c055e605d900d53"
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/execution_started.json",
+      "bytes": 1159,
+      "sha256": "b21cee5e7b77640392e5679127ca5c7ce85a07f99e644469b0beb43549833edd"
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/execution_receipt.json",
+      "bytes": 1232,
+      "sha256": "05b1758db52b92ab80718d5c67f17f49c3c33de486e1920a72eb4ffe30bc17a6"
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/identity_stress__identity_01__L7__k16/steering_metrics.csv",
+      "bytes": 2905028,
+      "sha256": "cde4f7daab379f176ade8cabd86a19b07ab2a305c128e90129c43e09c245b284",
+      "rows": 3168
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/identity_stress__identity_02__L7__k16/steering_metrics.csv",
+      "bytes": 2744931,
+      "sha256": "1d742195df08214626da4b620ba1c7750be066ca7b359573e1bf17907416d272",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/identity_stress__identity_03__L7__k16/steering_metrics.csv",
+      "bytes": 2755806,
+      "sha256": "1fadc0e09c4d9ec99ccd754d8ca4651df092a623656602413ade20bc89e21957",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/identity_stress__identity_04__L7__k16/steering_metrics.csv",
+      "bytes": 2472901,
+      "sha256": "f23aa895470aa2a4933f31afa2e625fba173f99b13ef05df00c84100039301df",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/identity_stress__identity_05__L7__k16/steering_metrics.csv",
+      "bytes": 2390180,
+      "sha256": "865349d8bd3a1625199c491cf5255537c5b121c9d19fac307e0c0035061ece8b",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/literal_stable__literal_01__L7__k16/steering_metrics.csv",
+      "bytes": 2925141,
+      "sha256": "7c79f1059d336d18b54cd50db3f27dd1c9a7b30c081fc89405a6198b911ab3be",
+      "rows": 3072
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/literal_stable__literal_02__L7__k16/steering_metrics.csv",
+      "bytes": 2387263,
+      "sha256": "0a44d5cec121d9a11dbb4b08829eca014a98409feeb2d1e9c5911d588d896413",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/literal_stable__literal_03__L7__k16/steering_metrics.csv",
+      "bytes": 2306065,
+      "sha256": "e13dceca3aaeef0a4408c5dcef72b87b4ac2d05f5ba989a5477c68590cbf1f55",
+      "rows": 2496
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/literal_stable__literal_04__L7__k16/steering_metrics.csv",
+      "bytes": 2204783,
+      "sha256": "cd714e1e1c5ee0e11b639a2a87e57410d093036042f847ea3c684a7593ccf8c4",
+      "rows": 2304
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/literal_stable__literal_05__L7__k16/steering_metrics.csv",
+      "bytes": 2199686,
+      "sha256": "4b5772265bfc108978118ebf880f90e0c1b2fa22d071f63207e96d81f66e9783",
+      "rows": 2400
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/metaphor_shift__metaphor_01__L7__k16/steering_metrics.csv",
+      "bytes": 2912988,
+      "sha256": "438b01d65aec86ee702a7c8f528615cbb586cf8db553ff9224d42eb6f9570bb7",
+      "rows": 3168
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/metaphor_shift__metaphor_02__L7__k16/steering_metrics.csv",
+      "bytes": 2564173,
+      "sha256": "2f6bb4d2e45815d8dfdb4af67e878f350d915a7d268637f16bee121857ef05de",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/metaphor_shift__metaphor_03__L7__k16/steering_metrics.csv",
+      "bytes": 2555846,
+      "sha256": "c854960e9b1219f2648e955b6646e4457af2ae93223df213a800ca591d6d3894",
+      "rows": 2784
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/metaphor_shift__metaphor_04__L7__k16/steering_metrics.csv",
+      "bytes": 2471516,
+      "sha256": "c84fa15903a14874f9d5dc0c8f617c3d4723934c765c28e51b6bb844a527e2cc",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/metaphor_shift__metaphor_05__L7__k16/steering_metrics.csv",
+      "bytes": 2291534,
+      "sha256": "15a91cd64382e61c3a14184726d2cd769886a3abb4affef391137cda9480537b",
+      "rows": 2496
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/ontology_collapse__ontology_01__L7__k16/steering_metrics.csv",
+      "bytes": 2747075,
+      "sha256": "499b3c18688aae364e7056604327094212d85517fcdf1ae0e0099ab6df616461",
+      "rows": 2880
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/ontology_collapse__ontology_02__L7__k16/steering_metrics.csv",
+      "bytes": 2479087,
+      "sha256": "cd8b22215731a252f2b4aa728a6dbee61f3c623f7ce0aea858df666ea8b864a3",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/ontology_collapse__ontology_03__L7__k16/steering_metrics.csv",
+      "bytes": 2479138,
+      "sha256": "d2e65b36ee10ca9ad2687348884f48f79334b00a845bf381748467b928a89a09",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/ontology_collapse__ontology_04__L7__k16/steering_metrics.csv",
+      "bytes": 2491461,
+      "sha256": "fb28ef4a07cf569d03175633711ce58f5641ee157d1d3102eb70b45090cad87e",
+      "rows": 2688
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/ontology_collapse__ontology_05__L7__k16/steering_metrics.csv",
+      "bytes": 2384026,
+      "sha256": "3b2f6bacfead1d0927bca84e1166c49641c21f6e0f1340baa97a329c096fb148",
+      "rows": 2592
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/primary_early_coverage.csv",
+      "bytes": 1299,
+      "sha256": "fbfb3a2af58b82c0efaabdda204b028bc9eaaeaf7d33b928ce983f1afceb023d",
+      "rows": 80
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_family_position_response.csv",
+      "bytes": 42587,
+      "sha256": "9ac1493264c7ac9db36ad6e7f04b9c775c5e46a3377051be8453c574a8cdb067",
+      "rows": 192
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_position_coverage.csv",
+      "bytes": 2048,
+      "sha256": "a912c3b0701aedab012f4f73624f66e226369d33974dab781566ac276baa5f5c",
+      "rows": 12
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_position_phase_bootstrap.csv",
+      "bytes": 4134,
+      "sha256": "3737cb362b98b10fd275f3f093636ea4a718282da214e1d3ca6827e0c174e511",
+      "rows": 16
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_position_response_bootstrap.csv",
+      "bytes": 16887,
+      "sha256": "5979e9307a45fe4be69701b6722cb7071cf7791d9fb867cda5dc0242a412417b",
+      "rows": 48
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_position_trend_bootstrap.csv",
+      "bytes": 1312,
+      "sha256": "7a5229dbe4b6eb9856917320649a70559b553251dcce0c3eb0c2aee9e49cd4c7",
+      "rows": 4
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_prompt_bin_response_coefficients.csv",
+      "bytes": 258995,
+      "sha256": "a8ff39691d95847229c8f607dfb11851bfc8464ca4b9ac194cb4f09f81a33644",
+      "rows": 952
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_prompt_bin_signed_contrasts.csv",
+      "bytes": 700905,
+      "sha256": "ff9a3030baa5b0fbb1e9900582e5472814227c61525f79a98fc2d99b548e1c23",
+      "rows": 2856
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_prompt_position_phases.csv",
+      "bytes": 58824,
+      "sha256": "1693c2d726a2b097afb208eef1495f010bb37a08f89e604448213b8f599a2a5f",
+      "rows": 320
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_prompt_position_trends.csv",
+      "bytes": 17473,
+      "sha256": "a6911e704d20a6c22bf17ccba5a2369a41b2096a0be9fb4fad11aa0a17e9b72e",
+      "rows": 80
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_seed_collapsed_position_gaps.csv",
+      "bytes": 1650719,
+      "sha256": "98a39b0db60613c2237f785a1b896a4fcc2176a0ffa86a6bb98300f9815a4bc5",
+      "rows": 6336
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_seed_matched_position_gaps.csv",
+      "bytes": 12927187,
+      "sha256": "3a4e9c952ac3b9576a0efcb3586845acb33c1af6e2d9a84f088bd05bbdb935fb",
+      "rows": 50688
+    },
+    {
+      "path": "spiral_out_hltd_matched_betti_signed_position_l7_full20_s8_20260911/position/summary_token_signed_contrasts.csv",
+      "bytes": 2386516,
+      "sha256": "9e84e4f76f86ebc6160c3461e928e3a0877473dc2fdea9e3c6b99c7a27289ad7",
+      "rows": 6336
+    }
+  ],
+  "interpretation_boundary": "Within-sample, transductive next-token response; not independent prompt replication, semantic control, or full-precision equivalence."
+}

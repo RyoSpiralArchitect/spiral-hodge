@@ -1,0 +1,11 @@
+{
+  "completed_utc": "2026-09-11T15:05:13.959195+00:00",
+  "method": "Independent csv/standard-library reduction: directly subtract steered logprobs, average eight seeds, fit signed response at each token, then average token coefficients within bins. Does not import project analysis helpers.",
+  "raw_rows": 54144,
+  "candidate_token_units": 564,
+  "prompt_bin_coefficients_checked": 952,
+  "coefficient_max_abs_error": 4.440892098500626e-16,
+  "legacy_l5_unsteered_max_abs_error": 0.0,
+  "tolerance": 1e-10,
+  "passed": true
+}

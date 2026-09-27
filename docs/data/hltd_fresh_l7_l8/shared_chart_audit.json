@@ -1,0 +1,786 @@
+{
+  "passed": true,
+  "prompts": [
+    {
+      "prompt_id": "fresh_literal_01",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            32,
+            768
+          ],
+          "b49ae2b9e619c39d6c64cae2d6b0e49b55212893e8ecf0271c2558b1b0f60ba7"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            32,
+            32
+          ],
+          "60ed60ecfcb0c6d430651a6b077cdc9fa8af32508593f98c99c965c1443ae365"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "c2bfe060eb5642f364eb5533d49bd63d0a5a689cc372cb96f033af3eaa1238a2"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "318c129cdc9222423294135f11688ab4003e737ce2f32206de094a5397536fd0"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_literal_02",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            31,
+            768
+          ],
+          "b1a851785aa02bf7ee1cea34a6a4bf132c9425325f6cf34f4fd6ecf3cefafdfe"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            31,
+            32
+          ],
+          "d1da5eabfe8d6d2096aebd56a8d2bf2caede6681684e3b91df6701d2dcbfb850"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "037611f767c5e283b2dcfd90517762205e9497680fdb52a07aac9e4395c7fd91"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "62da37af9cb6d1a5a303da14d789f9a7268fb34364ec9bba7414f10c5fb85364"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_literal_03",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            32,
+            768
+          ],
+          "e9d4de507b2b17ef8d4602707e9cc9842febdba1c0a7468c42b41a361ba2aa3a"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            32,
+            32
+          ],
+          "cb5266b58a7fd4130bb708e5f58dc04b651cca755c061bcda8e3fdd81fa3fd09"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "8ddb1aa17e71766bd10ff3b03cc93bf3f7615537a04c18c87baa2a56b7d3f6ca"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "4b32b4ec2eb9b85eda8d6143ea56e556c9dba86f75a4601cceae0f6cb58799a6"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_literal_04",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            34,
+            768
+          ],
+          "a83989494425cbd099fa3b523979b812a834ebf0b925c89e96a7d69cd7e73503"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            34,
+            32
+          ],
+          "a457e61f6e9a4ada3523faf13cc34da9ce1bd5b15a96342910e5568b0ebd22a7"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "1545a70e7a96372d5239699c54448ee425388c7463f72709ea540c9d6a8100f5"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "76c10c2c5a37f2517acd7b1e89b4a9763214ab590223477df2f6def685d148f5"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_literal_05",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            34,
+            768
+          ],
+          "04368b2f36444a4e5300e12fef70413055fae6b54a505797c9af22cb3d24317a"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            34,
+            32
+          ],
+          "84c9e5be2cfaa1b02828622a8429879b51a90e4d7b35561b586168a603e1032f"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "6bbff25eef8b6c52e13a9328f42d3ba136bcc9632e304ecd61189e63d1029742"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "6411e4cbd33784cd15e525cf5eee317d335d1fb096cc17137f27f46be92dce61"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_metaphor_01",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            31,
+            768
+          ],
+          "61a9897caf0c6ab2583928eec62119fd1e129c5e7bc904bbcc914516ff78f0fe"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            31,
+            32
+          ],
+          "42ecff157ce102c291faf0e8f08ddf65bcded2981545f71b67b8b56bfd584495"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "8cc69c9b8ab5af1385df8fb65f22593fa7a31f899aef815630f7e5736777e26b"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "c0ebcce3202421a195fb6754f00b0b737a7f1ffcf0036967e7dd33f857a4043e"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_metaphor_02",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            33,
+            768
+          ],
+          "fcc1a37f503a1cd4811b6b6307944efbeb712ad9319d4c45c42c8371469b14bd"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            33,
+            32
+          ],
+          "941d377e28ec1b5436aed22eb756f834a2d803d59238fb6e7b8ac65ad2dc6ba1"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "71cbea571c29131bb690f455970718796422ff0ed4a9ba4bc1ae9c0ae627ccfe"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "0d99b7e0d8f37f118c794bc6b1c8e8d3a6df929aff51e4227fd6618924684f17"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_metaphor_03",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            33,
+            768
+          ],
+          "0aa9765340541ca8812f8abe526efeb6b75c4a7bb7e0c785fc56e41cdf6af000"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            33,
+            32
+          ],
+          "5780f345a12362370cb08ed651150048798178259fb8e160476270398ed4d444"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "ad256eb7276339495a49e2576972c3962dde9ab4c182a4c6d38a4196a028c870"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "1b92e3ef1054c76886beda4269962ade6b7d9a8ece81ef265a850550bb746f43"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_metaphor_04",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            32,
+            768
+          ],
+          "be001ffa803327fc2cd3a2323cf47df0bb7a2ac8216367136bf62207f2d02338"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            32,
+            32
+          ],
+          "1f0a84b58af9f68a81eea14179b9ccce8f5f34b396d7914a85aa32a0f5e40935"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "177c85dc343b1453133b6f8c5cf24dee750d4a2de5e695bae29f66f952981a2c"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "dd0b7a5b3a2efdc432781c418bddc0cf9617fe2350f00c29fdc8bfd271448b30"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_metaphor_05",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            31,
+            768
+          ],
+          "1c855a29ec4b56e1a520943c7ff698e7921454aa67f023434aefc1645efb1752"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            31,
+            32
+          ],
+          "ae5afe2a5b942b6ffbecc2d71d1630cb77b076013c106418b8ca3db1d438a5e6"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "06085d89618d69fe72916fada8fd2adbc40281eb578e75ca9923e159a11ba51f"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "64ff9e5e9e2126de624bbac01ad8989377b15db389b975ac2d6546ddf3ef2e4e"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_identity_01",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            33,
+            768
+          ],
+          "14630bb948af2336e7fa8fb9dfe78c3e7c0b11f5967dc0181851ecdbe09374f9"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            33,
+            32
+          ],
+          "53c7e3cae4505c73a7b5bed245ddd197b04ed6fa757f5d8f25256ff81add7231"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "6f35d46fa974341e3a26d9b9f2fbffeea6b5f00d643e2297e44d28e9330d78a5"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "1e5d69350ac50ab4c5129a17df87161f02037b825e49418a8adabec0cd762772"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_identity_02",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            32,
+            768
+          ],
+          "41e5b72972d0b3cd2cdceb63a2d713ff996c5f4406e0424cb9e98f380c1a7caf"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            32,
+            32
+          ],
+          "0a648c65dbbf942fa57a6a6b93e22c12c818f936eaf286345e7a40151947dc24"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "42273999855d27b6c487d01dc9bd3f6abc8a97abcb7d38d097dc2959714cd4de"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "d49c2a8271ddf29e7a27f5647adace695f44f8941ca572a981230e0654d19fdf"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_identity_03",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            33,
+            768
+          ],
+          "f911c0c08dd67fc418590b15fda5a9c3feeb4e2f5f998952cb06c6c249f0059e"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            33,
+            32
+          ],
+          "0889c8d2d3fcebcbccc50855d0f0c80dbe1875f3b0b53cb8483f3203493afadb"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "3643491bc79edce0576cf6e01908014ee1098b688f00deb350caa8993d6bf6d0"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "81a0e752b797fb6e9d07828a07ce611e31dcb8f6beb82a5e1bcc4374e3862c11"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_identity_04",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            32,
+            768
+          ],
+          "9d41990e8647f359db1d6f883801d3d43475f8a99f640dca31f20a7e12b56f20"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            32,
+            32
+          ],
+          "d98e5d03149fe4a457efab83bc3635c58f80daf893df750f566ec771e9359d81"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "8127b57d13ab25f7205d22df68de30d13e306a8cf3c3f83b8a5cd9365726aa57"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "bfdc4be6d11cde64e92062e394c6dd6d3e46cc311c9d433cdfa0673ced1904e8"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_identity_05",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            31,
+            768
+          ],
+          "3daa6c1786909d2648b418b912e4a030eb6d9e016cf07b634e8100c8a31542c6"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            31,
+            32
+          ],
+          "7cd886e6f11bbf9f371490b7b54db058febba62fdcec4e89050c37814403a54e"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "5dc64670db40d6a3a4657f4ee5af4d774cd50bfae199704c69ddf5c7e1ad271e"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "3199de00f8933d8192693f5048ae0f2aa9d11edda20c4fc12b6d63b00fc6ae0e"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_ontology_01",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            31,
+            768
+          ],
+          "14b307acb1ff6ee2ce5803f6ae1a5c74e56c6d00f86c06dce89a76b80c09f703"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            31,
+            32
+          ],
+          "f7fb544f7f3c225c008e6b78a9479f477c9eeaa94eb9be73fe929994a91bf877"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "a667f861738ff1d14ed28e774f4b21849282679ef78ad84feb59dca319a04d7e"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "c61a98eb285956a29847a09a41980987bb4c7a582a409de2c56061729f73b13f"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_ontology_02",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            31,
+            768
+          ],
+          "82363318030c091b7bc803fef9ae52771f041e66145ca6a12e7e21b8e07d3e00"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            31,
+            32
+          ],
+          "235b6209d7e85ea41f3e27ec3d92f2d26a3b8c247a461e8b17ad372688df2474"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "ec117369137670519339581b5a5c230240e97c29181ad1bbf756b0eecefce955"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "d5546af3095bfbf0f2c9a48cd201fbd4a41be8f98f8f8c6ac4b4172e74c54059"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_ontology_03",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            33,
+            768
+          ],
+          "f68fe378b54e35a1dc665ad08375f9c5d62828867ea1d78cef468d35adb5acb7"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            33,
+            32
+          ],
+          "8180822df140bea98aacb393143659192acda94f7d48227380aad8d846544c85"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "d32fa9fe07eb40624c73c8989846453d08a4c0c824a7cc389d4abebd69f22be4"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "e4e1487413f9dfa8baf9be49b5c354d1bf13b059e7e96d4eea4c9ea57b712847"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_ontology_04",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            33,
+            768
+          ],
+          "8f25be0d6cdb1073cecefb88e441877ef70f936189e3fd864199cf56796d6c9f"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            33,
+            32
+          ],
+          "0191465c89835a149dd388741137146143eaa3e84853d0b6c126a60dadcca60e"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "75fb97c88dddc26aa5996ea17a97abc29d3ef6d76e405e9068dba83856ac8b32"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "d22b5ce5e2cb37a3b95bffc5c51ef10bff6fdda970977d20c9b24d2018c107f6"
+        ]
+      },
+      "byte_identical": true
+    },
+    {
+      "prompt_id": "fresh_ontology_05",
+      "arrays": {
+        "hidden": [
+          "float32",
+          [
+            13,
+            34,
+            768
+          ],
+          "d37ef5fee4ab9cae39dcd62b573be144f415512867b3f203488f8ac83a7cfa6b"
+        ],
+        "coords": [
+          "float64",
+          [
+            13,
+            34,
+            32
+          ],
+          "f669fe67c1ba6d01c02b9311144cf0112e5022e171bb07cb5d8a80a5da825bde"
+        ],
+        "pca_components": [
+          "float64",
+          [
+            32,
+            768
+          ],
+          "695c7f70b0ed4e16368e11b43b95b310a44e34f8faa0f0ec351cf14027c41aeb"
+        ],
+        "pca_mean": [
+          "float64",
+          [
+            768
+          ],
+          "6ed2222899a807e86a27e19aab9a5c2b35f39f95b1e9dbd52e76c7503e707624"
+        ]
+      },
+      "byte_identical": true
+    }
+  ],
+  "scope": "Same full-text hidden activations/PCA charts across layer runs; component fields and layer-relative scales still differ."
+}

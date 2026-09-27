@@ -1,0 +1,17 @@
+{
+  "raw": {
+    "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_l8_native_fp32_full20_20260927_continued/reference_bridge_from_shards.csv",
+    "bytes": 13346630,
+    "sha256": "b3f8ecfe5292da152e67580d466f4c009f6add273a032510b428d60246151a09"
+  },
+  "coefficients": {
+    "path": "/Users/ryospiralarchitect/spiral-hodge/spiral_out_hltd_l8_native_fp32_full20_20260927_continued/reference_bridge_coefficients.csv",
+    "bytes": 64017,
+    "sha256": "73275648af5d198063eecaa45d57755bfb56e2034262ba10a8d1c4d9b6f138f9"
+  },
+  "raw_rows": 14784,
+  "active_token_units": 143,
+  "coefficient_count": 236,
+  "max_abs_error": 1.304512053934559e-15,
+  "passed": true
+}
