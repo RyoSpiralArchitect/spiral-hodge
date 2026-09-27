@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -191,6 +192,8 @@ def run(protocol_path: Path) -> None:
 
 
 def _run_pilot(protocol: dict, output_root: Path) -> None:
+    if os.environ.get("PYTORCH_ENABLE_MPS_FALLBACK") == "1":
+        raise ValueError("MPS device fallback must be disabled")
     import platform
     import torch
     import transformers
@@ -215,7 +218,7 @@ def _run_pilot(protocol: dict, output_root: Path) -> None:
     save_json(output_root / "load_audit.json", {
         "models": load_audits, "python": sys.version, "platform": platform.platform(),
         "torch": torch.__version__, "transformers": transformers.__version__, "numpy": np.__version__,
-        "device": design["device"], "autocast": False,
+        "device": design["device"], "autocast": False, "device_fallback": False,
     })
     suite = {item["prompt_id"]: item for item in read_suite(ROOT / protocol["suite"])}
     caches = {}

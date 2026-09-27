@@ -13,6 +13,7 @@ import pytest
 from scripts import analyze_hltd_precision_full_gate as full_analysis
 from scripts import analyze_hltd_precision_gate as pilot_analysis
 from scripts import run_hltd_l8_gate as l8
+from scripts import run_hltd_precision_full_gate as full_runner
 from scripts import run_hltd_precision_gate as pilot
 from scripts.evaluate_hltd_signed_layer_gate import file_receipt, verify_frozen_files
 from scripts.hltd_historical_sources import SNAPSHOT, historical_source_path, verify_historical_inputs
@@ -83,6 +84,30 @@ def test_pilot_accepts_same_contract_and_rejects_rewritten_reference(tmp_path: P
     write_json(tmp_path / pilot.PILOT_REFERENCE, changed)
     with pytest.raises(ValueError, match="canonical pilot protocol changed"):
         pilot.validate_pilot_protocol(changed, tmp_path)
+
+
+@pytest.mark.parametrize("runner", [pilot, full_runner], ids=["pilot", "full"])
+def test_precision_runners_reject_device_fallback_before_model_work(tmp_path: Path, runner) -> None:
+    reference = (ROOT / pilot.PILOT_REFERENCE).read_bytes()
+    local_reference = tmp_path / pilot.PILOT_REFERENCE
+    local_reference.parent.mkdir(parents=True)
+    local_reference.write_bytes(reference)
+    protocol = (json.loads(reference) if runner is pilot else
+                json.loads((ROOT / "docs/data/hltd_precision_l7_full/protocol.json").read_text()))
+    protocol["run_root"] = "spiral_out_fallback_test"
+    path = tmp_path / "candidate.json"
+    write_json(path, protocol)
+    with patch.object(runner, "ROOT", tmp_path), patch.object(runner, "verify_frozen_files"), \
+            patch.dict("os.environ", {"PYTORCH_ENABLE_MPS_FALLBACK": "1"}), \
+            patch.object(pilot.fast, "_load_model_and_tokenizer") as load:
+        with pytest.raises(ValueError, match="MPS device fallback must be disabled"):
+            runner.run(path)
+        load.assert_not_called()
+    output = tmp_path / protocol["run_root"]
+    receipt = json.loads((output / "execution_receipt.json").read_text())
+    assert receipt["status"] == "FAILED"
+    assert "fallback" in receipt["error"]
+    assert not (output / "load_audit.json").exists()
 
 
 def precision_fixture(root: Path, activity: str) -> tuple[Path, dict]:

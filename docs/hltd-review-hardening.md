@@ -32,6 +32,15 @@ the verified relocated copies replace them. Other historical inputs remain
 mandatory. Positive fixtures remove the entire original model directory both
 before and after freeze, then check the new execution receipts strictly.
 
+A fourth review identified the missing MPS fallback guard in the precision
+pilot/full shared runner. It now rejects `PYTORCH_ENABLE_MPS_FALLBACK=1` before
+model work and records `device_fallback: false` in future load audits. Both
+runner entrypoints are tested to retain a failed receipt without calling the
+model loader. Historical precision load audits did **not** record this flag;
+MPS parameter placement alone cannot retroactively establish that fallback was
+disabled. The original evidence is retained with that verification limitation,
+not reclassified as having passed the new guard.
+
 ## Historical evidence
 
 No prior protocol, execution receipt, coefficient, figure, result hash, or failed
