@@ -25,6 +25,13 @@ retain the complete original reference directory, and verify that the relocated
 partial cache still fails before runtime inspection or loading; changed config
 bytes are rejected as well.
 
+A third review checked the opposite relocation case: the requested cache is
+complete, but the original model directory is gone. All original model receipts
+are now excluded from the historical live-file audit and new runtime inventory;
+the verified relocated copies replace them. Other historical inputs remain
+mandatory. Positive fixtures remove the entire original model directory both
+before and after freeze, then check the new execution receipts strictly.
+
 ## Historical evidence
 
 No prior protocol, execution receipt, coefficient, figure, result hash, or failed

@@ -208,8 +208,14 @@ def test_l8_freeze_rejects_missing_required_file_without_protocol(tmp_path: Path
     assert not (tmp_path / "spiral_out_new").exists()
 
 
-def test_l8_freeze_records_all_required_files_and_current_source(tmp_path: Path) -> None:
+@pytest.mark.parametrize("remove_original", ["never", "before_freeze", "after_freeze"])
+def test_l8_freeze_records_all_required_files_and_current_source(tmp_path: Path, remove_original: str) -> None:
     model, required = l8_freeze_fixture(tmp_path)
+    original_model = tmp_path / "reference_model"
+    if remove_original == "before_freeze":
+        for source in original_model.iterdir():
+            source.unlink()
+        original_model.rmdir()
     historical = tmp_path / "scripts/reference.py"
     archived = tmp_path / SNAPSHOT / "scripts/reference.py.txt"
     archived.parent.mkdir(parents=True)
@@ -223,10 +229,31 @@ def test_l8_freeze_records_all_required_files_and_current_source(tmp_path: Path)
     recorded_paths = {tmp_path / record["path"] for record in protocol["frozen_files"]}
     assert set(required) <= recorded_paths
     assert {model / name for name in l8.MODEL_FILES} <= recorded_paths
+    assert not any(path.is_relative_to(original_model) for path in recorded_paths)
+    assert protocol["prior_input_audit"]["verified_relocated_model_files"] == len(l8.MODEL_FILES)
     assert protocol["prior_input_audit"]["source_snapshots"][0]["snapshot"] == str(archived.relative_to(tmp_path))
     record = next(r for r in protocol["frozen_files"] if r["path"] == "scripts/reference.py")
     assert record["sha256"] == file_receipt(historical)["sha256"]
+    if remove_original == "after_freeze":
+        for source in original_model.iterdir():
+            source.unlink()
+        original_model.rmdir()
     verify_frozen_files(protocol, tmp_path)
+
+
+def test_relocation_does_not_skip_unrelated_historical_inputs(tmp_path: Path) -> None:
+    model, _ = l8_freeze_fixture(tmp_path)
+    missing = tmp_path / "historical.csv"
+    missing.write_text("original data\n")
+    reference_path = tmp_path / l8.REFERENCE
+    reference = json.loads(reference_path.read_text())
+    reference["frozen_files"].append(file_receipt(missing))
+    write_json(reference_path, reference)
+    missing.unlink()
+    with patch.object(l8, "ROOT", tmp_path), patch.object(l8, "runtime_snapshot", return_value={}):
+        with pytest.raises(ValueError, match="not repository-local source"):
+            l8.freeze(tmp_path / "new/protocol.json", model, "spiral_out_new")
+    assert not (tmp_path / "new").exists()
 
 
 @pytest.mark.parametrize("missing", sorted(l8.MODEL_FILES))

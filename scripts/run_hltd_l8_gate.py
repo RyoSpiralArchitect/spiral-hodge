@@ -88,6 +88,8 @@ def freeze(path: Path, model_path: Path, run_root: str) -> dict:
         if any(actual[key] != expected[key] for key in ("sha256", "bytes")):
             raise ValueError(f"relocated model input differs from reference: {source}")
         required_model_paths.append(source)
+    original_model_paths = {record["path"] for record in model_records.values()}
+    historical_inputs = [record for record in reference["frozen_files"] if record["path"] not in original_model_paths]
     protocol = {key: copy.deepcopy(reference[key]) for key in ["suite", "target_set_file", "prompts", "design", "analysis"]}
     protocol["design"]["row_constants"]["layer"] = 8
     protocol.update({
@@ -95,7 +97,9 @@ def freeze(path: Path, model_path: Path, run_root: str) -> dict:
         "reference_protocol": REFERENCE, "model_path": str(model_path), "checkpoint_sha256": checkpoint["sha256"],
         "run_root": run_root, "runtime": runtime_snapshot(), "tolerances": {"zero_hook_max_abs": 0.0001},
         "prior_input_audit": {"original_frozen_file_count": len(reference["frozen_files"]),
-            "verified_historical_noncheckpoint_files": len(reference["frozen_files"]) - 1,
+            "verified_historical_nonmodel_files": len(historical_inputs),
+            "verified_relocated_model_files": len(required_model_paths),
+            "original_model_path": reference["model_path"],
             "original_checkpoint_path": old_checkpoint["path"],
             "original_checkpoint_present": (ROOT / old_checkpoint["path"]).exists(),
             "cached_checkpoint_matches_original_sha256": True},
@@ -125,9 +129,9 @@ def freeze(path: Path, model_path: Path, run_root: str) -> dict:
         "command_argv": [sys.executable, "-u", "scripts/run_hltd_l8_gate.py", "--protocol", str(path.relative_to(ROOT))],
         "analysis_argv": [sys.executable, "scripts/analyze_hltd_l8_gate.py", "--protocol", str(path.relative_to(ROOT))],
     })
-    paths = [ROOT / r["path"] for r in reference["frozen_files"] if r != old_checkpoint]
+    paths = [ROOT / r["path"] for r in historical_inputs]
     protocol["prior_input_audit"]["source_snapshots"] = verify_historical_inputs(
-        {"frozen_files": [r for r in reference["frozen_files"] if r != old_checkpoint]}, ROOT,
+        {"frozen_files": historical_inputs}, ROOT,
     )
     paths.extend(required_model_paths)
     # Bind optional loader assets too, without using discovery for required ones.
