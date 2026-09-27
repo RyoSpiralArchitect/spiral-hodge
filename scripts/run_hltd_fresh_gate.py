@@ -25,6 +25,9 @@ from scripts.run_hltd_precision_gate import save_json, utc_now
 from scripts.run_hltd_steering_suite import read_suite
 
 REFERENCE = "docs/data/hltd_signed_l8_position/protocol_continuation.json"
+REFERENCE_SHA256 = "224030e9a3c55db4fe73b2167dc93accb3db5dd065f22940de6b6bec2c93081e"
+FRESH_REFERENCE = "docs/data/hltd_fresh_l7_l8/protocol.json"
+FRESH_REFERENCE_SHA256 = "74cfcb5f91ba56ffabc1eb8d8ef0f3006237921bc57175868b412edcec624ca1"
 SUITE = "data/hltd_fresh20_prompt_suite.jsonl"
 FAMILIES = ["literal_stable", "metaphor_shift", "identity_stress", "ontology_collapse"]
 
@@ -70,8 +73,16 @@ def layer_protocol(protocol: dict, layer: int) -> dict:
     return result
 
 
+def load_recorded_protocol(path: str, sha256: str, root: Path) -> dict:
+    payload = (root / path).read_bytes()
+    if hashlib.sha256(payload).hexdigest() != sha256:
+        raise ValueError(f"recorded fresh-gate reference changed: {path}")
+    return json.loads(payload)
+
+
 def validate_protocol(protocol: dict, root: Path = ROOT) -> None:
-    reference = json.loads((root / REFERENCE).read_text())
+    reference = load_recorded_protocol(REFERENCE, REFERENCE_SHA256, root)
+    recorded = load_recorded_protocol(FRESH_REFERENCE, FRESH_REFERENCE_SHA256, root)
     expected_design = copy.deepcopy(reference["design"])
     expected_design["row_constants"]["layer"] = 7
     for key, value in [("reference_protocol", REFERENCE), ("suite", SUITE), ("layers", [7, 8]),
@@ -87,6 +98,12 @@ def validate_protocol(protocol: dict, root: Path = ROOT) -> None:
     if (primary["metric"], primary["contrast_type"], primary["bins"]) != ("next_token_logprob_delta", "odd", [0, 1, 2, 3]):
         raise ValueError("changed primary endpoint")
     prompts = protocol["prompts"]
+    if prompts != recorded["prompts"]:
+        raise ValueError("changed recorded fresh prompt inventory")
+    expected_suite = [r for r in recorded["frozen_files"] if r["path"] == SUITE]
+    actual_suite = [r for r in protocol["frozen_files"] if r["path"] == SUITE]
+    if len(expected_suite) != 1 or actual_suite != expected_suite:
+        raise ValueError("changed recorded fresh suite receipt")
     if Counter(p["family"] for p in prompts) != Counter({family: 5 for family in FAMILIES}):
         raise ValueError("expected exactly five fresh prompts in each of four families")
     if len({p["prompt_id"] for p in prompts}) != 20:
@@ -102,7 +119,7 @@ def validate_protocol(protocol: dict, root: Path = ROOT) -> None:
 def freeze(path: Path, run_root: str) -> dict:
     from transformers import AutoTokenizer
 
-    reference = json.loads((ROOT / REFERENCE).read_text())
+    reference = load_recorded_protocol(REFERENCE, REFERENCE_SHA256, ROOT)
     reference_code_snapshots = verify_historical_inputs(reference, ROOT)
     if previous.runtime_snapshot() != reference["runtime"]:
         raise ValueError("runtime changed since L8; stop before choosing a new comparison")
@@ -116,10 +133,10 @@ def freeze(path: Path, run_root: str) -> dict:
     protocol.update({"schema_version": 1, "protocol_id": "hltd-fresh20-l7-l8-native-fp32-v1",
         "reference_protocol": REFERENCE, "suite": SUITE, "layers": [7, 8], "run_root": run_root,
         "reference_code_snapshots": reference_code_snapshots,
-        "knowledge_at_freeze": "All old-text L7/L8 outcomes are known. These 20 new authored texts were not measured "
-            "or selected by model outputs; only tokenization and source-text duplicate checks precede this freeze. "
-            "Use all first-authored texts; no response-based replacement, family reassignment, bin selection, or optional stopping. "
-            "This is new-text evidence within the same authored families, not blind external sampling or model-training holdout.",
+        "knowledge_at_freeze": "This prospective freeze repeats the exact recorded fresh20 text/token inventory; "
+            "its prior outcomes are already known. It is a rerun, not a new held-out-text replication. "
+            "No response-based replacement, family reassignment, bin selection, or optional stopping. "
+            "A different prompt pool requires a separately defined protocol, not changes to this v1 suite.",
         "primary": {"metric": "next_token_logprob_delta", "contrast_type": "odd", "bins": [0, 1, 2, 3],
             "pass_rule": "Each layer must have all 80 early prompt/bins and strictly positive lower 95% prompt-bootstrap bound. "
                 "The joint status is BOTH_LAYERS_SUPPORTED_ON_FRESH_TEXTS only if both pass. "
@@ -150,7 +167,7 @@ def freeze(path: Path, run_root: str) -> dict:
     sources = {ROOT / r["path"] for r in reference["frozen_files"] if Path(r["path"]).suffix == ".py"}
     sources.update(historical_paths)
     sources.update((Path(protocol["model_path"])).iterdir())
-    sources.update(ROOT / p for p in [REFERENCE, SUITE, protocol["target_set_file"],
+    sources.update(ROOT / p for p in [REFERENCE, FRESH_REFERENCE, SUITE, protocol["target_set_file"],
         "scripts/run_hltd_fresh_gate.py", "scripts/analyze_hltd_fresh_gate.py", "tests/test_hltd_fresh_gate.py",
         "scripts/hltd_historical_sources.py"])
     protocol["frozen_files"] = []

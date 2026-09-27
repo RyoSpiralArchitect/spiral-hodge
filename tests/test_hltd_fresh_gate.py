@@ -17,15 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def example_protocol() -> dict:
-    reference = json.loads((ROOT / runner.REFERENCE).read_text())
-    result = {key: copy.deepcopy(reference[key]) for key in ["design", "analysis", "target_set_file", "tolerances",
-        "checkpoint_sha256", "model_path", "runtime", "frozen_files"]}
-    result.update({"reference_protocol": runner.REFERENCE, "suite": runner.SUITE, "layers": [7, 8],
-        "run_root": "spiral_out_fresh_unit_test", "primary": {"metric": "next_token_logprob_delta", "contrast_type": "odd", "bins": [0, 1, 2, 3]},
-        "paired_bootstrap": {"samples": 5000, "seed": 2718, "unit": "paired prompt", "quantiles": [0.025, 0.975]},
-        "prompts": [{"prompt_id": f"{family}_{i}", "family": family, "token_count": 24, "input_ids": list(range(24))}
-                    for family in runner.FAMILIES for i in range(5)]})
-    result["design"]["row_constants"]["layer"] = 7
+    result = json.loads((ROOT / runner.FRESH_REFERENCE).read_text())
+    result["run_root"] = "spiral_out_fresh_unit_test"
     return result
 
 
@@ -86,6 +79,7 @@ class TestHLTDFreshGate(unittest.TestCase):
     def test_zero_grid_and_shared_chart_are_byte_strict(self) -> None:
         p = example_protocol()
         p["prompts"] = p["prompts"][:1]
+        p["prompts"][0].update({"token_count": 24, "input_ids": list(range(24))})
         records = [{"prompt_id": p["prompts"][0]["prompt_id"], "token_index": t, "layer": 7, "dtype": "float32",
                     "zero_hook_max_abs": 0., "row_spread_max_abs": 0., "single_batch_logit_max_abs": .01,
                     "single_batch_next_logprob_delta": .001} for t in range(1, 23)]

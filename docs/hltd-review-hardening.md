@@ -68,6 +68,16 @@ must use the continuation entrypoint; the ordinary runner rejects them before
 model work. The original failed aggregate attempt is preserved, not made valid
 by inventing a retrospective receipt.
 
+A seventh review found that family counts alone allowed response-selected
+replacement texts in the fresh gate. Validation now requires the exact recorded
+20-prompt inventory, including text, family, order and token IDs, plus the
+canonical suite's byte count and hash. Both the original fresh protocol and its
+L8 parent are hash-pinned. Changing the suite and its candidate-controlled receipt
+together cannot satisfy this check. Tests mutate individual prompt fields,
+same-family text sets, suite receipts and either recorded protocol, and confirm
+rejection before output/model work. Prospective freezes describe these fixed
+texts as a rerun with known prior outcomes, not a new held-out replication.
+
 ## Historical evidence
 
 No prior protocol, execution receipt, coefficient, figure, result hash, or failed

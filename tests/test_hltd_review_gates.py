@@ -214,6 +214,75 @@ def test_fresh_gate_keeps_the_reference_runtime() -> None:
         fresh.validate_protocol(protocol)
 
 
+@pytest.mark.parametrize("change", ["text", "input_ids", "prompt_id", "family", "token_count", "order",
+    "same_family_replacement", "suite_hash", "suite_bytes", "missing_suite", "duplicate_suite"])
+def test_fresh_prompt_contract_rejects_replacements_before_output(tmp_path: Path, change: str) -> None:
+    protocol = json.loads((ROOT / fresh.FRESH_REFERENCE).read_text())
+    protocol["run_root"] = "spiral_out_fresh_inventory_test"
+    fresh.validate_protocol(protocol)
+    if change in {"text", "prompt_id", "family"}:
+        protocol["prompts"][0][change] = "replacement"
+    elif change == "input_ids":
+        protocol["prompts"][0]["input_ids"][0] += 1
+    elif change == "token_count":
+        protocol["prompts"][0]["token_count"] += 1
+    elif change == "order":
+        protocol["prompts"].reverse()
+    elif change == "same_family_replacement":
+        for prompt in protocol["prompts"]:
+            prompt["text"] = "Response-selected replacement: " + prompt["text"]
+            prompt["input_ids"] = list(range(prompt["token_count"]))
+    else:
+        receipt = next(r for r in protocol["frozen_files"] if r["path"] == fresh.SUITE)
+        if change == "missing_suite":
+            protocol["frozen_files"].remove(receipt)
+        elif change == "duplicate_suite":
+            protocol["frozen_files"].append(copy.deepcopy(receipt))
+        else:
+            receipt["sha256" if change == "suite_hash" else "bytes"] = "0" * 64 if change == "suite_hash" else 0
+    path = tmp_path / "candidate.json"
+    write_json(path, protocol)
+    with patch.object(fresh, "ROOT", tmp_path), patch.object(fresh, "verify_frozen_files"), \
+            patch.object(fresh, "_run") as execute:
+        with pytest.raises(ValueError, match="recorded fresh (prompt inventory|suite receipt)"):
+            fresh.run(path)
+        execute.assert_not_called()
+    assert not (tmp_path / protocol["run_root"]).exists()
+
+
+@pytest.mark.parametrize("replace_inventory", [False, True])
+def test_changed_suite_with_matching_candidate_receipt_is_rejected(tmp_path: Path, replace_inventory: bool) -> None:
+    protocol = json.loads((ROOT / fresh.FRESH_REFERENCE).read_text())
+    suite = tmp_path / fresh.SUITE
+    suite.parent.mkdir(parents=True)
+    rows = [json.loads(line) for line in (ROOT / fresh.SUITE).read_text().splitlines() if line.strip()]
+    rows[0]["text"] += " A selected replacement sentence."
+    suite.write_text("\n".join(json.dumps(row) for row in rows) + "\n")
+    receipt = next(r for r in protocol["frozen_files"] if r["path"] == fresh.SUITE)
+    receipt.update({**file_receipt(suite), "path": fresh.SUITE})
+    verify_frozen_files({"frozen_files": [receipt]}, tmp_path)
+    if replace_inventory:
+        protocol["prompts"][0]["text"] = rows[0]["text"]
+        protocol["prompts"][0]["input_ids"] = list(range(protocol["prompts"][0]["token_count"]))
+    with pytest.raises(ValueError, match="recorded fresh (prompt inventory|suite receipt)"):
+        fresh.validate_protocol(protocol)
+
+
+@pytest.mark.parametrize("name", [fresh.REFERENCE, fresh.FRESH_REFERENCE], ids=["parent", "fresh"])
+def test_fresh_canonical_references_cannot_be_rewritten(tmp_path: Path, name: str) -> None:
+    for source in [fresh.REFERENCE, fresh.FRESH_REFERENCE]:
+        path = tmp_path / source
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes((ROOT / source).read_bytes())
+    protocol = json.loads((ROOT / fresh.FRESH_REFERENCE).read_text())
+    fresh.validate_protocol(protocol, tmp_path)
+    changed = json.loads((tmp_path / name).read_text())
+    changed["prompts"][0]["text"] = "Replacement of the canonical evidence itself."
+    write_json(tmp_path / name, changed)
+    with pytest.raises(ValueError, match="recorded fresh-gate reference changed"):
+        fresh.validate_protocol(protocol, tmp_path)
+
+
 @pytest.mark.parametrize("change", ["raw_path", "coefficient_path", "both_paths", "raw_hash", "coefficient_hash",
                                     "missing_raw", "missing_coefficients", "missing_sources"])
 def test_l8_bridge_requires_canonical_paths_and_receipts(tmp_path: Path, change: str) -> None:
