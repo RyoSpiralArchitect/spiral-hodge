@@ -100,10 +100,7 @@ def validate_protocol(protocol: dict, root: Path = ROOT) -> None:
     prompts = protocol["prompts"]
     if prompts != recorded["prompts"]:
         raise ValueError("changed recorded fresh prompt inventory")
-    expected_suite = [r for r in recorded["frozen_files"] if r["path"] == SUITE]
-    actual_suite = [r for r in protocol["frozen_files"] if r["path"] == SUITE]
-    if len(expected_suite) != 1 or actual_suite != expected_suite:
-        raise ValueError("changed recorded fresh suite receipt")
+    previous.validate_data_binding(protocol, recorded, "recorded fresh")
     if Counter(p["family"] for p in prompts) != Counter({family: 5 for family in FAMILIES}):
         raise ValueError("expected exactly five fresh prompts in each of four families")
     if len({p["prompt_id"] for p in prompts}) != 20:

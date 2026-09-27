@@ -12,6 +12,7 @@ import pytest
 
 from scripts import analyze_hltd_precision_full_gate as full_analysis
 from scripts import analyze_hltd_precision_gate as pilot_analysis
+from scripts import continue_hltd_l8_gate as continuation
 from scripts import run_hltd_l8_gate as l8
 from scripts import run_hltd_fresh_gate as fresh
 from scripts import run_hltd_precision_full_gate as full_runner
@@ -283,6 +284,122 @@ def test_fresh_canonical_references_cannot_be_rewritten(tmp_path: Path, name: st
         fresh.validate_protocol(protocol, tmp_path)
 
 
+@pytest.mark.parametrize("runner", [l8, fresh], ids=["l8", "fresh"])
+@pytest.mark.parametrize("key", ["suite", "target_set_file"])
+@pytest.mark.parametrize("change", ["hash", "bytes", "missing", "duplicate"])
+def test_suites_and_semantic_targets_are_bound_before_model_work(tmp_path: Path, runner, key: str, change: str) -> None:
+    protocol = (l8_protocol_with_canonical_bridge() if runner is l8 else
+                json.loads((ROOT / fresh.FRESH_REFERENCE).read_text()))
+    runner.validate_protocol(protocol)
+    protocol["run_root"] = "spiral_out_data_binding_test"
+    receipt = next(r for r in protocol["frozen_files"] if r["path"] == protocol[key])
+    if change == "missing":
+        protocol["frozen_files"].remove(receipt)
+    elif change == "duplicate":
+        protocol["frozen_files"].append(copy.deepcopy(receipt))
+    else:
+        receipt["sha256" if change == "hash" else "bytes"] = "0" * 64 if change == "hash" else 0
+    path = tmp_path / "candidate.json"
+    write_json(path, protocol)
+    with patch.object(runner, "ROOT", tmp_path), patch.object(runner, "verify_frozen_files"), \
+            patch.object(runner, "_run") as execute:
+        with pytest.raises(ValueError, match=f"{key} receipt"):
+            runner.run(path)
+        execute.assert_not_called()
+    assert not (tmp_path / protocol["run_root"]).exists()
+
+
+@pytest.mark.parametrize("runner", [l8, fresh], ids=["l8", "fresh"])
+def test_edited_semantic_target_and_matching_receipt_cannot_change_vocabularies(tmp_path: Path, runner) -> None:
+    protocol = (l8_protocol_with_canonical_bridge() if runner is l8 else
+                json.loads((ROOT / fresh.FRESH_REFERENCE).read_text()))
+    source = tmp_path / protocol["target_set_file"]
+    write_json(source, {"replacement": ["selected", "targets"]})
+    receipt = next(r for r in protocol["frozen_files"] if r["path"] == protocol["target_set_file"])
+    receipt.update({**file_receipt(source), "path": protocol["target_set_file"]})
+    verify_frozen_files({"frozen_files": [receipt]}, tmp_path)
+    with pytest.raises(ValueError, match="target_set_file receipt"):
+        runner.validate_protocol(protocol)
+
+
+@pytest.mark.parametrize("change", ["previous_protocol", "previous_run_root", "mode", "runtime", "model_path",
+    "prior_hash", "missing_prior", "failure_hash", "bridge_hash", "coefficient_hash", "missing_inputs"])
+def test_continuation_cannot_select_another_prior_attempt(tmp_path: Path, change: str) -> None:
+    protocol = l8.load_recorded_continuation(ROOT)
+    l8.validate_protocol(protocol)
+    protocol["run_root"] = "spiral_out_continuation_binding_test"
+    if change in {"previous_protocol", "previous_run_root", "mode"}:
+        protocol["continuation"][change] = "substitute"
+    elif change == "runtime":
+        protocol["runtime"]["packages"]["torch"] = "substitute"
+    elif change == "model_path":
+        protocol["model_path"] = str(tmp_path / "other_model")
+    elif change == "missing_inputs":
+        protocol["frozen_files"] = []
+    else:
+        prefix = protocol["continuation"]["previous_run_root"]
+        selected = (protocol["continuation"]["previous_protocol"] if change in {"prior_hash", "missing_prior"}
+                    else prefix + {"failure_hash": "/execution_receipt.json", "bridge_hash": "/bridge/summary.csv",
+                                   "coefficient_hash": "/bridge/analysis/summary_prompt_bin_response_coefficients.csv"}[change])
+        receipt = next(r for r in protocol["frozen_files"] if r["path"] == selected)
+        if change == "missing_prior":
+            protocol["frozen_files"].remove(receipt)
+        else:
+            receipt["sha256"] = "0" * 64
+    path = tmp_path / "candidate.json"
+    write_json(path, protocol)
+    with patch.object(l8, "ROOT", tmp_path), patch.object(l8, "verify_frozen_files"), \
+            patch.object(continuation, "continue_run") as execute:
+        with pytest.raises(ValueError):
+            continuation.main(["--protocol", str(path)])
+        execute.assert_not_called()
+    assert not (tmp_path / protocol["run_root"]).exists()
+
+
+def copy_continuation_references(root: Path) -> dict:
+    protocol = l8.load_recorded_continuation(ROOT)
+    for name in [l8.CONTINUATION_REFERENCE, protocol["continuation"]["previous_protocol"]]:
+        path = root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes((ROOT / name).read_bytes())
+    return protocol
+
+
+@pytest.mark.parametrize("change", ["canonical", "prior"])
+def test_continuation_protocol_bytes_are_verified_before_use(tmp_path: Path, change: str) -> None:
+    protocol = copy_continuation_references(tmp_path)
+    previous = l8.validate_continuation_binding(protocol, tmp_path)
+    assert previous["run_root"] == protocol["continuation"]["previous_run_root"]
+    source = l8.CONTINUATION_REFERENCE if change == "canonical" else protocol["continuation"]["previous_protocol"]
+    write_json(tmp_path / source, {"run_root": "fabricated_attempt"})
+    with pytest.raises(ValueError, match="(canonical continuation|recorded prior) protocol changed"):
+        l8.validate_continuation_binding(protocol, tmp_path)
+
+
+def test_continuation_rejects_fabricated_failed_receipt_before_model_work(tmp_path: Path) -> None:
+    protocol = copy_continuation_references(tmp_path)
+    previous = l8.validate_continuation_binding(protocol, tmp_path)
+    receipt = {"status": "FAILED", "error": "FileNotFoundError: [Errno 2] No such file or directory: "
+               + repr(str(tmp_path / previous["bridge"]["reference_raw"]))}
+    continuation.validate_prior_attempt(previous, receipt, tmp_path)
+    write_json(tmp_path / previous["run_root"] / "execution_receipt.json", receipt)
+    with patch.object(continuation, "ROOT", tmp_path), \
+            patch.object(l8.precision.fast, "_load_model_and_tokenizer") as load:
+        with pytest.raises(ValueError, match="changed required input: .*execution_receipt.json"):
+            continuation.continue_run(protocol, tmp_path / "new_output")
+        load.assert_not_called()
+    assert not (tmp_path / "new_output").exists()
+
+
+def test_continuation_freeze_rejects_unrecorded_prior_path(tmp_path: Path) -> None:
+    copy_continuation_references(tmp_path)
+    with patch.object(continuation, "ROOT", tmp_path), patch.object(continuation, "verify_frozen_files") as verify:
+        with pytest.raises(ValueError, match="recorded prior protocol path"):
+            continuation.freeze(tmp_path / "invented.json", tmp_path / "new/protocol.json", "spiral_out_new")
+        verify.assert_not_called()
+    assert not (tmp_path / "new").exists()
+
+
 @pytest.mark.parametrize("change", ["raw_path", "coefficient_path", "both_paths", "raw_hash", "coefficient_hash",
                                     "missing_raw", "missing_coefficients", "missing_sources"])
 def test_l8_bridge_requires_canonical_paths_and_receipts(tmp_path: Path, change: str) -> None:
@@ -435,6 +552,11 @@ def l8_freeze_fixture(root: Path) -> tuple[Path, list[Path]]:
     frozen.write_text("# fixed historical source\n")
     reference["model_path"] = str(reference_model)
     reference["frozen_files"] = [*model_receipts, {**file_receipt(frozen), "path": "scripts/reference.py"}]
+    for key in ("suite", "target_set_file"):
+        source = root / reference[key]
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_bytes((ROOT / reference[key]).read_bytes())
+        reference["frozen_files"].append({**file_receipt(source), "path": reference[key]})
     reference["run_root"] = "spiral_out_reference"
     reference_path = root / l8.REFERENCE
     write_json(reference_path, reference)
@@ -587,7 +709,7 @@ def test_historical_fallback_never_substitutes_data_or_external_sources(tmp_path
 def test_preserved_source_manifest_is_byte_exact() -> None:
     manifest = json.loads((ROOT / SNAPSHOT / "manifest.json").read_text())
     assert manifest["source_commit"] == SNAPSHOT.name
-    assert len(manifest["files"]) == 12
+    assert len(manifest["files"]) == 13
     for record in manifest["files"]:
         actual = file_receipt(ROOT / SNAPSHOT / (record["path"] + ".txt"))
         assert actual["sha256"] == record["sha256"]

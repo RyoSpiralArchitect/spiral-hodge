@@ -60,6 +60,11 @@
       "path": "tests/test_hltd_fresh_gate.py",
       "bytes": 7343,
       "sha256": "af65f5aef4dc35f2cf14bfff8de34826380e5eb701de9d948fdcb208e5e15fbd"
+    },
+    {
+      "path": "scripts/continue_hltd_l8_gate.py",
+      "bytes": 10049,
+      "sha256": "3ee9be31cd23c5225430abe329123c3c72ffecfc4acea9b7b796dabebee2c853"
     }
   ]
 }

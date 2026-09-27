@@ -78,10 +78,19 @@ same-family text sets, suite receipts and either recorded protocol, and confirm
 rejection before output/model work. Prospective freezes describe these fixed
 texts as a rerun with known prior outcomes, not a new held-out replication.
 
+An eighth review found two further input-binding omissions. The continuation
+now pins the recorded parent protocol, failed run root, runtime/model binding,
+and every reused artifact receipt from the hash-pinned canonical amendment.
+The parent protocol is verified before it is read; reused files are also
+byte-verified before bridge analysis or model work. A substitute failure record
+or bridge CSV cannot authorize L8 treatment. Both L8 and fresh validators also
+bind suite and semantic-target receipts to their recorded references, so changing
+target/control vocabularies and candidate receipts together is rejected.
+
 ## Historical evidence
 
 No prior protocol, execution receipt, coefficient, figure, result hash, or failed
-run has been rewritten. The twelve source files affected by these fixes and
+run has been rewritten. The thirteen source files affected by these fixes and
 their historical-code tests are preserved byte-for-byte in
 [`source_snapshots/f6dd7a941624f0a21a2b6d7b8314aef38a85c5e1`](source_snapshots/f6dd7a941624f0a21a2b6d7b8314aef38a85c5e1/manifest.json).
 The snapshot manifest records the original repository path, byte count, SHA256,

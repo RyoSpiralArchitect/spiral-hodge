@@ -38,10 +38,7 @@ def validate_prior_attempt(protocol: dict, receipt: dict, root: Path = ROOT) -> 
 
 
 def freeze(previous_path: Path, path: Path, run_root: str) -> dict:
-    recorded = original.load_recorded_continuation(ROOT)
-    if previous_path.resolve() != (ROOT / recorded["continuation"]["previous_protocol"]).resolve():
-        raise ValueError("changed recorded prior protocol path")
-    previous = original.validate_continuation_binding(recorded, ROOT)
+    previous = json.loads(previous_path.read_text())
     verify_frozen_files(previous)
     attempt = ROOT / previous["run_root"]
     receipt = json.loads((attempt / "execution_receipt.json").read_text())
@@ -94,18 +91,14 @@ def freeze(previous_path: Path, path: Path, run_root: str) -> dict:
 
 
 def continue_run(protocol: dict, output: Path) -> bool:
-    previous = original.validate_continuation_binding(protocol, ROOT)
-    binding = protocol["continuation"]
-    require_receipts([r for r in protocol["frozen_files"]
-                      if r["path"] == binding["previous_protocol"]
-                      or r["path"].startswith(binding["previous_run_root"] + "/")], ROOT)
-
     import os
     import torch
 
     if original.runtime_snapshot() != protocol["runtime"]:
         raise ValueError("runtime changed after freeze")
     require_receipts(protocol["bridge"]["reference_prompt_shards"])
+    previous_path = ROOT / protocol["continuation"]["previous_protocol"]
+    previous = json.loads(previous_path.read_text())
     attempt = ROOT / previous["run_root"]
     validate_prior_attempt(previous, json.loads((attempt / "execution_receipt.json").read_text()))
     bridge_protocol = original.stage_protocol(protocol, "bridge")

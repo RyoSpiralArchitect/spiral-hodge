@@ -28,6 +28,8 @@ from scripts.run_hltd_precision_full_gate import audit_model_weight_bytes
 REFERENCE = "docs/data/hltd_precision_l7_full/protocol.json"
 BRIDGE_MANIFEST = "docs/figures/hltd_precision_l7_full_manifest.json"
 BRIDGE_MANIFEST_SHA256 = "af46562e8eb043270895e159ef5ca58c40bf57c76fc5a68b01db1cbe0591ca1f"
+CONTINUATION_REFERENCE = "docs/data/hltd_signed_l8_position/protocol_continuation.json"
+CONTINUATION_REFERENCE_SHA256 = "224030e9a3c55db4fe73b2167dc93accb3db5dd065f22940de6b6bec2c93081e"
 BRIDGE_IDS = ["literal_01", "literal_03", "metaphor_01", "identity_01", "ontology_01"]
 PACKAGES = ["torch", "transformers", "numpy", "pandas", "scipy", "scikit-learn", "safetensors", "tokenizers"]
 MODEL_FILES = {"config.json", "generation_config.json", "merges.txt", "model.safetensors",
@@ -69,6 +71,50 @@ def load_bridge_manifest(root: Path = ROOT) -> dict:
     if hashlib.sha256(payload).hexdigest() != BRIDGE_MANIFEST_SHA256:
         raise ValueError("canonical bridge manifest changed")
     return json.loads(payload)
+
+
+def require_frozen_receipts(protocol: dict, expected: list[dict], label: str) -> None:
+    for record in expected:
+        actual = [r for r in protocol.get("frozen_files", []) if r["path"] == record["path"]]
+        if len(actual) != 1 or any(actual[0][key] != record[key] for key in ("sha256", "bytes")):
+            raise ValueError(f"changed {label} receipt: {record['path']}")
+
+
+def validate_data_binding(protocol: dict, reference: dict, label: str) -> None:
+    for key in ("suite", "target_set_file"):
+        expected = [r for r in reference["frozen_files"] if r["path"] == reference[key]]
+        if protocol[key] != reference[key] or len(expected) != 1:
+            raise ValueError(f"changed {label} {key} source")
+        require_frozen_receipts(protocol, expected, f"{label} {key}")
+
+
+def load_recorded_continuation(root: Path = ROOT) -> dict:
+    payload = (root / CONTINUATION_REFERENCE).read_bytes()
+    if hashlib.sha256(payload).hexdigest() != CONTINUATION_REFERENCE_SHA256:
+        raise ValueError("canonical continuation protocol changed")
+    return json.loads(payload)
+
+
+def validate_continuation_binding(protocol: dict, root: Path = ROOT) -> dict:
+    recorded = load_recorded_continuation(root)
+    if protocol["continuation"] != recorded["continuation"]:
+        raise ValueError("changed recorded continuation source")
+    for key in ("runtime", "model_path", "checkpoint_sha256"):
+        if protocol[key] != recorded[key]:
+            raise ValueError(f"changed recorded continuation {key}")
+    prior = recorded["continuation"]["previous_protocol"]
+    run_root = recorded["continuation"]["previous_run_root"]
+    required = [r for r in recorded["frozen_files"]
+                if r["path"] == prior or r["path"].startswith(run_root + "/")]
+    require_frozen_receipts(protocol, required, "continuation input")
+    expected = next(r for r in required if r["path"] == prior)
+    actual = file_receipt(root / prior)
+    if any(actual[key] != expected[key] for key in ("sha256", "bytes")):
+        raise ValueError("recorded prior protocol changed")
+    previous = json.loads((root / prior).read_text())
+    if previous["run_root"] != run_root:
+        raise ValueError("changed recorded prior run root")
+    return previous
 
 
 def validate_bridge_binding(protocol: dict, reference: dict, root: Path = ROOT) -> None:
@@ -123,6 +169,9 @@ def validate_protocol(protocol: dict, root: Path = ROOT) -> None:
         raise ValueError("changed source checkpoint")
     validate_model_binding(protocol, reference, root)
     validate_bridge_binding(protocol, reference, root)
+    validate_data_binding(protocol, reference, "L8")
+    if "continuation" in protocol:
+        validate_continuation_binding(protocol, root)
     if Path(protocol["run_root"]).is_absolute() or not protocol["run_root"].startswith("spiral_out_") or len(Path(protocol["run_root"]).parts) != 1:
         raise ValueError("run root must be a new top-level spiral_out_ directory")
 
