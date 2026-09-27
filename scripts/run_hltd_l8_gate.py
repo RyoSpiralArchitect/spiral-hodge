@@ -27,6 +27,8 @@ from scripts.run_hltd_precision_full_gate import audit_model_weight_bytes
 REFERENCE = "docs/data/hltd_precision_l7_full/protocol.json"
 BRIDGE_IDS = ["literal_01", "literal_03", "metaphor_01", "identity_01", "ontology_01"]
 PACKAGES = ["torch", "transformers", "numpy", "pandas", "scipy", "scikit-learn", "safetensors", "tokenizers"]
+MODEL_FILES = {"config.json", "generation_config.json", "merges.txt", "model.safetensors",
+               "tokenizer_config.json", "vocab.json"}
 
 
 def runtime_snapshot() -> dict:
@@ -75,6 +77,17 @@ def freeze(path: Path, model_path: Path, run_root: str) -> dict:
     old_checkpoint = next(r for r in reference["frozen_files"] if r["path"].endswith("/model.safetensors"))
     if checkpoint["sha256"] != old_checkpoint["sha256"]:
         raise ValueError("local checkpoint is not the frozen native-F32 source")
+    model_records = {Path(r["path"]).name: r for r in reference["frozen_files"]
+                     if Path(r["path"]).parent == Path(reference["model_path"])}
+    if not MODEL_FILES.issubset(model_records):
+        raise ValueError("reference lacks the frozen GPT-2 model/tokenizer inventory")
+    required_model_paths = []
+    for name, expected in model_records.items():
+        source = model_path / name
+        actual = checkpoint if name == "model.safetensors" else file_receipt(source)
+        if any(actual[key] != expected[key] for key in ("sha256", "bytes")):
+            raise ValueError(f"relocated model input differs from reference: {source}")
+        required_model_paths.append(source)
     protocol = {key: copy.deepcopy(reference[key]) for key in ["suite", "target_set_file", "prompts", "design", "analysis"]}
     protocol["design"]["row_constants"]["layer"] = 8
     protocol.update({
@@ -116,6 +129,8 @@ def freeze(path: Path, model_path: Path, run_root: str) -> dict:
     protocol["prior_input_audit"]["source_snapshots"] = verify_historical_inputs(
         {"frozen_files": [r for r in reference["frozen_files"] if r != old_checkpoint]}, ROOT,
     )
+    paths.extend(required_model_paths)
+    # Bind optional loader assets too, without using discovery for required ones.
     paths.extend(source for source in model_path.iterdir() if source.is_file())
     paths.extend(ROOT / name for name in [REFERENCE, protocol["bridge"]["reference_raw"],
         protocol["bridge"]["reference_coefficients"], "scripts/run_hltd_l8_gate.py", "scripts/analyze_hltd_l8_gate.py",

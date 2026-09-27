@@ -15,6 +15,16 @@ SHA256, so editing both the supplied and canonical protocol cannot silently
 change the contract. A new top-level output name is allowed; revised hypotheses
 require a separately defined protocol, not relaxed validation.
 
+A second review found that directory discovery alone still allowed a partial
+model cache to omit configuration/tokenizer files. L8 freeze now requires the
+reference's model-file inventory (including the six frozen GPT-2 weight,
+configuration and tokenizer assets) at the requested model path, and compares
+their bytes with the reference before writing anything. Optional loader files
+are also recorded when present. Tests remove each required asset individually,
+retain the complete original reference directory, and verify that the relocated
+partial cache still fails before runtime inspection or loading; changed config
+bytes are rejected as well.
+
 ## Historical evidence
 
 No prior protocol, execution receipt, coefficient, figure, result hash, or failed

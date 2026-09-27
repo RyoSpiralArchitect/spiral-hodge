@@ -165,12 +165,19 @@ def l8_freeze_fixture(root: Path) -> tuple[Path, list[Path]]:
     reference = json.loads((ROOT / l8.REFERENCE).read_text())
     model = root / "model"
     model.mkdir()
-    checkpoint = model / "model.safetensors"
-    checkpoint.write_bytes(b"synthetic checkpoint, never loaded")
+    reference_model = root / "reference_model"
+    reference_model.mkdir()
+    model_receipts = []
+    for name in sorted(l8.MODEL_FILES):
+        payload = f"synthetic {name}, never loaded".encode()
+        (model / name).write_bytes(payload)
+        (reference_model / name).write_bytes(payload)
+        model_receipts.append(file_receipt(reference_model / name))
     frozen = root / "scripts/reference.py"
     frozen.parent.mkdir()
     frozen.write_text("# fixed historical source\n")
-    reference["frozen_files"] = [file_receipt(checkpoint), {**file_receipt(frozen), "path": "scripts/reference.py"}]
+    reference["model_path"] = str(reference_model)
+    reference["frozen_files"] = [*model_receipts, {**file_receipt(frozen), "path": "scripts/reference.py"}]
     reference["run_root"] = "spiral_out_reference"
     reference_path = root / l8.REFERENCE
     write_json(reference_path, reference)
@@ -215,10 +222,36 @@ def test_l8_freeze_records_all_required_files_and_current_source(tmp_path: Path)
         protocol = l8.freeze(tmp_path / "new/protocol.json", model, "spiral_out_new")
     recorded_paths = {tmp_path / record["path"] for record in protocol["frozen_files"]}
     assert set(required) <= recorded_paths
+    assert {model / name for name in l8.MODEL_FILES} <= recorded_paths
     assert protocol["prior_input_audit"]["source_snapshots"][0]["snapshot"] == str(archived.relative_to(tmp_path))
     record = next(r for r in protocol["frozen_files"] if r["path"] == "scripts/reference.py")
     assert record["sha256"] == file_receipt(historical)["sha256"]
     verify_frozen_files(protocol, tmp_path)
+
+
+@pytest.mark.parametrize("missing", sorted(l8.MODEL_FILES))
+def test_l8_freeze_rejects_partial_model_cache(tmp_path: Path, missing: str) -> None:
+    model, _ = l8_freeze_fixture(tmp_path)
+    (model / missing).unlink()
+    path = tmp_path / "new/protocol.json"
+    with patch.object(l8, "ROOT", tmp_path), patch.object(l8, "runtime_snapshot") as runtime, \
+            patch.object(l8.precision.fast, "_load_model_and_tokenizer") as load:
+        with pytest.raises(FileNotFoundError) as error:
+            l8.freeze(path, model, "spiral_out_new")
+        runtime.assert_not_called()
+        load.assert_not_called()
+    assert str(model / missing) in str(error.value)
+    assert not path.parent.exists()
+    assert not (tmp_path / "spiral_out_new").exists()
+
+
+def test_l8_freeze_rejects_changed_relocated_model_config(tmp_path: Path) -> None:
+    model, _ = l8_freeze_fixture(tmp_path)
+    (model / "config.json").write_text("different model configuration")
+    with patch.object(l8, "ROOT", tmp_path):
+        with pytest.raises(ValueError, match="relocated model input differs"):
+            l8.freeze(tmp_path / "new/protocol.json", model, "spiral_out_new")
+    assert not (tmp_path / "new").exists()
 
 
 def test_historical_source_snapshot_does_not_weaken_runtime_receipts(tmp_path: Path) -> None:
