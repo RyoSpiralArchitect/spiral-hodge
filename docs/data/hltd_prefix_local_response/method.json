@@ -1,0 +1,22 @@
+{
+  "diagnostic_id": "hltd-prefix-local-response-v1",
+  "knowledge_at_design": "Post-v2 and post-position-bin-null diagnostic. V2's signed endpoint remains NOT_SUPPORTED. This run reuses all 60 existing evaluation prefixes to diagnose that result, not to claim fresh-sample confirmation. No activation gradients or small-dose responses have been inspected to choose this specification.",
+  "objective": "Natural-log probability of the original authored next token. The target is used only by the scorer, after prefix-only field lookup. This is a token-fit objective, not a semantic or fluency measurement.",
+  "gradient": "At the output of GPT-2 block 6 (hidden layer 7), add a shared zero leaf delta of shape [768] to the last observed token in each of 12 identical batch rows. Differentiate the mean target log-probability with respect to that leaf only. Freeze every parameter; no optimizer or weight updates.",
+  "readout": "Reuse the exact v2 PCA, eight-neighbor weights, support/activity rules, Gaussian node-norm-matched random fields, dose and seeds 0..7. Do not refit, rotate, reverse by outcomes, or optimize the candidate directions.",
+  "magnitudes": [0.01, 0.02, 0.04],
+  "primary_numerical_magnitude": 0.01,
+  "derivative_absolute_tolerance": 0.005,
+  "derivative_relative_tolerance": 0.05,
+  "baseline_logit_tolerance": 0.0001,
+  "objective_logprob_tolerance": 0.0001,
+  "numerical_gate": "For every prompt/prefix/seed/component at magnitude 0.01, abs(central_difference - gradient_dot_delta_at_alpha1) <= 0.005 + 0.05*abs(gradient_dot_delta_at_alpha1). All rows must pass; no exclusions or alternate magnitude. The other magnitudes are descriptive finite-dose profiles, not a tuning sweep.",
+  "preflight": "Before any nonzero treatment, all 60 saved prefix hidden arrays must replay byte-identically, current no-hook and zero-leaf autograd logits must match saved batch-12 logits within 1e-4, every batch must have zero row spread, and all gradients must be finite and nonzero. Keep the same MPS/native-FP32/SDPA runtime with no fallback or autocast.",
+  "planned_cells": 60,
+  "planned_nonzero_rows": 5760,
+  "measurements": ["gradient norm", "gradient/direction cosine", "gradient dot alpha-one hidden delta", "small-dose central differences", "odd and even response", "saved-v2 large-dose central differences against the same gradient"],
+  "aggregation": "Average eight seeds before prefix cells, then three prefixes before twenty equally weighted prompts. Repeated coexact rows are not independent replication. Report descriptive means, prompt quantiles and positive counts; no new positive-effect hypothesis test.",
+  "semantic_direction_status": "NOT_TESTED",
+  "semantic_boundary": "Neither numerical derivative agreement, positive next-token response, nor a probe-axis displacement can issue semantic SUPPORTED. Identity/affordance relation judgments, disjoint construct validation, matched controls, fluency noninferiority and independent confirmation require a separate prospectively frozen semantic protocol.",
+  "failure_policy": "Single exclusive attempt. Preserve failed receipts, counters and prior evidence. No retry, backend substitution, threshold relaxation, dose selection, partial-sample promotion or model training."
+}

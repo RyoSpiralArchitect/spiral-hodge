@@ -1,0 +1,48 @@
+{
+  "protocol_id": "hltd-prefix-transfer-interpolation-v2",
+  "completed_utc": "2026-09-30T20:40:41.068121+00:00",
+  "planned_cells": 60,
+  "supported_cells": 60,
+  "status_counts": {
+    "SUPPORTED": 60
+  },
+  "nonzero_rows": 5760,
+  "nonzero_forward_rows_attempted": 5760,
+  "primary": {
+    "mean": 0.00646497433896921,
+    "ci_low": -0.10310058729005811,
+    "ci_high": 0.13427044553250808,
+    "positive_prompts": 10,
+    "prompt_coefficients": {
+      "v2_eval_identity_01": -0.131081564875248,
+      "v2_eval_identity_02": 0.09378812196201457,
+      "v2_eval_identity_03": -0.3314668300787896,
+      "v2_eval_identity_04": -0.10414123665558368,
+      "v2_eval_identity_05": -0.02016851500592842,
+      "v2_eval_literal_01": -0.37677935672020907,
+      "v2_eval_literal_02": 0.2112669478978102,
+      "v2_eval_literal_03": 0.06367045730595768,
+      "v2_eval_literal_04": 0.03323454251929589,
+      "v2_eval_literal_05": 0.17699735604356162,
+      "v2_eval_metaphor_01": -0.20098288334399692,
+      "v2_eval_metaphor_02": -0.39502971139312426,
+      "v2_eval_metaphor_03": -0.16437352070910236,
+      "v2_eval_metaphor_04": 0.8164990631234822,
+      "v2_eval_metaphor_05": 0.15748058814493945,
+      "v2_eval_ontology_01": -0.25072142483179477,
+      "v2_eval_ontology_02": -0.02397059479382635,
+      "v2_eval_ontology_03": 0.22573552597358196,
+      "v2_eval_ontology_04": 0.2269929925877905,
+      "v2_eval_ontology_05": 0.12234952962855355
+    },
+    "status": "NOT_SUPPORTED"
+  },
+  "query_replay": {
+    "passed": true,
+    "pilot_variant_observations": 48,
+    "evaluation_observations": 60,
+    "readout_fingerprint": "eb3a2372ccae3690f67579a8b2881984f799a3ee58a6d5ef277d7652601fc734"
+  },
+  "scope": "Fixed authored new-text sample, interpolated calibration-coexact versus matched interpolated random field; no semantic or fluency claim.",
+  "status": "NOT_SUPPORTED"
+}

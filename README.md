@@ -739,6 +739,37 @@ new-text, single-runtime L7/L8 gate: both early mean-response endpoints pass,
 but only 17/20 and 16/20 prompts are positive. The paired L8 advantage remains
 secondary with layer-relative dose and activity masks; lexical-semantic
 alignment and prefix-only availability remain unestablished.
+See [docs/hltd_prefix_transfer_gate.md](docs/hltd_prefix_transfer_gate.md) for
+the L7 prefix-only transfer gate: the integrated future-invariance pilot
+passes, but only 56/60 evaluation cells retrieve active coexact directions.
+The run stops before nonzero treatment. An offline replay ties all four
+misses to nodes without selected incident triangles; no response effect is
+estimated, and the frozen result remains insufficient coverage.
+See [docs/hltd_prefix_transfer_v2.md](docs/hltd_prefix_transfer_v2.md) for the
+new-text interpolated calibration readout: all 60 prefix cells are supported
+and all 5,760 treatments complete, but the prespecified odd response gap is
+not supported (mean +0.006465, 95% interval [-0.103101, +0.134270], 10/20
+positive prompts). Full coverage is not evidence of positive transfer or
+semantic control; v1 remains unchanged.
+See [docs/hltd_prefix_calibration_readout.md](docs/hltd_prefix_calibration_readout.md)
+for the model-free donor-prompt-excluded diagnosis: mean direction cosine
+is +0.1221 versus +0.0027 under within-prompt shuffle, but agreement is weak.
+Cancellation and position mixing are observed without explaining v2's
+unsupported response; shared-PCA and positional confounds remain explicit.
+See [docs/hltd_prefix_null_comparison.md](docs/hltd_prefix_null_comparison.md)
+for the fixed position-bin shuffle comparison and subsequent saved-v2 replay:
+actual recovery is +0.1221 versus +0.0090 with coarse position preservation
+on the same 1,117 nodes, but v2 remains `NOT_SUPPORTED`. Geometry/response
+associations vary across prefixes, and both signs at the largest fixed dose
+lower mean target log-probability. No new model execution or tuning is done.
+See [docs/hltd_identity_affordance_gate.md](docs/hltd_identity_affordance_gate.md)
+for the proposed semantic claim contract: identity and capacity attribution
+need independent relation judgments, matched controls, coherence, and untouched
+confirmation. Authored next-token gains are neither necessary nor sufficient.
+The new local-gradient diagnostic stopped before nonzero treatment because
+its zero-leaf forward exceeded the fixed baseline-logit tolerance; a separate
+one-cell, zero-only audit reproduced that mismatch. Semantic support remains
+`NOT_TESTED`, and the semantic contract is not yet execution-ready.
 See [docs/hltd_branch_heatmap.md](docs/hltd_branch_heatmap.md) for all-interior
 branch localization.
 See [docs/hltd_all_interior_position_gate.md](docs/hltd_all_interior_position_gate.md)
@@ -1020,11 +1051,32 @@ Common options:
 
 ## Development
 
-Run tests:
+For current verification of the recorded prefix evidence, use
+`python3 -S scripts/verify_hltd_prefix_release.py` in the original evidence
+workspace. The [review checkpoint](docs/hltd_prefix_review_checkpoint.md)
+explains the exact receipt/path binding and why older frozen audit/export
+scripts are retained only as historical replay sources.
+
+Run the model-free test suite (including pytest and unittest cases):
 
 ```bash
-python3 -m unittest discover
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 JAX_PLATFORMS=cpu python3 -m pytest -q
 ```
+
+Eighteen frozen integration cases require the original local atlas, model
+receipts, runtime, and recorded paths. They are explicitly skipped by default,
+not counted as passes. To include them in the original research workspace:
+
+```bash
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 JAX_PLATFORMS=cpu \
+python3 -m pytest -q --hltd-local-evidence
+```
+
+The opt-in does not relax checks or substitute missing inputs. Model-free
+counterparts cover the v2 adapter, prefix isolation, gating, replay tampering,
+and output protection with the committed settings and fake runtime. Neither
+test mode performs the scientific intervention runs. The existing text-path
+tests assume a checkout named `spiral-hodge`.
 
 Run a quick syntax check:
 

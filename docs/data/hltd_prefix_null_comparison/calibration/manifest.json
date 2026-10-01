@@ -1,0 +1,44 @@
+{
+  "protocol": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/protocol.json",
+    "bytes": 11625,
+    "sha256": "d1fc6ed31b5a8a40c82f0bcc4e45dd461e8d58ce6a94517ed8f6d10f6246fc91"
+  },
+  "outputs": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/comparison.csv",
+      "bytes": 1028,
+      "sha256": "1c954120ba3103c14292ab977b9bae1a65057a07146d497e595d3cfbc725281f"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/draws.csv",
+      "bytes": 121150,
+      "sha256": "e776cdf847b3ff0d95af1280626239c0ed707392711992c35dca87b5ca65a52c"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/masks.csv",
+      "bytes": 48380,
+      "sha256": "09b3cbc46b46e6a738f4dcc2ece0f82f624922c639a2b4308c8b6f523e727ac9"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/prompts.csv",
+      "bytes": 20591,
+      "sha256": "8e129f8ddc1586d0e9b376732f3497f1e8c11b79f3aee8b69339578d564c3ba6"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/replay_arrays.npz",
+      "bytes": 3203944,
+      "sha256": "ecfa0b07cc22367464803db850e087c982557bc102f2a8dccbd5e0d9de8bdc37"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/strata.csv",
+      "bytes": 5360,
+      "sha256": "2c2b567cffe9221b3c235ea6f64b0ff27bf13cb61459e610e9d15bf1ca29a38b"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/summary.json",
+      "bytes": 3843,
+      "sha256": "6f0d9d77d2005dcaa084dc9e6ff327f50028c6d37da83fccc26e56fa0f979b1f"
+    }
+  ]
+}

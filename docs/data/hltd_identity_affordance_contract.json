@@ -1,0 +1,40 @@
+{
+  "contract_id": "hltd-identity-affordance-claim-draft-v1",
+  "status": "DRAFT_NOT_EXECUTION_READY",
+  "selected_by_cooperator": "Identity / affordance change, not merely topic or vocabulary movement",
+  "current_semantic_direction_status": "NOT_TESTED",
+  "candidate_scope": "A context-dependent prefix-only field u(h_prefix), not necessarily one universal constant concept vector. Any semantic-label-based orientation or refit defines a separate disclosed candidate variant.",
+  "identity_construct": "Which entity the focal artifact is represented as being: literal artifact identity versus an independently specified alternative identity. Code asserted identity relations and their referents, not probe entropy or noun counts.",
+  "affordance_construct": "Which independently specified capacities are attributed to the focal artifact, such as remembering, speaking, perceiving or intentional action. Attribute the capacity to its semantic subject; handle negation, quotation, uncertainty and human-versus-artifact referents explicitly.",
+  "claim_scopes": {
+    "identity": "SUPPORTED_IDENTITY_DIRECTION_WITHIN_SCOPE only for the frozen identity relation and population",
+    "affordance": "SUPPORTED_AFFORDANCE_DIRECTION_WITHIN_SCOPE only for the frozen capacity attribution and population",
+    "joint": "SUPPORTED_IDENTITY_AFFORDANCE_DIRECTION_WITHIN_SCOPE only when both prespecified claims pass; no promotion from either one alone"
+  },
+  "necessary_evidence": [
+    "An independently validated relation-label rubric, including semantic-subject swaps, negation, literal mention, paraphrase and incoherent controls",
+    "Scenario-disjoint calibration, instrument-validation, development and untouched confirmation sets; grouped uncertainty at the scenario/prompt level, not token or seed level",
+    "A frozen direction-generation and orientation rule that never uses evaluation continuations, labels, probe gradients or their outcomes",
+    "A preregistered practically meaningful semantic effect, positive against no-op and matched random plus position-stratified field-shuffle controls on identical supported cells",
+    "Signed behavior that follows the preregistered orientation, with negative direction and off-target relation controls; no post-evaluation sign selection",
+    "Generated-text relation judgments blinded to condition, using an evaluator distinct from any instrument used to construct or select the direction, with an independent human validity audit",
+    "Prespecified fluency/coherence noninferiority on unfiltered generations, including missing, truncated and incoherent outputs in the denominator",
+    "Replication of the same locked endpoint and settings on an untouched confirmation set before a supported semantic claim"
+  ],
+  "insufficient_evidence_alone": [
+    "Hodge component energy or target-vector reconstruction cosine",
+    "Positive next-token probability, local logit derivative or numerical derivative agreement",
+    "Movement along the same linear probe used to choose a direction",
+    "Target-word counts, a broad topic change, higher label entropy or generic incoherence",
+    "A selected prompt, graph size, dose, sign or evaluator chosen after seeing outcomes"
+  ],
+  "pending_before_freeze": [
+    "Fix the first identity relation and affordance inventory, scoring rubric and disagreement/abstention policy",
+    "Validate the measurement instrument on independent labeled examples and freeze its minimum validity requirements",
+    "Fix meaningful-effect and fluency-noninferiority margins, sample size, multiplicity policy and interval estimator using development-only evidence",
+    "Specify equal-norm dose/control construction, support policy and the full prompt/seed/condition inventory",
+    "Freeze source, model, corpus, label, evaluator and generation settings before confirmation; seal each generated output before scoring or unblinding"
+  ],
+  "decision_boundary": "A missing or invalid prerequisite cannot be converted to NOT_SUPPORTED or SUPPORTED; use NOT_TESTED, INVALID_MEASUREMENT or INSUFFICIENT_COVERAGE as appropriate. Valid complete outcomes below the frozen effect/fluency criteria yield NOT_SUPPORTED_WITHIN_SCOPE, not proof that no semantic direction exists.",
+  "relation_to_local_response": "Improving the authored next-token probability is neither necessary nor sufficient for semantic support. Local token-fit sensitivity is a mechanism diagnostic that can reveal objective misalignment or finite-dose nonlinearity and calibrate a numerical tool. It neither defines these semantic labels nor substitutes for this contract. A failed token-gradient instrument does not itself refute semantic steering, although any numerical instrument used in the semantic experiment must be independently validated. Gradient-based evaluation must not be fed back to orient the held-out candidate direction."
+}

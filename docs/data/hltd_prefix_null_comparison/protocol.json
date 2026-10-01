@@ -1,0 +1,227 @@
+{
+  "diagnostic_id": "hltd-prefix-null-comparison-v1",
+  "plan": {
+    "diagnostic_id": "hltd-prefix-null-comparison-v1",
+    "knowledge_at_design": "Post-v2 and post-calibration-readout follow-up. The unchanged v2 endpoint is NOT_SUPPORTED. Calibration actual mean cosine was 0.12208 versus approximately 0.002 for both existing null families. The position-stratified null and response/geometry associations below have not yet been computed.",
+    "stage_order": [
+      "calibration_null_comparison",
+      "saved_v2_analysis"
+    ],
+    "calibration": {
+      "random_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "shuffle_draws": 128,
+      "shuffle_seed": 6043,
+      "position_bins": "Use the existing relative thirds: floor(3*token_index/(calibration_token_count-1)), capped at 2. No alternative bins.",
+      "stratified_shuffle": "For each draw, iterate sorted (prompt_id, bin) groups and permute original node indices with default_rng(6043). Permute whole vectors, including their norms and zeros. Keep fixed points and singleton groups; never redraw. Targets, neighbors and weights stay unchanged.",
+      "comparators": [
+        "actual",
+        "v2_random",
+        "within_prompt_shuffle",
+        "within_prompt_position_shuffle"
+      ],
+      "common_mask": "Intersect finite target-recovery cosines for actual and every draw of all three null families. Use identical nodes and equal prompt weighting for all arms. Report all and distance-supported scopes, excluded counts, and per-draw paired masks separately.",
+      "aggregation": "Average nodes within prompt, then prompts equally, then fixed draws. Report draw q10/q90 as descriptive reference ranges, never as confidence intervals or significance tests.",
+      "scope": "Donor-prompt-excluded reconstruction in a shared PCA chart, not fully held-out cross-validation. Coarse-bin preservation does not control exact position, token identity, syntax, or semantics. No semantic ground truth."
+    },
+    "v2": {
+      "source": "Only frozen v2 support/hidden/logit/treatment artifacts. Start after a verified completed Stage A manifest; do not condition any analysis settings on Stage A values.",
+      "primary": "Replay the existing complete-grid signed endpoint and retain its original NOT_SUPPORTED verdict, bootstrap and prompt unit. No new confirmatory test.",
+      "predictors": [
+        "resultant_fraction",
+        "effective_contributors",
+        "weighted_token_gap",
+        "nearest_distance"
+      ],
+      "outcomes": [
+        "odd_gap",
+        "coexact_odd"
+      ],
+      "association_scopes": [
+        "pooled_cells",
+        "prefix_8",
+        "prefix_16",
+        "prefix_24",
+        "prompt_means"
+      ],
+      "associations": "Spearman correlation, report every predictor/outcome/scope, finite counts, no p-values or selection. Average eight seeds before defining a cell; pooled cells are repeated observations of 20 prompts, not 60 independent samples.",
+      "positions": "Query token_index=prefix_length-1. Compute weighted absolute token gap to calibration donors. Donor bin masses use calibration lengths only; never use future evaluation text length to bin the query.",
+      "dose_response": "For every component and fixed magnitude 0.25, 0.5, 1, record plus/minus baseline logprob deltas, odd=(delta_plus-delta_minus)/2, even=(delta_plus+delta_minus)/2. Average seeds, then prefixes, then prompts equally. Describe finite-dose responses, not infinitesimal derivatives or fluency.",
+      "scope": "Evaluation prefixes have no observed coexact ground truth. Structural descriptors are not v2 reconstruction accuracy. Associations cannot diagnose causation or select a replacement treatment."
+    },
+    "excluded_actions": [
+      "model or tokenizer loading",
+      "model forward calls",
+      "new steering",
+      "changing prior artifacts or verdicts",
+      "refitting PCA or scales",
+      "parameter sweeps",
+      "selecting a new sign, layer or dose from these results"
+    ]
+  },
+  "frozen_files": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/method.json",
+      "bytes": 3838,
+      "sha256": "6f0f833b8f31c912d649093edb5410eac16b5724894f3194d47b3ad16da1e253"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/protocol.json",
+      "bytes": 10925,
+      "sha256": "a58a24fad8b05015cfebf9a88a5bf6f49c2f405e3add042bbe80bae1ff1ce681"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/controls.csv",
+      "bytes": 38285,
+      "sha256": "d5ee79cd452611497727fb69a507c7ee1d7bc802e29ed8ae1bd7f57fcb5b0aa4"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/manifest.json",
+      "bytes": 1878,
+      "sha256": "0fe5745e8d501ea2437d540eacb68ab4d2b4b41d201fa2fb8d4907eb3f83c916"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/nodes.csv",
+      "bytes": 547484,
+      "sha256": "b015e8892cc33b1cb3f35bd95b4048b193e40416346e81c4a87bfd20393e4f29"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/position_mix.csv",
+      "bytes": 609,
+      "sha256": "eafaec364264744363ef7fd2e12e9e10a0cb11863a04b250a30ed5a4a98da7ed"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/prompts.csv",
+      "bytes": 10278,
+      "sha256": "d4f0b71c5de132536e9d16253d2bf9ab90e7b032055333ccb92104bffd24f449"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/replay_arrays.npz",
+      "bytes": 682899,
+      "sha256": "55aa9bc656df409104033ea97415aff509eaa4b9d37f036c875d6f39f860c3bc"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/summary.json",
+      "bytes": 13987,
+      "sha256": "b8fd63bf057a2c937ecbe046034cb7584f2ec74061caf62c2bebf56fff431420"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/plan.json",
+      "bytes": 3662,
+      "sha256": "dc08739d5c9386da4af518963860570ddc1d416ee382652bc6d881b68fb568b3"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer/execution_protocol.json",
+      "bytes": 81638,
+      "sha256": "730a26064c9b7cb975854e668526ccb026c5b6991e999e680cd9cc9806bba96d"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/protocol.json",
+      "bytes": 61657,
+      "sha256": "88666f7a5d35c4e2f7dde490a1ce3ae19fa2ef08ef5555908298adca0a16f76c"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/manifest.json",
+      "bytes": 4207,
+      "sha256": "98f68c894a4f7a7cea37c1bcc4cbc1bc14b98cbb290da7d76b60acfad48a8819"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/analyze_hltd_prefix_nulls_v2.py",
+      "bytes": 13023,
+      "sha256": "d4a0aacd2397c2a39160fbdbe2d543dfab37e67bb888144e240c69f9b0c4a6f9"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/analyze_hltd_prefix_transfer_gate.py",
+      "bytes": 17369,
+      "sha256": "d65cd388bae2e4cb7c4b9ace81b5437bd7100a44b6e98fd9795cfb75b177d5a2"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/analyze_hltd_prefix_v2.py",
+      "bytes": 11205,
+      "sha256": "15cc4ac9ee4655e41e81aa737ae493a9dbc840037dd3e4fe1d8584d51468bcf9"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/audit_hltd_prefix_transfer.py",
+      "bytes": 6158,
+      "sha256": "1996f6d68096194fd3c5d64fdb059b6f0e36c747fbad50fbe5bb7cd21bd2f5d5"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/compare_hltd_prefix_nulls.py",
+      "bytes": 12681,
+      "sha256": "46f8612e5c70bfbdc77d12792e9a2f2d2ab0b7139293a9ddea7ef05a8d4ace05"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/diagnose_hltd_prefix_calibration.py",
+      "bytes": 20184,
+      "sha256": "ec3d1547a87d8e79895513bce86ebb8f473623d91f37917b8f2e5db9dabfde8e"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/evaluate_hltd_signed_layer_gate.py",
+      "bytes": 10439,
+      "sha256": "8f31a80cd83bf99bd76c83768719dab510a957f04aaa6022c1af80d7c86c6a96"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/hltd_prefix_interpolation.py",
+      "bytes": 6375,
+      "sha256": "3e7cf4c1fdc76703182d584c106e5058fdc6086a76d96a1ad77eefc45aedb457"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/hltd_prefix_transfer.py",
+      "bytes": 11725,
+      "sha256": "95f7cc898c40f2bee987ad58f5ebcc18c15f549617092946d81eb74627808190"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/run_hltd_precision_gate.py",
+      "bytes": 17364,
+      "sha256": "16fb1012bebad72982864dcd514483445d973a17c127a79dd60b062b51eb3129"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/run_hltd_prefix_transfer_gate.py",
+      "bytes": 21102,
+      "sha256": "f26f0ed027851b647a23e934914d001ffbf36d5a42dc54c1e089342bb47b1c0c"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/run_hltd_prefix_v2.py",
+      "bytes": 20040,
+      "sha256": "2119bf9d97683723abe25a024eae9de14eac1982ab06ee7fd2adfe5a1674d40b"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/atlas.npz",
+      "bytes": 757430,
+      "sha256": "dab62393d755f8a0b171ebef0d48dd0fabb1336a70ec63b4611e8f3b7aa05128"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/atlas_metadata.json",
+      "bytes": 39151,
+      "sha256": "ddbeb416c9f87507173d60369f239ca2a6121c09ab032fa29112e59a4101a263"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/tests/test_hltd_prefix_calibration.py",
+      "bytes": 13021,
+      "sha256": "ab7bf130a00d6847c339f49aae904f6000719dbe0f8639dae76f35d24ef95e29"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/tests/test_hltd_prefix_nulls.py",
+      "bytes": 11953,
+      "sha256": "376325bab722abc2b80deceeb96134ccb863eaf19cf9b17f8439f963db46e4f8"
+    }
+  ],
+  "runtime": {
+    "python": "3.12.6",
+    "numpy": "2.2.3",
+    "scipy": "1.17.1"
+  },
+  "outputs": [
+    "docs/data/hltd_prefix_null_comparison/calibration",
+    "docs/data/hltd_prefix_null_comparison/v2"
+  ],
+  "frozen_utc": "2026-10-01T00:49:48.019487+00:00"
+}

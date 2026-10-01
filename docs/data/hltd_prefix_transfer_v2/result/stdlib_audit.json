@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "status": "NOT_SUPPORTED",
+  "raw_treatment_rows": 5760,
+  "primary_recomputed": true,
+  "mean": 0.0064649743389692165,
+  "ci_low": -0.10310058729005811,
+  "ci_high": 0.13427044553250808,
+  "max_log_error": 1.1102230246251565e-16,
+  "max_primary_error": 1.1102230246251565e-16,
+  "scope": "Independent probability-to-coefficient arithmetic; saved bootstrap draws, not a model execution replay."
+}

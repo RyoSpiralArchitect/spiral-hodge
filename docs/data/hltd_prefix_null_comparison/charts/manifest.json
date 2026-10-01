@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "scope": "Independent SQLite aggregation from recorded CSV values, not an independent model run.",
+  "max_aggregation_error": 2.7755575615628914e-17,
+  "sources": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/protocol.json",
+      "bytes": 11625,
+      "sha256": "d1fc6ed31b5a8a40c82f0bcc4e45dd461e8d58ce6a94517ed8f6d10f6246fc91"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/manifest.json",
+      "bytes": 2139,
+      "sha256": "839e2c4535651abb385f8a6c166b192a76cf0aac2c2e35260c5a88d4f5441cbf"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/v2/manifest.json",
+      "bytes": 2110,
+      "sha256": "1dda9e0002aa85cd430bc8a7ab2ee0aaab5c90a78d21746c1ac0d887401c32e9"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/export_hltd_prefix_null_charts.py",
+      "bytes": 5402,
+      "sha256": "b48c3e7ced58a0c430afe4f47671ff9226148db66a0f4a2dc46ed50d5084ecbe"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/draws.csv",
+      "bytes": 121150,
+      "sha256": "e776cdf847b3ff0d95af1280626239c0ed707392711992c35dca87b5ca65a52c"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration_chart.sql",
+      "bytes": 662,
+      "sha256": "72b1f3803efbdd6c1736da76240fc48b9797148c80f545870d42b371fda67bed"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/raw_treatments.csv",
+      "bytes": 1669300,
+      "sha256": "bb78974d47d6b7422cb32fc494efc70471635a87c9dc6c0803a0a9c082413443"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/v2_chart.sql",
+      "bytes": 874,
+      "sha256": "f051300a7420fb3c2ea0ae64471f9e6aa971489de6dc8f853c7b3aaf6752ae6c"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/charts/widget_inputs.json",
+      "bytes": 6858,
+      "sha256": "656135eb2b3a55c4c294567741744b744dd5f80da9d7564e865708da0dcb868d"
+    }
+  ]
+}

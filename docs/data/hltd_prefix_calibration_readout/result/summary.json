@@ -1,0 +1,501 @@
+{
+  "status": "DESCRIPTIVE_CALIBRATION_DIAGNOSTIC",
+  "model_loads": 0,
+  "model_forward_calls": 0,
+  "evaluation_prefix_queries": 0,
+  "nodes": 1170,
+  "prompts": 40,
+  "recovery_status_counts": {
+    "DEFINED": 1117,
+    "INACTIVE_TARGET": 52,
+    "INACTIVE_PREDICTION": 1
+  },
+  "distance_supported_nodes": 1149,
+  "defined_recovery_nodes": 1117,
+  "supported_recovery_nodes": 1098,
+  "supported_recovery_equal_prompt": {
+    "n_total": 40,
+    "n_valid": 40,
+    "mean": 0.12115151065675259,
+    "q10": 0.06774813758331909,
+    "median": 0.12465070457018068,
+    "q90": 0.16741745142976117
+  },
+  "statistics": {
+    "recovery_cosine": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1117,
+        "mean": 0.12188282907690283,
+        "q10": -0.1251345828126374,
+        "median": 0.12981732838230103,
+        "q90": 0.3652855767438676
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 0.12207935188171129,
+        "q10": 0.07674562529921274,
+        "median": 0.12408049624639741,
+        "q90": 0.1697257930969923
+      }
+    },
+    "resultant_fraction": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1169,
+        "mean": 0.4634026804595717,
+        "q10": 0.37646569527402185,
+        "median": 0.4565651208189689,
+        "q90": 0.5428727468513874
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 0.4631633407579819,
+        "q10": 0.44631307182785007,
+        "median": 0.4607413653019784,
+        "q90": 0.4830143671990822
+      }
+    },
+    "cancellation_fraction": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1169,
+        "mean": 0.5365973195404283,
+        "q10": 0.45712725314861263,
+        "median": 0.5434348791810311,
+        "q90": 0.6235343047259782
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 0.5368366592420182,
+        "q10": 0.5169856328009178,
+        "median": 0.5392586346980216,
+        "q90": 0.5536869281721499
+      }
+    },
+    "pairwise_agreement": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1159,
+        "mean": 0.05260129930355832,
+        "q10": -0.01757966177875282,
+        "median": 0.049966543509882444,
+        "q90": 0.13129585907959643
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 0.05237093536554518,
+        "q10": 0.04014671469016545,
+        "median": 0.051960150231826846,
+        "q90": 0.06648989518973603
+      }
+    },
+    "effective_contributors": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1169,
+        "mean": 6.144940081123714,
+        "q10": 4.348034847985709,
+        "median": 6.468831631628545,
+        "q90": 7.501587874847504
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 6.143334517849835,
+        "q10": 5.873524618561144,
+        "median": 6.149906208126511,
+        "q90": 6.40349556743767
+      }
+    },
+    "max_contribution_share": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1169,
+        "mean": 0.264165189904247,
+        "q10": 0.1749074954908718,
+        "median": 0.23514438262392948,
+        "q90": 0.37960026038348454
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 0.2642231198738741,
+        "q10": 0.24160430128823518,
+        "median": 0.2648782033956769,
+        "q90": 0.28665973828473534
+      }
+    },
+    "unique_donor_prompts": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1170,
+        "mean": 7.17948717948718,
+        "q10": 6.0,
+        "median": 7.0,
+        "q90": 8.0
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 7.17619266910761,
+        "q10": 6.94396551724138,
+        "median": 7.169540229885058,
+        "q90": 7.4661330049261085
+      }
+    },
+    "largest_donor_prompt_mass": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1170,
+        "mean": 0.21506413035224436,
+        "q10": 0.1325195805389444,
+        "median": 0.23682541421684827,
+        "q90": 0.2808188872852286
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 0.21531222236642647,
+        "q10": 0.1956082816494576,
+        "median": 0.21806058400033057,
+        "q90": 0.22909304765750235
+      }
+    },
+    "weighted_token_gap": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1170,
+        "mean": 5.851117766365995,
+        "q10": 2.358011019906561,
+        "median": 5.722233351536641,
+        "q90": 9.423583351196438
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 5.837935084906229,
+        "q10": 5.0842712349906884,
+        "median": 5.790091998593342,
+        "q90": 6.708065115491333
+      }
+    },
+    "weighted_relative_gap": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1170,
+        "mean": 0.18612032210920895,
+        "q10": 0.0732161479426198,
+        "median": 0.18068737240678578,
+        "q90": 0.2991598929467907
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 0.18616808076771643,
+        "q10": 0.16476041997326546,
+        "median": 0.18587536928365972,
+        "q90": 0.20428168352695336
+      }
+    },
+    "same_position_bin_mass": {
+      "nodes": {
+        "n_total": 1170,
+        "n_valid": 1170,
+        "mean": 0.5491894302668158,
+        "q10": 0.24401777886864934,
+        "median": 0.5226728732898586,
+        "q90": 0.8787981144059133
+      },
+      "equal_prompt": {
+        "n_total": 40,
+        "n_valid": 40,
+        "mean": 0.5493178357134416,
+        "q10": 0.4838102146380995,
+        "median": 0.5564343909126528,
+        "q90": 0.598088483244174
+      }
+    }
+  },
+  "nearest_paired": {
+    "all": {
+      "paired_nodes": 1082,
+      "paired_prompts": 40,
+      "actual_cosine": 0.12207630154464724,
+      "control_cosine": 0.07660838243030581,
+      "paired_gap": 0.045467919114341435
+    },
+    "supported": {
+      "paired_nodes": 1064,
+      "paired_prompts": 40,
+      "actual_cosine": 0.12074552437610889,
+      "control_cosine": 0.07601321619414383,
+      "paired_gap": 0.04473230818196505
+    }
+  },
+  "controls": {
+    "v2_random": {
+      "all": {
+        "paired_nodes": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 1117.0,
+          "q10": 1117.0,
+          "median": 1117.0,
+          "q90": 1117.0
+        },
+        "paired_prompts": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 40.0,
+          "q10": 40.0,
+          "median": 40.0,
+          "q90": 40.0
+        },
+        "actual_cosine": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 0.12207935188171129,
+          "q10": 0.12207935188171129,
+          "median": 0.12207935188171129,
+          "q90": 0.12207935188171129
+        },
+        "control_cosine": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 0.0019345473650314868,
+          "q10": -0.005157664111424989,
+          "median": 0.00183486397012802,
+          "q90": 0.009072213235237905
+        },
+        "paired_gap": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 0.1201448045166798,
+          "q10": 0.11300713864647338,
+          "median": 0.12024448791158326,
+          "q90": 0.12723701599313628
+        },
+        "actual_resultant_fraction": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 0.4551359385021276,
+          "q10": 0.4551359385021276,
+          "median": 0.4551359385021276,
+          "q90": 0.4551359385021276
+        },
+        "control_resultant_fraction": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 0.40439449481313605,
+          "q10": 0.4030452748683043,
+          "median": 0.40419184844246336,
+          "q90": 0.4060229579002839
+        }
+      },
+      "supported": {
+        "paired_nodes": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 1098.0,
+          "q10": 1098.0,
+          "median": 1098.0,
+          "q90": 1098.0
+        },
+        "paired_prompts": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 40.0,
+          "q10": 40.0,
+          "median": 40.0,
+          "q90": 40.0
+        },
+        "actual_cosine": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 0.12115151065675259,
+          "q10": 0.12115151065675259,
+          "median": 0.12115151065675259,
+          "q90": 0.12115151065675259
+        },
+        "control_cosine": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 0.002150701444551659,
+          "q10": -0.0056230277976878915,
+          "median": 0.001947568560100406,
+          "q90": 0.010282032382624727
+        },
+        "paired_gap": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 0.11900080921220094,
+          "q10": 0.11086947827412787,
+          "median": 0.11920394209665218,
+          "q90": 0.12677453845444048
+        },
+        "actual_resultant_fraction": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 0.4554053842144805,
+          "q10": 0.4554053842144805,
+          "median": 0.4554053842144805,
+          "q90": 0.4554053842144805
+        },
+        "control_resultant_fraction": {
+          "n_total": 8,
+          "n_valid": 8,
+          "mean": 0.4043464906510188,
+          "q10": 0.4030575725483709,
+          "median": 0.4041346822497648,
+          "q90": 0.4059947336711031
+        }
+      }
+    },
+    "within_prompt_shuffle": {
+      "all": {
+        "paired_nodes": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 1117.0,
+          "q10": 1117.0,
+          "median": 1117.0,
+          "q90": 1117.0
+        },
+        "paired_prompts": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 40.0,
+          "q10": 40.0,
+          "median": 40.0,
+          "q90": 40.0
+        },
+        "actual_cosine": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 0.12207935188171132,
+          "q10": 0.12207935188171129,
+          "median": 0.12207935188171129,
+          "q90": 0.12207935188171129
+        },
+        "control_cosine": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 0.0026855886198910014,
+          "q10": -0.0039203232557776385,
+          "median": 0.0024776759260872567,
+          "q90": 0.009499719050902265
+        },
+        "paired_gap": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 0.11939376326182029,
+          "q10": 0.11257963283080902,
+          "median": 0.11960167595562404,
+          "q90": 0.12599967513748891
+        },
+        "actual_resultant_fraction": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 0.4551359385021277,
+          "q10": 0.4551359385021276,
+          "median": 0.4551359385021276,
+          "q90": 0.4551359385021276
+        },
+        "control_resultant_fraction": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 0.40771890695324425,
+          "q10": 0.4039786250452215,
+          "median": 0.4077173523792821,
+          "q90": 0.4113164089642511
+        }
+      },
+      "supported": {
+        "paired_nodes": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 1098.0,
+          "q10": 1098.0,
+          "median": 1098.0,
+          "q90": 1098.0
+        },
+        "paired_prompts": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 40.0,
+          "q10": 40.0,
+          "median": 40.0,
+          "q90": 40.0
+        },
+        "actual_cosine": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 0.12115151065675261,
+          "q10": 0.12115151065675259,
+          "median": 0.12115151065675259,
+          "q90": 0.12115151065675259
+        },
+        "control_cosine": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 0.0026807220967039226,
+          "q10": -0.0040477494811112,
+          "median": 0.0023133790901350617,
+          "q90": 0.009291622875396815
+        },
+        "paired_gap": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 0.11847078856004867,
+          "q10": 0.11185988778135578,
+          "median": 0.11883813156661752,
+          "q90": 0.12519926013786378
+        },
+        "actual_resultant_fraction": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 0.4554053842144805,
+          "q10": 0.4554053842144805,
+          "median": 0.4554053842144805,
+          "q90": 0.4554053842144805
+        },
+        "control_resultant_fraction": {
+          "n_total": 128,
+          "n_valid": 128,
+          "mean": 0.40755299962525215,
+          "q10": 0.4039604467995131,
+          "median": 0.40755140677680374,
+          "q90": 0.4111790556823008
+        }
+      }
+    }
+  },
+  "associations": {
+    "resultant_fraction": {
+      "paired_nodes": 1117,
+      "pooled_spearman_rho": 0.006080276697505758
+    },
+    "weighted_relative_gap": {
+      "paired_nodes": 1117,
+      "pooled_spearman_rho": -0.092568507459831
+    },
+    "nearest_distance": {
+      "paired_nodes": 1117,
+      "pooled_spearman_rho": -0.10033848071253552
+    }
+  },
+  "scope": "Donor-prompt-excluded reconstruction within the existing shared calibration chart, not independent cross-validation of PCA, bandwidth, radii, or Hodge targets. No model, tokenizer, new hidden states, or evaluation response data is needed.",
+  "started_utc": "2026-09-30T22:49:16.072923+00:00",
+  "completed_utc": "2026-09-30T22:49:17.430041+00:00",
+  "protocol": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/protocol.json",
+    "bytes": 10925,
+    "sha256": "a58a24fad8b05015cfebf9a88a5bf6f49c2f405e3add042bbe80bae1ff1ce681"
+  },
+  "readout_fingerprint": "eb3a2372ccae3690f67579a8b2881984f799a3ee58a6d5ef277d7652601fc734"
+}

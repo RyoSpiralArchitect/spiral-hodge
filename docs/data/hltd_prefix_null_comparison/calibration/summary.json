@@ -1,0 +1,120 @@
+{
+  "status": "DESCRIPTIVE_CALIBRATION_NULL_COMPARISON",
+  "model_loads": 0,
+  "model_forward_calls": 0,
+  "evaluation_prefix_queries": 0,
+  "nodes": 1170,
+  "prompts": 40,
+  "actual_defined_nodes": 1117,
+  "common_nodes": 1117,
+  "excluded_by_null_validity": 0,
+  "common_supported_nodes": 1098,
+  "strata": 120,
+  "singleton_strata": 0,
+  "stratified_fixed_point_fraction": 0.10078125,
+  "unrestricted_actual_mean": 0.12207935188171129,
+  "comparison": [
+    {
+      "scope": "all",
+      "comparator": "actual",
+      "draws": 1,
+      "paired_nodes": 1117,
+      "paired_prompts": 40,
+      "mean_cosine": 0.12207935188171129,
+      "draw_q10": 0.12207935188171129,
+      "draw_q90": 0.12207935188171129,
+      "actual_minus_control": 0.0
+    },
+    {
+      "scope": "all",
+      "comparator": "v2_random",
+      "draws": 8,
+      "paired_nodes": 1117,
+      "paired_prompts": 40,
+      "mean_cosine": 0.0019345473650314868,
+      "draw_q10": -0.005157664111424989,
+      "draw_q90": 0.009072213235237905,
+      "actual_minus_control": 0.1201448045166798
+    },
+    {
+      "scope": "all",
+      "comparator": "within_prompt_shuffle",
+      "draws": 128,
+      "paired_nodes": 1117,
+      "paired_prompts": 40,
+      "mean_cosine": 0.0026855886198910014,
+      "draw_q10": -0.0039203232557776385,
+      "draw_q90": 0.009499719050902265,
+      "actual_minus_control": 0.11939376326182029
+    },
+    {
+      "scope": "all",
+      "comparator": "within_prompt_position_shuffle",
+      "draws": 128,
+      "paired_nodes": 1117,
+      "paired_prompts": 40,
+      "mean_cosine": 0.00900814610680538,
+      "draw_q10": 0.0007794791011755497,
+      "draw_q90": 0.017464351739441733,
+      "actual_minus_control": 0.11307120577490591
+    },
+    {
+      "scope": "supported",
+      "comparator": "actual",
+      "draws": 1,
+      "paired_nodes": 1098,
+      "paired_prompts": 40,
+      "mean_cosine": 0.12115151065675259,
+      "draw_q10": 0.12115151065675259,
+      "draw_q90": 0.12115151065675259,
+      "actual_minus_control": 0.0
+    },
+    {
+      "scope": "supported",
+      "comparator": "v2_random",
+      "draws": 8,
+      "paired_nodes": 1098,
+      "paired_prompts": 40,
+      "mean_cosine": 0.002150701444551659,
+      "draw_q10": -0.0056230277976878915,
+      "draw_q90": 0.010282032382624727,
+      "actual_minus_control": 0.11900080921220094
+    },
+    {
+      "scope": "supported",
+      "comparator": "within_prompt_shuffle",
+      "draws": 128,
+      "paired_nodes": 1098,
+      "paired_prompts": 40,
+      "mean_cosine": 0.0026807220967039226,
+      "draw_q10": -0.0040477494811112,
+      "draw_q90": 0.009291622875396815,
+      "actual_minus_control": 0.11847078856004867
+    },
+    {
+      "scope": "supported",
+      "comparator": "within_prompt_position_shuffle",
+      "draws": 128,
+      "paired_nodes": 1098,
+      "paired_prompts": 40,
+      "mean_cosine": 0.008871571684712004,
+      "draw_q10": 0.0009373879382757525,
+      "draw_q90": 0.016842259523916117,
+      "actual_minus_control": 0.11227993897204058
+    }
+  ],
+  "scope": "Donor-prompt-excluded reconstruction in a shared PCA chart, not fully held-out cross-validation. Coarse-bin preservation does not control exact position, token identity, syntax, or semantics. No semantic ground truth.",
+  "reference_ranges": "Across fixed null draws; not confidence intervals.",
+  "prior_replay": {
+    "passed": true,
+    "prior_array_replay": "byte-identical values",
+    "max_statistic_error": 0.0
+  },
+  "started_utc": "2026-10-01T00:49:57.560071+00:00",
+  "completed_utc": "2026-10-01T00:49:59.529406+00:00",
+  "protocol": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/protocol.json",
+    "bytes": 11625,
+    "sha256": "d1fc6ed31b5a8a40c82f0bcc4e45dd461e8d58ce6a94517ed8f6d10f6246fc91"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "diagnostic_id": "hltd-prefix-calibration-readout-v1",
+  "knowledge_at_design": "Post-v2 diagnostic. V2 achieved 60/60 coverage but its signed response endpoint was NOT_SUPPORTED. No calibration leave-prompt-out recovery results have been inspected or used to select this diagnostic.",
+  "scope": "Donor-prompt-excluded reconstruction within the existing shared calibration chart, not independent cross-validation of PCA, bandwidth, radii, or Hodge targets. No model, tokenizer, new hidden states, or evaluation response data is needed.",
+  "readout": "Reuse the v2 eight-neighbor Gaussian rule and its fixed bandwidth, both distance radii and activity threshold. Exclude all nodes of the query's prompt before neighbor selection. Include inactive donors without fallback. Do not refit PCA or any scale.",
+  "target": "The existing raw chart coexact vector at each calibration interior node is a descriptive reconstruction target, not semantic ground truth or a causal optimum.",
+  "metrics": {
+    "recovery": "cosine between target and weighted raw donor vector, defined only when both norms meet the unchanged activity threshold",
+    "resultant_fraction": "norm(sum(w*v)) / sum(w*norm(v)); null if the denominator is zero; one minus this is cancellation fraction",
+    "pairwise_agreement": "mean pairwise donor cosine weighted by products of w*norm(v); null if fewer than two nonzero contributors",
+    "effective_contributors": "sum(w*norm(v))^2 / sum((w*norm(v))^2), null for all-zero donors",
+    "positions": "node_token is zero-based; query prefix length is node_token+1; relative position is node_token/(full calibration token_count-1)",
+    "position_bins": "early: relative position <1/3; middle: [1/3,2/3); late: >=2/3",
+    "position_mixing": "geometric-weighted absolute and relative donor/query position gap, geometric and magnitude-contribution-weighted bin masses, and donor-prompt concentration",
+    "associations": "pooled-node Spearman correlations of recovery with resultant fraction, weighted relative position gap, and nearest distance; descriptive only, no p-values"
+  },
+  "aggregation": "Report every node and reason for undefined recovery. Summarize all recoverable nodes and distance-supported recoverable nodes separately. Main descriptive means average nodes within each prompt then prompts equally; explicitly report usable nodes and prompts. No population confidence intervals or pass/fail gate.",
+  "comparators": {
+    "nearest": "Nearest cross-prompt vector using the same geometry; compare only paired defined cosines and report omissions.",
+    "v2_random": "Eight fixed v2 Gaussian chart controls keyed by (seed,original node index), scaled by each original node norm and interpolated with the same weights.",
+    "within_prompt_shuffle": "Permute whole donor vectors within each original calibration prompt, preserving that prompt's joint direction/norm inventory and zeros but destroying position-to-vector matching. Fixed geometry and targets. Apply each draw consistently across all queries; never redraw. This is a conditional diagnostic reference, not an exchangeability-based significance test."
+  },
+  "random_seeds": [0, 1, 2, 3, 4, 5, 6, 7],
+  "shuffle_seed": 6043,
+  "shuffle_draws": 128,
+  "control_comparison": "For each draw, intersect actual and control valid-direction masks, summarize both on identical nodes within identical prompts, and record paired counts and gaps. Repeat for all recoverable and supported recoverable scopes. Reference quantiles describe draws, not confidence intervals.",
+  "excluded_actions": ["model loading or activation steering", "evaluation-prefix queries", "evaluation-response conditioning", "neighbor or bandwidth sweep", "altering v1/v2 inputs or verdicts", "selecting a new treatment configuration from v2 outcomes"]
+}

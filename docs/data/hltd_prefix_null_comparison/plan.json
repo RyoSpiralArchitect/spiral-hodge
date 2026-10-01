@@ -1,0 +1,28 @@
+{
+  "diagnostic_id": "hltd-prefix-null-comparison-v1",
+  "knowledge_at_design": "Post-v2 and post-calibration-readout follow-up. The unchanged v2 endpoint is NOT_SUPPORTED. Calibration actual mean cosine was 0.12208 versus approximately 0.002 for both existing null families. The position-stratified null and response/geometry associations below have not yet been computed.",
+  "stage_order": ["calibration_null_comparison", "saved_v2_analysis"],
+  "calibration": {
+    "random_seeds": [0, 1, 2, 3, 4, 5, 6, 7],
+    "shuffle_draws": 128,
+    "shuffle_seed": 6043,
+    "position_bins": "Use the existing relative thirds: floor(3*token_index/(calibration_token_count-1)), capped at 2. No alternative bins.",
+    "stratified_shuffle": "For each draw, iterate sorted (prompt_id, bin) groups and permute original node indices with default_rng(6043). Permute whole vectors, including their norms and zeros. Keep fixed points and singleton groups; never redraw. Targets, neighbors and weights stay unchanged.",
+    "comparators": ["actual", "v2_random", "within_prompt_shuffle", "within_prompt_position_shuffle"],
+    "common_mask": "Intersect finite target-recovery cosines for actual and every draw of all three null families. Use identical nodes and equal prompt weighting for all arms. Report all and distance-supported scopes, excluded counts, and per-draw paired masks separately.",
+    "aggregation": "Average nodes within prompt, then prompts equally, then fixed draws. Report draw q10/q90 as descriptive reference ranges, never as confidence intervals or significance tests.",
+    "scope": "Donor-prompt-excluded reconstruction in a shared PCA chart, not fully held-out cross-validation. Coarse-bin preservation does not control exact position, token identity, syntax, or semantics. No semantic ground truth."
+  },
+  "v2": {
+    "source": "Only frozen v2 support/hidden/logit/treatment artifacts. Start after a verified completed Stage A manifest; do not condition any analysis settings on Stage A values.",
+    "primary": "Replay the existing complete-grid signed endpoint and retain its original NOT_SUPPORTED verdict, bootstrap and prompt unit. No new confirmatory test.",
+    "predictors": ["resultant_fraction", "effective_contributors", "weighted_token_gap", "nearest_distance"],
+    "outcomes": ["odd_gap", "coexact_odd"],
+    "association_scopes": ["pooled_cells", "prefix_8", "prefix_16", "prefix_24", "prompt_means"],
+    "associations": "Spearman correlation, report every predictor/outcome/scope, finite counts, no p-values or selection. Average eight seeds before defining a cell; pooled cells are repeated observations of 20 prompts, not 60 independent samples.",
+    "positions": "Query token_index=prefix_length-1. Compute weighted absolute token gap to calibration donors. Donor bin masses use calibration lengths only; never use future evaluation text length to bin the query.",
+    "dose_response": "For every component and fixed magnitude 0.25, 0.5, 1, record plus/minus baseline logprob deltas, odd=(delta_plus-delta_minus)/2, even=(delta_plus+delta_minus)/2. Average seeds, then prefixes, then prompts equally. Describe finite-dose responses, not infinitesimal derivatives or fluency.",
+    "scope": "Evaluation prefixes have no observed coexact ground truth. Structural descriptors are not v2 reconstruction accuracy. Associations cannot diagnose causation or select a replacement treatment."
+  },
+  "excluded_actions": ["model or tokenizer loading", "model forward calls", "new steering", "changing prior artifacts or verdicts", "refitting PCA or scales", "parameter sweeps", "selecting a new sign, layer or dose from these results"]
+}

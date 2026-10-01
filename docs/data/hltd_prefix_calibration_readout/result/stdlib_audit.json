@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "nodes": 1170,
+  "prompts": 40,
+  "control_rows": 272,
+  "max_arithmetic_error": 2.6645352591003757e-15,
+  "manifest": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/manifest.json",
+    "bytes": 1878,
+    "sha256": "0fe5745e8d501ea2437d540eacb68ab4d2b4b41d201fa2fb8d4907eb3f83c916"
+  },
+  "auditor": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/audit_hltd_prefix_calibration.py",
+    "bytes": 7022,
+    "sha256": "63a8057cc452c819945d98709b6db28f5e75878332321691bcdfc2ea03daba8d"
+  },
+  "scope": "Independent stdlib hash, inventory, distribution, and equal-prompt aggregation checks; not independent vector, neighbor, or model execution replay."
+}

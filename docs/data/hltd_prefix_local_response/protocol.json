@@ -1,0 +1,613 @@
+{
+  "diagnostic_id": "hltd-prefix-local-response-v1",
+  "method": {
+    "diagnostic_id": "hltd-prefix-local-response-v1",
+    "knowledge_at_design": "Post-v2 and post-position-bin-null diagnostic. V2's signed endpoint remains NOT_SUPPORTED. This run reuses all 60 existing evaluation prefixes to diagnose that result, not to claim fresh-sample confirmation. No activation gradients or small-dose responses have been inspected to choose this specification.",
+    "objective": "Natural-log probability of the original authored next token. The target is used only by the scorer, after prefix-only field lookup. This is a token-fit objective, not a semantic or fluency measurement.",
+    "gradient": "At the output of GPT-2 block 6 (hidden layer 7), add a shared zero leaf delta of shape [768] to the last observed token in each of 12 identical batch rows. Differentiate the mean target log-probability with respect to that leaf only. Freeze every parameter; no optimizer or weight updates.",
+    "readout": "Reuse the exact v2 PCA, eight-neighbor weights, support/activity rules, Gaussian node-norm-matched random fields, dose and seeds 0..7. Do not refit, rotate, reverse by outcomes, or optimize the candidate directions.",
+    "magnitudes": [
+      0.01,
+      0.02,
+      0.04
+    ],
+    "primary_numerical_magnitude": 0.01,
+    "derivative_absolute_tolerance": 0.005,
+    "derivative_relative_tolerance": 0.05,
+    "baseline_logit_tolerance": 0.0001,
+    "objective_logprob_tolerance": 0.0001,
+    "numerical_gate": "For every prompt/prefix/seed/component at magnitude 0.01, abs(central_difference - gradient_dot_delta_at_alpha1) <= 0.005 + 0.05*abs(gradient_dot_delta_at_alpha1). All rows must pass; no exclusions or alternate magnitude. The other magnitudes are descriptive finite-dose profiles, not a tuning sweep.",
+    "preflight": "Before any nonzero treatment, all 60 saved prefix hidden arrays must replay byte-identically, current no-hook and zero-leaf autograd logits must match saved batch-12 logits within 1e-4, every batch must have zero row spread, and all gradients must be finite and nonzero. Keep the same MPS/native-FP32/SDPA runtime with no fallback or autocast.",
+    "planned_cells": 60,
+    "planned_nonzero_rows": 5760,
+    "measurements": [
+      "gradient norm",
+      "gradient/direction cosine",
+      "gradient dot alpha-one hidden delta",
+      "small-dose central differences",
+      "odd and even response",
+      "saved-v2 large-dose central differences against the same gradient"
+    ],
+    "aggregation": "Average eight seeds before prefix cells, then three prefixes before twenty equally weighted prompts. Repeated coexact rows are not independent replication. Report descriptive means, prompt quantiles and positive counts; no new positive-effect hypothesis test.",
+    "semantic_direction_status": "NOT_TESTED",
+    "semantic_boundary": "Neither numerical derivative agreement, positive next-token response, nor a probe-axis displacement can issue semantic SUPPORTED. Identity/affordance relation judgments, disjoint construct validation, matched controls, fluency noninferiority and independent confirmation require a separate prospectively frozen semantic protocol.",
+    "failure_policy": "Single exclusive attempt. Preserve failed receipts, counters and prior evidence. No retry, backend substitution, threshold relaxation, dose selection, partial-sample promotion or model training."
+  },
+  "runtime": {
+    "python": "3.12.6 (v3.12.6:a4a2d2b0d85, Sep  6 2024, 16:08:03) [Clang 13.0.0 (clang-1300.0.29.30)]",
+    "executable": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
+    "platform": "macOS-26.4.1-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.12.1",
+      "transformers": "4.57.6",
+      "numpy": "2.2.3",
+      "pandas": "2.3.2",
+      "scipy": "1.17.1",
+      "scikit-learn": "1.7.2",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.22.2"
+    }
+  },
+  "model_path": "/Users/ryospiralarchitect/.hf_home/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e",
+  "readout_fingerprint": "eb3a2372ccae3690f67579a8b2881984f799a3ee58a6d5ef277d7652601fc734",
+  "run_root": "spiral_out_hltd_prefix_local_response",
+  "result_root": "docs/data/hltd_prefix_local_response/result",
+  "frozen_files": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_local_response/method.json",
+      "bytes": 3258,
+      "sha256": "3f2673dea48453a3668d674f00ae305e460ce390fa78fdf0ce2651cd4792f7ee"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/v2/manifest.json",
+      "bytes": 2110,
+      "sha256": "1dda9e0002aa85cd430bc8a7ab2ee0aaab5c90a78d21746c1ac0d887401c32e9"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer/execution_protocol.json",
+      "bytes": 81638,
+      "sha256": "730a26064c9b7cb975854e668526ccb026c5b6991e999e680cd9cc9806bba96d"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer/result/support.csv",
+      "bytes": 9790,
+      "sha256": "115bcc2c192c3ca76a625063d256f64c616f6733e116215e8bc12bd2610699c0"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer/result/verdict.json",
+      "bytes": 593,
+      "sha256": "0d34efbbc1825fbd53be44037c786e6c7482115e059d191cfdef010cce846b36"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/protocol.json",
+      "bytes": 61657,
+      "sha256": "88666f7a5d35c4e2f7dde490a1ce3ae19fa2ef08ef5555908298adca0a16f76c"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/bootstrap_indices.csv",
+      "bytes": 254710,
+      "sha256": "b7c99c4d2ed231f61c493fd4707f792264d63079790902ca764ca4426f994e13"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/coefficients.csv",
+      "bytes": 48865,
+      "sha256": "004bb41423888b9f9af02b7050ce34df6f9684a454b914d2c94497ce6fc595a7"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/manifest.json",
+      "bytes": 4207,
+      "sha256": "98f68c894a4f7a7cea37c1bcc4cbc1bc14b98cbb290da7d76b60acfad48a8819"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/support.csv",
+      "bytes": 13233,
+      "sha256": "d692b7943a831d5881d025a842a2b07c293e556e7f436d123f2cc4c194a07838"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/verdict.json",
+      "bytes": 1885,
+      "sha256": "98f230c4bfa9c8fa36b9c8e7e4dbe89adc56febc2320124699b80b6f2add0d22"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/diagnose_hltd_prefix_calibration.py",
+      "bytes": 20184,
+      "sha256": "ec3d1547a87d8e79895513bce86ebb8f473623d91f37917b8f2e5db9dabfde8e"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/run_hltd_prefix_local_response.py",
+      "bytes": 29460,
+      "sha256": "18b0b62170867ad658ac2a459028ce69f0d3ba8506a3c2463f116ea36bb4223d"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/atlas.npz",
+      "bytes": 757430,
+      "sha256": "dab62393d755f8a0b171ebef0d48dd0fabb1336a70ec63b4611e8f3b7aa05128"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/atlas_freeze.json",
+      "bytes": 2575,
+      "sha256": "799d97f5dc54831b8cb48ac2cfa6afbc9e4652b46ae354c34009eb90546a3540"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/atlas_metadata.json",
+      "bytes": 39151,
+      "sha256": "ddbeb416c9f87507173d60369f239ca2a6121c09ab032fa29112e59a4101a263"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/calibration_hidden.npz",
+      "bytes": 3578401,
+      "sha256": "bd66e811abfbcce3d10f5d8f090717a820185c6bd81df66a95d4a2c39acea02c"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/evaluation_prefixes.npz",
+      "bytes": 9942657,
+      "sha256": "f9690f0d68d7c766c201336f64464632b0f27950248d633891c18a5a1f55b860"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/execution_receipt.json",
+      "bytes": 459,
+      "sha256": "bbe18fb9da9a4e07159be9d29a6b5405212c9b4009894ba404192868daa317ec"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/execution_started.json",
+      "bytes": 360,
+      "sha256": "6b1b16cb9dc2d8caf65d0a1b791acfee3729fde6361dcede7a8fb0eb9b008e7f"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/final_weight_audit.json",
+      "bytes": 39222,
+      "sha256": "4d294a17a27dca25d7d2ef6a4b4b83b4769a2a18d8d1e4c2544e10cc5fb396ef"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/load_audit.json",
+      "bytes": 39718,
+      "sha256": "38859f7b9bb23a61c711dd1b80f457de7258f716b818471bae97bd37ace15590"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/pilot_audit.json",
+      "bytes": 3205518,
+      "sha256": "463727c6d2f76edd096ee04ab557b99fe5698a31228c71de5c66056ec0218c1d"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/support_preflight.json",
+      "bytes": 3692105,
+      "sha256": "5af5273093890aca447fbd33c0882481f80006938db0343848efcac4db9e0347"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/evaluation_observations.npz",
+      "bytes": 237447287,
+      "sha256": "9015d275fe3113b760668538702c3a93695f5c4c16d2b0933e128da6c2f4461b"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/execution_receipt.json",
+      "bytes": 512,
+      "sha256": "77f6517dc7bf502909067d04d1e63e3467406f74c26a4df25f068083620dfb7f"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/execution_started.json",
+      "bytes": 392,
+      "sha256": "22382546b33aec6dcf85830b587e020cec0ceae95b0319681e6aadf503d70d96"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/final_weight_audit.json",
+      "bytes": 39176,
+      "sha256": "1889a6805eecd8e77b3b14e1af7dfbe4081b7659ac59424b642c1d3ff064edd7"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/load_audit.json",
+      "bytes": 39718,
+      "sha256": "38859f7b9bb23a61c711dd1b80f457de7258f716b818471bae97bd37ace15590"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/pilot_audit.json",
+      "bytes": 8110874,
+      "sha256": "8165e3c967a843174e602e136aac7bd524b547313079233713fb620826ccd8fc"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/pilot_observations.npz",
+      "bytes": 190127766,
+      "sha256": "3e72c60868acbeb46a09687daafe5f0a1021fd5edcd856f230cdfef8942eb5ab"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/pre_treatment_gate.json",
+      "bytes": 1030,
+      "sha256": "57c17051f721e471ff050b7042fe683e64ea1842d6257afed5b6831038d1d816"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/raw_treatments.csv",
+      "bytes": 1669300,
+      "sha256": "bb78974d47d6b7422cb32fc494efc70471635a87c9dc6c0803a0a9c082413443"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/readout_freeze.json",
+      "bytes": 628,
+      "sha256": "da2574fe592745d41540522d74978484e9e54912ac2a14317a4907667f73c227"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/support_preflight.json",
+      "bytes": 9049717,
+      "sha256": "dc71a4a8ecfba05be3e9010cf55feb9682ce091faa0589c690267efa24c6b6c5"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/tests/test_hltd_prefix_local_response.py",
+      "bytes": 8066,
+      "sha256": "7835e8f25086d976963c1ecb43916f583f5a0fe824c3c0e68cf2fc3f72c7edd9"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.hf_home/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e/config.json",
+      "bytes": 665,
+      "sha256": "0daed7749b4f02b8f76240d5444551d7b08712dab4d0adb8239c56ba823bb7b4"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.hf_home/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e/generation_config.json",
+      "bytes": 124,
+      "sha256": "ed0b32ac72c0f5f44a719abb2d7786ea5146c871f83717b7f2018065954de02b"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.hf_home/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e/merges.txt",
+      "bytes": 456318,
+      "sha256": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.hf_home/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e/model.safetensors",
+      "bytes": 548105171,
+      "sha256": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.hf_home/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e/tokenizer.json",
+      "bytes": 1355256,
+      "sha256": "8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.hf_home/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e/tokenizer_config.json",
+      "bytes": 26,
+      "sha256": "5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.hf_home/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e/vocab.json",
+      "bytes": 1042301,
+      "sha256": "196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783"
+    },
+    {
+      "path": "data/hltd_affordance_prompt_suite.jsonl",
+      "bytes": 1128,
+      "sha256": "df59175d5def1a172e63286dfdeb8cdb228fd0873fbf91b8bac3e7ca0cc3f05c"
+    },
+    {
+      "path": "data/hltd_fresh20_prompt_suite.jsonl",
+      "bytes": 4856,
+      "sha256": "691e2843dcd40e5c25573b118926c48ffd4030c8affaafe40af09ef7d608e68c"
+    },
+    {
+      "path": "data/hltd_identity_counterfactual_probe_suite.jsonl",
+      "bytes": 6515,
+      "sha256": "15b3e61a0dd27dd436696402f9f7647ea0e1283622afa9db5371b61de7dfe787"
+    },
+    {
+      "path": "data/hltd_prefix_transfer_prompt_suite.jsonl",
+      "bytes": 8211,
+      "sha256": "dd934e15b21a3ecfcb56f8c5d10894e5d24bd24a48a40abbae8d9d8d88a6f833"
+    },
+    {
+      "path": "data/hltd_prefix_transfer_v2/prompts.jsonl",
+      "bytes": 8786,
+      "sha256": "b46faf9493ee44511663c08e2602f389937fb55172744bf633ec019abb9902b7"
+    },
+    {
+      "path": "data/hltd_prompt_suite.jsonl",
+      "bytes": 4224,
+      "sha256": "8591d80b7cac5fa4c29944768633b63ab6ad2ba030699300e0fb4105feb839e8"
+    },
+    {
+      "path": "docs/data/hltd_fresh_l7_l8/protocol.json",
+      "bytes": 34968,
+      "sha256": "74cfcb5f91ba56ffabc1eb8d8ef0f3006237921bc57175868b412edcec624ca1"
+    },
+    {
+      "path": "docs/data/hltd_prefix_transfer/preparation.json",
+      "bytes": 86583,
+      "sha256": "5149d5dc71f5844ff5cd7e8389c5bbdc03d69580f0cb1f7b33516c0940d0dd6d"
+    },
+    {
+      "path": "docs/data/hltd_prefix_transfer/result/manifest.json",
+      "bytes": 3656,
+      "sha256": "97dc8a81d43055b005c0e27a2bf17d93a9329fa3945ecebed27227efddad17be"
+    },
+    {
+      "path": "docs/data/hltd_prefix_transfer/spec.json",
+      "bytes": 6620,
+      "sha256": "b59e5761922086414810797f785d43b3c30eff45558e009f4303a131ff0c1767"
+    },
+    {
+      "path": "docs/data/hltd_prefix_transfer_v2/design.json",
+      "bytes": 4176,
+      "sha256": "c6c583d7f058ef15da2416528bf74a2db66769aea7090976cac0cae3f90df101"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 766,
+      "sha256": "7febb8e4584db7349429d04e4bdde3d8dd227e2dd18969b3872501a493c0dcfd"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 128,
+      "sha256": "8f6e72b0407bd56d68c6034f79050593ef4220b8a848b75bdfc94f4ede312c1d"
+    },
+    {
+      "path": "scripts/analyze_hltd_fresh_gate.py",
+      "bytes": 8812,
+      "sha256": "86ea978a53acbf1a9f98ea281f7e4fc1cb142658e897172f040b7c60d0a7a66c"
+    },
+    {
+      "path": "scripts/analyze_hltd_l8_gate.py",
+      "bytes": 9310,
+      "sha256": "dfcd9a216494754add8bb6db0d22dc33c6f64990e9297489cc5a4a9d49082940"
+    },
+    {
+      "path": "scripts/analyze_hltd_precision_full_gate.py",
+      "bytes": 8177,
+      "sha256": "6edbd91156b31ce58b51000f39dad1c3a9eb4ce1a4687311b587fbce3336774a"
+    },
+    {
+      "path": "scripts/analyze_hltd_precision_gate.py",
+      "bytes": 9766,
+      "sha256": "d60ac5305d361d6d3a21947b2cc5517d198ae436007a875324c8302f2a4932c2"
+    },
+    {
+      "path": "scripts/analyze_hltd_prefix_transfer_gate.py",
+      "bytes": 17369,
+      "sha256": "d65cd388bae2e4cb7c4b9ace81b5437bd7100a44b6e98fd9795cfb75b177d5a2"
+    },
+    {
+      "path": "scripts/analyze_hltd_prefix_v2.py",
+      "bytes": 11205,
+      "sha256": "15cc4ac9ee4655e41e81aa737ae493a9dbc840037dd3e4fe1d8584d51468bcf9"
+    },
+    {
+      "path": "scripts/audit_hltd_precision_raw.py",
+      "bytes": 6829,
+      "sha256": "0faa2e05db1f0532b8e2834a1e6b5c2ae187f42e03f4e37cf34db3e22a731dce"
+    },
+    {
+      "path": "scripts/audit_hltd_prefix_transfer.py",
+      "bytes": 6158,
+      "sha256": "1996f6d68096194fd3c5d64fdb059b6f0e36c747fbad50fbe5bb7cd21bd2f5d5"
+    },
+    {
+      "path": "scripts/calibrate_hltd_steering_batch.py",
+      "bytes": 5194,
+      "sha256": "a21e03e62320f53fa0126f58efa8921f50481fcdfaf1fde08cfd05101cc6f5e1"
+    },
+    {
+      "path": "scripts/continue_hltd_l8_gate.py",
+      "bytes": 10487,
+      "sha256": "705f4f2ad9e72490860d5008b3e26ad25d3f8efb77ddda799de1daad8fe74946"
+    },
+    {
+      "path": "scripts/evaluate_hltd_signed_layer_gate.py",
+      "bytes": 10439,
+      "sha256": "8f31a80cd83bf99bd76c83768719dab510a957f04aaa6022c1af80d7c86c6a96"
+    },
+    {
+      "path": "scripts/hltd_historical_sources.py",
+      "bytes": 1823,
+      "sha256": "63b3c5396838afb9764f3a7b981dfe85f26483be42e4e221b29c141830ebb681"
+    },
+    {
+      "path": "scripts/hltd_position.py",
+      "bytes": 778,
+      "sha256": "3710f138dd8645cf0c136cafa70a88b0422feb0e19dc30434f48c0b39c8bd987"
+    },
+    {
+      "path": "scripts/hltd_prefix_interpolation.py",
+      "bytes": 6375,
+      "sha256": "3e7cf4c1fdc76703182d584c106e5058fdc6086a76d96a1ad77eefc45aedb457"
+    },
+    {
+      "path": "scripts/hltd_prefix_transfer.py",
+      "bytes": 11725,
+      "sha256": "95f7cc898c40f2bee987ad58f5ebcc18c15f549617092946d81eb74627808190"
+    },
+    {
+      "path": "scripts/plan_hltd_branch_band_runs.py",
+      "bytes": 16973,
+      "sha256": "0f4c97d1192955ce526dd33ed9610b1b0ace32288d3fc9689ecef1cb35827347"
+    },
+    {
+      "path": "scripts/plot_hltd_branch_band_results.py",
+      "bytes": 10870,
+      "sha256": "86a3b96154a0782bab11a63d840d9b8903de2e13798b2edf5aaaba10b385499a"
+    },
+    {
+      "path": "scripts/plot_hltd_branch_hodge.py",
+      "bytes": 59618,
+      "sha256": "157f85b92f811e3fc32294a3f5cf92dc067adc7f8ffe0804a7513a2749681846"
+    },
+    {
+      "path": "scripts/plot_hltd_closed_loop.py",
+      "bytes": 54730,
+      "sha256": "63304ebe88d560ce592ac0c0f7115876684b10b2a9ba4e598739bfeef30227a1"
+    },
+    {
+      "path": "scripts/plot_hltd_closed_loop_phase.py",
+      "bytes": 10283,
+      "sha256": "67648b92a05eccc6dd067acebf49e7358293bbf9b4a36d82830f22bf9ec4f4a9"
+    },
+    {
+      "path": "scripts/plot_hltd_counterfactual_probe_surface.py",
+      "bytes": 13214,
+      "sha256": "84199a14f05745ef20be54130c930d796c03c7bdd842fe919f67e079ce64ee89"
+    },
+    {
+      "path": "scripts/plot_hltd_matched_betti_causal.py",
+      "bytes": 44502,
+      "sha256": "14012838679a1d3029f382841be9f83c2b4e649712d67dc145cbb91b872a5b1e"
+    },
+    {
+      "path": "scripts/plot_hltd_position_gate.py",
+      "bytes": 11022,
+      "sha256": "64efcd70676ef382153da19ed5f3ade0d59ee6352a50f2b6ebe359b989f8a092"
+    },
+    {
+      "path": "scripts/plot_hltd_reverse_specificity.py",
+      "bytes": 6445,
+      "sha256": "4bef659fcb5d4bd582b8373105f3ae34d32d22fe7552d17b998d260c26ec81a2"
+    },
+    {
+      "path": "scripts/plot_hltd_signed_position_gate.py",
+      "bytes": 45774,
+      "sha256": "55a864dde051c342e642c007b6bc978dd2f125617f03845f3bccdd79a36aae60"
+    },
+    {
+      "path": "scripts/plot_hltd_target_overlap_robustness.py",
+      "bytes": 9530,
+      "sha256": "9b0139116e3424455f67c3045917fac640b84b82e5aa9d96171a0b51c0ffebfa"
+    },
+    {
+      "path": "scripts/plot_hltd_target_sensitivity.py",
+      "bytes": 7573,
+      "sha256": "7fcfbe772fae121e78d9664a24f6233cf29d662d81ee252ad0462972a2bd9375"
+    },
+    {
+      "path": "scripts/plot_hltd_topology_filtration.py",
+      "bytes": 36940,
+      "sha256": "c25ccbaebba35f999d8459f407db85d67f5ad16975b93ad439c43b8f78c7d22a"
+    },
+    {
+      "path": "scripts/prepare_hltd_prefix_gate.py",
+      "bytes": 10903,
+      "sha256": "5775dc42d110be2e2576c046168f8a9bbbff84dc8fdeb2200b5cd38e5a7c300c"
+    },
+    {
+      "path": "scripts/run_hltd_branch_heatmap.py",
+      "bytes": 17553,
+      "sha256": "6d924e5c60046c237021ede1c020c03bf8966baa309908516edcb1d17e135bec"
+    },
+    {
+      "path": "scripts/run_hltd_closed_loop.py",
+      "bytes": 37852,
+      "sha256": "a453a9de665511ef778fa664fbad0f1b690bf6e673c6dee610b0fa15ba9d35f7"
+    },
+    {
+      "path": "scripts/run_hltd_fresh_gate.py",
+      "bytes": 15674,
+      "sha256": "b5168864e47867e11fb36f78509b6930cb0843be6a090dd9c360f23f3a6cc902"
+    },
+    {
+      "path": "scripts/run_hltd_l8_gate.py",
+      "bytes": 25654,
+      "sha256": "8ead338eb575589aaf4a1bb31e319cad820375e521ceb7cba1c798e897729dfe"
+    },
+    {
+      "path": "scripts/run_hltd_precision_full_gate.py",
+      "bytes": 4788,
+      "sha256": "8d88d17cd76f6b8b879744e1c33e3309127e564480ffd79dca62067636f32e79"
+    },
+    {
+      "path": "scripts/run_hltd_precision_gate.py",
+      "bytes": 17364,
+      "sha256": "16fb1012bebad72982864dcd514483445d973a17c127a79dd60b062b51eb3129"
+    },
+    {
+      "path": "scripts/run_hltd_prefix_transfer_gate.py",
+      "bytes": 21102,
+      "sha256": "f26f0ed027851b647a23e934914d001ffbf36d5a42dc54c1e089342bb47b1c0c"
+    },
+    {
+      "path": "scripts/run_hltd_prefix_v2.py",
+      "bytes": 20040,
+      "sha256": "2119bf9d97683723abe25a024eae9de14eac1982ab06ee7fd2adfe5a1674d40b"
+    },
+    {
+      "path": "scripts/run_hltd_probe_gate.py",
+      "bytes": 45199,
+      "sha256": "18741896dec8508c8fdea91ebe5da25722df4cab60346e67e19e4458870caca7"
+    },
+    {
+      "path": "scripts/run_hltd_prompt_suite.py",
+      "bytes": 4783,
+      "sha256": "801e11707427fdc3c931ff15ef51991348fc78a07d13a5fa36feec1d6d3d10bd"
+    },
+    {
+      "path": "scripts/run_hltd_steering.py",
+      "bytes": 40561,
+      "sha256": "2f3f43824de19bc34057d2cb0de315edfd828b36399c5482483ec9689646d793"
+    },
+    {
+      "path": "scripts/run_hltd_steering_fast_suite.py",
+      "bytes": 19244,
+      "sha256": "6a486931aceabdb570fa2761f4895ff46adc2707d9a82f25089aaf1acde6850c"
+    },
+    {
+      "path": "scripts/run_hltd_steering_suite.py",
+      "bytes": 8868,
+      "sha256": "5a5bb7822d68353ec60fc3eff8413a13a5048258cc6c8b03849be857834de69a"
+    },
+    {
+      "path": "scripts/run_hltd_topology_filtration.py",
+      "bytes": 19571,
+      "sha256": "7bcf7bfad1e7340e9379b878e82fda41036517d84bfb849fdaaeeb80e9601ecb"
+    },
+    {
+      "path": "scripts/summarize_hltd_branch_band_runs.py",
+      "bytes": 11121,
+      "sha256": "a7bc4a964631416d99fbc8a5106add905ef20b12ce3d5689b64eb7c0f2791f29"
+    },
+    {
+      "path": "scripts/summarize_hltd_branch_hodge.py",
+      "bytes": 99390,
+      "sha256": "0e84dbc97c6656bfb8de686713c62bc34bf19f7e1421a54a2a8311034f2b94a0"
+    },
+    {
+      "path": "scripts/summarize_hltd_closed_loop.py",
+      "bytes": 31533,
+      "sha256": "4445e9f85255a4d7b32824fcaaddf1f0b4780e3c6207d79b0fca833ac34ae3c3"
+    },
+    {
+      "path": "scripts/summarize_hltd_closed_loop_phase.py",
+      "bytes": 24895,
+      "sha256": "0ea80b8ec7a7a982e166be3682fcfd2fe739b39e3575bde09ca8e62f8ee8dc4c"
+    },
+    {
+      "path": "scripts/summarize_hltd_position_gate.py",
+      "bytes": 23393,
+      "sha256": "b05f70656f4dd599c127f5ef06decb66ee2b5e6f46388c5fd889ee21607bccd2"
+    },
+    {
+      "path": "scripts/summarize_hltd_steering.py",
+      "bytes": 20001,
+      "sha256": "da933ceb31765f3cef0a39df0a7ef04b1f51c69b560d9b9bd65fb34f291c3e3a"
+    },
+    {
+      "path": "scripts/summarize_hltd_suite.py",
+      "bytes": 27073,
+      "sha256": "984f2878f1acfea9aff6f64568939d326b9f4121565efdf4c806db90f43a6580"
+    },
+    {
+      "path": "spiral_hodge.py",
+      "bytes": 143814,
+      "sha256": "20cab07c2a2d3c023b00ccfdc20847945c08cc1cfc91e2c27876759f571fabb7"
+    },
+    {
+      "path": "tests/test_hltd_prefix_execution.py",
+      "bytes": 14206,
+      "sha256": "b6f72bfe85bb5cf6efe03c773d069fe6ba7c4b0d5117b3082e0a7dd6d92f46ef"
+    },
+    {
+      "path": "tests/test_hltd_prefix_protocol.py",
+      "bytes": 7551,
+      "sha256": "169a9760a61fcfd99e1b17aa69af412eb344c8baa17e054ab2265c9de5a30e78"
+    },
+    {
+      "path": "tests/test_hltd_prefix_transfer.py",
+      "bytes": 6927,
+      "sha256": "3d02f34997c00dfcbec806914ce509e7704e84549206242413e025c006082a26"
+    },
+    {
+      "path": "tests/test_hltd_prefix_v2.py",
+      "bytes": 11823,
+      "sha256": "3e955e06abe07fd38fbe726d90c1919d8ab646daf7cc61b61116489feccc94aa"
+    }
+  ],
+  "frozen_utc": "2026-10-01T02:34:56.327130+00:00"
+}

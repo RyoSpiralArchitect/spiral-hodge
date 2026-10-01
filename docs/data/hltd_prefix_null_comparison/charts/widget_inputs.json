@@ -1,0 +1,186 @@
+{
+  "calibration": {
+    "source": {
+      "path": "docs/data/hltd_prefix_null_comparison/calibration/draws.csv",
+      "label": "draws.csv",
+      "query": {
+        "engine": "SQLite in-memory import from the pinned CSV",
+        "language": "sql",
+        "sql": "SELECT comparator,\n       CASE comparator\n           WHEN 'actual' THEN 'Actual coexact'\n           WHEN 'v2_random' THEN 'Isotropic random'\n           WHEN 'within_prompt_shuffle' THEN 'Within-prompt shuffle'\n           WHEN 'within_prompt_position_shuffle' THEN 'Prompt + position-bin shuffle'\n       END AS readout,\n       AVG(CAST(control_cosine AS REAL)) AS mean_cosine,\n       COUNT(*) AS draws,\n       MIN(CAST(paired_nodes AS INTEGER)) AS paired_nodes,\n       MIN(CAST(paired_prompts AS INTEGER)) AS paired_prompts\nFROM calibration_draws\nWHERE scope = 'all' AND matching = 'common' AND control_cosine <> ''\nGROUP BY comparator\nORDER BY mean_cosine DESC;\n",
+        "description": "Average fixed-draw, equal-prompt target cosines on the shared 1117-node mask. Each draw first averages nodes within each of 40 prompts; undefined directions are excluded identically across every arm. Not semantic ground truth.",
+        "tables_used": [
+          "calibration_draws"
+        ],
+        "executed_at": "2026-10-01T00:53:17.433257+00:00"
+      }
+    },
+    "table": {
+      "rows": [
+        {
+          "comparator": "actual",
+          "readout": "Actual coexact",
+          "mean_cosine": 0.12207935188171129,
+          "draws": 1,
+          "paired_nodes": 1117,
+          "paired_prompts": 40
+        },
+        {
+          "comparator": "within_prompt_position_shuffle",
+          "readout": "Prompt + position-bin shuffle",
+          "mean_cosine": 0.00900814610680538,
+          "draws": 128,
+          "paired_nodes": 1117,
+          "paired_prompts": 40
+        },
+        {
+          "comparator": "within_prompt_shuffle",
+          "readout": "Within-prompt shuffle",
+          "mean_cosine": 0.0026855886198910014,
+          "draws": 128,
+          "paired_nodes": 1117,
+          "paired_prompts": 40
+        },
+        {
+          "comparator": "v2_random",
+          "readout": "Isotropic random",
+          "mean_cosine": 0.0019345473650314868,
+          "draws": 8,
+          "paired_nodes": 1117,
+          "paired_prompts": 40
+        }
+      ],
+      "row_count": 4,
+      "truncated": false
+    }
+  },
+  "v2": {
+    "source": {
+      "path": "spiral_out_hltd_prefix_transfer_v2/raw_treatments.csv",
+      "label": "raw_treatments.csv",
+      "query": {
+        "engine": "SQLite in-memory import from the pinned CSV",
+        "language": "sql",
+        "sql": "WITH cells AS (\n    SELECT prompt_id, prefix_length, component, CAST(alpha AS REAL) AS alpha,\n           AVG(CAST(next_token_logprob_steered AS REAL)\n               - CAST(next_token_logprob_base AS REAL)) AS delta_logprob,\n           COUNT(*) AS seeds\n    FROM v2_treatments\n    GROUP BY prompt_id, prefix_length, component, CAST(alpha AS REAL)\n), prompts AS (\n    SELECT prompt_id, component, alpha, AVG(delta_logprob) AS delta_logprob,\n           COUNT(*) AS prefixes, MIN(seeds) AS seeds\n    FROM cells\n    GROUP BY prompt_id, component, alpha\n)\nSELECT component, alpha,\n       CASE WHEN alpha > 0 THEN '+' || CAST(alpha AS TEXT)\n            ELSE CAST(alpha AS TEXT) END AS dose,\n       AVG(delta_logprob) AS mean_delta_logprob,\n       COUNT(*) AS prompts, MIN(prefixes) AS prefixes, MIN(seeds) AS seeds\nFROM prompts\nGROUP BY component, alpha\nORDER BY alpha, component;\n",
+        "description": "Recorded target next-token log-probability change in natural-log units. Average 8 seeds within cell, 3 prefixes within prompt, and 20 prompts equally; all 5760 saved treatments, no model execution. Not fluency.",
+        "tables_used": [
+          "v2_treatments"
+        ],
+        "executed_at": "2026-10-01T00:53:17.458059+00:00"
+      }
+    },
+    "table": {
+      "rows": [
+        {
+          "component": "coexact",
+          "alpha": -1.0,
+          "dose": "-1.0",
+          "mean_delta_logprob": -0.07962771054881763,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "random_tangent",
+          "alpha": -1.0,
+          "dose": "-1.0",
+          "mean_delta_logprob": -0.09871102215346672,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "coexact",
+          "alpha": -0.5,
+          "dose": "-0.5",
+          "mean_delta_logprob": -0.01076719959753447,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "random_tangent",
+          "alpha": -0.5,
+          "dose": "-0.5",
+          "mean_delta_logprob": -0.002885438207371984,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "coexact",
+          "alpha": -0.25,
+          "dose": "-0.25",
+          "mean_delta_logprob": -0.0029998985333296716,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "random_tangent",
+          "alpha": -0.25,
+          "dose": "-0.25",
+          "mean_delta_logprob": 0.003983467269641288,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "coexact",
+          "alpha": 0.25,
+          "dose": "+0.25",
+          "mean_delta_logprob": -0.005920860068145117,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "random_tangent",
+          "alpha": 0.25,
+          "dose": "+0.25",
+          "mean_delta_logprob": -0.012802321473103052,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "coexact",
+          "alpha": 0.5,
+          "dose": "+0.5",
+          "mean_delta_logprob": -0.02677091812219672,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "random_tangent",
+          "alpha": 0.5,
+          "dose": "+0.5",
+          "mean_delta_logprob": -0.038164537080085575,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "coexact",
+          "alpha": 1.0,
+          "dose": "+1.0",
+          "mean_delta_logprob": -0.1448472379094645,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        },
+        {
+          "component": "random_tangent",
+          "alpha": 1.0,
+          "dose": "+1.0",
+          "mean_delta_logprob": -0.1677972101778999,
+          "prompts": 20,
+          "prefixes": 3,
+          "seeds": 8
+        }
+      ],
+      "row_count": 12,
+      "truncated": false
+    }
+  }
+}

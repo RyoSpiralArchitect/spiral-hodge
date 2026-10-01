@@ -1,0 +1,39 @@
+{
+  "protocol": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/protocol.json",
+    "bytes": 10925,
+    "sha256": "a58a24fad8b05015cfebf9a88a5bf6f49c2f405e3add042bbe80bae1ff1ce681"
+  },
+  "outputs": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/controls.csv",
+      "bytes": 38285,
+      "sha256": "d5ee79cd452611497727fb69a507c7ee1d7bc802e29ed8ae1bd7f57fcb5b0aa4"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/nodes.csv",
+      "bytes": 547484,
+      "sha256": "b015e8892cc33b1cb3f35bd95b4048b193e40416346e81c4a87bfd20393e4f29"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/position_mix.csv",
+      "bytes": 609,
+      "sha256": "eafaec364264744363ef7fd2e12e9e10a0cb11863a04b250a30ed5a4a98da7ed"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/prompts.csv",
+      "bytes": 10278,
+      "sha256": "d4f0b71c5de132536e9d16253d2bf9ab90e7b032055333ccb92104bffd24f449"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/replay_arrays.npz",
+      "bytes": 682899,
+      "sha256": "55aa9bc656df409104033ea97415aff509eaa4b9d37f036c875d6f39f860c3bc"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/summary.json",
+      "bytes": 13987,
+      "sha256": "b8fd63bf057a2c937ecbe046034cb7584f2ec74061caf62c2bebf56fff431420"
+    }
+  ]
+}

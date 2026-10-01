@@ -1,0 +1,86 @@
+{
+  "protocol": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/protocol.json",
+    "bytes": 61657,
+    "sha256": "88666f7a5d35c4e2f7dde490a1ce3ae19fa2ef08ef5555908298adca0a16f76c"
+  },
+  "raw_files": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/evaluation_observations.npz",
+      "bytes": 237447287,
+      "sha256": "9015d275fe3113b760668538702c3a93695f5c4c16d2b0933e128da6c2f4461b"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/execution_receipt.json",
+      "bytes": 512,
+      "sha256": "77f6517dc7bf502909067d04d1e63e3467406f74c26a4df25f068083620dfb7f"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/execution_started.json",
+      "bytes": 392,
+      "sha256": "22382546b33aec6dcf85830b587e020cec0ceae95b0319681e6aadf503d70d96"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/final_weight_audit.json",
+      "bytes": 39176,
+      "sha256": "1889a6805eecd8e77b3b14e1af7dfbe4081b7659ac59424b642c1d3ff064edd7"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/load_audit.json",
+      "bytes": 39718,
+      "sha256": "38859f7b9bb23a61c711dd1b80f457de7258f716b818471bae97bd37ace15590"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/pilot_audit.json",
+      "bytes": 8110874,
+      "sha256": "8165e3c967a843174e602e136aac7bd524b547313079233713fb620826ccd8fc"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/pilot_observations.npz",
+      "bytes": 190127766,
+      "sha256": "3e72c60868acbeb46a09687daafe5f0a1021fd5edcd856f230cdfef8942eb5ab"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/pre_treatment_gate.json",
+      "bytes": 1030,
+      "sha256": "57c17051f721e471ff050b7042fe683e64ea1842d6257afed5b6831038d1d816"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/raw_treatments.csv",
+      "bytes": 1669300,
+      "sha256": "bb78974d47d6b7422cb32fc494efc70471635a87c9dc6c0803a0a9c082413443"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/readout_freeze.json",
+      "bytes": 628,
+      "sha256": "da2574fe592745d41540522d74978484e9e54912ac2a14317a4907667f73c227"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v2/support_preflight.json",
+      "bytes": 9049717,
+      "sha256": "dc71a4a8ecfba05be3e9010cf55feb9682ce091faa0589c690267efa24c6b6c5"
+    }
+  ],
+  "derived_files": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/bootstrap_indices.csv",
+      "bytes": 254710,
+      "sha256": "b7c99c4d2ed231f61c493fd4707f792264d63079790902ca764ca4426f994e13"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/coefficients.csv",
+      "bytes": 48865,
+      "sha256": "004bb41423888b9f9af02b7050ce34df6f9684a454b914d2c94497ce6fc595a7"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/support.csv",
+      "bytes": 13233,
+      "sha256": "d692b7943a831d5881d025a842a2b07c293e556e7f436d123f2cc4c194a07838"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/verdict.json",
+      "bytes": 1885,
+      "sha256": "98f230c4bfa9c8fa36b9c8e7e4dbe89adc56febc2320124699b80b6f2add0d22"
+    }
+  ]
+}

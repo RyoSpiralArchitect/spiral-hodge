@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "status": "INSUFFICIENT_COVERAGE",
+  "supported_cells": 56,
+  "planned_cells": 60,
+  "raw_treatment_rows": 0,
+  "primary_recomputed": false,
+  "scope": "Artifact hashes and stop-before-treatment boundary; not a model execution replay."
+}

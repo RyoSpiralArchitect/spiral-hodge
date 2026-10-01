@@ -1,0 +1,44 @@
+{
+  "protocol": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/protocol.json",
+    "bytes": 11625,
+    "sha256": "d1fc6ed31b5a8a40c82f0bcc4e45dd461e8d58ce6a94517ed8f6d10f6246fc91"
+  },
+  "calibration_manifest": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/manifest.json",
+    "bytes": 2139,
+    "sha256": "839e2c4535651abb385f8a6c166b192a76cf0aac2c2e35260c5a88d4f5441cbf"
+  },
+  "v2_manifest": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/manifest.json",
+    "bytes": 4207,
+    "sha256": "98f68c894a4f7a7cea37c1bcc4cbc1bc14b98cbb290da7d76b60acfad48a8819"
+  },
+  "outputs": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/v2/associations.csv",
+      "bytes": 2907,
+      "sha256": "6419041adad185f55827f8b04dc9029f2b2b2012360c66f6c91ba808fdaee513"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/v2/cells.csv",
+      "bytes": 18799,
+      "sha256": "d0bd02ce7d2594aa48a423931830fba68bf7db96dec1a73a3636e9e4577faeb7"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/v2/dose_cells.csv",
+      "bytes": 43990,
+      "sha256": "3a2192db783ca75e66b241b17b2686b13963824ed910673916bdb426c4d06d2e"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/v2/dose_summary.csv",
+      "bytes": 2861,
+      "sha256": "ce1e4e13630d9608b7717895c20e016db9f14d876dee5ca371275e6fd2e442a4"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/v2/summary.json",
+      "bytes": 8294,
+      "sha256": "ae548899bc3458876c6327a4ee124ab560dd60ffbbc1e97ef7fd9747d8ec7f69"
+    }
+  ]
+}
