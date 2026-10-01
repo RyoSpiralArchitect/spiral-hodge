@@ -1,0 +1,8 @@
+# Preserve frozen evidence bytes across checkout line-ending settings.
+docs/data/hltd_prefix*/** -text
+data/hltd_prefix_transfer_prompt_suite.jsonl -text
+data/hltd_prefix_transfer_v2/** -text
+
+# CSV writer CRLF endings are part of the recorded receipts.
+docs/data/hltd_prefix*/**/*.csv whitespace=cr-at-eol linguist-generated=true
+docs/data/hltd_prefix*/**/*.npz linguist-generated=true

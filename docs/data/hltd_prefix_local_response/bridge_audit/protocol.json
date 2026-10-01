@@ -1,0 +1,80 @@
+{
+  "audit_id": "hltd-local-response-zero-bridge-audit-v1",
+  "selected_cell_index": 9,
+  "selection_reason": "First failed cell from the sealed execution counter and frozen deterministic cell order, not an outcome-selected scientific cohort.",
+  "scope": "One no-hook forward and one zero-leaf gradient forward/backward at the original failing prefix. No nonzero deltas, gate retry, threshold relaxation, backend change or semantic effect estimate.",
+  "original_thresholds_unchanged": true,
+  "model_path": "/Users/ryospiralarchitect/.hf_home/hub/models--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e",
+  "method": {
+    "diagnostic_id": "hltd-prefix-local-response-v1",
+    "knowledge_at_design": "Post-v2 and post-position-bin-null diagnostic. V2's signed endpoint remains NOT_SUPPORTED. This run reuses all 60 existing evaluation prefixes to diagnose that result, not to claim fresh-sample confirmation. No activation gradients or small-dose responses have been inspected to choose this specification.",
+    "objective": "Natural-log probability of the original authored next token. The target is used only by the scorer, after prefix-only field lookup. This is a token-fit objective, not a semantic or fluency measurement.",
+    "gradient": "At the output of GPT-2 block 6 (hidden layer 7), add a shared zero leaf delta of shape [768] to the last observed token in each of 12 identical batch rows. Differentiate the mean target log-probability with respect to that leaf only. Freeze every parameter; no optimizer or weight updates.",
+    "readout": "Reuse the exact v2 PCA, eight-neighbor weights, support/activity rules, Gaussian node-norm-matched random fields, dose and seeds 0..7. Do not refit, rotate, reverse by outcomes, or optimize the candidate directions.",
+    "magnitudes": [
+      0.01,
+      0.02,
+      0.04
+    ],
+    "primary_numerical_magnitude": 0.01,
+    "derivative_absolute_tolerance": 0.005,
+    "derivative_relative_tolerance": 0.05,
+    "baseline_logit_tolerance": 0.0001,
+    "objective_logprob_tolerance": 0.0001,
+    "numerical_gate": "For every prompt/prefix/seed/component at magnitude 0.01, abs(central_difference - gradient_dot_delta_at_alpha1) <= 0.005 + 0.05*abs(gradient_dot_delta_at_alpha1). All rows must pass; no exclusions or alternate magnitude. The other magnitudes are descriptive finite-dose profiles, not a tuning sweep.",
+    "preflight": "Before any nonzero treatment, all 60 saved prefix hidden arrays must replay byte-identically, current no-hook and zero-leaf autograd logits must match saved batch-12 logits within 1e-4, every batch must have zero row spread, and all gradients must be finite and nonzero. Keep the same MPS/native-FP32/SDPA runtime with no fallback or autocast.",
+    "planned_cells": 60,
+    "planned_nonzero_rows": 5760,
+    "measurements": [
+      "gradient norm",
+      "gradient/direction cosine",
+      "gradient dot alpha-one hidden delta",
+      "small-dose central differences",
+      "odd and even response",
+      "saved-v2 large-dose central differences against the same gradient"
+    ],
+    "aggregation": "Average eight seeds before prefix cells, then three prefixes before twenty equally weighted prompts. Repeated coexact rows are not independent replication. Report descriptive means, prompt quantiles and positive counts; no new positive-effect hypothesis test.",
+    "semantic_direction_status": "NOT_TESTED",
+    "semantic_boundary": "Neither numerical derivative agreement, positive next-token response, nor a probe-axis displacement can issue semantic SUPPORTED. Identity/affordance relation judgments, disjoint construct validation, matched controls, fluency noninferiority and independent confirmation require a separate prospectively frozen semantic protocol.",
+    "failure_policy": "Single exclusive attempt. Preserve failed receipts, counters and prior evidence. No retry, backend substitution, threshold relaxation, dose selection, partial-sample promotion or model training."
+  },
+  "frozen_files": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_local_response/protocol.json",
+      "bytes": 27052,
+      "sha256": "18b4abc806d58b1b1c5f81468cda66946a619eda8531bb0c25e0ed79586f2e8c"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_local_response/execution_receipt.json",
+      "bytes": 1563,
+      "sha256": "b92bd487f80b8ec6bf261c03c98ff54db739cb8d5196ca1bd598d54246ba8173"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/audit_hltd_local_response_failure.py",
+      "bytes": 9995,
+      "sha256": "34ba0ad4dafa5a057436db3d8eaf9794d500cd906af7d16caf495de604908779"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/tests/test_hltd_local_response_failure.py",
+      "bytes": 2067,
+      "sha256": "c0737c8391cd69aa6bef7bda14b9150eaa7969e1dea7d0cfd667c1e62daf56f3"
+    }
+  ],
+  "output": "docs/data/hltd_prefix_local_response/bridge_audit/result",
+  "runtime": {
+    "python": "3.12.6 (v3.12.6:a4a2d2b0d85, Sep  6 2024, 16:08:03) [Clang 13.0.0 (clang-1300.0.29.30)]",
+    "executable": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
+    "platform": "macOS-26.4.1-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.12.1",
+      "transformers": "4.57.6",
+      "numpy": "2.2.3",
+      "pandas": "2.3.2",
+      "scipy": "1.17.1",
+      "scikit-learn": "1.7.2",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.22.2"
+    }
+  },
+  "frozen_utc": "2026-10-01T02:41:19.601045+00:00"
+}

@@ -1,0 +1,275 @@
+{
+  "status": "DESCRIPTIVE_SAVED_V2_ANALYSIS",
+  "primary_status_unchanged": "NOT_SUPPORTED",
+  "primary": {
+    "mean": 0.00646497433896921,
+    "ci_low": -0.10310058729005811,
+    "ci_high": 0.13427044553250808,
+    "positive_prompts": 10,
+    "prompt_coefficients": {
+      "v2_eval_identity_01": -0.131081564875248,
+      "v2_eval_identity_02": 0.09378812196201457,
+      "v2_eval_identity_03": -0.3314668300787896,
+      "v2_eval_identity_04": -0.10414123665558368,
+      "v2_eval_identity_05": -0.02016851500592842,
+      "v2_eval_literal_01": -0.37677935672020907,
+      "v2_eval_literal_02": 0.2112669478978102,
+      "v2_eval_literal_03": 0.06367045730595768,
+      "v2_eval_literal_04": 0.03323454251929589,
+      "v2_eval_literal_05": 0.17699735604356162,
+      "v2_eval_metaphor_01": -0.20098288334399692,
+      "v2_eval_metaphor_02": -0.39502971139312426,
+      "v2_eval_metaphor_03": -0.16437352070910236,
+      "v2_eval_metaphor_04": 0.8164990631234822,
+      "v2_eval_metaphor_05": 0.15748058814493945,
+      "v2_eval_ontology_01": -0.25072142483179477,
+      "v2_eval_ontology_02": -0.02397059479382635,
+      "v2_eval_ontology_03": 0.22573552597358196,
+      "v2_eval_ontology_04": 0.2269929925877905,
+      "v2_eval_ontology_05": 0.12234952962855355
+    },
+    "status": "NOT_SUPPORTED"
+  },
+  "cells": 60,
+  "prompts": 20,
+  "raw_treatment_rows": 5760,
+  "model_loads": 0,
+  "model_forward_calls": 0,
+  "new_treatments": 0,
+  "query_replay": {
+    "passed": true,
+    "pilot_variant_observations": 48,
+    "evaluation_observations": 60,
+    "readout_fingerprint": "eb3a2372ccae3690f67579a8b2881984f799a3ee58a6d5ef277d7652601fc734"
+  },
+  "independent_primary_audit": {
+    "passed": true,
+    "status": "NOT_SUPPORTED",
+    "raw_treatment_rows": 5760,
+    "primary_recomputed": true,
+    "mean": 0.0064649743389692165,
+    "ci_low": -0.10310058729005811,
+    "ci_high": 0.13427044553250808,
+    "max_log_error": 1.1102230246251565e-16,
+    "max_primary_error": 1.1102230246251565e-16,
+    "scope": "Independent probability-to-coefficient arithmetic; saved bootstrap draws, not a model execution replay."
+  },
+  "stage_gate": {
+    "passed": true,
+    "calibration_manifest": {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/manifest.json",
+      "bytes": 2139,
+      "sha256": "839e2c4535651abb385f8a6c166b192a76cf0aac2c2e35260c5a88d4f5441cbf"
+    },
+    "calibration_completed_utc": "2026-10-01T00:49:59.529406+00:00",
+    "verified_utc": "2026-10-01T00:50:21.501178+00:00"
+  },
+  "descriptors": {
+    "resultant_fraction": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": 0.4497450283951424,
+        "q10": 0.37759500789700484,
+        "median": 0.44388934627945986,
+        "q90": 0.507235204750614
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": 0.4497450283951424,
+        "q10": 0.4013581047257418,
+        "median": 0.44573923248880376,
+        "q90": 0.49693926088563556
+      }
+    },
+    "effective_contributors": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": 6.152341272457322,
+        "q10": 4.7572451811000835,
+        "median": 6.483928225175075,
+        "q90": 7.467541286488713
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": 6.152341272457321,
+        "q10": 5.529291278859503,
+        "median": 5.981015092090589,
+        "q90": 7.058046770047413
+      }
+    },
+    "weighted_token_gap": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": 5.839897909293607,
+        "q10": 2.9304394106063216,
+        "median": 5.758440243229952,
+        "q90": 8.755254953947464
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": 5.839897909293605,
+        "q10": 3.994446651460151,
+        "median": 6.070060998204373,
+        "q90": 7.3344541113558765
+      }
+    },
+    "nearest_distance": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": 0.19757873344193536,
+        "q10": 0.1270741526493532,
+        "median": 0.19274814900972412,
+        "q90": 0.2763857244892357
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": 0.19757873344193538,
+        "q10": 0.15157017620674895,
+        "median": 0.1927421298031644,
+        "q90": 0.2427760466070922
+      }
+    },
+    "cancellation_fraction": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": 0.5502549716048576,
+        "q10": 0.492764795249386,
+        "median": 0.5561106537205401,
+        "q90": 0.622404992102995
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": 0.5502549716048576,
+        "q10": 0.5030607391143646,
+        "median": 0.5542607675111961,
+        "q90": 0.5986418952742582
+      }
+    },
+    "prediction_norm": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": 0.25247218433914476,
+        "q10": 0.16611436100806287,
+        "median": 0.2329783518530722,
+        "q90": 0.3947878161472424
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": 0.25247218433914476,
+        "q10": 0.1919574081314158,
+        "median": 0.2415954162000476,
+        "q90": 0.3165025015813632
+      }
+    },
+    "inactive_donors": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": 0.2833333333333333,
+        "q10": 0.0,
+        "median": 0.0,
+        "q90": 1.0
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": 0.2833333333333333,
+        "q10": 0.0,
+        "median": 0.0,
+        "q90": 0.7000000000000004
+      }
+    },
+    "eighth_distance": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": 0.29353164771266893,
+        "q10": 0.1971271648511335,
+        "median": 0.2999006273239567,
+        "q90": 0.3512391005512622
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": 0.29353164771266893,
+        "q10": 0.25127995060498937,
+        "median": 0.2955467846373261,
+        "q90": 0.3295229613709984
+      }
+    },
+    "coexact_odd": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": -0.028172048383497836,
+        "q10": -0.555844480266881,
+        "median": -0.00963830908093704,
+        "q90": 0.4783415501560536
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": -0.028172048383497843,
+        "q10": -0.34663875659833154,
+        "median": -0.011122638330994458,
+        "q90": 0.19950913654664681
+      }
+    },
+    "random_odd": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": -0.03463702272246706,
+        "q10": -0.27138995325895154,
+        "median": -0.03747561527473765,
+        "q90": 0.20476962938073484
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": -0.03463702272246706,
+        "q10": -0.17866064158277975,
+        "median": -0.03865219566345855,
+        "q90": 0.11031737829458381
+      }
+    },
+    "odd_gap": {
+      "cells": {
+        "n_total": 60,
+        "n_valid": 60,
+        "mean": 0.006464974338969218,
+        "q10": -0.6151991112710706,
+        "median": 0.028019733650938985,
+        "q90": 0.468953617966412
+      },
+      "equal_prompt": {
+        "n_total": 20,
+        "n_valid": 20,
+        "mean": 0.006464974338969215,
+        "q10": -0.3359980827429315,
+        "median": 0.0065330137566837546,
+        "q90": 0.22586127263500286
+      }
+    }
+  },
+  "started_utc": "2026-10-01T00:50:21.501182+00:00",
+  "completed_utc": "2026-10-01T00:50:26.920761+00:00",
+  "scope": "Evaluation prefixes have no observed coexact ground truth. Structural descriptors are not v2 reconstruction accuracy. Associations cannot diagnose causation or select a replacement treatment.",
+  "protocol": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/protocol.json",
+    "bytes": 11625,
+    "sha256": "d1fc6ed31b5a8a40c82f0bcc4e45dd461e8d58ce6a94517ed8f6d10f6246fc91"
+  }
+}

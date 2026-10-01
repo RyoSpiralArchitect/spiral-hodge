@@ -1,0 +1,59 @@
+{
+  "comparisons": {
+    "no_hook_vs_saved": {
+      "max_abs_logit_error": 0.0,
+      "rms_logit_error": 0.0,
+      "mean_logit_shift": 0.0,
+      "max_abs_logprob_error": 0.0,
+      "target_logprob_difference": 0.0,
+      "kl_right_to_left": 0.0,
+      "within_original_logit_tolerance": true
+    },
+    "autograd_vs_saved": {
+      "max_abs_logit_error": 0.0001068115234375,
+      "rms_logit_error": 2.528371436689417e-05,
+      "mean_logit_shift": -1.8972002947816972e-05,
+      "max_abs_logprob_error": 8.537023738597327e-05,
+      "target_logprob_difference": -2.144128605152673e-05,
+      "kl_right_to_left": 1.6181392407639897e-10,
+      "within_original_logit_tolerance": false
+    },
+    "autograd_vs_no_hook": {
+      "max_abs_logit_error": 0.0001068115234375,
+      "rms_logit_error": 2.528371436689417e-05,
+      "mean_logit_shift": -1.8972002947816972e-05,
+      "max_abs_logprob_error": 8.537023738597327e-05,
+      "target_logprob_difference": -2.144128605152673e-05,
+      "kl_right_to_left": 1.6181392407639897e-10,
+      "within_original_logit_tolerance": false
+    }
+  },
+  "gradient_norm": 0.2953948328450815,
+  "gradient_finite": true,
+  "captured_hidden_bytes_equal": true,
+  "gradient_hidden_bytes_equal": true,
+  "no_hook_row_spread": 0.0,
+  "autograd_row_spread": 0.0,
+  "objective_error": 1.8313360783395183e-07,
+  "original_logit_tolerance": 0.0001,
+  "semantic_direction_status": "NOT_TESTED",
+  "nonzero_treatments": 0,
+  "original_bridge_passes": false,
+  "original_error": "baseline or gradient validation failed",
+  "prompt_id": "v2_eval_literal_04",
+  "prefix_length": 8,
+  "observed_ids": [
+    464,
+    16985,
+    877,
+    13663,
+    262,
+    19337,
+    1410,
+    353
+  ],
+  "target_id": 422,
+  "status": "FAILURE_REPRODUCED",
+  "scope": "One no-hook forward and one zero-leaf gradient forward/backward at the original failing prefix. No nonzero deltas, gate retry, threshold relaxation, backend change or semantic effect estimate.",
+  "completed_utc": "2026-10-01T02:44:44.046810+00:00"
+}

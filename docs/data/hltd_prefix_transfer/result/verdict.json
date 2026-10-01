@@ -1,0 +1,20 @@
+{
+  "completed_utc": "2026-09-30T20:04:52.294047+00:00",
+  "planned_cells": 60,
+  "supported_cells": 56,
+  "status_counts": {
+    "SUPPORTED": 56,
+    "INACTIVE_COEXACT": 4
+  },
+  "nonzero_rows": 0,
+  "primary": null,
+  "pilot_cells": 12,
+  "suffix_variants_per_cell": 4,
+  "query_replay": {
+    "passed": true,
+    "recomputed_cells": 60,
+    "atlas_fingerprint": "518f9937481733a7e88183bdfd4308c3467fbfc962a0f64c065d0566143bf047"
+  },
+  "scope": "Prefix-available calibration-field transfer in the fixed authored sample; no semantic or fluency claim.",
+  "status": "INSUFFICIENT_COVERAGE"
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "protocol_id": "hltd-prefix-transfer-interpolation-v2",
+  "question": "Does a calibration-only interpolated coexact readout have complete prefix coverage and a positive signed response on new texts?",
+  "knowledge_at_design": "V1 stopped with 56/60 active cells and zero treatments. Its coverage and 52 exact-zero atlas nodes are known. No v2 lookup sweep, evaluation-prefix query or response has been performed. Eight neighbors is a single prospective choice, not a selected winner.",
+  "prior_protocol": {"path": "docs/data/hltd_prefix_transfer/execution_protocol.json", "sha256": "730a26064c9b7cb975854e668526ccb026c5b6991e999e680cd9cc9806bba96d"},
+  "prior_manifest": {"path": "docs/data/hltd_prefix_transfer/result/manifest.json", "sha256": "97dc8a81d43055b005c0e27a2bf17d93a9329fa3945ecebed27227efddad17be"},
+  "prior_verdict": {"path": "docs/data/hltd_prefix_transfer/result/verdict.json", "sha256": "0d34efbbc1825fbd53be44037c786e6c7482115e059d191cfdef010cce846b36"},
+  "atlas_policy": "Reuse the exact v1 calibration-only PCA, node field and raw-hidden dose. Bind the original atlas receipts and byte-identical model/runtime; do not refit on v1 or v2 evaluation data.",
+  "lookup": {
+    "neighbors": 8,
+    "selection": "Euclidean nearest eight calibration nodes, stable frozen-index tie breaking; no component-activity filtering",
+    "bandwidth": "median leave-one-calibration-prompt-out eighth-neighbor distance",
+    "weights": "exp(-0.5*(distance/bandwidth)^2), normalized across the eight selected nodes; no exact-match override",
+    "coexact": "weighted sum of raw calibration chart coexact vectors, including zero and inactive vectors; normalize only the resulting hidden-space direction",
+    "support": "nearest distance within the unchanged v1 radius AND eighth distance within the 0.99 higher-quantile leave-one-calibration-prompt-out eighth distance",
+    "support_quantile": 0.99,
+    "support_quantile_method": "higher",
+    "min_chart_norm": 0.000001,
+    "cancellation": "If the interpolated coexact norm is below threshold, abstain with zero deltas for both arms; no alternate neighbor set or redraw.",
+    "random_control": "At each calibration node, seed by (seed,node_index), draw a Gaussian chart vector, normalize it and multiply by the raw coexact node norm. Interpolate with identical nodes/weights, then normalize the aggregate in hidden space. Exact-zero nodes contribute zero. A below-threshold aggregate control makes the cell ineligible for that seed; no redraw.",
+    "name_boundary": "Interpolated calibration-coexact readout, not an orthogonal Hodge decomposition on evaluation points or a globally smooth field. The legacy component labels remain coexact and random_tangent."
+  },
+  "data": {
+    "suite": "data/hltd_prefix_transfer_v2/prompts.jsonl",
+    "split_counts": {"pilot": 4, "evaluation": 20},
+    "families": ["literal_stable", "metaphor_shift", "identity_stress", "ontology_collapse"],
+    "calibration_texts": 40,
+    "novelty": "New IDs, normalized texts and authored scenario labels; audit all historical data JSONL suites including v1 pilot/evaluation. Same authored families, not an external or stylistically independent sample.",
+    "selection": "Keep the first-authored texts; no response-based replacement or reuse of v1 evaluation prefixes. No new model training."
+  },
+  "inherited": ["L7/native-FP32/MPS/SDPA/no autocast/no fallback", "prefix lengths 8,16,24", "eight seeds and signed alpha 0.25,0.5,1", "same calibration-only dose", "matched batch-12 baselines", "zero-hook and suffix-byte-invariance gates", "all 60 cells required before nonzero treatment", "5760 planned rows", "same signed odd coefficient and prompt bootstrap"],
+  "execution_policy": {"one_model_load": true, "no_automatic_retry": true, "no_parameter_sweep": true, "no_partial_sample_primary": true, "pilot_nonzero_treatments": false, "no_prior_artifact_changes": true},
+  "excluded_claims": ["pure readout-only effect versus v1 (new texts and random control also differ)", "semantic control", "fluency improvement", "identity control", "population generalization", "geodesic smoothness", "concept rings"]
+}

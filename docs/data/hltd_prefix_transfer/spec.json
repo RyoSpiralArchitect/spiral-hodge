@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "protocol_id": "hltd-prefix-transfer-l7-v1",
+  "question": "Does a fixed calibration-text coexact field transfer to evaluation prefixes without future-token access?",
+  "stage": "DESIGN_ONLY_NO_MODEL_EXECUTION",
+  "model_reference": {
+    "path": "docs/data/hltd_fresh_l7_l8/protocol.json",
+    "sha256": "74cfcb5f91ba56ffabc1eb8d8ef0f3006237921bc57175868b412edcec624ca1"
+  },
+  "corpora": [
+    {"path": "data/hltd_prompt_suite.jsonl", "split": "calibration", "rows": 20, "bytes": 4224, "sha256": "8591d80b7cac5fa4c29944768633b63ab6ad2ba030699300e0fb4105feb839e8"},
+    {"path": "data/hltd_fresh20_prompt_suite.jsonl", "split": "calibration", "rows": 20, "bytes": 4856, "sha256": "691e2843dcd40e5c25573b118926c48ffd4030c8affaafe40af09ef7d608e68c"},
+    {"path": "data/hltd_prefix_transfer_prompt_suite.jsonl", "split": "row", "rows": 24, "bytes": 8211, "sha256": "dd934e15b21a3ecfcb56f8c5d10894e5d24bd24a48a40abbae8d9d8d88a6f833"}
+  ],
+  "families": ["literal_stable", "metaphor_shift", "identity_stress", "ontology_collapse"],
+  "split_counts": {"calibration": 40, "pilot": 4, "evaluation": 20},
+  "split_policy": {
+    "exact_id_and_normalized_text_overlap": "forbidden across all corpus rows and with other historical suites for new rows",
+    "scenario_id_overlap": "forbidden among authored pilot/evaluation rows",
+    "near_overlap": "report maximum historical word-trigram Jaccard before model work; no response-based replacement",
+    "scope": "Same authored families; unique scenario labels and strings do not establish stylistic independence or pretraining holdout.",
+    "knowledge": "Outcomes of the 40 calibration texts are known. All 40 are retained. Pilot/evaluation texts are first-authored for this protocol, before model responses."
+  },
+  "geometry": {
+    "layer": 7,
+    "pca_components": 32,
+    "normalize_hidden": true,
+    "pca_solver": "full",
+    "pca_fit_scope": "concatenated L7 token states from calibration texts only",
+    "graph_scope": "one graph per calibration trajectory, all in the same fixed PCA chart; pool their nodes after decomposition",
+    "vector_mode": "centered_within_each_calibration_text_only",
+    "k": 16,
+    "complex_mode": "matched_betti",
+    "target_betti_1_fraction": 0.5,
+    "node_ridge": 0.0001,
+    "min_chart_norm": 0.000001,
+    "lookup": "one nearest calibration node, Euclidean chart distance; first frozen node wins ties",
+    "support_quantile": 0.99,
+    "support_quantile_method": "higher",
+    "support_reference": "leave-one-calibration-prompt-out nearest-node distances",
+    "delta_scale": "median of the 40 per-prompt median raw-hidden centered-step norms; calibration only",
+    "null": "isotropic Gaussian in the frozen PCA span, keyed by seed and frozen node index; hidden-space unit norm",
+    "normalization_boundary": "PCA backprojection defines a candidate intervention direction, not an exact inverse of hidden-state L2 normalization."
+  },
+  "evaluation": {
+    "prefix_lengths": [8, 16, 24],
+    "minimum_text_tokens": 25,
+    "maximum_text_tokens": 96,
+    "add_special_tokens": false,
+    "truncation": false,
+    "seeds": [0, 1, 2, 3, 4, 5, 6, 7],
+    "components": ["coexact", "random_tangent"],
+    "alphas": [-1.0, -0.5, -0.25, 0.25, 0.5, 1.0],
+    "batch_size": 12,
+    "baseline": "unhooked batch-12 with exactly the same prefix IDs as treatment",
+    "target_access": "only the scorer reads input_ids[prefix_length]; no target or suffix goes to hidden extraction, lookup, normalization, sign selection or RNG",
+    "cache_policy": "no mutable KV cache shared between prefixes or arms",
+    "pilot_nonzero_treatments": false,
+    "planned_primary_cells": 60,
+    "planned_treatment_rows": 5760
+  },
+  "runtime_gate": {
+    "device": "mps",
+    "model_dtype": "float32",
+    "field_dtype": "float64",
+    "attention": "sdpa",
+    "autocast": false,
+    "mps_fallback": false,
+    "source_weight_bytes": "all native-FP32 parameters must match before and after execution",
+    "zero_hook_logit_max_abs": 0.0001,
+    "baseline_row_spread_max_abs": 0.0
+  },
+  "future_invariance_gate": {
+    "variants": ["original suffix", "different suffix", "appended suffix", "suffix removed"],
+    "fixed": ["prefix token IDs", "prefix hidden state", "chart point", "nearest node", "support status", "coexact direction", "random direction", "delta scale", "actual deltas"],
+    "comparison": "byte equality within a fixed runtime, seed, alpha and batch shape",
+    "scope": "Core NumPy tests are necessary but do not replace an integrated model-runner audit.",
+    "failure": "INVALID_FUTURE_DEPENDENCE; stop before nonzero treatments"
+  },
+  "analysis": {
+    "primary": "signed odd coexact-minus-random next-token log-probability coefficient",
+    "positive_magnitudes": [0.25, 0.5, 1.0],
+    "odd_gap": "((lp_coexact(+a)-lp_coexact(-a))-(lp_random(+a)-lp_random(-a)))/2",
+    "coefficient": "sum(a*odd_gap)/sum(a*a), separately per prompt/prefix/seed",
+    "aggregation": "mean over 8 seeds, then mean over all 3 fixed prefixes, then equal-weight mean over 20 prompts",
+    "bootstrap_samples": 5000,
+    "bootstrap_seed": 1729,
+    "bootstrap_unit": "prompt",
+    "quantiles": [0.025, 0.975],
+    "pass_rule": "all 60 planned prompt/prefix cells valid and 95 percent lower prompt-bootstrap endpoint strictly positive",
+    "statuses": ["SUPPORTED_WITHIN_SAMPLE_PREFIX_TRANSFER", "NOT_SUPPORTED", "INSUFFICIENT_COVERAGE", "INVALID_INPUT_OR_NUMERICS", "INVALID_FUTURE_DEPENDENCE"],
+    "missing_policy": "preflight every evaluation cell before nonzero treatment; any unsupported/zero/nonfinite direction yields INSUFFICIENT_COVERAGE with the complete support table and no reduced-sample estimate",
+    "secondary": ["raw coexact and random signed responses versus baseline", "per-family and per-prefix descriptive results", "calibration distance and component activity"],
+    "excluded_claims": ["semantic control", "fluency improvement", "identity or affordance control", "pure L7/L8 layer comparison", "cross-model transfer", "population generalization", "concept rings"]
+  },
+  "execution_policy": {
+    "stages": ["prepare text/token inventory without model weights", "audit and freeze calibration-only atlas", "integrated pilot zero/future-invariance checks", "preflight all 60 evaluation prefixes", "one bounded primary run", "independent raw-probability audit"],
+    "no_automatic_retry_or_extension": true,
+    "no_response_selected_hyperparameters": true,
+    "no_prior_artifact_rewrite": true,
+    "separate_execution_freeze_required": true,
+    "execution_runner_available_at_preparation": false
+  }
+}

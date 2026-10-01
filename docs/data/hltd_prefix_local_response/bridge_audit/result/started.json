@@ -1,0 +1,12 @@
+{
+  "protocol": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_local_response/bridge_audit/protocol.json",
+    "bytes": 5653,
+    "sha256": "6ddf2be80d9506dc26bc2c6080df9e997e3ecf747b83b320393258ab187d0edc"
+  },
+  "started_utc": "2026-10-01T02:44:40.501682+00:00",
+  "status": "RUNNING",
+  "baseline_forwards_attempted": 0,
+  "model_loads_attempted": 0,
+  "nonzero_treatments": 0
+}

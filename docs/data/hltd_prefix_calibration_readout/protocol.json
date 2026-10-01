@@ -1,0 +1,281 @@
+{
+  "diagnostic_id": "hltd-prefix-calibration-readout-v1",
+  "method": {
+    "schema_version": 1,
+    "diagnostic_id": "hltd-prefix-calibration-readout-v1",
+    "knowledge_at_design": "Post-v2 diagnostic. V2 achieved 60/60 coverage but its signed response endpoint was NOT_SUPPORTED. No calibration leave-prompt-out recovery results have been inspected or used to select this diagnostic.",
+    "scope": "Donor-prompt-excluded reconstruction within the existing shared calibration chart, not independent cross-validation of PCA, bandwidth, radii, or Hodge targets. No model, tokenizer, new hidden states, or evaluation response data is needed.",
+    "readout": "Reuse the v2 eight-neighbor Gaussian rule and its fixed bandwidth, both distance radii and activity threshold. Exclude all nodes of the query's prompt before neighbor selection. Include inactive donors without fallback. Do not refit PCA or any scale.",
+    "target": "The existing raw chart coexact vector at each calibration interior node is a descriptive reconstruction target, not semantic ground truth or a causal optimum.",
+    "metrics": {
+      "recovery": "cosine between target and weighted raw donor vector, defined only when both norms meet the unchanged activity threshold",
+      "resultant_fraction": "norm(sum(w*v)) / sum(w*norm(v)); null if the denominator is zero; one minus this is cancellation fraction",
+      "pairwise_agreement": "mean pairwise donor cosine weighted by products of w*norm(v); null if fewer than two nonzero contributors",
+      "effective_contributors": "sum(w*norm(v))^2 / sum((w*norm(v))^2), null for all-zero donors",
+      "positions": "node_token is zero-based; query prefix length is node_token+1; relative position is node_token/(full calibration token_count-1)",
+      "position_bins": "early: relative position <1/3; middle: [1/3,2/3); late: >=2/3",
+      "position_mixing": "geometric-weighted absolute and relative donor/query position gap, geometric and magnitude-contribution-weighted bin masses, and donor-prompt concentration",
+      "associations": "pooled-node Spearman correlations of recovery with resultant fraction, weighted relative position gap, and nearest distance; descriptive only, no p-values"
+    },
+    "aggregation": "Report every node and reason for undefined recovery. Summarize all recoverable nodes and distance-supported recoverable nodes separately. Main descriptive means average nodes within each prompt then prompts equally; explicitly report usable nodes and prompts. No population confidence intervals or pass/fail gate.",
+    "comparators": {
+      "nearest": "Nearest cross-prompt vector using the same geometry; compare only paired defined cosines and report omissions.",
+      "v2_random": "Eight fixed v2 Gaussian chart controls keyed by (seed,original node index), scaled by each original node norm and interpolated with the same weights.",
+      "within_prompt_shuffle": "Permute whole donor vectors within each original calibration prompt, preserving that prompt's joint direction/norm inventory and zeros but destroying position-to-vector matching. Fixed geometry and targets. Apply each draw consistently across all queries; never redraw. This is a conditional diagnostic reference, not an exchangeability-based significance test."
+    },
+    "random_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "shuffle_seed": 6043,
+    "shuffle_draws": 128,
+    "control_comparison": "For each draw, intersect actual and control valid-direction masks, summarize both on identical nodes within identical prompts, and record paired counts and gaps. Repeat for all recoverable and supported recoverable scopes. Reference quantiles describe draws, not confidence intervals.",
+    "excluded_actions": [
+      "model loading or activation steering",
+      "evaluation-prefix queries",
+      "evaluation-response conditioning",
+      "neighbor or bandwidth sweep",
+      "altering v1/v2 inputs or verdicts",
+      "selecting a new treatment configuration from v2 outcomes"
+    ]
+  },
+  "readout": {
+    "atlas_fingerprint": "518f9937481733a7e88183bdfd4308c3467fbfc962a0f64c065d0566143bf047",
+    "neighbors": 8,
+    "bandwidth": 0.3219910308958873,
+    "kth_support_limit": 0.4354238208629058
+  },
+  "readout_fingerprint": "eb3a2372ccae3690f67579a8b2881984f799a3ee58a6d5ef277d7652601fc734",
+  "prompts": {
+    "literal_01": {
+      "token_count": 34,
+      "family": "literal_stable"
+    },
+    "literal_02": {
+      "token_count": 29,
+      "family": "literal_stable"
+    },
+    "literal_03": {
+      "token_count": 28,
+      "family": "literal_stable"
+    },
+    "literal_04": {
+      "token_count": 26,
+      "family": "literal_stable"
+    },
+    "literal_05": {
+      "token_count": 27,
+      "family": "literal_stable"
+    },
+    "metaphor_01": {
+      "token_count": 35,
+      "family": "metaphor_shift"
+    },
+    "metaphor_02": {
+      "token_count": 30,
+      "family": "metaphor_shift"
+    },
+    "metaphor_03": {
+      "token_count": 31,
+      "family": "metaphor_shift"
+    },
+    "metaphor_04": {
+      "token_count": 29,
+      "family": "metaphor_shift"
+    },
+    "metaphor_05": {
+      "token_count": 28,
+      "family": "metaphor_shift"
+    },
+    "identity_01": {
+      "token_count": 35,
+      "family": "identity_stress"
+    },
+    "identity_02": {
+      "token_count": 32,
+      "family": "identity_stress"
+    },
+    "identity_03": {
+      "token_count": 32,
+      "family": "identity_stress"
+    },
+    "identity_04": {
+      "token_count": 29,
+      "family": "identity_stress"
+    },
+    "identity_05": {
+      "token_count": 29,
+      "family": "identity_stress"
+    },
+    "ontology_01": {
+      "token_count": 32,
+      "family": "ontology_collapse"
+    },
+    "ontology_02": {
+      "token_count": 29,
+      "family": "ontology_collapse"
+    },
+    "ontology_03": {
+      "token_count": 30,
+      "family": "ontology_collapse"
+    },
+    "ontology_04": {
+      "token_count": 30,
+      "family": "ontology_collapse"
+    },
+    "ontology_05": {
+      "token_count": 29,
+      "family": "ontology_collapse"
+    },
+    "fresh_literal_01": {
+      "token_count": 32,
+      "family": "literal_stable"
+    },
+    "fresh_literal_02": {
+      "token_count": 31,
+      "family": "literal_stable"
+    },
+    "fresh_literal_03": {
+      "token_count": 32,
+      "family": "literal_stable"
+    },
+    "fresh_literal_04": {
+      "token_count": 34,
+      "family": "literal_stable"
+    },
+    "fresh_literal_05": {
+      "token_count": 34,
+      "family": "literal_stable"
+    },
+    "fresh_metaphor_01": {
+      "token_count": 31,
+      "family": "metaphor_shift"
+    },
+    "fresh_metaphor_02": {
+      "token_count": 33,
+      "family": "metaphor_shift"
+    },
+    "fresh_metaphor_03": {
+      "token_count": 33,
+      "family": "metaphor_shift"
+    },
+    "fresh_metaphor_04": {
+      "token_count": 32,
+      "family": "metaphor_shift"
+    },
+    "fresh_metaphor_05": {
+      "token_count": 31,
+      "family": "metaphor_shift"
+    },
+    "fresh_identity_01": {
+      "token_count": 33,
+      "family": "identity_stress"
+    },
+    "fresh_identity_02": {
+      "token_count": 32,
+      "family": "identity_stress"
+    },
+    "fresh_identity_03": {
+      "token_count": 33,
+      "family": "identity_stress"
+    },
+    "fresh_identity_04": {
+      "token_count": 32,
+      "family": "identity_stress"
+    },
+    "fresh_identity_05": {
+      "token_count": 31,
+      "family": "identity_stress"
+    },
+    "fresh_ontology_01": {
+      "token_count": 31,
+      "family": "ontology_collapse"
+    },
+    "fresh_ontology_02": {
+      "token_count": 31,
+      "family": "ontology_collapse"
+    },
+    "fresh_ontology_03": {
+      "token_count": 33,
+      "family": "ontology_collapse"
+    },
+    "fresh_ontology_04": {
+      "token_count": 33,
+      "family": "ontology_collapse"
+    },
+    "fresh_ontology_05": {
+      "token_count": 34,
+      "family": "ontology_collapse"
+    }
+  },
+  "frozen_files": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/protocol.json",
+      "bytes": 61657,
+      "sha256": "88666f7a5d35c4e2f7dde490a1ce3ae19fa2ef08ef5555908298adca0a16f76c"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/method.json",
+      "bytes": 3838,
+      "sha256": "6f0f833b8f31c912d649093edb5410eac16b5724894f3194d47b3ad16da1e253"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer/execution_protocol.json",
+      "bytes": 81638,
+      "sha256": "730a26064c9b7cb975854e668526ccb026c5b6991e999e680cd9cc9806bba96d"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/atlas.npz",
+      "bytes": 757430,
+      "sha256": "dab62393d755f8a0b171ebef0d48dd0fabb1336a70ec63b4611e8f3b7aa05128"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/spiral_out_hltd_prefix_transfer_v1/atlas_metadata.json",
+      "bytes": 39151,
+      "sha256": "ddbeb416c9f87507173d60369f239ca2a6121c09ab032fa29112e59a4101a263"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/hltd_prefix_transfer.py",
+      "bytes": 11725,
+      "sha256": "95f7cc898c40f2bee987ad58f5ebcc18c15f549617092946d81eb74627808190"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/hltd_prefix_interpolation.py",
+      "bytes": 6375,
+      "sha256": "3e7cf4c1fdc76703182d584c106e5058fdc6086a76d96a1ad77eefc45aedb457"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/evaluate_hltd_signed_layer_gate.py",
+      "bytes": 10439,
+      "sha256": "8f31a80cd83bf99bd76c83768719dab510a957f04aaa6022c1af80d7c86c6a96"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/run_hltd_precision_gate.py",
+      "bytes": 17364,
+      "sha256": "16fb1012bebad72982864dcd514483445d973a17c127a79dd60b062b51eb3129"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/diagnose_hltd_prefix_calibration.py",
+      "bytes": 20184,
+      "sha256": "ec3d1547a87d8e79895513bce86ebb8f473623d91f37917b8f2e5db9dabfde8e"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/tests/test_hltd_prefix_calibration.py",
+      "bytes": 13021,
+      "sha256": "ab7bf130a00d6847c339f49aae904f6000719dbe0f8639dae76f35d24ef95e29"
+    }
+  ],
+  "runtime": {
+    "python": "3.12.6",
+    "numpy": "2.2.3",
+    "scipy": "1.17.1"
+  },
+  "output": "docs/data/hltd_prefix_calibration_readout/result",
+  "frozen_utc": "2026-09-30T22:48:58.212231+00:00"
+}
