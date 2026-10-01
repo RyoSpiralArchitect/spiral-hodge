@@ -5,6 +5,7 @@ import pytest
 
 
 LOCAL_FUNCTIONS = {
+    ("test_hltd_prefix_execution.py", "test_execution_plan_reuses_immutable_preparation"),
     ("test_hltd_prefix_calibration.py", "test_real_contract_only_opens_pinned_calibration_inputs"),
     ("test_hltd_prefix_nulls.py", "test_stage_a_contract_never_opens_v2_responses_or_model_assets"),
 }

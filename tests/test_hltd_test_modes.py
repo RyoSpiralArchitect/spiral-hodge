@@ -7,6 +7,7 @@ from tests import conftest as modes
 
 
 @pytest.mark.parametrize("module,name,fixtures,expected", [
+    ("test_hltd_prefix_execution.py", "test_execution_plan_reuses_immutable_preparation", [], True),
     ("test_hltd_prefix_v2.py", "test_any_seed_with_inactive_control_invalidates_cell", ["protocol"], True),
     ("test_hltd_prefix_v2.py", "test_suffix_replacement_is_byte_invariant", ["field"], False),
     ("test_hltd_prefix_portable_execution.py", "test_any_seed_with_inactive_control_invalidates_cell", ["protocol"], False),

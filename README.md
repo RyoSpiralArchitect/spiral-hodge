@@ -1057,7 +1057,7 @@ Run the model-free test suite (including pytest and unittest cases):
 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 JAX_PLATFORMS=cpu python3 -m pytest -q
 ```
 
-Seventeen frozen integration cases require the original local atlas, model
+Eighteen frozen integration cases require the original local atlas, model
 receipts, runtime, and recorded paths. They are explicitly skipped by default,
 not counted as passes. To include them in the original research workspace:
 
