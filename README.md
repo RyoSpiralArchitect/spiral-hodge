@@ -1051,11 +1051,26 @@ Common options:
 
 ## Development
 
-Run tests:
+Run the model-free test suite (including pytest and unittest cases):
 
 ```bash
-python3 -m unittest discover
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 JAX_PLATFORMS=cpu python3 -m pytest -q
 ```
+
+Seventeen frozen integration cases require the original local atlas, model
+receipts, runtime, and recorded paths. They are explicitly skipped by default,
+not counted as passes. To include them in the original research workspace:
+
+```bash
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 JAX_PLATFORMS=cpu \
+python3 -m pytest -q --hltd-local-evidence
+```
+
+The opt-in does not relax checks or substitute missing inputs. Model-free
+counterparts cover the v2 adapter, prefix isolation, gating, replay tampering,
+and output protection with the committed settings and fake runtime. Neither
+test mode performs the scientific intervention runs. The existing text-path
+tests assume a checkout named `spiral-hodge`.
 
 Run a quick syntax check:
 
