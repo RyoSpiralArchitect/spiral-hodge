@@ -1,0 +1,91 @@
+{
+  "status": "RECORDED_EVIDENCE_VERIFIED",
+  "semantic_direction_status": "NOT_TESTED",
+  "prior_verdicts_unchanged": {
+    "v1": "INSUFFICIENT_COVERAGE",
+    "v2": "NOT_SUPPORTED"
+  },
+  "audits": {
+    "calibration": {
+      "passed": true,
+      "nodes": 1170,
+      "prompts": 40,
+      "control_rows": 272,
+      "max_arithmetic_error": 2.6645352591003757e-15,
+      "manifest": {
+        "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/manifest.json",
+        "bytes": 1878,
+        "sha256": "0fe5745e8d501ea2437d540eacb68ab4d2b4b41d201fa2fb8d4907eb3f83c916"
+      },
+      "auditor": {
+        "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/audit_hltd_prefix_calibration.py",
+        "bytes": 7022,
+        "sha256": "63a8057cc452c819945d98709b6db28f5e75878332321691bcdfc2ea03daba8d"
+      },
+      "scope": "Independent stdlib hash, inventory, distribution, and equal-prompt aggregation checks; not independent vector, neighbor, or model execution replay."
+    },
+    "v1": {
+      "passed": true,
+      "status": "INSUFFICIENT_COVERAGE",
+      "supported_cells": 56,
+      "planned_cells": 60,
+      "raw_treatment_rows": 0,
+      "primary_recomputed": false,
+      "scope": "Artifact hashes and stop-before-treatment boundary; not a model execution replay."
+    },
+    "v2": {
+      "passed": true,
+      "status": "NOT_SUPPORTED",
+      "raw_treatment_rows": 5760,
+      "primary_recomputed": true,
+      "mean": 0.0064649743389692165,
+      "ci_low": -0.10310058729005811,
+      "ci_high": 0.13427044553250808,
+      "max_log_error": 1.1102230246251565e-16,
+      "max_primary_error": 1.1102230246251565e-16,
+      "scope": "Independent probability-to-coefficient arithmetic; saved bootstrap draws, not a model execution replay."
+    }
+  },
+  "chart_rows": {
+    "calibration": 4,
+    "v2": 12
+  },
+  "manifests": [
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_calibration_readout/result/manifest.json",
+      "bytes": 1878,
+      "sha256": "0fe5745e8d501ea2437d540eacb68ab4d2b4b41d201fa2fb8d4907eb3f83c916"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer/result/manifest.json",
+      "bytes": 3656,
+      "sha256": "97dc8a81d43055b005c0e27a2bf17d93a9329fa3945ecebed27227efddad17be"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_transfer_v2/result/manifest.json",
+      "bytes": 4207,
+      "sha256": "98f68c894a4f7a7cea37c1bcc4cbc1bc14b98cbb290da7d76b60acfad48a8819"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/calibration/manifest.json",
+      "bytes": 2139,
+      "sha256": "839e2c4535651abb385f8a6c166b192a76cf0aac2c2e35260c5a88d4f5441cbf"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/v2/manifest.json",
+      "bytes": 2110,
+      "sha256": "1dda9e0002aa85cd430bc8a7ab2ee0aaab5c90a78d21746c1ac0d887401c32e9"
+    },
+    {
+      "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/docs/data/hltd_prefix_null_comparison/charts/manifest.json",
+      "bytes": 2535,
+      "sha256": "b1639f0b53e498abc7396b8e54cb993aa419a2a87be84edd858ff046f2584651"
+    }
+  ],
+  "verifier": {
+    "path": "/Users/ryospiralarchitect/.codex/worktrees/hltd-review/spiral-hodge/scripts/verify_hltd_prefix_release.py",
+    "bytes": 8295,
+    "sha256": "528ebfe20ffd2892c2a40cd1169e648d5eb4da7f54d8c6688bad0a48e4f75e94"
+  },
+  "scope": "Canonical manifest, exact inventory/path binding, arithmetic and saved-chart replay only. No model execution or semantic validation."
+}

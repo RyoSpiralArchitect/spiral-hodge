@@ -1051,6 +1051,12 @@ Common options:
 
 ## Development
 
+For current verification of the recorded prefix evidence, use
+`python3 -S scripts/verify_hltd_prefix_release.py` in the original evidence
+workspace. The [review checkpoint](docs/hltd_prefix_review_checkpoint.md)
+explains the exact receipt/path binding and why older frozen audit/export
+scripts are retained only as historical replay sources.
+
 Run the model-free test suite (including pytest and unittest cases):
 
 ```bash
